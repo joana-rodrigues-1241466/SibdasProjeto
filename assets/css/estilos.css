@@ -1,0 +1,119 @@
+/* Reset geral */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo da página */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ffffff;
+    color: #0b2d45;
+}
+
+/* Barra de navegação */
+nav {
+    width: 100%;
+    height: 110px;
+    background-color: white;
+    border: 1px solid #0b2d45;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+/* Logo + nome da empresa */
+nav div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Imagem do logo */
+nav img {
+    width: 75px;
+    height: auto;
+}
+
+/* Nome MediVault */
+nav h3 {
+    font-size: 42px;
+    font-weight: normal;
+    color: #111111;
+    letter-spacing: 2px;
+}
+
+/* Área dos links */
+nav div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 45px;
+}
+
+/* Links normais */
+nav a {
+    color: #0b2d45;
+    text-decoration: underline;
+    font-size: 18px;
+    text-transform: lowercase;
+}
+
+/* Efeito ao passar o rato */
+nav a:hover {
+    color: #0077a3;
+}
+
+/* Botão iniciar sessão */
+nav a:last-child {
+    background-color: #003f78;
+    color: white;
+    padding: 18px 25px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+/* Efeito no botão */
+nav a:last-child:hover {
+    background-color: #002b55;
+    color: white;
+}
+
+/* Secção principal da página inicial */
+.hero {
+    width: 100%;
+}
+
+/* Imagem principal */
+.hero img {
+    width: 100%;
+    display: block;
+}
+
+/* Rodapé */
+footer {
+    background-color: #003f78;
+    color: white;
+    margin: 30px 20px 0 20px;
+    padding: 80px 60px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 90px;
+}
+
+/* Cada bloco do rodapé */
+.footer-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 18px;
+}
+
+/* Ícones do rodapé */
+.footer-item img {
+    width: 45px;
+    height: auto;
+}

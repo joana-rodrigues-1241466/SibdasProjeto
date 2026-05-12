@@ -103,7 +103,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 90px;
+    gap: 270px;
 }
 
 /* Cada bloco do rodapé */
@@ -114,8 +114,7 @@ footer {
     font-size: 18px;
 }
 
-/* Ícones do rodapé */
-.footer-item img {
-    width: 45px;
-    height: auto;
+.footer-item i {
+    font-size: 45px;
+    color: white;
 }

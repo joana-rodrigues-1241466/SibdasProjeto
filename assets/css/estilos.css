@@ -76,8 +76,9 @@ nav a:last-child {
 
 /* Efeito no botão */
 nav a:last-child:hover {
-    background-color: #002b55;
+    background-color: #0077a3;
     color: white;
+    text-decoration: none;
 }
 
 /* Secção principal da página inicial */
@@ -93,11 +94,12 @@ nav a:last-child:hover {
 
 /* Rodapé */
 footer {
-    background-color: #003f78;
+    width: 100%;
+    background-color: #002b55;
     color: white;
-    margin: 30px 20px 0 20px;
+    margin: 0;
     padding: 80px 60px;
-    border-radius: 4px;
+    border-radius: 0;
     display: flex;
     justify-content: center;
     align-items: center;

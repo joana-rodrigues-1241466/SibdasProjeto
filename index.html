@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
     <!--estilos da página-->
     <link rel="stylesheet" href="assets/css/estilos.css">
 </head>
+
 <body>
 
     <!--navegação-->
@@ -24,33 +26,97 @@
         </div>
         <div>
             <a href="index.html">Home</a>
-            <a href="sobre.html">Sobre</a>
-            <a href="funcionalidades.html">Funcionalidades</a>
-            <a href="contactos.html">Contactos</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#funcionalidades">Funcionalidades</a>
+            <a href="#contactos">Contactos</a>
             <a href="iniciar-sessao.html">Iniciar Sessão</a>
         </div>
     </nav>
 
     <section class="hero">
-    <img src="assets/imagens/CAPA.jpeg" alt="Sistema de inventário de equipamentos hospitalares">
-</section>
+        <img src="assets/imagens/CAPA.jpeg" alt="Sistema de inventário de equipamentos hospitalares">
+    </section>
 
-<footer>
-    <div class="footer-item">
-        <i class="fa-solid fa-phone"></i>
-        <p>+351 9xx xxx xxx</p>
-    </div>
+    <section id="sobre" class="secao sobre-section">
+        <div class="sobre-container">
 
-    <div class="footer-item">
-        <i class="fa-solid fa-envelope"></i>
-        <p>suporte@medivault.com</p>
-    </div>
+            <div class="sobre-texto">
+                <h1>Sobre a MediVault</h1>
+                <div class="linha-titulo"></div>
 
-    <div class="footer-item">
-        <i class="fa-brands fa-instagram"></i>
-        <p>@medivault</p>
-    </div>
-</footer>
+                <p>
+                    A MediVault é uma plataforma web desenvolvida para apoiar instituições de saúde
+                    na gestão organizada e centralizada do inventário hospitalar de equipamentos médicos.
+                </p>
+
+                <p>
+                    O sistema permite reunir, num único local, informação essencial sobre os equipamentos,
+                    incluindo categoria, localização, estado atual, fornecedor, documentação técnica,
+                    garantias e contratos associados.
+                </p>
+
+                <p>
+                    O objetivo da plataforma é substituir métodos dispersos, como folhas de cálculo,
+                    documentos isolados e registos manuais, por uma solução digital mais segura,
+                    acessível e eficiente para os utilizadores autorizados.
+                </p>
+            </div>
+
+            <div class="sobre-card">
+                <div class="card-titulo">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <div>
+                        <h2>O que a MediVault permite?</h2>
+                        <div class="linha-card"></div>
+                    </div>
+                </div>
+
+                <div class="funcao-sobre">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    <p>Gerir equipamentos médicos e respetiva informação técnica</p>
+                </div>
+
+                <div class="funcao-sobre">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p>Associar equipamentos a localizações hospitalares específicas</p>
+                </div>
+
+                <div class="funcao-sobre">
+                    <i class="fa-solid fa-truck-medical"></i>
+                    <p>Registar fornecedores, garantias e contratos associados</p>
+                </div>
+
+                <div class="funcao-sobre">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <p>Consultar indicadores básicos através de um dashboard</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-item">
+            <i class="fa-solid fa-phone"></i>
+            <p>+351 9xx xxx xxx</p>
+        </div>
+
+        <div class="footer-item">
+            <i class="fa-solid fa-envelope"></i>
+            <p>suporte@medivault.com</p>
+        </div>
+
+        <div class="footer-item">
+            <i class="fa-brands fa-instagram"></i>
+            <p>@medivault</p>
+        </div>
+    </footer>
+
+    <script>
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
+        };
+    </script>
 
 </body>
+
 </html>

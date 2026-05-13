@@ -32,6 +32,7 @@ nav {
     padding: 15px 30px;
     gap: 20px;
     overflow-x: hidden;
+    box-shadow: 0 2px 8px rgba(0, 63, 120, 0.08);
 }
 
 /* Logo + nome da empresa */
@@ -68,14 +69,16 @@ nav div:last-child {
 /* Links normais */
 nav a {
     color: #0b2d45;
-    text-decoration: underline;
+    text-decoration: none;
     font-size: 18px;
     text-transform: lowercase;
+    font-weight: 500;
 }
 
 /* Efeito ao passar o rato */
 nav a:hover {
     color: #0077a3;
+    text-decoration: underline;
 }
 
 /* Botão iniciar sessão */
@@ -83,8 +86,10 @@ nav a:last-child {
     background-color: #003f78;
     color: white;
     padding: 18px 25px;
-    border-radius: 4px;
+    border-radius: 6px;
     text-decoration: none;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 63, 120, 0.25);
 }
 
 /* Efeito no botão */
@@ -92,6 +97,7 @@ nav a:last-child:hover {
     background-color: #0077a3;
     color: white;
     text-decoration: none;
+    transform: translateY(-2px);
 }
 
 /* Secção principal da página inicial */
@@ -112,7 +118,7 @@ footer {
     background-color: #003f78;
     color: white;
     margin-top: 0;
-    padding: 80px 60px;
+    padding: 60px 60px;
     border-radius: 0;
     display: flex;
     justify-content: center;

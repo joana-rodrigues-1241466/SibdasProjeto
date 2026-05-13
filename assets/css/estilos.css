@@ -5,23 +5,33 @@
     box-sizing: border-box;
 }
 
+/* Impede scroll horizontal */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    min-height: 100%;
+}
+
 /* Corpo da página */
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #ffffff;
+    background-color: #003f78;
     color: #0b2d45;
+    min-height: 100vh;
 }
 
 /* Barra de navegação */
 nav {
     width: 100%;
-    height: 110px;
+    min-height: 110px;
     background-color: white;
     border: 1px solid #0b2d45;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 30px;
+    padding: 15px 30px;
+    gap: 20px;
+    overflow-x: hidden;
 }
 
 /* Logo + nome da empresa */
@@ -43,13 +53,16 @@ nav h3 {
     font-weight: normal;
     color: #111111;
     letter-spacing: 2px;
+    white-space: nowrap;
 }
 
 /* Área dos links */
 nav div:last-child {
     display: flex;
     align-items: center;
-    gap: 45px;
+    justify-content: center;
+    gap: 35px;
+    flex-wrap: nowrap;
 }
 
 /* Links normais */
@@ -89,21 +102,23 @@ nav a:last-child:hover {
 /* Imagem principal */
 .hero img {
     width: 100%;
+    height: auto;
     display: block;
 }
 
 /* Rodapé */
 footer {
     width: 100%;
-    background-color: #002b55;
+    background-color: #003f78;
     color: white;
-    margin: 0;
+    margin-top: 0;
     padding: 80px 60px;
     border-radius: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 270px;
+    flex-wrap: nowrap;
 }
 
 /* Cada bloco do rodapé */
@@ -117,4 +132,131 @@ footer {
 .footer-item i {
     font-size: 45px;
     color: white;
+}
+
+/* Responsividade mantendo o mesmo layout */
+@media (max-width: 1200px) {
+    nav {
+        padding: 12px 25px;
+    }
+
+    nav img {
+        width: 60px;
+    }
+
+    nav h3 {
+        font-size: 34px;
+        letter-spacing: 2px;
+    }
+
+    nav div:last-child {
+        gap: 28px;
+    }
+
+    nav a {
+        font-size: 16px;
+    }
+
+    nav a:last-child {
+        padding: 14px 20px;
+    }
+
+    footer {
+        gap: 120px;
+        padding: 70px 40px;
+    }
+}
+
+@media (max-width: 950px) {
+    nav {
+        padding: 10px 18px;
+        gap: 12px;
+    }
+
+    nav img {
+        width: 58px;
+    }
+
+    nav h3 {
+        font-size: 32px;
+        letter-spacing: 1px;
+    }
+
+    nav div:first-child {
+        gap: 10px;
+    }
+
+    nav div:last-child {
+        gap: 18px;
+    }
+
+    nav a {
+        font-size: 14px;
+    }
+
+    nav a:last-child {
+        padding: 11px 16px;
+    }
+
+    footer {
+    min-height: 220px;
+    padding: 0 30px;
+    align-items: center;
+    justify-content: center;
+    gap: 200px;
+}
+
+    .footer-item {
+        font-size: 15px;
+    }
+
+    .footer-item i {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 750px) {
+    nav {
+        padding: 8px 12px;
+        gap: 8px;
+    }
+
+    nav img {
+        width: 42px;
+    }
+
+    nav h3 {
+        font-size: 22px;
+        letter-spacing: 1px;
+    }
+
+    nav div:first-child {
+        gap: 8px;
+    }
+
+    nav div:last-child {
+        gap: 12px;
+    }
+
+    nav a {
+        font-size: 12px;
+    }
+
+    nav a:last-child {
+        padding: 9px 12px;
+    }
+
+    footer {
+        gap: 100px;
+        padding: 45px 20px;
+    }
+
+    .footer-item {
+        font-size: 13px;
+        gap: 10px;
+    }
+
+    .footer-item i {
+        font-size: 26px;
+    }
 }

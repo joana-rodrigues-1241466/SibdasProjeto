@@ -6,7 +6,8 @@
 }
 
 /* Impede scroll horizontal */
-html, body {
+html,
+body {
     max-width: 100%;
     overflow-x: hidden;
     min-height: 100%;
@@ -114,31 +115,38 @@ nav a:last-child:hover {
 }
 
 /* Rodapé */
+/* Rodapé */
 footer {
     width: 100%;
-    background-color: #003f78;
-    color: white;
-    margin-top: 0;
-    padding: 50px 60px;
-    border-radius: 0;
+    background-color: #2f3842;
+    color: #d9d9d9;
+    padding: 45px 8%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 270px;
-    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    text-align: center;
 }
 
-/* Cada bloco do rodapé */
-.footer-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 18px;
+/* Colunas do rodapé */
+.footer-coluna {
+    flex: 1;
 }
 
-.footer-item i {
-    font-size: 45px;
-    color: white;
+.footer-coluna h3 {
+    color: #ffffff;
+    font-size: 20px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.footer-coluna p {
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 4px;
+    color: #d0d0d0;
 }
 
 /* Responsividade mantendo o mesmo layout */
@@ -169,8 +177,8 @@ footer {
     }
 
     footer {
-        gap: 120px;
-        padding: 70px 40px;
+        padding: 40px 6%;
+        gap: 30px;
     }
 }
 
@@ -206,22 +214,20 @@ footer {
     }
 
     footer {
-    min-height: 220px;
-    padding: 0 30px;
-    align-items: center;
-    justify-content: center;
-    gap: 200px;
-}
-
-    .footer-item {
-        font-size: 15px;
+        padding: 38px 5%;
+        gap: 25px;
     }
 
-    .footer-item i {
-        font-size: 32px;
+    .footer-coluna h3 {
+        font-size: 17px;
+        margin-bottom: 16px;
     }
 
-        .secao {
+    .footer-coluna p {
+        font-size: 14px;
+    }
+
+    .secao {
         padding: 55px 7%;
     }
 
@@ -284,20 +290,30 @@ footer {
     }
 
     footer {
-        gap: 100px;
-        padding: 45px 20px;
-    }
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 40px 20px;
+    gap: 12px;
+    text-align: center;
+}
 
-    .footer-item {
-        font-size: 13px;
-        gap: 10px;
-    }
+.footer-coluna {
+    flex: 1;
+}
 
-    .footer-item i {
-        font-size: 26px;
-    }
+.footer-coluna h3 {
+    font-size: 14px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
 
-        .secao {
+.footer-coluna p {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 4px;
+}
+    .secao {
         padding: 45px 6%;
     }
 

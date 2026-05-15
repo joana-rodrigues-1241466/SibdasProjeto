@@ -9,6 +9,7 @@
 }
 
 /* Comportamento geral da página */
+/* CHATGPT: scroll suave ao clicar nos links internos da página */
 html {
     scroll-behavior: smooth;
 }
@@ -37,6 +38,7 @@ body {
     font-weight: 500;
     font-size: 1.2em;
     text-decoration: underline;
+    /* CHATGPT: propriedade usada para a imagem preencher a área definida sem deformar */
     text-underline-offset: 2px;
 }
 
@@ -49,6 +51,7 @@ body {
     color: #ffffff;
     padding: 11px 20px;
     border-radius: 6px;
+    /* CHATGPT: propriedade para sombra personalizada no botão */
     box-shadow: 0 4px 10px rgba(0, 63, 120, 0.25);
 }
 
@@ -74,6 +77,7 @@ body {
 }
 
 /* Secção inicial */
+/* CHATGPT: propriedade usada para compensar a altura da navbar ao navegar por âncoras */
 #home {
     scroll-margin-top: 140px;
 }
@@ -94,6 +98,7 @@ body {
     width: 100%;
     max-width: 1500px;
     height: 600px;
+    /* CHATGPT: propriedade usada para afastar o sublinhado do texto */
     object-fit: cover;
 }
 
@@ -110,6 +115,7 @@ body {
 }
 
 /* Secção Sobre */
+/* CHATGPT: propriedade usada para compensar a altura da navbar ao navegar por âncoras */
 #sobre {
     scroll-margin-top: 100px;
 }
@@ -143,6 +149,7 @@ body {
     border: 1px solid #d8e6ef;
     padding: 40px;
     border-radius: 16px;
+    /* CHATGPT: propriedade para sombra personalizada no card */
     box-shadow: 0 8px 22px rgba(0, 63, 120, 0.12);
 }
 
@@ -185,7 +192,6 @@ body {
     margin-bottom: 12px;
 }
 
-/* CHATGPT */
 @media (max-width: 1200px) {
 
     /* Sobre: texto em cima e card por baixo */
@@ -203,7 +209,7 @@ body {
 
     /* Texto do sobre sem espaços exagerados */
     #sobre p {
-        text-align: left;
+        text-align: justify;
     }
 
     /* Aproximar links do botão sem mexer no botão */

@@ -1,44 +1,67 @@
-<!DOCTYPE html>
-<html lang="pt">
+<!DOCTYPE html> <!-- informa que este é um documento HTML5  -->
+<html lang="pt"> <!-- define o início do documento HTLM, indicando que o idioma principal da página é portugês -->
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head> <!-- informações sobre a página (título, metadados, links) -->
+    <meta charset="UTF-8"> <!-- define a codificação de caracteres para UTF-8 (acentos e caracteres especiais) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- torna a página responsiva (ajuste a diferentes tamanhos de ecrã) -->
     <title>MediVault</title>
 
     <!--favicon-->
-    <link rel="shortcut icon" href="assets/imagens/LOGO.png" type="image/png">
+    <link rel="shortcut icon" href="assets/imagens/LOGO.png" type="image/png"> <!-- icon oficial do site, imagem pequena antes de MediVault -->
+
+    <!--Booststrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
     <!--Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!--estilos da página-->
-    <link rel="stylesheet" href="assets/css/estilos.css">
+    <link rel="stylesheet" href="assets/css/1241466.css">
 </head>
 
 <body>
-
     <!--navegação-->
     <nav class="bng-navbar">
+
+        <!-- Logo e Nome -->
         <div>
-            <img src="assets/imagens/LOGO.png" alt="Logo da Empresa">
+            <img src="assets/imagens/LOGO.png" alt="Logo da MediVault">
             <h3>MediVault</h3>
         </div>
-        <div>
-            <a href="index.html">Home</a>
+
+        <!-- Links centrais -->
+        <div class="container-navegacao">
+            <a href="#home">Home</a>
             <a href="#sobre">Sobre</a>
             <a href="#funcionalidades">Funcionalidades</a>
             <a href="#contactos">Contactos</a>
-            <a href="iniciar-sessao.html">Iniciar Sessão</a>
+        </div>
+
+        <!-- Iniciar sessão -->
+         <div class="nav-cliente">
+            <a href="iniciar_sessao.html" > Iniciar Sessão </a>
         </div>
     </nav>
 
-    <section class="hero">
-        <img src="assets/imagens/CAPA.jpeg" alt="Sistema de inventário de equipamentos hospitalares">
-    </section>
+    <!-- Secção inicial -->
+<section class="container-texto-generico" id="home">
+    <div class="quem-somos-content">
+        <h1>Sistema de Inventário de Equipamentos Hospitalares</h1>
 
-    <section id="sobre" class="secao sobre-section">
-        <div class="sobre-container">
+        <p>
+            Plataforma web para gestão e monitorização do inventário de equipamentos
+            médicos em ambiente hospitalar.
+        </p>
+
+        <img src="assets/imagens/CAPA.jpeg" alt="Sistema de inventário de equipamentos hospitalares">
+
+        <a href="#sobre" class="button">Conhecer a MediVault</a>
+    </div>
+</section>
+
+    <!-- Secção "Sobre" -->
+    <section class="container-texto-generico" id="sobre">
+        <div class="sobre-content">
 
             <div class="sobre-texto">
                 <h1>Sobre a MediVault</h1>
@@ -62,6 +85,7 @@
                 </p>
             </div>
 
+            <!-- CHATGPT PARA O CARD -->
             <div class="sobre-card">
                 <div class="card-titulo">
                     <i class="fa-solid fa-clipboard-list"></i>
@@ -90,37 +114,33 @@
                     <i class="fa-solid fa-chart-line"></i>
                     <p>Consultar indicadores básicos através de um dashboard</p>
                 </div>
+
             </div>
+
         </div>
+
     </section>
 
-    <footer>
-        <div class="footer-coluna">
-            <h3>Localização</h3>
-            <p>Travessa encosta do pilar</p>
-            <p>9000-136, Funchal</p>
-            <p>Madeira</p>
+    <!-- Rodapé -->
+    <footer class="footer-container">
+        <div class="footer-section">
+            <strong> LOCALIZAÇÃO </strong>
+            <p> Travessa Encosta do Pilar <br> 9000-136, Funchal <br> Madeira </p>
         </div>
 
-        <div class="footer-coluna">
-            <h3>Horário</h3>
-            <p>2.ª a 6.ª Feira: 09h - 20h</p>
-            <p>Sábado e Feriados: 09h - 13h</p>
-            <p>Domingo: Encerrado</p>
+        <div class="footer-section">
+            <strong> HORÁRIO </strong>
+            <p> 2. a 6. Feira: 09h - 19h </p>
+            <p> Sábado e Feriados: 09h - 13h </p>
+            <p> Domingo: Encerrado </p>
         </div>
 
-        <div class="footer-coluna">
-            <h3>Contactos</h3>
-            <p>Email: suporte@medivault.com</p>
-            <p>Telefone: +351 930 466 310</p>
+        <div class="footer-section">
+            <strong> CONTACTOS </strong>
+            <p> Email: suporte@medivault.pt </p>
+            <p> Telefone: +351 930 466 310 </p>
         </div>
     </footer>
-
-    <script>
-        window.onbeforeunload = function () {
-            window.scrollTo(0, 0);
-        };
-    </script>
 
 </body>
 

@@ -1,471 +1,338 @@
-/* Reset geral */
+/* Seletor Universal - Remove margens e preenchimentos padrão */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove preenchimento padrão */
+    box-sizing: border-box; /* Inclui a borda e o preenchimento no cálculo do tamanho */
 }
 
-/* Impede scroll horizontal */
-html,
-body {
-    max-width: 100%;
-    overflow-x: hidden;
-    min-height: 100%;
+/* Comportamento geral da página */
+html {
     scroll-behavior: smooth;
 }
 
 /* Corpo da página */
 body {
     font-family: Arial, Helvetica, sans-serif;
+    color: #0b2d45;
     background-color: #ffffff;
-    color: #0b2d45;
-    min-height: 100vh;
 }
 
-/* Barra de navegação */
-nav {
-    width: 100%;
-    min-height: 110px;
-    background-color: white;
-    border: 1px solid #0b2d45;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 30px;
-    gap: 20px;
-    overflow-x: hidden;
+/* Estilo da barra de navegação principal */
+.bng-navbar {
+    background-color: #ffffff; /* Cor de fundo clara */
+    display: flex;  /* Coloca os elementos em linha */
+    align-items: center;  /* Centraliza os itens verticalmente */
+    justify-content: space-between;  /* Espaço entre os blocos */
+    padding: 12px 30px; /* Espaçamento interno da barra */
+    border-bottom: 1px solid #d8e6ef;
     box-shadow: 0 2px 8px rgba(0, 63, 120, 0.08);
+    position: sticky;  /* Fixa a barra no topo ao fazer scroll */
+    top: 0; /* A barra fica colada ao topo */
+    z-index: 1000;
 }
 
-/* Logo + nome da empresa */
-nav div:first-child {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+/* Estilo para os div internos da barra de navegação */
+.bng-navbar div {
+    display: flex; /* Coloca os elementos lado a lado */
+    align-items: center; /* Alinha-os verticalmente ao centro */
 }
 
-/* Imagem do logo */
-nav img {
-    width: 100px;
-    height: auto;
+/* Estilo do logótipo na barra de navegação */
+.bng-navbar img {
+    height: 70px;  /* Define a altura do logótipo */
+    margin-right: 15px; /* Espaço entre o logótipo e o texto */
 }
 
-/* Nome MediVault */
-nav h3 {
-    font-size: 35px;
-    font-weight: 520;
-    color: #111111;
-    letter-spacing: 2px;
-    white-space: nowrap;
+/* Estilo do nome MediVault */
+.bng-navbar h3 {
+    font-size: 2.2em; /* Aumenta o tamanho da letra */
+    font-weight: 700;
+    color: #111111; /* Cor do texto a azul escuro */
+    letter-spacing: 2px; /*espaçamento entre as letras*/
+    margin: 0;
 }
 
-/* Área dos links */
-nav div:last-child {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 50px;
-    flex-wrap: nowrap;
+/* Links centrais da navegação */
+.container-navegacao {
+    text-align: center;  /* Centraliza os links */
+    padding: 15px; /* Adiciona espaçamento interno */
 }
 
-/* Links normais */
-nav a {
-    color: #0b2d45;
-    text-decoration: none;
-    font-size: 23px;
-    text-transform: lowercase;
+.container-navegacao a {
+    font-size: 1.1em; /* Aumenta o tamanho da fonte dos links */
+    margin: 0 15px;  /* Espaçamento horizontal entre os links */
+    text-decoration: none; /* Remove o sublinhado */
+    color: #0b2d45; /* Define a cor dos links */
     font-weight: 500;
 }
 
-/* Efeito ao passar o rato */
-nav a:hover {
-    color: #0077a3;
-    text-decoration: underline;
+.container-navegacao a:hover {
+    color: #0077a3; /* Muda a cor ao passar o rato */
 }
 
-/* Botão iniciar sessão */
-nav a:last-child {
+/* Botão Iniciar Sessão */
+.nav-cliente a {
+    color: #ffffff; /* Cor do texto */
     background-color: #003f78;
-    color: white;
-    padding: 18px 25px;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 63, 120, 0.25);
+    text-decoration: none;  /* Remove sublinhado */
+    font-size: 1.1em; /* Tamanho da fonte */
+    padding: 12px 20px;  /* Espaçamento interno */
+    border-radius: 6px; /* Bordas arredondadas */
+    transition: background 0.3s;  /* Efeito suave na transição */
+    box-shadow: 0 4px 10px rgba(0, 63, 120, 0.25);  /* CHATGPT */
 }
 
-/* Efeito no botão */
-nav a:last-child:hover {
-    background-color: #0077a3;
-    color: white;
-    text-decoration: none;
-    transform: translateY(-2px);
-}
-
-/* Secção principal da página inicial */
-.hero {
-    width: 100%;
-}
-
-/* Imagem principal */
-.hero img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* Rodapé */
-/* Rodapé */
-footer {
-    width: 100%;
-    background-color:  #003f78;
-    color: #d9d9d9;
-    padding: 45px 8%;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 40px;
-    text-align: center;
-}
-
-/* Colunas do rodapé */
-.footer-coluna {
-    flex: 1;
-}
-
-.footer-coluna h3 {
+/* Efeito ao passar o mouse no botão do iniciar sessão*/
+.nav-cliente a:hover {
+    background-color: #0077a3; /* Cor de fundo ao passar o mouse */
     color: #ffffff;
-    font-size: 20px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    letter-spacing: 1px;
+}
+
+/* Texto Genérico das secções */
+.container-texto-generico {
+    display: flex; /* Ativa o layout flexível */
+    justify-content: center; /* Centraliza os elementos horizontalmente */
+    flex-wrap: wrap; /* Permite quebra de linha em ecrãs menores */
+    gap: 20px; /* Espaço entre os elementos */
+    padding: 70px 40px;  /* Espaçamento interno (superior/inferior e laterais) */
+    text-align: center;  /* Centraliza o texto dentro dos artigos */
+}
+
+/* Secção inicial  home */
+#home {
+    text-align: center; /* Centra todo o conteúdo horizontalmente */
+    padding: 60px 40px; /* Espaçamento superior e inferior */
+}
+
+.home-content {
+    max-width: 1000px; /* Largura máxima de 1000px para limitar o conteúdo */
+    margin: 0 auto; /* Centra horizontalmente o conteúdo */
+}
+
+.home-content h1 {
+    font-size: 2.5em; /* Tamanho grande para o título principal */
+    color: #003f78;
     font-weight: 700;
+    margin-bottom: 15px; /* Espaçamento abaixo do título */
 }
 
-.footer-coluna p {
-    font-size: 17px;
-    line-height: 1.6;
-    margin-bottom: 4px;
-    color: #d0d0d0;
+.home-content p {
+    font-size: 1.2em; /* Aumenta o tamanho da letra do parágrafo */
+    color: #111111;
+    margin-bottom: 25px; /* Espaço abaixo do parágrafo */
 }
 
-/* Responsividade mantendo o mesmo layout */
-@media (max-width: 1200px) {
-    nav {
-        padding: 12px 25px;
-    }
-
-    nav img {
-        width: 60px;
-    }
-
-    nav h3 {
-        font-size: 34px;
-        letter-spacing: 2px;
-    }
-
-    nav div:last-child {
-        gap: 28px;
-    }
-
-    nav a {
-        font-size: 16px;
-    }
-
-    nav a:last-child {
-        padding: 14px 20px;
-    }
-
-    footer {
-        padding: 40px 6%;
-        gap: 30px;
-    }
+.quem-somos-content img {
+    width: 100%;
+    max-width: 1000px;
+    height: 360px;  /* Define uma altura fixa da imagem */
+    display: block; /* Faz com que a imagem se comporte como bloco (para usar margin auto) */
+    margin: 20px auto; /* Centraliza a imagem com margens acima e abaixo */
+    object-fit: cover; /* Corta a imagem de forma proporcional sem distorcer */
+    border-radius: 8px;
 }
 
-@media (max-width: 950px) {
-    nav {
-        padding: 10px 18px;
-        gap: 12px;
-    }
-
-    nav img {
-        width: 58px;
-    }
-
-    nav h3 {
-        font-size: 32px;
-        letter-spacing: 1px;
-    }
-
-    nav div:first-child {
-        gap: 10px;
-    }
-
-    nav div:last-child {
-        gap: 18px;
-    }
-
-    nav a {
-        font-size: 14px;
-    }
-
-    nav a:last-child {
-        padding: 11px 16px;
-    }
-
-    footer {
-        padding: 38px 5%;
-        gap: 25px;
-    }
-
-    .footer-coluna h3 {
-        font-size: 17px;
-        margin-bottom: 16px;
-    }
-
-    .footer-coluna p {
-        font-size: 14px;
-    }
-
-    .secao {
-        padding: 55px 7%;
-    }
-
-    .sobre-container {
-        gap: 40px;
-    }
-
-    .sobre-card {
-        padding: 35px;
-        border-radius: 18px;
-    }
-
-    .sobre-texto h1 {
-        font-size: 34px;
-    }
-
-    .sobre-texto p {
-        font-size: 16px;
-        line-height: 1.6;
-    }
-
-    .card-titulo h2 {
-        font-size: 24px;
-    }
-
-    .funcao-sobre p {
-        font-size: 16px;
-    }
+/* Botão da secção inicial */
+.button {
+    display: inline-block;  /* Permite definir largura/altura e manter como botão em linha */
+    background-color: #003f78; /* Cor de fundo azul*/
+    color: #ffffff;  /* Cor do texto branca */
+    padding: 12px 24px; /* Espaçamento interno (vertical x horizontal) */
+    text-decoration: none; /* Remove o sublinhado do link */
+    border-radius: 6px;
+    transition: background 0.3s; /* Bordas arredondadas no botão */
 }
 
-@media (max-width: 750px) {
-    nav {
-        padding: 8px 12px;
-        gap: 8px;
-    }
-
-    nav img {
-        width: 75px;
-    }
-
-    nav h3 {
-        font-size: 27px;
-        letter-spacing: 1px;
-    }
-
-    nav div:first-child {
-        gap: 4px;
-    }
-
-    nav div:last-child {
-        gap: 18px;
-    }
-
-    nav a {
-        font-size: 14px;
-    }
-
-    nav a:last-child {
-        padding: 9px 12px;
-    }
-
-    footer {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 40px 20px;
-    gap: 12px;
-    text-align: center;
+/* CHATGPT */
+.button:hover {
+    background-color: #0077a3;
+    color: #ffffff;
 }
 
-.footer-coluna {
-    flex: 1;
-}
-
-.footer-coluna h3 {
-    font-size: 14px;
-    margin-bottom: 8px;
-    letter-spacing: 1px;
-}
-
-.footer-coluna p {
-    font-size: 13px;
-    line-height: 1.5;
-    margin-bottom: 4px;
-}
-    .secao {
-        padding: 45px 6%;
-    }
-
-    .sobre-container {
-        flex-direction: column;
-        gap: 35px;
-    }
-
-    .sobre-texto h1 {
-        font-size: 30px;
-    }
-
-    .sobre-texto p {
-        font-size: 15px;
-        line-height: 1.6;
-    }
-
-    .sobre-card {
-        width: 100%;
-        padding: 28px;
-        border-radius: 16px;
-    }
-
-    .card-titulo {
-        gap: 14px;
-        margin-bottom: 24px;
-    }
-
-    .card-titulo i {
-        font-size: 30px;
-    }
-
-    .card-titulo h2 {
-        font-size: 22px;
-    }
-
-    .funcao-sobre {
-        gap: 12px;
-        margin-bottom: 18px;
-    }
-
-    .funcao-sobre i {
-        font-size: 21px;
-        width: 25px;
-    }
-
-    .funcao-sobre p {
-        font-size: 15px;
-    }
-}
-
-/* Secções gerais da página inicial */
-.secao {
-    background-color: #ffffff;
-    padding: 70px 10%;
-    color: #0b2d45;
-}
-
+/* CHATGPT */
 /* Secção Sobre */
-.sobre-section {
-    background-color: #ffffff;
+#sobre {
+    scroll-margin-top: 100px;
 }
 
-.sobre-container {
+/* CHATGPT */
+.sobre-content {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 60px;
+    justify-content: center;
+    gap: 45px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
 }
 
+/* CHATGPT */
 .sobre-texto {
     flex: 1.2;
 }
 
+/* CHATGPT */
 .sobre-texto h1 {
-    font-size: 42px;
+    font-size: 2.2em;
     color: #003f78;
+    font-weight: 700;
     margin-bottom: 10px;
 }
 
+/* CHATGPT */
 .linha-titulo {
     width: 80px;
     height: 4px;
     background-color: #0077a3;
-    margin-bottom: 30px;
     border-radius: 10px;
+    margin-bottom: 25px;
 }
 
+/* CHATGPT */
 .sobre-texto p {
-    font-size: 18px;
+    font-size: 1em;
     line-height: 1.7;
-    margin-bottom: 18px;
     color: #111111;
-    text-align: left;
+    margin-bottom: 16px;
 }
 
+/* CHATGPT */
 /* Card da secção Sobre */
 .sobre-card {
     flex: 1;
     background-color: #f8fbfd;
     border: 1px solid #d8e6ef;
-    padding: 45px;
-    border-radius: 20px;
-    box-shadow: 0 12px 30px rgba(0, 63, 120, 0.18);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 22px rgba(0, 63, 120, 0.12);
 }
 
+/* CHATGPT */
 .card-titulo {
     display: flex;
     align-items: center;
-    gap: 18px;
-    margin-bottom: 30px;
+    gap: 15px;
+    margin-bottom: 25px;
 }
 
+/* CHATGPT */
 .card-titulo i {
-    font-size: 36px;
+    font-size: 30px;
     color: #003f78;
 }
 
+/* CHATGPT */
 .card-titulo h2 {
-    font-size: 26px;
+    font-size: 1.5em;
     color: #003f78;
+    font-weight: 700;
+    margin: 0;
 }
 
+/* CHATGPT */
 .linha-card {
     width: 60px;
     height: 3px;
     background-color: #0077a3;
-    margin-top: 8px;
     border-radius: 10px;
+    margin-top: 8px;
 }
 
+/* CHATGPT */
 .funcao-sobre {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 22px;
+    gap: 12px;
+    margin-bottom: 18px;
 }
 
+/* CHATGPT */
 .funcao-sobre i {
-    font-size: 24px;
     color: #0077a3;
-    width: 30px;
+    font-size: 22px;
+    width: 28px;
 }
 
+/* CHATGPT */
 .funcao-sobre p {
-    font-size: 18px;
-    line-height: 1.5;
-    color: #111111;
     margin: 0;
+    color: #111111;
+    line-height: 1.5;
 }
 
-/* Para o menu não deixar aparecer imagem antes da secção */
-section {
-    scroll-margin-top: 0px;
+/* CHATGPT */
+/* Estilos para o Rodapé */
+.footer-container {
+    display: flex;
+    background-color: #2f3943;
+    color: white;
+    padding: 45px 20px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.footer-section {
+    flex: 1; /* Faz com que as secções tenham larguras iguais */
+    min-width: 250px; /* Define uma largura mínima para cada secção */
+    padding: 10px; /* Espaçamento interno */
+    text-align: center; /* Centraliza o conteúdo de cada bloco */
+}
+
+.footer-section strong {
+    font-size: 1.2rem; /* Tamanho da fonte para os títulos */
+    display: block;   /* Ocupa toda a largura disponível */
+    margin-bottom: 12px; /* Espaçamento abaixo do título */
+    color: #f8f9fa;  /* Cor clara para destaque */
+    letter-spacing: 2px;
+}
+
+.footer-section p {
+    font-size: 1rem;  /* Tamanho padrão do texto */
+    color: #d6d6d6;  /* Cor do texto em branco */
+    margin-bottom: 6px; /* Espaçamento abaixo do título */
+}
+
+/* CHATGPT */
+/* Responsividade */
+@media (max-width: 900px) {
+    .bng-navbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .container-navegacao {
+        padding: 10px;
+    }
+
+    .container-navegacao a {
+        display: inline-block;
+        margin: 6px 10px;
+        font-size: 1em;
+    }
+
+    .nav-cliente a {
+        font-size: 1em;
+        padding: 10px 18px;
+    }
+
+    .quem-somos-content h1 {
+        font-size: 2em;
+    }
+
+    .quem-somos-content img {
+        height: 260px;
+    }
+
+    .sobre-content {
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .sobre-card {
+        width: 100%;
+    }
+
+    .footer-container {
+        flex-direction: column;
+    }
 }

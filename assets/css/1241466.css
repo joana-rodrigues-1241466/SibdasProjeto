@@ -22,20 +22,22 @@ body {
 
 /* Navbar */
 .logo-navbar {
-    height: 65px;
+    height: 110px;
 }
 
 .nome-navbar {
-    font-size: 2em;
-    font-weight: 700;
-    color: #111111;
+    font-size: 1.6em;
+    font-weight: 600;
+    color: #003f78;
     letter-spacing: 2px;
 }
 
 .link-navbar {
     color: #0b2d45;
     font-weight: 500;
-    font-size: 1.05em;
+    font-size: 1.2em;
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
 .link-navbar:hover {
@@ -73,21 +75,21 @@ body {
 
 /* Secção inicial */
 .titulo-home {
-    font-size: 2.5em;
+    font-size: 3em;
     color: #003f78;
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .texto-home {
     color: #111111;
-    margin-bottom: 25px;
+    margin-bottom: 35px;
 }
 
 .imagem-home {
     width: 100%;
-    max-width: 1000px;
-    height: 360px;
+    max-width: 1500px;
+    height: 600px;
     object-fit: cover;
 }
 
@@ -109,7 +111,7 @@ body {
 }
 
 .titulo-secao {
-    font-size: 2.2em;
+    font-size: 2.5em;
     color: #003f78;
     font-weight: 700;
     margin-bottom: 10px;
@@ -124,27 +126,29 @@ body {
 }
 
 #sobre p {
-    font-size: 1em;
+    font-size: 1.1em;
     line-height: 1.7;
     color: #111111;
     margin-bottom: 16px;
+    text-align: justify;
 }
 
 .sobre-card {
+    font-size: 16px;
     background-color: #f8fbfd;
     border: 1px solid #d8e6ef;
-    padding: 30px;
+    padding: 40px;
     border-radius: 16px;
     box-shadow: 0 8px 22px rgba(0, 63, 120, 0.12);
 }
 
 .icone-principal {
-    font-size: 30px;
+    font-size: 35px;
     color: #003f78;
 }
 
 .titulo-card {
-    font-size: 1.5em;
+    font-size: 1.8em;
     color: #003f78;
     font-weight: 700;
 }
@@ -159,13 +163,13 @@ body {
 
 .icone-funcao {
     color: #0077a3;
-    font-size: 22px;
-    width: 28px;
+    font-size: 25px;
+    width: 27px;
 }
 
 /* Rodapé */
 .footer-container {
-    background-color: #2f3943;
+    background-color: #003f78;
     color: #d6d6d6;
 }
 

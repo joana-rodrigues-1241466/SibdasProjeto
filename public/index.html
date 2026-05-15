@@ -277,22 +277,29 @@
 
             <div class="mb-4">
                 <label for="nome" class="form-label">Nome:</label>
-                <input type="text" class="form-control campo-contacto" id="nome" name="nome">
+                <input type="text" class="form-control campo-contacto" id="nome" name="nome"
+                    placeholder="Insira o seu nome" required>
             </div>
 
             <div class="mb-4">
                 <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control campo-contacto" id="email" name="email">
+                <input type="email" class="form-control campo-contacto" id="email" name="email"
+                    placeholder="exemplo@gmail.com" required>
             </div>
 
             <div class="mb-4">
                 <label for="mensagem" class="form-label">Mensagem:</label>
-                <textarea class="form-control campo-contacto" id="mensagem" name="mensagem" rows="5"></textarea>
+                <textarea class="form-control campo-contacto" id="mensagem" name="mensagem" rows="5"
+                    placeholder="Escreva aqui a sua mensagem" required></textarea>
             </div>
 
             <button type="submit" class="btn botao-principal botao-contactos">
                 Enviar Mensagem
             </button>
+
+            <p class="nota-contactos">
+                Responderemos ao seu contacto com a maior brevidade possível.
+            </p>
 
         </form>
 

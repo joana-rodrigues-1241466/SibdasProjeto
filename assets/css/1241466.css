@@ -273,6 +273,13 @@ body {
     padding: 12px 28px;
 }
 
+.nota-contactos {
+    text-align: center;
+    font-size: 0.9em;
+    color: #555555;
+    margin-top: 12px;
+}
+
 /* Rodapé */
 .footer-container {
     background-color: #003f78;

@@ -182,46 +182,105 @@ body {
 }
 
 /* CHATGPT */
-/* Responsividade */
-@media (max-width: 900px) {
-    .bng-navbar {
+@media (max-width: 1200px) {
+
+    /* Sobre: texto em cima e card por baixo */
+    #sobre .row {
         flex-direction: column;
-        gap: 10px;
     }
 
-    .container-navegacao {
-        padding: 10px;
-    }
-
-    .container-navegacao a {
-        display: inline-block;
-        margin: 6px 10px;
-        font-size: 1em;
-    }
-
-    .nav-cliente a {
-        font-size: 1em;
-        padding: 10px 18px;
-    }
-
-    .quem-somos-content h1 {
-        font-size: 2em;
-    }
-
-    .quem-somos-content img {
-        height: 260px;
-    }
-
-    .sobre-content {
-        flex-direction: column;
-        text-align: left;
-    }
-
-    .sobre-card {
+    #sobre .col-lg-6 {
         width: 100%;
     }
 
-    .footer-container {
-        flex-direction: column;
+    #sobre .sobre-card {
+        margin-top: 30px;
+    }
+
+    /* Texto do sobre sem espaços exagerados */
+    #sobre p {
+        text-align: left;
+    }
+
+    /* Aproximar links do botão sem mexer no botão */
+    #menuPrincipal .navbar-nav {
+        margin-right: 10px;
+    }
+
+}
+
+@media (max-width: 900px) {
+
+    .logo-navbar {
+        height: 65px;
+    }
+
+    .nome-navbar {
+        font-size: 1.2em;
+        letter-spacing: 1px;
+    }
+
+    .link-navbar {
+        font-size: 0.85em;
+    }
+
+    .navbar-nav {
+        gap: 10px;
+    }
+
+    .botao-login {
+        font-size: 0.85em;
+        padding: 4px 12px;
+    }
+
+    .titulo-home {
+        font-size: 2em;
+    }
+
+    .texto-home {
+        font-size: 1em;
+    }
+
+    .imagem-home {
+        height: 300px;
+    }
+
+    .container-texto-generico {
+        padding: 45px 20px;
+    }
+
+    .titulo-secao {
+        font-size: 1.8em;
+    }
+
+    #sobre p {
+        font-size: 0.85em;
+        line-height: 1.5;
+    }
+
+    .sobre-card {
+        padding: 25px;
+    }
+
+    .titulo-card {
+        font-size: 1.2em;
+    }
+
+    .icone-principal {
+        font-size: 25px;
+    }
+
+    .icone-funcao {
+        font-size: 18px;
+        width: 22px;
+    }
+
+    .footer-container strong {
+        font-size: 0.8rem;
+    }
+
+    .footer-container p {
+        font-size: 0.7rem;
+        line-height: 1.4;
     }
 }

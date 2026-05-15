@@ -22,51 +22,78 @@
 </head>
 
 <body>
-    <!--navegação-->
-    <nav class="bng-navbar">
+    
+    <!-- Navegação -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top border-bottom">
+    <div class="container-fluid px-4">
 
         <!-- Logo e Nome -->
-        <div>
-            <img src="../assets/imagens/LOGO.png" alt="Logo da MediVault">
-            <h3>MediVault</h3>
+        <a class="navbar-brand d-flex align-items-center gap-3" href="#home">
+            <img src="../assets/imagens/LOGO.png" alt="Logo da MediVault" class="logo-navbar">
+            <span class="nome-navbar">MediVault</span>
+        </a>
+
+        <!-- Botão menu mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+            aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menu de navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
+                <li class="nav-item">
+                    <a class="nav-link link-navbar" href="#home">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link link-navbar" href="#sobre">Sobre</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link link-navbar" href="#funcionalidades">Funcionalidades</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link link-navbar" href="#contactos">Contactos</a>
+                </li>
+            </ul>
+
+            <a href="../private/iniciar_sessao.html" class="btn botao-login">Iniciar Sessão</a>
         </div>
 
-        <!-- Links centrais -->
-        <div class="container-navegacao">
-            <a href="#home">Home</a>
-            <a href="#sobre">Sobre</a>
-            <a href="#funcionalidades">Funcionalidades</a>
-            <a href="#contactos">Contactos</a>
-        </div>
-
-        <!-- Iniciar sessão -->
-        <div class="nav-cliente">
-            <a href="iniciar_sessao.html"> Iniciar Sessão </a>
-        </div>
-    </nav>
+    </div>
+</nav>
 
     <!-- Secção inicial -->
-    <section class="container-texto-generico" id="home">
-        <div class="quem-somos-content">
-            <h1>Sistema de Inventário de Equipamentos Hospitalares</h1>
+<section class="container-texto-generico" id="home">
+    <div class="container text-center">
 
-            <p>
-                Plataforma web para gestão e monitorização do inventário de equipamentos
-                médicos em ambiente hospitalar.
-            </p>
+        <h1 class="titulo-home">Sistema de Inventário de Equipamentos Hospitalares</h1>
 
-            <img src="../assets/imagens/CAPA.jpeg" alt="Sistema de inventário de equipamentos hospitalares">
+        <p class="lead texto-home">
+            Plataforma web para gestão e monitorização do inventário de equipamentos
+            médicos em ambiente hospitalar.
+        </p>
 
-            <a href="#sobre" class="button">Conhecer a MediVault</a>
+        <img src="../assets/imagens/CAPA.jpeg"
+             class="img-fluid rounded imagem-home"
+             alt="Sistema de inventário de equipamentos hospitalares">
+
+        <div class="mt-4">
+            <a href="#sobre" class="btn botao-principal">Conhecer a MediVault</a>
         </div>
-    </section>
+
+    </div>
+</section>
 
     <!-- Secção "Sobre" -->
-    <section class="container-texto-generico" id="sobre">
-        <div class="sobre-content">
+<section class="container-texto-generico" id="sobre">
+    <div class="container">
+        <div class="row align-items-center g-5">
 
-            <div class="sobre-texto">
-                <h1>Sobre a MediVault</h1>
+            <div class="col-lg-6 text-start">
+                <h1 class="titulo-secao">Sobre a MediVault</h1>
                 <div class="linha-titulo"></div>
 
                 <p>
@@ -87,35 +114,41 @@
                 </p>
             </div>
 
-            <!-- CHATGPT PARA O CARD -->
-            <div class="sobre-card">
-                <div class="card-titulo">
-                    <i class="fa-solid fa-clipboard-list"></i>
-                    <div>
-                        <h2>O que a MediVault permite?</h2>
-                        <div class="linha-card"></div>
+            <div class="col-lg-6">
+                <div class="sobre-card">
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <i class="fa-solid fa-clipboard-list icone-principal"></i>
+                        <div>
+                            <h2 class="titulo-card mb-0">O que a MediVault permite?</h2>
+                            <div class="linha-card"></div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <i class="fa-solid fa-boxes-stacked icone-funcao"></i>
+                        <p class="mb-0">Gerir equipamentos médicos e respetiva informação técnica</p>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <i class="fa-solid fa-location-dot icone-funcao"></i>
+                        <p class="mb-0">Associar equipamentos a localizações hospitalares específicas</p>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <i class="fa-solid fa-truck-medical icone-funcao"></i>
+                        <p class="mb-0">Registar fornecedores, garantias e contratos associados</p>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="fa-solid fa-chart-line icone-funcao"></i>
+                        <p class="mb-0">Consultar indicadores básicos através de um dashboard</p>
                     </div>
                 </div>
+            </div>
 
-                <div class="funcao-sobre">
-                    <i class="fa-solid fa-boxes-stacked"></i>
-                    <p>Gerir equipamentos médicos e respetiva informação técnica</p>
-                </div>
-
-                <div class="funcao-sobre">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <p>Associar equipamentos a localizações hospitalares específicas</p>
-                </div>
-
-                <div class="funcao-sobre">
-                    <i class="fa-solid fa-truck-medical"></i>
-                    <p>Registar fornecedores, garantias e contratos associados</p>
-                </div>
-
-                <div class="funcao-sobre">
-                    <i class="fa-solid fa-chart-line"></i>
-                    <p>Consultar indicadores básicos através de um dashboard</p>
-                </div>
+        </div>
+    </div>
+</section>
 
             </div>
 
@@ -124,25 +157,39 @@
     </section>
 
     <!-- Rodapé -->
-    <footer class="footer-container">
-        <div class="footer-section">
-            <strong> LOCALIZAÇÃO </strong>
-            <p> Travessa Encosta do Pilar <br> 9000-136, Funchal <br> Madeira </p>
-        </div>
+<footer class="footer-container py-4">
+    <div class="container">
+        <div class="row text-center g-4">
 
-        <div class="footer-section">
-            <strong> HORÁRIO </strong>
-            <p> 2. a 6. Feira: 09h - 19h </p>
-            <p> Sábado e Feriados: 09h - 13h </p>
-            <p> Domingo: Encerrado </p>
-        </div>
+            <div class="col-md-4">
+                <strong>LOCALIZAÇÃO</strong>
+                <p class="mb-0">
+                    Travessa Encosta do Pilar <br>
+                    9000-136, Funchal <br>
+                    Madeira
+                </p>
+            </div>
 
-        <div class="footer-section">
-            <strong> CONTACTOS </strong>
-            <p> Email: suporte@medivault.pt </p>
-            <p> Telefone: +351 930 466 310 </p>
+            <div class="col-md-4">
+                <strong>HORÁRIO</strong>
+                <p class="mb-1">2.ª a 6.ª Feira: 09h - 19h</p>
+                <p class="mb-1">Sábado e Feriados: 09h - 13h</p>
+                <p class="mb-0">Domingo: Encerrado</p>
+            </div>
+
+            <div class="col-md-4">
+                <strong>CONTACTOS</strong>
+                <p class="mb-1">Email: suporte@medivault.pt</p>
+                <p class="mb-0">Telefone: +351 930 466 310</p>
+            </div>
+
         </div>
-    </footer>
+    </div>
+</footer>
+
+    <!-- JavaScript do Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
 
 </body>
 

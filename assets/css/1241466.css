@@ -1,8 +1,11 @@
 /* Seletor Universal - Remove margens e preenchimentos padrão */
 * {
-    margin: 0; /* Remove margens padrão */
-    padding: 0; /* Remove preenchimento padrão */
-    box-sizing: border-box; /* Inclui a borda e o preenchimento no cálculo do tamanho */
+    margin: 0;
+    /* Remove margens padrão */
+    padding: 0;
+    /* Remove preenchimento padrão */
+    box-sizing: border-box;
+    /* Inclui a borda e o preenchimento no cálculo do tamanho */
 }
 
 /* Comportamento geral da página */
@@ -17,169 +20,101 @@ body {
     background-color: #ffffff;
 }
 
-/* Estilo da barra de navegação principal */
-.bng-navbar {
-    background-color: #ffffff; /* Cor de fundo clara */
-    display: flex;  /* Coloca os elementos em linha */
-    align-items: center;  /* Centraliza os itens verticalmente */
-    justify-content: space-between;  /* Espaço entre os blocos */
-    padding: 12px 30px; /* Espaçamento interno da barra */
-    border-bottom: 1px solid #d8e6ef;
-    box-shadow: 0 2px 8px rgba(0, 63, 120, 0.08);
-    position: sticky;  /* Fixa a barra no topo ao fazer scroll */
-    top: 0; /* A barra fica colada ao topo */
-    z-index: 1000;
+/* Navbar */
+.logo-navbar {
+    height: 65px;
 }
 
-/* Estilo para os div internos da barra de navegação */
-.bng-navbar div {
-    display: flex; /* Coloca os elementos lado a lado */
-    align-items: center; /* Alinha-os verticalmente ao centro */
-}
-
-/* Estilo do logótipo na barra de navegação */
-.bng-navbar img {
-    height: 70px;  /* Define a altura do logótipo */
-    margin-right: 15px; /* Espaço entre o logótipo e o texto */
-}
-
-/* Estilo do nome MediVault */
-.bng-navbar h3 {
-    font-size: 2.2em; /* Aumenta o tamanho da letra */
+.nome-navbar {
+    font-size: 2em;
     font-weight: 700;
-    color: #111111; /* Cor do texto a azul escuro */
-    letter-spacing: 2px; /*espaçamento entre as letras*/
-    margin: 0;
+    color: #111111;
+    letter-spacing: 2px;
 }
 
-/* Links centrais da navegação */
-.container-navegacao {
-    text-align: center;  /* Centraliza os links */
-    padding: 15px; /* Adiciona espaçamento interno */
-}
-
-.container-navegacao a {
-    font-size: 1.1em; /* Aumenta o tamanho da fonte dos links */
-    margin: 0 15px;  /* Espaçamento horizontal entre os links */
-    text-decoration: none; /* Remove o sublinhado */
-    color: #0b2d45; /* Define a cor dos links */
+.link-navbar {
+    color: #0b2d45;
     font-weight: 500;
+    font-size: 1.05em;
 }
 
-.container-navegacao a:hover {
-    color: #0077a3; /* Muda a cor ao passar o rato */
+.link-navbar:hover {
+    color: #0077a3;
 }
 
-/* Botão Iniciar Sessão */
-.nav-cliente a {
-    color: #ffffff; /* Cor do texto */
+.botao-login {
     background-color: #003f78;
-    text-decoration: none;  /* Remove sublinhado */
-    font-size: 1.1em; /* Tamanho da fonte */
-    padding: 12px 20px;  /* Espaçamento interno */
-    border-radius: 6px; /* Bordas arredondadas */
-    transition: background 0.3s;  /* Efeito suave na transição */
-    box-shadow: 0 4px 10px rgba(0, 63, 120, 0.25);  /* CHATGPT */
+    color: #ffffff;
+    padding: 11px 20px;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 63, 120, 0.25);
 }
 
-/* Efeito ao passar o mouse no botão do iniciar sessão*/
-.nav-cliente a:hover {
-    background-color: #0077a3; /* Cor de fundo ao passar o mouse */
+.botao-login:hover {
+    background-color: #0077a3;
     color: #ffffff;
 }
 
 /* Texto Genérico das secções */
 .container-texto-generico {
-    display: flex; /* Ativa o layout flexível */
-    justify-content: center; /* Centraliza os elementos horizontalmente */
-    flex-wrap: wrap; /* Permite quebra de linha em ecrãs menores */
-    gap: 20px; /* Espaço entre os elementos */
-    padding: 70px 40px;  /* Espaçamento interno (superior/inferior e laterais) */
-    text-align: center;  /* Centraliza o texto dentro dos artigos */
+    display: flex;
+    /* Ativa o layout flexível */
+    justify-content: center;
+    /* Centraliza os elementos horizontalmente */
+    flex-wrap: wrap;
+    /* Permite quebra de linha em ecrãs menores */
+    gap: 20px;
+    /* Espaço entre os elementos */
+    padding: 70px 40px;
+    /* Espaçamento interno (superior/inferior e laterais) */
+    text-align: center;
+    /* Centraliza o texto dentro dos artigos */
 }
 
-/* Secção inicial  home */
-#home {
-    text-align: center; /* Centra todo o conteúdo horizontalmente */
-    padding: 60px 40px; /* Espaçamento superior e inferior */
-}
-
-.home-content {
-    max-width: 1000px; /* Largura máxima de 1000px para limitar o conteúdo */
-    margin: 0 auto; /* Centra horizontalmente o conteúdo */
-}
-
-.home-content h1 {
-    font-size: 2.5em; /* Tamanho grande para o título principal */
+/* Secção inicial */
+.titulo-home {
+    font-size: 2.5em;
     color: #003f78;
     font-weight: 700;
-    margin-bottom: 15px; /* Espaçamento abaixo do título */
+    margin-bottom: 15px;
 }
 
-.home-content p {
-    font-size: 1.2em; /* Aumenta o tamanho da letra do parágrafo */
+.texto-home {
     color: #111111;
-    margin-bottom: 25px; /* Espaço abaixo do parágrafo */
+    margin-bottom: 25px;
 }
 
-.quem-somos-content img {
+.imagem-home {
     width: 100%;
     max-width: 1000px;
-    height: 360px;  /* Define uma altura fixa da imagem */
-    display: block; /* Faz com que a imagem se comporte como bloco (para usar margin auto) */
-    margin: 20px auto; /* Centraliza a imagem com margens acima e abaixo */
-    object-fit: cover; /* Corta a imagem de forma proporcional sem distorcer */
-    border-radius: 8px;
+    height: 360px;
+    object-fit: cover;
 }
 
-/* Botão da secção inicial */
-.button {
-    display: inline-block;  /* Permite definir largura/altura e manter como botão em linha */
-    background-color: #003f78; /* Cor de fundo azul*/
-    color: #ffffff;  /* Cor do texto branca */
-    padding: 12px 24px; /* Espaçamento interno (vertical x horizontal) */
-    text-decoration: none; /* Remove o sublinhado do link */
+.botao-principal {
+    background-color: #003f78;
+    color: #ffffff;
+    padding: 12px 24px;
     border-radius: 6px;
-    transition: background 0.3s; /* Bordas arredondadas no botão */
 }
 
-/* CHATGPT */
-.button:hover {
+.botao-principal:hover {
     background-color: #0077a3;
     color: #ffffff;
 }
 
-/* CHATGPT */
 /* Secção Sobre */
 #sobre {
     scroll-margin-top: 100px;
 }
 
-/* CHATGPT */
-.sobre-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 45px;
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: left;
-}
-
-/* CHATGPT */
-.sobre-texto {
-    flex: 1.2;
-}
-
-/* CHATGPT */
-.sobre-texto h1 {
+.titulo-secao {
     font-size: 2.2em;
     color: #003f78;
     font-weight: 700;
     margin-bottom: 10px;
 }
 
-/* CHATGPT */
 .linha-titulo {
     width: 80px;
     height: 4px;
@@ -188,18 +123,14 @@ body {
     margin-bottom: 25px;
 }
 
-/* CHATGPT */
-.sobre-texto p {
+#sobre p {
     font-size: 1em;
     line-height: 1.7;
     color: #111111;
     margin-bottom: 16px;
 }
 
-/* CHATGPT */
-/* Card da secção Sobre */
 .sobre-card {
-    flex: 1;
     background-color: #f8fbfd;
     border: 1px solid #d8e6ef;
     padding: 30px;
@@ -207,29 +138,17 @@ body {
     box-shadow: 0 8px 22px rgba(0, 63, 120, 0.12);
 }
 
-/* CHATGPT */
-.card-titulo {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-/* CHATGPT */
-.card-titulo i {
+.icone-principal {
     font-size: 30px;
     color: #003f78;
 }
 
-/* CHATGPT */
-.card-titulo h2 {
+.titulo-card {
     font-size: 1.5em;
     color: #003f78;
     font-weight: 700;
-    margin: 0;
 }
 
-/* CHATGPT */
 .linha-card {
     width: 60px;
     height: 3px;
@@ -238,58 +157,24 @@ body {
     margin-top: 8px;
 }
 
-/* CHATGPT */
-.funcao-sobre {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 18px;
-}
-
-/* CHATGPT */
-.funcao-sobre i {
+.icone-funcao {
     color: #0077a3;
     font-size: 22px;
     width: 28px;
 }
 
-/* CHATGPT */
-.funcao-sobre p {
-    margin: 0;
-    color: #111111;
-    line-height: 1.5;
-}
-
-/* CHATGPT */
-/* Estilos para o Rodapé */
+/* Rodapé */
 .footer-container {
-    display: flex;
     background-color: #2f3943;
-    color: white;
-    padding: 45px 20px;
-    flex-wrap: wrap;
-    width: 100%;
+    color: #d6d6d6;
 }
 
-.footer-section {
-    flex: 1; /* Faz com que as secções tenham larguras iguais */
-    min-width: 250px; /* Define uma largura mínima para cada secção */
-    padding: 10px; /* Espaçamento interno */
-    text-align: center; /* Centraliza o conteúdo de cada bloco */
-}
-
-.footer-section strong {
-    font-size: 1.2rem; /* Tamanho da fonte para os títulos */
-    display: block;   /* Ocupa toda a largura disponível */
-    margin-bottom: 12px; /* Espaçamento abaixo do título */
-    color: #f8f9fa;  /* Cor clara para destaque */
+.footer-container strong {
+    display: block;
+    color: #ffffff;
+    font-size: 1.1rem;
     letter-spacing: 2px;
-}
-
-.footer-section p {
-    font-size: 1rem;  /* Tamanho padrão do texto */
-    color: #d6d6d6;  /* Cor do texto em branco */
-    margin-bottom: 6px; /* Espaçamento abaixo do título */
+    margin-bottom: 12px;
 }
 
 /* CHATGPT */

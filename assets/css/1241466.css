@@ -229,6 +229,50 @@ body {
     min-height: 70px;
 }
 
+/* Secção Contactos */
+#contactos {
+    scroll-margin-top: 100px;
+}
+
+.texto-contactos {
+    max-width: 1200px;
+    margin-bottom: 40px;
+    color: #111111;
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.form-contactos {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.form-contactos .form-label {
+    color: #0b2d45;
+    font-size: 1.05em;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.campo-contacto {
+    border: 1px solid #d8e6ef;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1em;
+}
+
+.campo-contacto:focus {
+    border-color: #0077a3;
+    box-shadow: 0 0 0 3px rgba(0, 119, 163, 0.15);
+}
+
+.botao-contactos {
+    display: block;
+    margin: 10px auto 0 auto;
+    padding: 12px 28px;
+}
+
 /* Rodapé */
 .footer-container {
     background-color: #003f78;

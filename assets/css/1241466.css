@@ -74,6 +74,10 @@ body {
 }
 
 /* Secção inicial */
+#home {
+    scroll-margin-top: 140px;
+}
+
 .titulo-home {
     font-size: 3em;
     color: #003f78;

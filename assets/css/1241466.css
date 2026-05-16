@@ -388,3 +388,120 @@ body {
         line-height: 1.4;
     }
 }
+
+/* Página de Login */
+.pagina-login {
+    min-height: 100vh;
+    background-color: #ffffff;
+}
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 430px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 32px 42px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 63, 120, 0.12);
+}
+
+.login-titulo {
+    color: #003f78;
+    font-size: 1.65em;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.login-subtitulo {
+    color: #0b2d45;
+    font-size: 0.9em;
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.linha-login {
+    width: 80px;
+    height: 4px;
+    background-color: #0077a3;
+    border-radius: 10px;
+    margin: 0 auto 25px auto;
+}
+
+.form-login label {
+    color: #0b2d45;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.input-login {
+    display: flex;
+    align-items: center;
+    border: 1px solid #cfdce6;
+    border-radius: 6px;
+    padding: 0 12px;
+    height: 45px;
+    background-color: #ffffff;
+}
+
+.input-login i {
+    color: #0b2d45;
+    font-size: 0.9em;
+    margin-right: 12px;
+}
+
+.input-login input {
+    width: 100%;
+    border: none;
+    outline: none;
+    color: #0b2d45;
+    font-size: 0.95em;
+}
+
+.input-login input::placeholder {
+    color: #7b8794;
+}
+
+.input-login .fa-eye {
+    margin-right: 0;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.botao-login-pagina {
+    width: 100%;
+    background-color: #003f78;
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    margin-top: 5px;
+    margin-bottom: 22px;
+}
+
+.botao-login-pagina:hover {
+    background-color: #0077a3;
+    color: #ffffff;
+}
+
+.voltar-inicio {
+    color: #003f78;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+.voltar-inicio i {
+    margin-right: 6px;
+}
+
+.voltar-inicio:hover {
+    color: #0077a3;
+}

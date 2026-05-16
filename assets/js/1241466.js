@@ -27,7 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
             mensagemLogin.textContent = "Início de sessão efetuado com sucesso.";
             mensagemLogin.className = "mensagem-login sucesso";
 
-            formularioLogin.reset();
+            setTimeout(function () {
+                window.location.href = "gestao_conteudos.html";
+            }, 1000);
         });
     }
 });

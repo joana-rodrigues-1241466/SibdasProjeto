@@ -532,30 +532,61 @@ body {
     color: #0077a3;
 }
 
-/* Apoio de IA (ChatGPT): estilos da página de gestão de conteúdos da área reservada */
+/* Apoio de IA (ChatGPT): melhoria visual da página de gestão de conteúdos com Accordion */
 .pagina-gestao {
     background-color: #ffffff;
     color: #0b2d45;
 }
 
 .gestao-conteudos {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 18px;
+    padding: 45px;
+    box-shadow: 0 8px 28px rgba(0, 63, 120, 0.08);
 }
 
 .texto-gestao {
     color: #111111;
-    font-size: 1.05em;
-    line-height: 1.6;
+    font-size: 1.1em;
+    line-height: 1.7;
     margin-bottom: 35px;
 }
 
-.titulo-gestao {
+.accordion-gestao {
+    margin-top: 25px;
+}
+
+.accordion-gestao .accordion-item {
+    border: 1px solid #d7e3ec;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.accordion-gestao .accordion-button {
     color: #003f78;
-    font-size: 1.5em;
     font-weight: 700;
-    margin-top: 35px;
-    margin-bottom: 18px;
+    font-size: 0.7em;
+    background-color: #f8fbfd;
+    padding: 18px 22px;
+}
+
+.accordion-gestao .accordion-button:not(.collapsed) {
+    color: #003f78;
+    background-color: #eef7fb;
+    box-shadow: none;
+}
+
+.accordion-gestao .accordion-button:focus {
+    box-shadow: none;
+    border-color: #0086a8;
+}
+
+.accordion-gestao .accordion-body {
+    padding: 25px;
+    background-color: #ffffff;
 }
 
 .form-gestao-conteudos label {
@@ -568,7 +599,7 @@ body {
     justify-content: center;
     gap: 18px;
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 .botao-secundario-gestao {
@@ -577,6 +608,7 @@ body {
     padding: 12px 24px;
     border-radius: 6px;
     font-weight: 600;
+    background-color: #ffffff;
 }
 
 .botao-secundario-gestao:hover {

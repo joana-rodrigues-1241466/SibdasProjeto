@@ -12,7 +12,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
@@ -36,87 +36,177 @@
 
             <form class="form-gestao-conteudos">
 
-                <!-- HOME -->
-                <h2 class="titulo-gestao">Secção Home</h2>
+                <div class="accordion accordion-gestao" id="accordionGestao">
 
-                <div class="mb-3">
-                    <label for="editar-home-titulo" class="form-label">Título principal</label>
-                    <input type="text" class="form-control campo-contacto" id="editar-home-titulo">
+                    <!-- HOME -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingHome">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseHome" aria-expanded="true" aria-controls="collapseHome">
+                                Secção Home
+                            </button>
+                        </h2>
+
+                        <div id="collapseHome" class="accordion-collapse collapse show" aria-labelledby="headingHome"
+                            data-bs-parent="#accordionGestao">
+
+                            <div class="accordion-body">
+
+                                <div class="mb-3">
+                                    <label for="editar-home-titulo" class="form-label">Título principal</label>
+                                    <input type="text" class="form-control campo-contacto" id="editar-home-titulo">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-home-texto" class="form-label">Texto introdutório</label>
+                                    <textarea class="form-control campo-contacto" id="editar-home-texto"
+                                        rows="3"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-home-botao" class="form-label">Texto do botão</label>
+                                    <input type="text" class="form-control campo-contacto" id="editar-home-botao">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SOBRE -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSobre">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseSobre" aria-expanded="false" aria-controls="collapseSobre">
+                                Secção Sobre
+                            </button>
+                        </h2>
+
+                        <div id="collapseSobre" class="accordion-collapse collapse" aria-labelledby="headingSobre"
+                            data-bs-parent="#accordionGestao">
+
+                            <div class="accordion-body">
+
+                                <div class="mb-3">
+                                    <label for="editar-sobre-titulo" class="form-label">Título da secção</label>
+                                    <input type="text" class="form-control campo-contacto" id="editar-sobre-titulo">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-sobre-texto" class="form-label">Texto principal</label>
+                                    <textarea class="form-control campo-contacto" id="editar-sobre-texto"
+                                        rows="4"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FUNCIONALIDADES -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFuncionalidades">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFuncionalidades" aria-expanded="false"
+                                aria-controls="collapseFuncionalidades">
+                                Secção Funcionalidades
+                            </button>
+                        </h2>
+
+                        <div id="collapseFuncionalidades" class="accordion-collapse collapse"
+                            aria-labelledby="headingFuncionalidades" data-bs-parent="#accordionGestao">
+
+                            <div class="accordion-body">
+
+                                <div class="mb-3">
+                                    <label for="editar-funcionalidades-titulo" class="form-label">Título da
+                                        secção</label>
+                                    <input type="text" class="form-control campo-contacto"
+                                        id="editar-funcionalidades-titulo">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-funcionalidades-texto" class="form-label">Texto
+                                        introdutório</label>
+                                    <textarea class="form-control campo-contacto" id="editar-funcionalidades-texto"
+                                        rows="3"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CONTACTOS -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingContactos">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseContactos" aria-expanded="false"
+                                aria-controls="collapseContactos">
+                                Secção Contactos
+                            </button>
+                        </h2>
+
+                        <div id="collapseContactos" class="accordion-collapse collapse"
+                            aria-labelledby="headingContactos" data-bs-parent="#accordionGestao">
+
+                            <div class="accordion-body">
+
+                                <div class="mb-3">
+                                    <label for="editar-contactos-titulo" class="form-label">Título da secção</label>
+                                    <input type="text" class="form-control campo-contacto" id="editar-contactos-titulo">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-contactos-texto" class="form-label">Texto introdutório</label>
+                                    <textarea class="form-control campo-contacto" id="editar-contactos-texto"
+                                        rows="3"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RODAPÉ -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingRodape">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseRodape" aria-expanded="false" aria-controls="collapseRodape">
+                                Rodapé
+                            </button>
+                        </h2>
+
+                        <div id="collapseRodape" class="accordion-collapse collapse" aria-labelledby="headingRodape"
+                            data-bs-parent="#accordionGestao">
+
+                            <div class="accordion-body">
+
+                                <div class="mb-3">
+                                    <label for="editar-localizacao" class="form-label">Localização</label>
+                                    <textarea class="form-control campo-contacto" id="editar-localizacao"
+                                        rows="3"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-horario" class="form-label">Horário</label>
+                                    <textarea class="form-control campo-contacto" id="editar-horario"
+                                        rows="3"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-email" class="form-label">Email</label>
+                                    <input type="email" class="form-control campo-contacto" id="editar-email">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-telefone" class="form-label">Telefone</label>
+                                    <input type="text" class="form-control campo-contacto" id="editar-telefone">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="mb-3">
-                    <label for="editar-home-texto" class="form-label">Texto introdutório</label>
-                    <textarea class="form-control campo-contacto" id="editar-home-texto" rows="3"></textarea>
-                </div>
-
-                <div class="mb-4">
-                    <label for="editar-home-botao" class="form-label">Texto do botão</label>
-                    <input type="text" class="form-control campo-contacto" id="editar-home-botao">
-                </div>
-
-                <!-- SOBRE -->
-                <h2 class="titulo-gestao">Secção Sobre</h2>
-
-                <div class="mb-3">
-                    <label for="editar-sobre-titulo" class="form-label">Título da secção</label>
-                    <input type="text" class="form-control campo-contacto" id="editar-sobre-titulo">
-                </div>
-
-                <div class="mb-4">
-                    <label for="editar-sobre-texto" class="form-label">Texto principal</label>
-                    <textarea class="form-control campo-contacto" id="editar-sobre-texto" rows="4"></textarea>
-                </div>
-
-                <!-- FUNCIONALIDADES -->
-                <h2 class="titulo-gestao">Secção Funcionalidades</h2>
-
-                <div class="mb-3">
-                    <label for="editar-funcionalidades-titulo" class="form-label">Título da secção</label>
-                    <input type="text" class="form-control campo-contacto" id="editar-funcionalidades-titulo">
-                </div>
-
-                <div class="mb-4">
-                    <label for="editar-funcionalidades-texto" class="form-label">Texto introdutório</label>
-                    <textarea class="form-control campo-contacto" id="editar-funcionalidades-texto" rows="3"></textarea>
-                </div>
-
-                <!-- CONTACTOS -->
-                <h2 class="titulo-gestao">Secção Contactos</h2>
-
-                <div class="mb-3">
-                    <label for="editar-contactos-titulo" class="form-label">Título da secção</label>
-                    <input type="text" class="form-control campo-contacto" id="editar-contactos-titulo">
-                </div>
-
-                <div class="mb-4">
-                    <label for="editar-contactos-texto" class="form-label">Texto introdutório</label>
-                    <textarea class="form-control campo-contacto" id="editar-contactos-texto" rows="3"></textarea>
-                </div>
-
-                <!-- RODAPÉ -->
-                <h2 class="titulo-gestao">Rodapé</h2>
-
-                <div class="mb-3">
-                    <label for="editar-localizacao" class="form-label">Localização</label>
-                    <textarea class="form-control campo-contacto" id="editar-localizacao" rows="3"></textarea>
-                </div>
-
-                <div class="mb-3">
-                    <label for="editar-horario" class="form-label">Horário</label>
-                    <textarea class="form-control campo-contacto" id="editar-horario" rows="3"></textarea>
-                </div>
-
-                <div class="mb-3">
-                    <label for="editar-email" class="form-label">Email</label>
-                    <input type="email" class="form-control campo-contacto" id="editar-email">
-                </div>
-
-                <div class="mb-4">
-                    <label for="editar-telefone" class="form-label">Telefone</label>
-                    <input type="text" class="form-control campo-contacto" id="editar-telefone">
-                </div>
-
-                <p id="mensagem-gestao" class="mensagem-login"></p>
+                <p id="mensagem-gestao" class="mensagem-login mt-4"></p>
 
                 <div class="botoes-gestao">
                     <button type="submit" class="btn botao-principal">
@@ -138,6 +228,9 @@
         </section>
 
     </main>
+
+    <!-- JavaScript do Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- JavaScript próprio -->
     <script src="../assets/js/1241466.js"></script>

@@ -531,3 +531,55 @@ body {
 .voltar-inicio:hover {
     color: #0077a3;
 }
+
+/* Apoio de IA (ChatGPT): estilos da página de gestão de conteúdos da área reservada */
+.pagina-gestao {
+    background-color: #ffffff;
+    color: #0b2d45;
+}
+
+.gestao-conteudos {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.texto-gestao {
+    color: #111111;
+    font-size: 1.05em;
+    line-height: 1.6;
+    margin-bottom: 35px;
+}
+
+.titulo-gestao {
+    color: #003f78;
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-top: 35px;
+    margin-bottom: 18px;
+}
+
+.form-gestao-conteudos label {
+    color: #0b2d45;
+    font-weight: 700;
+}
+
+.botoes-gestao {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.botao-secundario-gestao {
+    border: 2px solid #003f78;
+    color: #003f78;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.botao-secundario-gestao:hover {
+    background-color: #003f78;
+    color: #ffffff;
+}

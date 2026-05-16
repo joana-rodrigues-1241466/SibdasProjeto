@@ -37,19 +37,19 @@
             <div class="d-flex align-items-center ms-auto">
                 <ul class="navbar-nav ms-auto me-5 mb-lg-0 gap-lg-4 align-items-baseline">
                     <li class="nav-item">
-                        <a class="nav-link link-navbar" href="index.html">Home</a>
+                        <a class="nav-link link-navbar" href="#home" id="nav-home">Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link link-navbar" href="#sobre">Sobre</a>
+                        <a class="nav-link link-navbar" href="#sobre" id="nav-sobre">Sobre</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link link-navbar" href="#funcionalidades">Funcionalidades</a>
+                        <a class="nav-link link-navbar" href="#funcionalidades" id="nav-funcionalidades">Funcionalidades</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link link-navbar" href="#contactos">Contactos</a>
+                        <a class="nav-link link-navbar" href="#contactos" id="nav-contactos">Contactos</a>
                     </li>
                 </ul>
 
@@ -89,18 +89,18 @@
                     <h1 id="sobre-titulo" class="titulo-secao">Sobre a MediVault</h1>
                     <div class="linha-titulo"></div>
 
-                    <p id="sobre-texto">
+                    <p id="sobre-texto-1">
                         A MediVault é uma plataforma web desenvolvida para apoiar instituições de saúde
                         na gestão organizada e centralizada do inventário hospitalar de equipamentos médicos.
                     </p>
 
-                    <p>
+                    <p id="sobre-texto-2">
                         O sistema permite reunir, num único local, informação essencial sobre os equipamentos,
                         incluindo categoria, localização, estado atual, fornecedor, documentação técnica,
                         garantias e contratos associados.
                     </p>
 
-                    <p>
+                    <p id="sobre-texto-3">
                         O objetivo da plataforma é substituir métodos dispersos, como folhas de cálculo,
                         documentos isolados e registos manuais, por uma solução digital mais segura,
                         acessível e eficiente para os utilizadores autorizados.
@@ -113,7 +113,7 @@
                             <!-- Retirado do ChatGPT: ícone da biblioteca Font Awesome, não abordada nos PowerPoints -->
                             <i class="fa-solid fa-clipboard-list icone-principal"></i>
                             <div>
-                                <h2 class="titulo-card mb-0">O que a MediVault permite?</h2>
+                                <h2 id="sobre-card-titulo" class="titulo-card mb-0">O que a MediVault permite?</h2>
                                 <div class="linha-card"></div>
                             </div>
                         </div>
@@ -121,25 +121,25 @@
                         <div class="d-flex align-items-start gap-3 mb-4">
                             <!-- Retirado do ChatGPT: ícone da biblioteca Font Awesome, não abordada nos PowerPoints -->
                             <i class="fa-solid fa-boxes-stacked icone-funcao"></i>
-                            <p class="mb-0">Gerir equipamentos médicos e respetiva informação técnica</p>
+                            <p id="sobre-card-texto-1" class="mb-0">Gerir equipamentos médicos e respetiva informação técnica</p>
                         </div>
 
                         <div class="d-flex align-items-start gap-3 mb-4">
                             <!-- Retirado do ChatGPT: ícone da biblioteca Font Awesome, não abordada nos PowerPoints -->
                             <i class="fa-solid fa-location-dot icone-funcao"></i>
-                            <p class="mb-0">Associar equipamentos a localizações hospitalares específicas</p>
+                            <p id="sobre-card-texto-2" class="mb-0">Associar equipamentos a localizações hospitalares específicas</p>
                         </div>
 
                         <div class="d-flex align-items-center gap-3 mb-4">
                             <!-- Retirado do ChatGPT: ícone da biblioteca Font Awesome, não abordada nos PowerPoints -->
                             <i class="fa-solid fa-truck-medical icone-funcao"></i>
-                            <p class="mb-0">Registar fornecedores, garantias e contratos associados</p>
+                            <p id="sobre-card-texto-3" class="mb-0">Registar fornecedores, garantias e contratos associados</p>
                         </div>
 
                         <div class="d-flex align-items-center gap-3">
                             <!-- Retirado do ChatGPT: ícone da biblioteca Font Awesome, não abordada nos PowerPoints -->
                             <i class="fa-solid fa-chart-line icone-funcao"></i>
-                            <p class="mb-0">Consultar indicadores básicos através de um dashboard</p>
+                            <p id="sobre-card-texto-4" class="mb-0">Consultar indicadores básicos através de um dashboard</p>
                         </div>
                     </div>
                 </div>
@@ -165,9 +165,9 @@
                 <div class="col-6 col-lg-3 col-md-4 d-flex">
                     <div class="card-funcionalidade">
                         <i class="fa-solid fa-desktop icone-funcionalidade"></i>
-                        <h3>Gestão de Equipamentos</h3>
+                        <h3 id="funcionalidade-titulo-1">Gestão de Equipamentos</h3>
                         <div class="linha-card-funcionalidade"></div>
-                        <p>
+                        <p id="funcionalidade-texto-1">
                             Registe, consulte, edite e arquive equipamentos médicos
                             com total rastreabilidade e controlo.
                         </p>
@@ -177,9 +177,9 @@
                 <div class="col-6 col-lg-3 col-md-4 d-flex">
                     <div class="card-funcionalidade">
                         <i class="fa-solid fa-location-dot icone-funcionalidade"></i>
-                        <h3>Localizações</h3>
+                        <h3 id="funcionalidade-titulo-2">Localizações</h3>
                         <div class="linha-card-funcionalidade"></div>
-                        <p>
+                        <p id="funcionalidade-texto-2">
                             Associe cada equipamento à sua localização física:
                             edifício, piso, serviço e sala.
                         </p>
@@ -189,9 +189,9 @@
                 <div class="col-6 col-lg-3 col-md-4 d-flex">
                     <div class="card-funcionalidade">
                         <i class="fa-solid fa-handshake icone-funcionalidade"></i>
-                        <h3>Gestão de Fornecedores</h3>
+                        <h3 id="funcionalidade-titulo-3">Gestão de Fornecedores</h3>
                         <div class="linha-card-funcionalidade"></div>
-                        <p>
+                        <p id="funcionalidade-texto-3">
                             Gerencie fornecedores, fabricantes e entidades de
                             assistência técnica associados aos equipamentos.
                         </p>
@@ -201,9 +201,9 @@
                 <div class="col-6 col-lg-3 col-md-4 d-flex">
                     <div class="card-funcionalidade">
                         <i class="fa-solid fa-file-lines icone-funcionalidade"></i>
-                        <h3>Documentação</h3>
+                        <h3 id="funcionalidade-titulo-4">Documentação</h3>
                         <div class="linha-card-funcionalidade"></div>
-                        <p>
+                        <p id="funcionalidade-texto-4">
                             Associe documentos técnicos, manuais, certificados,
                             relatórios e contratos aos equipamentos.
                         </p>
@@ -213,9 +213,9 @@
                 <div class="col-6 col-lg-3 col-md-4 d-flex">
                     <div class="card-funcionalidade">
                         <i class="fa-solid fa-shield-halved icone-funcionalidade"></i>
-                        <h3>Garantias e Contratos</h3>
+                        <h3 id="funcionalidade-titulo-5">Garantias e Contratos</h3>
                         <div class="linha-card-funcionalidade"></div>
-                        <p>
+                        <p id="funcionalidade-texto-5">
                             Registe garantias e contratos de manutenção, incluindo
                             prazos, entidades responsáveis e periodicidade.
                         </p>
@@ -225,9 +225,9 @@
                 <div class="col-6 col-lg-3 col-md-4 d-flex">
                     <div class="card-funcionalidade">
                         <i class="fa-solid fa-magnifying-glass icone-funcionalidade"></i>
-                        <h3>Pesquisa e Filtragem</h3>
+                        <h3 id="funcionalidade-titulo-6">Pesquisa e Filtragem</h3>
                         <div class="linha-card-funcionalidade"></div>
-                        <p>
+                        <p id="funcionalidade-texto-6">
                             Pesquise e filtre equipamentos por código, designação,
                             marca, modelo, número de série, serviço e estado.
                         </p>
@@ -237,9 +237,9 @@
                 <div class="col-6 col-lg-3 col-md-4 d-flex">
                     <div class="card-funcionalidade">
                         <i class="fa-solid fa-chart-simple icone-funcionalidade"></i>
-                        <h3>Dashboard</h3>
+                        <h3 id="funcionalidade-titulo-7">Dashboard</h3>
                         <div class="linha-card-funcionalidade"></div>
-                        <p>
+                        <p id="funcionalidade-texto-7">
                             Visualize indicadores e estatísticas importantes sobre
                             o inventário: totais, estados, serviços e garantias.
                         </p>
@@ -249,9 +249,9 @@
                 <div class="col-6 col-lg-3 col-md-4 d-flex">
                     <div class="card-funcionalidade">
                         <i class="fa-solid fa-bell icone-funcionalidade"></i>
-                        <h3>Alertas e Notificações</h3>
+                        <h3 id="funcionalidade-titulo-8">Alertas e Notificações</h3>
                         <div class="linha-card-funcionalidade"></div>
-                        <p>
+                        <p id="funcionalidade-texto-8">
                             Receba alertas sobre manutenções, garantias a expirar,
                             documentos vencidos e outras situações relevantes.
                         </p>
@@ -327,7 +327,7 @@
                     <strong>HORÁRIO</strong>
                     <p id="rodape-horario" class="mb-1">
                         2.ª a 6.ª Feira: 09h - 19h <br>
-                        Sábados e Feriados: 09h - 13h; <br>
+                        Sábados e Feriados: 09h - 13h <br>
                         Domingo: Encerrado
                     </p>
                 </div>

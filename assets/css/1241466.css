@@ -267,6 +267,19 @@ body {
     box-shadow: 0 0 0 3px rgba(0, 119, 163, 0.15);
 }
 
+.mensagem-contactos {
+    font-size: 0.95em;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    min-height: 22px;
+    text-align: center;
+}
+
+.mensagem-contactos.sucesso {
+    color: #198754;
+}
+
 .botao-contactos {
     display: block;
     margin: 10px auto 0 auto;
@@ -473,6 +486,19 @@ body {
     margin-right: 0;
     margin-left: 10px;
     cursor: pointer;
+}
+
+.mensagem-login {
+    font-size: 0.9em;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    min-height: 20px;
+    text-align: center;
+}
+
+.mensagem-login.sucesso {
+    color: #198754;
 }
 
 .botao-login-pagina {

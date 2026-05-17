@@ -558,6 +558,204 @@ document.addEventListener("DOMContentLoaded", function () {
     preencherDetalhesEquipamento();
 });
 
+// ===============================
+// LOCALIZAÇÕES
+// ===============================
+
+// Dados fictícios das localizações
+const localizacoesConsulta = {
+    LOC001: {
+        codigo: "LOC001",
+        edificio: "Edifício Principal",
+        piso: "Piso 2",
+        servico: "Unidade de Cuidados Intensivos",
+        sala: "Sala 2.10",
+        equipamentos: "Monitor multiparamétrico de sinais vitais",
+        observacoes: "Área destinada à monitorização contínua de doentes críticos."
+    },
+
+    LOC002: {
+        codigo: "LOC002",
+        edificio: "Edifício Principal",
+        piso: "Piso 2",
+        servico: "Unidade de Cuidados Intensivos",
+        sala: "Sala 2.11",
+        equipamentos: "Ventilador pulmonar",
+        observacoes: "Localização associada a equipamentos de suporte ventilatório."
+    },
+
+    LOC003: {
+        codigo: "LOC003",
+        edificio: "Edifício B",
+        piso: "Piso 0",
+        servico: "Serviço de Medicina",
+        sala: "Gabinete 0.04",
+        equipamentos: "Bomba de infusão",
+        observacoes: "Localização utilizada para equipamentos de apoio à terapêutica intravenosa."
+    },
+
+    LOC004: {
+        codigo: "LOC004",
+        edificio: "Edifício Principal",
+        piso: "Piso 1",
+        servico: "Urgência",
+        sala: "Sala 1.02",
+        equipamentos: "Desfibrilhador",
+        observacoes: "Localização destinada a equipamentos de resposta rápida."
+    }
+};
+
+// Carregar localizações guardadas no navegador ou usar os dados iniciais
+let localizacoesGuardadas = JSON.parse(localStorage.getItem("localizacoesGuardadas"));
+
+if (!localizacoesGuardadas) {
+    localizacoesGuardadas = localizacoesConsulta;
+    localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
+}
+
+// Adicionar nova localização e guardar no localStorage
+document.addEventListener("DOMContentLoaded", function () {
+
+    const formularioNovaLocalizacao = document.getElementById("form-nova-localizacao");
+    const mensagemSucessoLocalizacao = document.getElementById("mensagemSucessoLocalizacao");
+
+    if (!formularioNovaLocalizacao) {
+        return;
+    }
+
+    formularioNovaLocalizacao.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!formularioNovaLocalizacao.checkValidity()) {
+            formularioNovaLocalizacao.reportValidity();
+            return;
+        }
+
+        const codigo = document.getElementById("codigo").value.trim();
+
+        if (localizacoesGuardadas[codigo]) {
+            if (mensagemSucessoLocalizacao) {
+                mensagemSucessoLocalizacao.style.display = "block";
+                mensagemSucessoLocalizacao.textContent = "Já existe uma localização com esse código.";
+                mensagemSucessoLocalizacao.classList.remove("sucesso");
+                mensagemSucessoLocalizacao.classList.add("erro");
+            }
+
+            return;
+        }
+
+        const novaLocalizacao = {
+            codigo: codigo,
+            edificio: document.getElementById("edificio").value.trim(),
+            piso: document.getElementById("piso").value.trim(),
+            servico: document.getElementById("servico").value.trim(),
+            sala: document.getElementById("sala").value.trim(),
+            equipamentos: document.getElementById("equipamentos").value.trim(),
+            observacoes: document.getElementById("observacoes").value.trim()
+        };
+
+        localizacoesGuardadas[codigo] = novaLocalizacao;
+
+        localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
+
+        if (mensagemSucessoLocalizacao) {
+            mensagemSucessoLocalizacao.style.display = "block";
+            mensagemSucessoLocalizacao.textContent = "Localização adicionada com sucesso.";
+            mensagemSucessoLocalizacao.classList.remove("erro");
+            mensagemSucessoLocalizacao.classList.add("sucesso");
+        }
+
+        setTimeout(function () {
+            window.location.href = "localizacoes.html";
+        }, 800);
+    });
+
+    formularioNovaLocalizacao.addEventListener("input", function () {
+        if (mensagemSucessoLocalizacao) {
+            mensagemSucessoLocalizacao.style.display = "none";
+        }
+    });
+
+    formularioNovaLocalizacao.addEventListener("change", function () {
+        if (mensagemSucessoLocalizacao) {
+            mensagemSucessoLocalizacao.style.display = "none";
+        }
+    });
+});
+
+// Preencher listagem de localizações na página localizacoes.html
+function preencherListagemLocalizacoes() {
+    const tabelaLocalizacoes = document.getElementById("tabela-localizacoes");
+
+    if (!tabelaLocalizacoes) {
+        return;
+    }
+
+    tabelaLocalizacoes.innerHTML = "";
+
+    Object.values(localizacoesGuardadas).forEach(function (localizacao) {
+        const linha = document.createElement("tr");
+
+        linha.innerHTML = `
+            <td>${localizacao.codigo}</td>
+            <td>${localizacao.edificio}</td>
+            <td>${localizacao.piso}</td>
+            <td>${localizacao.servico}</td>
+            <td>${localizacao.sala}</td>
+            <td>${localizacao.equipamentos}</td>
+
+            <td class="acoes-tabela-privada">
+                <a href="consultar_localizacao.html?id=${localizacao.codigo}" class="acao-tabela-privada">
+                    <i class="fa-regular fa-eye"></i>
+                    Consultar
+                </a>
+
+                <a href="editar_localizacao.html?id=${localizacao.codigo}" class="acao-tabela-privada">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Editar
+                </a>
+
+                <a href="#" class="acao-tabela-privada eliminar-localizacao" data-id="${localizacao.codigo}">
+                    <i class="fa-regular fa-trash-can"></i>
+                    Eliminar
+                </a>
+            </td>
+        `;
+
+        tabelaLocalizacoes.appendChild(linha);
+    });
+}
+
+// Eliminar localização da listagem
+document.addEventListener("click", function (event) {
+    const botaoEliminarLocalizacao = event.target.closest(".eliminar-localizacao");
+
+    if (!botaoEliminarLocalizacao) {
+        return;
+    }
+
+    event.preventDefault();
+
+    const idLocalizacao = botaoEliminarLocalizacao.getAttribute("data-id");
+
+    const confirmar = confirm("Tem a certeza que pretende eliminar esta localização?");
+
+    if (!confirmar) {
+        return;
+    }
+
+    delete localizacoesGuardadas[idLocalizacao];
+
+    localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
+
+    preencherListagemLocalizacoes();
+});
+
+// Só executa quando a página terminar de carregar
+document.addEventListener("DOMContentLoaded", function () {
+    preencherListagemLocalizacoes();
+});
+
 // Dropdown do utilizador na navbar privada
 const botaoUtilizadorPrivado = document.querySelector(".utilizador-privado");
 const menuUtilizadorPrivado = document.querySelector(".menu-utilizador-privado");

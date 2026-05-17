@@ -735,8 +735,8 @@ body {
 
 /* Tabela com largura maior para permitir scroll horizontal */
 .tabela-privada table {
-    width: 1200px;
-    min-width: 1200px;
+    width: 100%;
+    min-width: 1300px;
     border-collapse: collapse;
     font-size: 0.9em;
 }
@@ -973,16 +973,8 @@ body {
         margin: 0;
     }
 
-    .tabela-privada {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        overflow-x: auto;
-        overflow-y: hidden;
-    }
-
     .tabela-privada table {
-        width: 1150px;
+        width: 100%;
         min-width: 1150px;
     }
 }

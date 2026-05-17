@@ -90,60 +90,193 @@
                 </h1>
 
                 <a href="novo_equipamento.html" class="botao-novo-registo-privada">
-    <i class="fa-solid fa-plus"></i>
-    Novo equipamento
-</a>
+                    <i class="fa-solid fa-plus"></i>
+                    Novo equipamento
+                </a>
             </div>
 
             <hr>
 
             <p class="mensagem-listagem">
-                Não existem equipamentos registados.
+                Consulte abaixo os equipamentos registados no inventário hospitalar.
             </p>
 
             <div class="tabela-privada">
                 <table>
                     <thead>
                         <tr>
-                            <th>Código</th>
-                            <th>Designação</th>
-                            <th>Categoria</th>
+                            <th>Código interno de inventário</th>
+                            <th>Designação do equipamento</th>
+                            <th>Categoria ou grupo</th>
                             <th>Marca</th>
                             <th>Modelo</th>
-                            <th>N.º Série</th>
-                            <th>Localização</th>
-                            <th>Estado</th>
+                            <th>N.º de série</th>
+                            <th>Fabricante</th>
+                            <th>Ano de fabrico</th>
+                            <th>Data de aquisição</th>
+                            <th>Custo de aquisição</th>
+                            <th>Tipo de entrada</th>
+                            <th>Estado atual</th>
+                            <th>Criticidade</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr>
-                            <td>[codigo]</td>
-                            <td>[designacao]</td>
-                            <td>[categoria]</td>
-                            <td>[marca]</td>
-                            <td>[modelo]</td>
-                            <td>[numero_serie]</td>
-                            <td>[localizacao]</td>
-                            <td>[estado]</td>
+                            <td>EQ001</td>
+                            <td>Monitor multiparamétrico de sinais vitais</td>
+                            <td>Monitorização</td>
+                            <td>Philips</td>
+                            <td>IntelliVue MP5</td>
+                            <td>MP5-2022-45873</td>
+                            <td>Philips Healthcare</td>
+                            <td>2022</td>
+                            <td>15/04/2023</td>
+                            <td>3200 €</td>
+                            <td>Compra</td>
+                            <td>Ativo</td>
+                            <td>Suporte de vida</td>
                             <td class="acoes-tabela-privada">
-                                <a href="#">
+                                <a href="consultar_equipamento.html" class="acao-tabela-privada">
                                     <i class="fa-regular fa-eye"></i>
                                     Consultar
                                 </a>
 
-                                <a href="#">
+                                <a href="editar_equipamento.html" class="acao-tabela-privada">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                     Editar
                                 </a>
 
-                                <a href="#">
+                                <a href="#" class="acao-tabela-privada botao-arquivar-equipamento">
+                                    <i class="fa-regular fa-folder"></i>
+                                    Arquivar
+                                </a>
+
+                                <a href="#" class="acao-tabela-privada">
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
                                 </a>
+
                             </td>
                         </tr>
+
+                        <tr>
+                            <td>EQ002</td>
+                            <td>Ventilador pulmonar</td>
+                            <td>Suporte de vida</td>
+                            <td>Dräger</td>
+                            <td>Evita V500</td>
+                            <td>EV500-2021-9934</td>
+                            <td>Dräger</td>
+                            <td>2021</td>
+                            <td>10/02/2022</td>
+                            <td>18500 €</td>
+                            <td>Compra</td>
+                            <td>Ativo</td>
+                            <td>Suporte de vida</td>
+                            <td class="acoes-tabela-privada">
+                                <a href="consultar_equipamento.html" class="acao-tabela-privada">
+                                    <i class="fa-regular fa-eye"></i>
+                                    Consultar
+                                </a>
+
+                                <a href="editar_equipamento.html" class="acao-tabela-privada">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    Editar
+                                </a>
+
+                                <a href="#" class="acao-tabela-privada botao-arquivar-equipamento">
+                                    <i class="fa-regular fa-folder"></i>
+                                    Arquivar
+                                </a>
+
+                                <a href="#" class="acao-tabela-privada">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                    Eliminar
+                                </a>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>EQ003</td>
+                            <td>Bomba de infusão</td>
+                            <td>Terapia</td>
+                            <td>B. Braun</td>
+                            <td>Infusomat Space</td>
+                            <td>INF-2020-88321</td>
+                            <td>B. Braun</td>
+                            <td>2020</td>
+                            <td>22/09/2021</td>
+                            <td>1450 €</td>
+                            <td>Compra</td>
+                            <td>Ativo</td>
+                            <td>Média</td>
+                            <td class="acoes-tabela-privada">
+                                <a href="consultar_equipamento.html" class="acao-tabela-privada">
+                                    <i class="fa-regular fa-eye"></i>
+                                    Consultar
+                                </a>
+
+                                <a href="editar_equipamento.html" class="acao-tabela-privada">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    Editar
+                                </a>
+
+                                <a href="#" class="acao-tabela-privada botao-arquivar-equipamento">
+                                    <i class="fa-regular fa-folder"></i>
+                                    Arquivar
+                                </a>
+
+                                <a href="#" class="acao-tabela-privada">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                    Eliminar
+                                </a>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>EQ004</td>
+                            <td>Desfibrilhador</td>
+                            <td>Suporte de vida</td>
+                            <td>Zoll</td>
+                            <td>R Series</td>
+                            <td>ZR-2021-7712</td>
+                            <td>Zoll Medical</td>
+                            <td>2021</td>
+                            <td>05/06/2022</td>
+                            <td>7900 €</td>
+                            <td>Compra</td>
+                            <td>Ativo</td>
+                            <td>Alta</td>
+                            <td class="acoes-tabela-privada">
+                                <a href="consultar_equipamento.html" class="acao-tabela-privada">
+                                    <i class="fa-regular fa-eye"></i>
+                                    Consultar
+                                </a>
+
+                                <a href="editar_equipamento.html" class="acao-tabela-privada">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    Editar
+                                </a>
+
+                                <a href="#" class="acao-tabela-privada botao-arquivar-equipamento">
+                                    <i class="fa-regular fa-folder"></i>
+                                    Arquivar
+                                </a>
+
+                                <a href="#" class="acao-tabela-privada">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                    Eliminar
+                                </a>
+
+                            </td>
+                        </tr>
+
+
+
                     </tbody>
                 </table>
             </div>

@@ -807,6 +807,9 @@ body {
 
 /* Ações da tabela privada */
 .acoes-tabela-privada {
+    display: flex;
+    align-items: center;
+    gap: 22px;
     white-space: nowrap;
 }
 
@@ -814,7 +817,6 @@ body {
     color: #003f78;
     text-decoration: none;
     font-weight: 600;
-    margin-right: 12px;
 }
 
 .acoes-tabela-privada a:hover {

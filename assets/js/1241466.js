@@ -273,36 +273,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// Validação simples do formulário de novo equipamento
-document.addEventListener("DOMContentLoaded", function () {
-
-    const formularioEquipamento = document.querySelector(".form-equipamento-privado");
-    const mensagemSucesso = document.getElementById("mensagemSucessoEquipamento");
-
-    if (formularioEquipamento && mensagemSucesso) {
-
-        formularioEquipamento.addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            if (formularioEquipamento.checkValidity()) {
-                mensagemSucesso.style.display = "block";
-                formularioEquipamento.reset();
-            } else {
-                formularioEquipamento.reportValidity();
-            }
-        });
-
-        formularioEquipamento.addEventListener("input", function () {
-            mensagemSucesso.style.display = "none";
-        });
-
-        formularioEquipamento.addEventListener("change", function () {
-            mensagemSucesso.style.display = "none";
-        });
-    }
-
-});
-
 // Dados fictícios dos equipamentos para a página de consulta e edição
 const equipamentosConsulta = {
     EQ001: {
@@ -386,6 +356,84 @@ if (!equipamentosGuardados) {
     localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
 }
 
+// Adicionar novo equipamento e guardar no localStorage
+document.addEventListener("DOMContentLoaded", function () {
+
+    const formularioNovoEquipamento = document.getElementById("form-novo-equipamento");
+    const mensagemSucesso = document.getElementById("mensagemSucessoEquipamento");
+
+    if (!formularioNovoEquipamento) {
+        return;
+    }
+
+    formularioNovoEquipamento.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!formularioNovoEquipamento.checkValidity()) {
+            formularioNovoEquipamento.reportValidity();
+            return;
+        }
+
+        const codigo = document.getElementById("codigo").value.trim();
+
+        if (equipamentosGuardados[codigo]) {
+            if (mensagemSucesso) {
+                mensagemSucesso.style.display = "block";
+                mensagemSucesso.textContent = "Já existe um equipamento com esse código.";
+                mensagemSucesso.classList.remove("sucesso");
+                mensagemSucesso.classList.add("erro");
+            }
+
+            return;
+        }
+
+        const novoEquipamento = {
+            codigo: codigo,
+            designacao: document.getElementById("designacao").value.trim(),
+            categoria: document.getElementById("categoria").value,
+            marca: document.getElementById("marca").value.trim(),
+            modelo: document.getElementById("modelo").value.trim(),
+            numeroSerie: document.getElementById("numero_serie").value.trim(),
+            fabricante: document.getElementById("fabricante").value.trim(),
+            anoFabrico: document.getElementById("ano_fabrico").value,
+            dataAquisicao: converterDataParaTexto(document.getElementById("data_aquisicao").value),
+            custoAquisicao: document.getElementById("custo_aquisicao").value + " €",
+            tipoEntrada: document.getElementById("tipo_entrada").value,
+            estado: document.getElementById("estado").value,
+            criticidade: document.getElementById("criticidade").value,
+            localizacao: "Não definida",
+            observacoes: document.getElementById("observacoes").value.trim()
+        };
+
+        equipamentosGuardados[codigo] = novoEquipamento;
+
+        localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
+
+        if (mensagemSucesso) {
+            mensagemSucesso.style.display = "block";
+            mensagemSucesso.textContent = "Equipamento adicionado com sucesso.";
+            mensagemSucesso.classList.remove("erro");
+            mensagemSucesso.classList.add("sucesso");
+        }
+
+        setTimeout(function () {
+            window.location.href = "equipamentos.html";
+        }, 800);
+    });
+
+    formularioNovoEquipamento.addEventListener("input", function () {
+        if (mensagemSucesso) {
+            mensagemSucesso.style.display = "none";
+        }
+    });
+
+    formularioNovoEquipamento.addEventListener("change", function () {
+        if (mensagemSucesso) {
+            mensagemSucesso.style.display = "none";
+        }
+    });
+});
+
 // Preencher listagem de equipamentos na página equipamentos.html
 function preencherListagemEquipamentos() {
     const tabelaEquipamentos = document.getElementById("tabela-equipamentos");
@@ -401,42 +449,37 @@ function preencherListagemEquipamentos() {
         const linha = document.createElement("tr");
 
         linha.innerHTML = `
-            <td>${equipamento.codigo}</td>
-            <td>${equipamento.designacao}</td>
-            <td>${equipamento.categoria}</td>
-            <td>${equipamento.marca}</td>
-            <td>${equipamento.modelo}</td>
-            <td>${equipamento.estado}</td>
-            <td>${equipamento.criticidade}</td>
+    <td>${equipamento.codigo}</td>
+    <td>${equipamento.designacao}</td>
+    <td>${equipamento.categoria}</td>
+    <td>${equipamento.marca}</td>
+    <td>${equipamento.modelo}</td>
+    <td>${equipamento.numeroSerie}</td>
+    <td>${equipamento.fabricante}</td>
+    <td>${equipamento.anoFabrico}</td>
+    <td>${equipamento.dataAquisicao}</td>
+    <td>${equipamento.custoAquisicao}</td>
+    <td>${equipamento.tipoEntrada}</td>
+    <td>${equipamento.estado}</td>
+    <td>${equipamento.criticidade}</td>
 
-            <td>
-                <a href="consultar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela">
-                    <i class="fa-regular fa-eye"></i>
-                    Consultar
-                </a>
-            </td>
+    <td class="acoes-tabela-privada">
+        <a href="consultar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela">
+            <i class="fa-regular fa-eye"></i>
+            Consultar
+        </a>
 
-            <td>
-                <a href="editar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                    Editar
-                </a>
-            </td>
+        <a href="editar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Editar
+        </a>
 
-            <td>
-                <a href="#" class="acao-tabela">
-                    <i class="fa-regular fa-folder"></i>
-                    Arquivar
-                </a>
-            </td>
-
-            <td>
-                <a href="#" class="acao-tabela">
-                    <i class="fa-regular fa-trash-can"></i>
-                    Eliminar
-                </a>
-            </td>
-        `;
+        <a href="#" class="acao-tabela">
+            <i class="fa-regular fa-trash-can"></i>
+            Eliminar
+        </a>
+    </td>
+`;
 
         tabelaEquipamentos.appendChild(linha);
     });

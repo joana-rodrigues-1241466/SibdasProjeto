@@ -1,0 +1,219 @@
+<!DOCTYPE html> <!-- Define que o documento usa HTML5 -->
+<html lang="pt"> <!-- Define o idioma principal da página como português -->
+
+<head> <!-- Início da zona de configurações da página -->
+    <meta charset="UTF-8"> <!-- Permite usar acentos e caracteres especiais -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Torna a página responsiva -->
+
+    <title>Consultar Equipamento</title> <!-- Título que aparece no separador do navegador -->
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome: biblioteca de ícones usada no projeto -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS próprio do projeto -->
+    <link rel="stylesheet" href="../assets/css/1241466.css">
+</head>
+
+<body class="pagina-privada"> <!-- Corpo da página privada -->
+
+    <!-- Barra superior da área privada -->
+    <header class="navbar-privada">
+
+        <!-- Logótipo e nome da aplicação -->
+        <div class="logo-privada">
+            <img src="../assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
+            <span class="nome-navbar-privada">MediVault</span>
+        </div>
+
+        <!-- Identificação do utilizador autenticado -->
+        <div class="utilizador-privado">
+            <i class="fa-regular fa-user"></i>
+            <span>Profissional de saúde</span>
+            <i class="fa-solid fa-caret-down"></i>
+        </div>
+
+    </header>
+
+    <!-- Layout principal com menu lateral e conteúdo -->
+    <div class="layout-privado">
+
+        <!-- Menu lateral da área privada -->
+        <aside class="menu-lateral-privada">
+            <h2>Menu</h2>
+
+            <nav>
+                <a href="equipamentos.html" class="ativo">
+                    <i class="fa-solid fa-stethoscope"></i>
+                    Equipamentos
+                </a>
+
+                <a href="fornecedores.html">
+                    <i class="fa-solid fa-truck-medical"></i>
+                    Fornecedores
+                </a>
+
+                <a href="localizacoes.html">
+                    <i class="fa-solid fa-location-dot"></i>
+                    Localizações
+                </a>
+
+                <a href="documentacao.html">
+                    <i class="fa-solid fa-file-medical"></i>
+                    Documentação
+                </a>
+
+                <a href="gestao_conteudos.html">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Gestão de Conteúdos
+                </a>
+
+                <a href="dashboard.html">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Dashboard
+                </a>
+
+                <a href="../public/index.html">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Sair
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="conteudo-privado">
+
+            <!-- Card dos detalhes do equipamento -->
+            <section class="detalhes-equipamento-privada">
+
+                <!-- Título da ficha -->
+                <div class="titulo-detalhes-equipamento">
+                    <i class="fa-solid fa-stethoscope"></i>
+                    <h1>Detalhes do Equipamento</h1>
+                </div>
+
+                <hr>
+
+                <!-- Identificação principal -->
+                <div class="linha-detalhes">
+                    <div class="campo-detalhes campo-largo">
+                        <h3>Código interno de inventário</h3>
+                        <p id="detalhe-codigo"></p>
+                    </div>
+
+                    <div class="campo-detalhes campo-largo">
+                        <h3>Designação</h3>
+                        <p id="detalhe-designacao"></p>
+                    </div>
+                </div>
+
+                <!-- Categoria, marca e modelo -->
+                <div class="linha-detalhes">
+                    <div class="campo-detalhes">
+                        <h3>Categoria ou grupo</h3>
+                        <p id="detalhe-categoria"></p>
+                    </div>
+
+                    <div class="campo-detalhes">
+                        <h3>Marca</h3>
+                        <p id="detalhe-marca"></p>
+                    </div>
+
+                    <div class="campo-detalhes">
+                        <h3>Modelo</h3>
+                        <p id="detalhe-modelo"></p>
+                    </div>
+                </div>
+
+                <!-- Número de série, fabricante e ano -->
+                <div class="linha-detalhes">
+                    <div class="campo-detalhes">
+                        <h3>N.º de série</h3>
+                        <p id="detalhe-numero-serie"></p>
+                    </div>
+
+                    <div class="campo-detalhes">
+                        <h3>Fabricante</h3>
+                        <p id="detalhe-fabricante"></p>
+                    </div>
+
+                    <div class="campo-detalhes">
+                        <h3>Ano de fabrico</h3>
+                        <p id="detalhe-ano-fabrico"></p>
+                    </div>
+                </div>
+
+                <!-- Aquisição -->
+                <div class="linha-detalhes">
+                    <div class="campo-detalhes">
+                        <h3>Data de aquisição</h3>
+                        <p id="detalhe-data-aquisicao"></p>
+                    </div>
+
+                    <div class="campo-detalhes">
+                        <h3>Custo de aquisição</h3>
+                        <p id="detalhe-custo-aquisicao"></p>
+                    </div>
+
+                    <div class="campo-detalhes">
+                        <h3>Tipo de entrada</h3>
+                        <p id="detalhe-tipo-entrada"></p>
+                    </div>
+                </div>
+
+                <!-- Estado, criticidade e localização -->
+                <div class="linha-detalhes">
+                    <div class="campo-detalhes">
+                        <h3>Estado atual</h3>
+                        <p id="detalhe-estado"></p>
+                    </div>
+
+                    <div class="campo-detalhes">
+                        <h3>Criticidade clínica</h3>
+                        <p id="detalhe-criticidade"></p>
+                    </div>
+
+                    <div class="campo-detalhes">
+                        <h3>Localização</h3>
+                        <p id="detalhe-localizacao"></p>
+                    </div>
+                </div>
+
+                <!-- Observações -->
+                <div class="linha-detalhes">
+                    <div class="campo-detalhes campo-largo">
+                        <h3>Observações</h3>
+                        <p id="detalhe-observacoes"></p>
+                    </div>
+                </div>
+
+                <!-- Botões -->
+                <div class="botoes-detalhes-equipamento">
+                    <a href="equipamentos.html" class="botao-voltar-detalhes">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Voltar
+                    </a>
+
+                    <a href="editar_equipamento.html" class="botao-editar-detalhes">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Editar
+                    </a>
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript próprio do projeto -->
+    <script src="../assets/js/1241466.js"></script>
+
+</body>
+
+</html>

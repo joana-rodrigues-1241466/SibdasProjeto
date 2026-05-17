@@ -905,6 +905,119 @@ body {
     text-align: center;
 }
 
+/* Card principal dos detalhes do equipamento */
+.detalhes-equipamento-privada {
+    background-color: #ffffff;
+    border: 1px solid #d7e3ec;
+    border-radius: 14px;
+    padding: 36px;
+    box-shadow: 0 8px 24px rgba(0, 63, 120, 0.08);
+    width: 100%;
+}
+
+/* Título da ficha */
+.titulo-detalhes-equipamento {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: #003f78;
+    margin-bottom: 24px;
+}
+
+.titulo-detalhes-equipamento i {
+    font-size: 2.5em;
+    color: #008cab;
+}
+
+.titulo-detalhes-equipamento h1 {
+    font-size: 2.4em;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+/* Linha divisória */
+.detalhes-equipamento-privada hr {
+    border: none;
+    border-top: 1px solid #d7e3ec;
+    margin: 0 0 32px 0;
+    opacity: 1;
+}
+
+/* Linhas dos campos */
+.linha-detalhes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 34px;
+    margin-bottom: 28px;
+}
+
+/* Campo individual */
+.campo-detalhes h3 {
+    color: #0b2d45;
+    font-size: 1.05em;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.campo-detalhes p {
+    color: #1f2a33;
+    font-size: 1.08em;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Campos que ocupam a largura toda */
+.campo-largo {
+    grid-column: span 3;
+}
+
+/* Botões inferiores */
+.botoes-detalhes-equipamento {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    margin-top: 36px;
+}
+
+/* Estilo geral dos botões */
+.botao-voltar-detalhes,
+.botao-editar-detalhes {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 26px;
+    border-radius: 9px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+/* Botão voltar */
+.botao-voltar-detalhes {
+    background-color: #ffffff;
+    color: #003f78;
+    border: 1px solid #8fa6b8;
+}
+
+.botao-voltar-detalhes:hover {
+    background-color: #eef6fb;
+    color: #003f78;
+}
+
+/* Botão editar */
+.botao-editar-detalhes {
+    background-color: #003f78;
+    color: #ffffff;
+    border: 1px solid #003f78;
+}
+
+.botao-editar-detalhes:hover {
+    background-color: #002f5a;
+    color: #ffffff;
+}
 
 @media (max-width: 1200px) {
 

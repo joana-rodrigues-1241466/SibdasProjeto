@@ -302,3 +302,117 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+// Dados fictícios dos equipamentos para a página de consulta
+const equipamentosConsulta = {
+    EQ001: {
+        codigo: "EQ001",
+        designacao: "Monitor multiparamétrico de sinais vitais",
+        categoria: "Monitorização",
+        marca: "Philips",
+        modelo: "IntelliVue MP5",
+        numeroSerie: "MP5-2022-45873",
+        fabricante: "Philips Healthcare",
+        anoFabrico: "2022",
+        dataAquisicao: "15/04/2023",
+        custoAquisicao: "3200 €",
+        tipoEntrada: "Compra",
+        estado: "Ativo",
+        criticidade: "Suporte de vida",
+        localizacao: "Unidade de Cuidados Intensivos",
+        observacoes: "Equipamento utilizado para monitorizar continuamente parâmetros fisiológicos do doente, como frequência cardíaca, saturação de oxigénio, pressão arterial e temperatura."
+    },
+
+    EQ002: {
+        codigo: "EQ002",
+        designacao: "Ventilador pulmonar",
+        categoria: "Suporte de vida",
+        marca: "Dräger",
+        modelo: "Evita V500",
+        numeroSerie: "EV500-2021-9934",
+        fabricante: "Dräger Medical",
+        anoFabrico: "2021",
+        dataAquisicao: "10/02/2022",
+        custoAquisicao: "18500 €",
+        tipoEntrada: "Compra",
+        estado: "Ativo",
+        criticidade: "Suporte de vida",
+        localizacao: "Unidade de Cuidados Intensivos",
+        observacoes: "Equipamento utilizado para suporte ventilatório de doentes que não conseguem respirar de forma autónoma."
+    },
+
+    EQ003: {
+        codigo: "EQ003",
+        designacao: "Bomba de infusão",
+        categoria: "Terapia",
+        marca: "B. Braun",
+        modelo: "Infusomat Space",
+        numeroSerie: "INF-2020-88321",
+        fabricante: "B. Braun Medical",
+        anoFabrico: "2020",
+        dataAquisicao: "22/09/2021",
+        custoAquisicao: "1450 €",
+        tipoEntrada: "Compra",
+        estado: "Ativo",
+        criticidade: "Média",
+        localizacao: "Serviço de Medicina",
+        observacoes: "Equipamento utilizado para administração controlada de medicamentos e fluidos intravenosos."
+    },
+
+    EQ004: {
+        codigo: "EQ004",
+        designacao: "Desfibrilhador",
+        categoria: "Suporte de vida",
+        marca: "Zoll",
+        modelo: "R Series",
+        numeroSerie: "ZR-2021-7712",
+        fabricante: "Zoll Medical",
+        anoFabrico: "2021",
+        dataAquisicao: "05/06/2022",
+        custoAquisicao: "7900 €",
+        tipoEntrada: "Compra",
+        estado: "Ativo",
+        criticidade: "Alta",
+        localizacao: "Urgência",
+        observacoes: "Equipamento utilizado para tratamento de arritmias cardíacas graves através da administração de choques elétricos controlados."
+    }
+};
+
+// Preenche automaticamente a página consultar_equipamento.html
+function preencherDetalhesEquipamento() {
+    const campoCodigo = document.getElementById("detalhe-codigo");
+
+    // Se não estiver na página de consulta, para aqui
+    if (!campoCodigo) {
+        return;
+    }
+
+    const parametros = new URLSearchParams(window.location.search);
+    const idEquipamento = parametros.get("id");
+
+    const equipamento = equipamentosConsulta[idEquipamento];
+
+    if (!equipamento) {
+        campoCodigo.textContent = "Equipamento não encontrado";
+        return;
+    }
+
+    document.getElementById("detalhe-codigo").textContent = equipamento.codigo;
+    document.getElementById("detalhe-designacao").textContent = equipamento.designacao;
+    document.getElementById("detalhe-categoria").textContent = equipamento.categoria;
+    document.getElementById("detalhe-marca").textContent = equipamento.marca;
+    document.getElementById("detalhe-modelo").textContent = equipamento.modelo;
+    document.getElementById("detalhe-numero-serie").textContent = equipamento.numeroSerie;
+    document.getElementById("detalhe-fabricante").textContent = equipamento.fabricante;
+    document.getElementById("detalhe-ano-fabrico").textContent = equipamento.anoFabrico;
+    document.getElementById("detalhe-data-aquisicao").textContent = equipamento.dataAquisicao;
+    document.getElementById("detalhe-custo-aquisicao").textContent = equipamento.custoAquisicao;
+    document.getElementById("detalhe-tipo-entrada").textContent = equipamento.tipoEntrada;
+    document.getElementById("detalhe-estado").textContent = equipamento.estado;
+    document.getElementById("detalhe-criticidade").textContent = equipamento.criticidade;
+    document.getElementById("detalhe-localizacao").textContent = equipamento.localizacao;
+    document.getElementById("detalhe-observacoes").textContent = equipamento.observacoes;
+}
+
+// Só executa quando a página terminar de carregar
+document.addEventListener("DOMContentLoaded", preencherDetalhesEquipamento);

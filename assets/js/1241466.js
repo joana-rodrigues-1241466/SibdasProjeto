@@ -416,3 +416,22 @@ function preencherDetalhesEquipamento() {
 
 // Só executa quando a página terminar de carregar
 document.addEventListener("DOMContentLoaded", preencherDetalhesEquipamento);
+
+// Dropdown do utilizador na navbar privada
+const botaoUtilizadorPrivado = document.querySelector(".utilizador-privado");
+const menuUtilizadorPrivado = document.querySelector(".menu-utilizador-privado");
+
+if (botaoUtilizadorPrivado && menuUtilizadorPrivado) {
+    botaoUtilizadorPrivado.addEventListener("click", function (event) {
+        event.stopPropagation();
+        menuUtilizadorPrivado.classList.toggle("ativo");
+    });
+
+    document.addEventListener("click", function () {
+        menuUtilizadorPrivado.classList.remove("ativo");
+    });
+
+    menuUtilizadorPrivado.addEventListener("click", function (event) {
+        event.stopPropagation();
+    });
+}

@@ -474,7 +474,7 @@ function preencherListagemEquipamentos() {
             Editar
         </a>
 
-        <a href="#" class="acao-tabela">
+        <a href="#" class="acao-tabela-privada eliminar-equipamento" data-id="${equipamento.codigo}">
             <i class="fa-regular fa-trash-can"></i>
             Eliminar
         </a>
@@ -484,6 +484,31 @@ function preencherListagemEquipamentos() {
         tabelaEquipamentos.appendChild(linha);
     });
 }
+
+// Eliminar equipamento da listagem
+document.addEventListener("click", function (event) {
+    const botaoEliminar = event.target.closest(".eliminar-equipamento");
+
+    if (!botaoEliminar) {
+        return;
+    }
+
+    event.preventDefault();
+
+    const idEquipamento = botaoEliminar.getAttribute("data-id");
+
+    const confirmar = confirm("Tem a certeza que pretende eliminar este equipamento?");
+
+    if (!confirmar) {
+        return;
+    }
+
+    delete equipamentosGuardados[idEquipamento];
+
+    localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
+
+    preencherListagemEquipamentos();
+});
 
 // Preenche automaticamente a página consultar_equipamento.html
 function preencherDetalhesEquipamento() {

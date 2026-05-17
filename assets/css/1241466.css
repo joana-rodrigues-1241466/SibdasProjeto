@@ -859,11 +859,13 @@ body {
     font-size: 1.1em;
 }
 
-.form-equipamento-privado {
+.form-equipamento-privado,
+.form-editar-equipamento-privado {
     margin-top: 28px;
 }
 
-.form-equipamento-privado label {
+.form-equipamento-privado label,
+.form-editar-equipamento-privado label {
     color: #0b2d45;
     font-weight: 600;
     margin-bottom: 8px;

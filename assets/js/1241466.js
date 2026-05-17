@@ -303,7 +303,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-// Dados fictícios dos equipamentos para a página de consulta
+// Dados fictícios dos equipamentos para a página de consulta e edição
 const equipamentosConsulta = {
     EQ001: {
         codigo: "EQ001",
@@ -378,6 +378,70 @@ const equipamentosConsulta = {
     }
 };
 
+// Carregar equipamentos guardados no navegador ou usar os dados iniciais
+let equipamentosGuardados = JSON.parse(localStorage.getItem("equipamentosGuardados"));
+
+if (!equipamentosGuardados) {
+    equipamentosGuardados = equipamentosConsulta;
+    localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
+}
+
+// Preencher listagem de equipamentos na página equipamentos.html
+function preencherListagemEquipamentos() {
+    const tabelaEquipamentos = document.getElementById("tabela-equipamentos");
+
+    // Se não estiver na página da listagem, para aqui
+    if (!tabelaEquipamentos) {
+        return;
+    }
+
+    tabelaEquipamentos.innerHTML = "";
+
+    Object.values(equipamentosGuardados).forEach(function (equipamento) {
+        const linha = document.createElement("tr");
+
+        linha.innerHTML = `
+            <td>${equipamento.codigo}</td>
+            <td>${equipamento.designacao}</td>
+            <td>${equipamento.categoria}</td>
+            <td>${equipamento.marca}</td>
+            <td>${equipamento.modelo}</td>
+            <td>${equipamento.estado}</td>
+            <td>${equipamento.criticidade}</td>
+
+            <td>
+                <a href="consultar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela">
+                    <i class="fa-regular fa-eye"></i>
+                    Consultar
+                </a>
+            </td>
+
+            <td>
+                <a href="editar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Editar
+                </a>
+            </td>
+
+            <td>
+                <a href="#" class="acao-tabela">
+                    <i class="fa-regular fa-folder"></i>
+                    Arquivar
+                </a>
+            </td>
+
+            <td>
+                <a href="#" class="acao-tabela">
+                    <i class="fa-regular fa-trash-can"></i>
+                    Eliminar
+                </a>
+            </td>
+        `;
+
+        tabelaEquipamentos.appendChild(linha);
+    });
+}
+
 // Preenche automaticamente a página consultar_equipamento.html
 function preencherDetalhesEquipamento() {
     const campoCodigo = document.getElementById("detalhe-codigo");
@@ -390,7 +454,7 @@ function preencherDetalhesEquipamento() {
     const parametros = new URLSearchParams(window.location.search);
     const idEquipamento = parametros.get("id");
 
-    const equipamento = equipamentosConsulta[idEquipamento];
+    const equipamento = equipamentosGuardados[idEquipamento];
 
     if (!equipamento) {
         campoCodigo.textContent = "Equipamento não encontrado";
@@ -412,10 +476,19 @@ function preencherDetalhesEquipamento() {
     document.getElementById("detalhe-criticidade").textContent = equipamento.criticidade;
     document.getElementById("detalhe-localizacao").textContent = equipamento.localizacao;
     document.getElementById("detalhe-observacoes").textContent = equipamento.observacoes;
+
+    const botaoEditarEquipamento = document.getElementById("botao-editar-equipamento");
+
+    if (botaoEditarEquipamento) {
+        botaoEditarEquipamento.href = `editar_equipamento.html?id=${equipamento.codigo}`;
+    }
 }
 
 // Só executa quando a página terminar de carregar
-document.addEventListener("DOMContentLoaded", preencherDetalhesEquipamento);
+document.addEventListener("DOMContentLoaded", function () {
+    preencherListagemEquipamentos();
+    preencherDetalhesEquipamento();
+});
 
 // Dropdown do utilizador na navbar privada
 const botaoUtilizadorPrivado = document.querySelector(".utilizador-privado");
@@ -434,4 +507,126 @@ if (botaoUtilizadorPrivado && menuUtilizadorPrivado) {
     menuUtilizadorPrivado.addEventListener("click", function (event) {
         event.stopPropagation();
     });
+}
+
+// Preencher e guardar formulário da página editar_equipamento.html
+document.addEventListener("DOMContentLoaded", function () {
+
+    const formEditarEquipamento = document.getElementById("form-editar-equipamento");
+
+    if (!formEditarEquipamento) {
+        return;
+    }
+
+    const parametros = new URLSearchParams(window.location.search);
+    const idEquipamento = parametros.get("id");
+
+    const equipamento = equipamentosGuardados[idEquipamento];
+
+    const mensagemEditarEquipamento = document.getElementById("mensagem-editar-equipamento");
+
+    if (!equipamento) {
+        if (mensagemEditarEquipamento) {
+            mensagemEditarEquipamento.textContent = "Equipamento não encontrado.";
+            mensagemEditarEquipamento.classList.add("erro");
+        }
+        return;
+    }
+
+    document.getElementById("codigo").value = equipamento.codigo;
+    document.getElementById("designacao").value = equipamento.designacao;
+    document.getElementById("categoria").value = equipamento.categoria;
+    document.getElementById("marca").value = equipamento.marca;
+    document.getElementById("modelo").value = equipamento.modelo;
+    document.getElementById("numero_serie").value = equipamento.numeroSerie;
+    document.getElementById("fabricante").value = equipamento.fabricante;
+    document.getElementById("ano_fabrico").value = equipamento.anoFabrico;
+
+    // Para o input type="date", o formato tem de ser aaaa-mm-dd
+    document.getElementById("data_aquisicao").value = converterDataParaInput(equipamento.dataAquisicao);
+
+    document.getElementById("custo_aquisicao").value = limparCusto(equipamento.custoAquisicao);
+    document.getElementById("tipo_entrada").value = equipamento.tipoEntrada;
+    document.getElementById("estado").value = equipamento.estado;
+    document.getElementById("criticidade").value = equipamento.criticidade;
+    document.getElementById("observacoes").value = equipamento.observacoes;
+
+    const botaoCancelarEdicao = document.getElementById("botao-cancelar-edicao");
+
+    if (botaoCancelarEdicao) {
+        botaoCancelarEdicao.href = `consultar_equipamento.html?id=${equipamento.codigo}`;
+    }
+
+    formEditarEquipamento.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        equipamentosGuardados[idEquipamento].designacao = document.getElementById("designacao").value;
+        equipamentosGuardados[idEquipamento].categoria = document.getElementById("categoria").value;
+        equipamentosGuardados[idEquipamento].marca = document.getElementById("marca").value;
+        equipamentosGuardados[idEquipamento].modelo = document.getElementById("modelo").value;
+        equipamentosGuardados[idEquipamento].numeroSerie = document.getElementById("numero_serie").value;
+        equipamentosGuardados[idEquipamento].fabricante = document.getElementById("fabricante").value;
+        equipamentosGuardados[idEquipamento].anoFabrico = document.getElementById("ano_fabrico").value;
+        equipamentosGuardados[idEquipamento].dataAquisicao = converterDataParaTexto(document.getElementById("data_aquisicao").value);
+        equipamentosGuardados[idEquipamento].custoAquisicao = document.getElementById("custo_aquisicao").value + " €";
+        equipamentosGuardados[idEquipamento].tipoEntrada = document.getElementById("tipo_entrada").value;
+        equipamentosGuardados[idEquipamento].estado = document.getElementById("estado").value;
+        equipamentosGuardados[idEquipamento].criticidade = document.getElementById("criticidade").value;
+        equipamentosGuardados[idEquipamento].observacoes = document.getElementById("observacoes").value;
+
+        localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
+
+        if (mensagemEditarEquipamento) {
+            mensagemEditarEquipamento.textContent = "Alterações guardadas com sucesso.";
+            mensagemEditarEquipamento.classList.remove("erro");
+            mensagemEditarEquipamento.classList.add("sucesso");
+        }
+
+        setTimeout(function () {
+            window.location.href = `consultar_equipamento.html?id=${idEquipamento}`;
+        }, 800);
+    });
+});
+
+// Converter data de dd/mm/aaaa para aaaa-mm-dd
+function converterDataParaInput(dataTexto) {
+    if (!dataTexto) {
+        return "";
+    }
+
+    if (dataTexto.includes("-")) {
+        return dataTexto;
+    }
+
+    const partes = dataTexto.split("/");
+
+    if (partes.length !== 3) {
+        return "";
+    }
+
+    return `${partes[2]}-${partes[1]}-${partes[0]}`;
+}
+
+// Converter data de aaaa-mm-dd para dd/mm/aaaa
+function converterDataParaTexto(dataInput) {
+    if (!dataInput) {
+        return "";
+    }
+
+    const partes = dataInput.split("-");
+
+    if (partes.length !== 3) {
+        return dataInput;
+    }
+
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
+
+// Remover símbolo € do custo para colocar no input
+function limparCusto(custoTexto) {
+    if (!custoTexto) {
+        return "";
+    }
+
+    return custoTexto.replace("€", "").trim();
 }

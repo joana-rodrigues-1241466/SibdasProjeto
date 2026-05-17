@@ -562,7 +562,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 42px;
+    padding: 0 24px;
     border-bottom: 1px solid #d7e3ec;
 }
 
@@ -699,7 +699,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    transition: 0.3s ease;
+    text-decoration: none;
 }
 
 .botao-novo-registo-privada:hover {
@@ -793,6 +793,118 @@ body {
 .acoes-tabela-privada i {
     margin-right: 5px;
 }
+
+/* Formulário da área privada */
+.formulario-privado {
+    background-color: #ffffff;
+    border: 1px solid #d7e3ec;
+    border-radius: 18px;
+    padding: 38px;
+    box-shadow: 0 8px 28px rgba(0, 63, 120, 0.06);
+    width: 100%;
+}
+
+.cabecalho-formulario-privado {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.cabecalho-formulario-privado h1 {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: #003f78;
+    font-size: 2em;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.cabecalho-formulario-privado h1 i {
+    color: #0086a8;
+    font-size: 1.1em;
+}
+
+.form-equipamento-privado {
+    margin-top: 28px;
+}
+
+.form-equipamento-privado label {
+    color: #0b2d45;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.campo-formulario-privado {
+    border: 1px solid #d7e3ec;
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: #111111;
+    font-size: 0.95em;
+}
+
+.campo-formulario-privado:focus {
+    border-color: #0086a8;
+    box-shadow: 0 0 0 0.18rem rgba(0, 134, 168, 0.18);
+}
+
+.botoes-formulario-privado {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+}
+
+.botao-cancelar-privado,
+.botao-guardar-privado {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+}
+
+.botao-cancelar-privado {
+    background-color: #ffffff;
+    color: #003f78;
+    border: 2px solid #d7e3ec;
+}
+
+.botao-cancelar-privado:hover {
+    background-color: #eef7fb;
+    color: #003f78;
+    text-decoration: none;
+}
+
+.botao-guardar-privado {
+    background-color: #003f78;
+    color: #ffffff;
+}
+
+.botao-guardar-privado:hover {
+    background-color: #0086a8;
+    color: #ffffff;
+}
+
+.mensagem-sucesso-privada {
+    display: none;
+    margin-top: 25px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    background-color: #e8f7ef;
+    border: 1px solid #b7e4c7;
+    color: #0f6b3f;
+    font-weight: 600;
+    text-align: center;
+}
+
 
 @media (max-width: 1200px) {
 
@@ -976,5 +1088,24 @@ body {
     .utilizador-privado {
         font-size: 0.8em;
         padding: 8px 12px;
+    }
+
+    .formulario-privado {
+        padding: 26px;
+    }
+
+    .cabecalho-formulario-privado h1 {
+        font-size: 1.35em;
+        line-height: 1.3;
+        letter-spacing: 1px;
+    }
+
+    .botoes-formulario-privado {
+        justify-content: center;
+    }
+
+    .botao-cancelar-privado,
+    .botao-guardar-privado {
+        width: 100%;
     }
 }

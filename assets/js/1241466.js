@@ -272,3 +272,33 @@ document.addEventListener("DOMContentLoaded", function () {
         botaoRepor.addEventListener("click", reporConteudosOriginais);
     }
 });
+
+// Validação simples do formulário de novo equipamento
+document.addEventListener("DOMContentLoaded", function () {
+
+    const formularioEquipamento = document.querySelector(".form-equipamento-privado");
+    const mensagemSucesso = document.getElementById("mensagemSucessoEquipamento");
+
+    if (formularioEquipamento && mensagemSucesso) {
+
+        formularioEquipamento.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            if (formularioEquipamento.checkValidity()) {
+                mensagemSucesso.style.display = "block";
+                formularioEquipamento.reset();
+            } else {
+                formularioEquipamento.reportValidity();
+            }
+        });
+
+        formularioEquipamento.addEventListener("input", function () {
+            mensagemSucesso.style.display = "none";
+        });
+
+        formularioEquipamento.addEventListener("change", function () {
+            mensagemSucesso.style.display = "none";
+        });
+    }
+
+});

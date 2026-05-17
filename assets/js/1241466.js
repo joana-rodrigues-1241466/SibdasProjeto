@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
             mensagemLogin.className = "mensagem-login sucesso";
 
             setTimeout(function () {
-                window.location.href = "gestao_conteudos.html";
+                window.location.href = "views/gestao_conteudos/gestao_conteudos.html";
             }, 1000);
         });
     }
@@ -464,12 +464,12 @@ function preencherListagemEquipamentos() {
     <td>${equipamento.criticidade}</td>
 
     <td class="acoes-tabela-privada">
-        <a href="consultar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela">
+        <a href="consultar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
             <i class="fa-regular fa-eye"></i>
             Consultar
         </a>
 
-        <a href="editar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela">
+        <a href="editar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
             <i class="fa-regular fa-pen-to-square"></i>
             Editar
         </a>

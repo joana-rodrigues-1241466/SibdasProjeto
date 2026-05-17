@@ -688,6 +688,32 @@ body {
     font-size: 1.15em;
 }
 
+/* Cabeçalho da listagem de equipamentos sem card */
+.titulo-pagina-equipamentos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 34px;
+}
+
+.bloco-titulo-equipamentos h1 {
+    color: #003f78;
+    font-size: 2.1em;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.linha-titulo-equipamentos {
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: #0077a3;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
 /* Botão novo registo da área privada */
 .botao-novo-registo-privada {
     background-color: #003f78;
@@ -1212,5 +1238,9 @@ body {
     .botao-cancelar-privado,
     .botao-guardar-privado {
         width: 100%;
+    }
+
+    .bloco-titulo-equipamentos h1 {
+        font-size: 1.9em;
     }
 }

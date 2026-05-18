@@ -726,6 +726,39 @@ function preencherListagemLocalizacoes() {
     });
 }
 
+// Preenche automaticamente a página consultar_localizacao.html
+function preencherDetalhesLocalizacao() {
+    const campoCodigoLocalizacao = document.getElementById("detalhe-codigo-localizacao");
+
+    if (!campoCodigoLocalizacao) {
+        return;
+    }
+
+    const parametros = new URLSearchParams(window.location.search);
+    const idLocalizacao = parametros.get("id");
+
+    const localizacao = localizacoesGuardadas[idLocalizacao];
+
+    if (!localizacao) {
+        campoCodigoLocalizacao.textContent = "Localização não encontrada";
+        return;
+    }
+
+    document.getElementById("detalhe-codigo-localizacao").textContent = localizacao.codigo;
+    document.getElementById("detalhe-edificio").textContent = localizacao.edificio;
+    document.getElementById("detalhe-piso").textContent = localizacao.piso;
+    document.getElementById("detalhe-servico").textContent = localizacao.servico;
+    document.getElementById("detalhe-sala").textContent = localizacao.sala;
+    document.getElementById("detalhe-equipamentos").textContent = localizacao.equipamentos;
+    document.getElementById("detalhe-observacoes-localizacao").textContent = localizacao.observacoes;
+
+    const botaoEditarLocalizacao = document.getElementById("botao-editar-localizacao");
+
+    if (botaoEditarLocalizacao) {
+        botaoEditarLocalizacao.href = `editar_localizacao.html?id=${localizacao.codigo}`;
+    }
+}
+
 // Eliminar localização da listagem
 document.addEventListener("click", function (event) {
     const botaoEliminarLocalizacao = event.target.closest(".eliminar-localizacao");
@@ -754,6 +787,7 @@ document.addEventListener("click", function (event) {
 // Só executa quando a página terminar de carregar
 document.addEventListener("DOMContentLoaded", function () {
     preencherListagemLocalizacoes();
+    preencherDetalhesLocalizacao();
 });
 
 // Dropdown do utilizador na navbar privada

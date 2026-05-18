@@ -1500,6 +1500,39 @@ function inicializarNovaDocumentacao() {
     });
 }
 
+function preencherDetalhesDocumentacao() {
+    const campoCodigoDocumentacao = document.getElementById("detalhe-codigo-documentacao");
+
+    if (!campoCodigoDocumentacao) {
+        return;
+    }
+
+    const parametros = new URLSearchParams(window.location.search);
+    const idDocumentacao = parametros.get("id");
+
+    const documentacao = documentacaoGuardada[idDocumentacao];
+
+    if (!documentacao) {
+        campoCodigoDocumentacao.textContent = "Documentação não encontrada";
+        return;
+    }
+
+    document.getElementById("detalhe-codigo-documentacao").textContent = documentacao.codigo;
+    document.getElementById("detalhe-tipo-documentacao").textContent = documentacao.tipoDocumentacao;
+    document.getElementById("detalhe-nome-documentacao").textContent = documentacao.nomeDocumentacao;
+    document.getElementById("detalhe-data-documentacao").textContent = documentacao.dataDocumentacao;
+    document.getElementById("detalhe-data-validade-documentacao").textContent = documentacao.dataValidade || "Sem data de validade";
+    document.getElementById("detalhe-equipamento-documentacao").textContent = documentacao.equipamento;
+    document.getElementById("detalhe-fornecedor-documentacao").textContent = documentacao.fornecedor || "Sem fornecedor associado";
+    document.getElementById("detalhe-ficheiro-documentacao").textContent = documentacao.ficheiro;
+    document.getElementById("detalhe-observacoes-documentacao").textContent = documentacao.observacoes || "Sem observações";
+
+    const botaoEditarDocumentacao = document.getElementById("botao-editar-documentacao");
+
+    if (botaoEditarDocumentacao) {
+        botaoEditarDocumentacao.href = `editar_documentacao.html?id=${documentacao.codigo}`;
+    }
+}
 
 function inicializarEliminarDocumentacao() {
     document.addEventListener("click", function (event) {
@@ -1675,6 +1708,7 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarEliminarFornecedores();
 
     preencherListagemDocumentacao();
+    preencherDetalhesDocumentacao();
     inicializarNovaDocumentacao();
     inicializarEliminarDocumentacao();
 

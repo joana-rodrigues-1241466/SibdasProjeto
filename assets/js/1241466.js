@@ -1560,6 +1560,78 @@ function inicializarEliminarDocumentacao() {
     });
 }
 
+function inicializarEditarDocumentacao() {
+    const formularioEditarDocumentacao = document.getElementById("form-editar-documentacao");
+    const mensagemEditarDocumentacao = document.getElementById("mensagem-editar-documentacao");
+
+    if (!formularioEditarDocumentacao) {
+        return;
+    }
+
+    const parametros = new URLSearchParams(window.location.search);
+    const idDocumentacao = parametros.get("id");
+
+    const documentacao = documentacaoGuardada[idDocumentacao];
+
+    if (!documentacao) {
+        if (mensagemEditarDocumentacao) {
+            mensagemEditarDocumentacao.textContent = "Documentação não encontrada.";
+            mensagemEditarDocumentacao.classList.add("erro");
+        }
+
+        return;
+    }
+
+    preencherSelectEquipamentos("equipamento", documentacao.equipamento);
+    preencherSelectFornecedores("fornecedor", documentacao.fornecedor, true);
+
+    document.getElementById("codigo").value = documentacao.codigo;
+    document.getElementById("tipo_documento").value = documentacao.tipoDocumentacao;
+    document.getElementById("nome_documento").value = documentacao.nomeDocumentacao;
+    document.getElementById("data_documento").value = converterDataParaInput(documentacao.dataDocumentacao);
+    document.getElementById("data_validade").value = converterDataParaInput(documentacao.dataValidade);
+    document.getElementById("equipamento").value = documentacao.equipamento;
+    document.getElementById("fornecedor").value = documentacao.fornecedor;
+    document.getElementById("ficheiro").value = documentacao.ficheiro;
+    document.getElementById("observacoes").value = documentacao.observacoes;
+
+    const botaoCancelarEdicaoDocumentacao = document.getElementById("botao-cancelar-edicao-documentacao");
+
+    if (botaoCancelarEdicaoDocumentacao) {
+        botaoCancelarEdicaoDocumentacao.href = `consultar_documentacao.html?id=${documentacao.codigo}`;
+    }
+
+    formularioEditarDocumentacao.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!formularioEditarDocumentacao.checkValidity()) {
+            formularioEditarDocumentacao.reportValidity();
+            return;
+        }
+
+        documentacaoGuardada[idDocumentacao].tipoDocumentacao = document.getElementById("tipo_documento").value.trim();
+        documentacaoGuardada[idDocumentacao].nomeDocumentacao = document.getElementById("nome_documento").value.trim();
+        documentacaoGuardada[idDocumentacao].dataDocumentacao = converterDataParaTexto(document.getElementById("data_documento").value);
+        documentacaoGuardada[idDocumentacao].dataValidade = converterDataParaTexto(document.getElementById("data_validade").value);
+        documentacaoGuardada[idDocumentacao].equipamento = document.getElementById("equipamento").value;
+        documentacaoGuardada[idDocumentacao].fornecedor = document.getElementById("fornecedor").value;
+        documentacaoGuardada[idDocumentacao].ficheiro = document.getElementById("ficheiro").value.trim();
+        documentacaoGuardada[idDocumentacao].observacoes = document.getElementById("observacoes").value.trim();
+
+        localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
+
+        if (mensagemEditarDocumentacao) {
+            mensagemEditarDocumentacao.textContent = "Alterações guardadas com sucesso.";
+            mensagemEditarDocumentacao.classList.remove("erro");
+            mensagemEditarDocumentacao.classList.add("sucesso");
+        }
+
+        setTimeout(function () {
+            window.location.href = `consultar_documentacao.html?id=${idDocumentacao}`;
+        }, 800);
+    });
+}
+
 // ===============================
 // DROPDOWN DO UTILIZADOR
 // ===============================
@@ -1710,6 +1782,7 @@ document.addEventListener("DOMContentLoaded", function () {
     preencherListagemDocumentacao();
     preencherDetalhesDocumentacao();
     inicializarNovaDocumentacao();
+    inicializarEditarDocumentacao();
     inicializarEliminarDocumentacao();
 
     inicializarDropdownUtilizador();

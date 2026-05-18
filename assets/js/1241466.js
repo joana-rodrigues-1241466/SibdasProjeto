@@ -549,7 +549,7 @@ function inicializarEditarEquipamento() {
         equipamentosGuardados[idEquipamento].marca = document.getElementById("marca").value.trim();
         equipamentosGuardados[idEquipamento].modelo = document.getElementById("modelo").value.trim();
         equipamentosGuardados[idEquipamento].numeroSerie = document.getElementById("numero_serie").value.trim();
-       equipamentosGuardados[idEquipamento].fornecedor = document.getElementById("fornecedor").value;
+        equipamentosGuardados[idEquipamento].fornecedor = document.getElementById("fornecedor").value;
         equipamentosGuardados[idEquipamento].fabricante = document.getElementById("fabricante").value.trim();
         equipamentosGuardados[idEquipamento].anoFabrico = document.getElementById("ano_fabrico").value.trim();
         equipamentosGuardados[idEquipamento].dataAquisicao = converterDataParaTexto(document.getElementById("data_aquisicao").value);
@@ -1324,6 +1324,210 @@ function inicializarEliminarFornecedores() {
 }
 
 // ===============================
+// DOCUMENTAÇÃO
+// ===============================
+
+const documentacaoConsulta = {
+    DOC001: {
+        codigo: "DOC001",
+        tipoDocumentacao: "Manual técnico",
+        nomeDocumentacao: "Manual do monitor multiparamétrico",
+        dataDocumentacao: "10/01/2022",
+        dataValidade: "",
+        equipamento: "EQ001",
+        fornecedor: "FOR001",
+        ficheiro: "manual_monitor_multiparametrico.pdf",
+        observacoes: "Manual técnico fornecido pelo fabricante."
+    },
+
+    DOC002: {
+        codigo: "DOC002",
+        tipoDocumentacao: "Certificado de calibração",
+        nomeDocumentacao: "Certificado de calibração da bomba de infusão",
+        dataDocumentacao: "15/03/2024",
+        dataValidade: "15/03/2025",
+        equipamento: "EQ003",
+        fornecedor: "",
+        ficheiro: "certificado_calibracao_bomba_infusao.pdf",
+        observacoes: "Documento válido por um ano."
+    },
+
+    DOC003: {
+        codigo: "DOC003",
+        tipoDocumentacao: "Relatório de manutenção",
+        nomeDocumentacao: "Relatório de manutenção do ventilador pulmonar",
+        dataDocumentacao: "20/09/2024",
+        dataValidade: "",
+        equipamento: "EQ002",
+        fornecedor: "FOR004",
+        ficheiro: "relatorio_manutencao_ventilador.pdf",
+        observacoes: "Relatório associado à intervenção técnica realizada."
+    },
+
+    DOC004: {
+        codigo: "DOC004",
+        tipoDocumentacao: "Garantia",
+        nomeDocumentacao: "Garantia do desfibrilhador",
+        dataDocumentacao: "05/06/2022",
+        dataValidade: "05/06/2025",
+        equipamento: "EQ004",
+        fornecedor: "FOR002",
+        ficheiro: "garantia_desfibrilhador.pdf",
+        observacoes: "Garantia comercial do equipamento."
+    }
+};
+
+let documentacaoGuardada = JSON.parse(localStorage.getItem("documentacaoGuardada"));
+
+if (!documentacaoGuardada) {
+    documentacaoGuardada = documentacaoConsulta;
+    localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
+}
+
+
+function preencherListagemDocumentacao() {
+    const tabelaDocumentacao = document.getElementById("tabela-documentacao");
+
+    if (!tabelaDocumentacao) {
+        return;
+    }
+
+    tabelaDocumentacao.innerHTML = "";
+
+    Object.values(documentacaoGuardada).forEach(function (documentacao) {
+        const linha = document.createElement("tr");
+
+        linha.innerHTML = `
+            <td>${documentacao.codigo}</td>
+            <td>${documentacao.tipoDocumentacao}</td>
+            <td>${documentacao.nomeDocumentacao}</td>
+            <td>${documentacao.dataDocumentacao}</td>
+            <td>${documentacao.equipamento}</td>
+
+            <td class="acoes-tabela-privada">
+                <a href="consultar_documentacao.html?id=${documentacao.codigo}" class="acao-tabela-privada">
+                    <i class="fa-regular fa-eye"></i>
+                    Consultar
+                </a>
+
+                <a href="editar_documentacao.html?id=${documentacao.codigo}" class="acao-tabela-privada">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Editar
+                </a>
+
+                <a href="#" class="acao-tabela-privada eliminar-documentacao" data-id="${documentacao.codigo}">
+                    <i class="fa-regular fa-trash-can"></i>
+                    Eliminar
+                </a>
+            </td>
+        `;
+
+        tabelaDocumentacao.appendChild(linha);
+    });
+}
+
+
+function inicializarNovaDocumentacao() {
+    const formularioNovaDocumentacao = document.getElementById("form-nova-documentacao");
+    const mensagemSucessoDocumentacao = document.getElementById("mensagemSucessoDocumentacao");
+
+    if (!formularioNovaDocumentacao) {
+        return;
+    }
+
+    preencherSelectEquipamentos("equipamento");
+    preencherSelectFornecedores("fornecedor", "", true);
+
+    formularioNovaDocumentacao.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!formularioNovaDocumentacao.checkValidity()) {
+            formularioNovaDocumentacao.reportValidity();
+            return;
+        }
+
+        const codigo = document.getElementById("codigo").value.trim();
+
+        if (documentacaoGuardada[codigo]) {
+            if (mensagemSucessoDocumentacao) {
+                mensagemSucessoDocumentacao.style.display = "block";
+                mensagemSucessoDocumentacao.textContent = "Já existe documentação com esse código.";
+                mensagemSucessoDocumentacao.classList.remove("sucesso");
+                mensagemSucessoDocumentacao.classList.add("erro");
+            }
+
+            return;
+        }
+
+        const novaDocumentacao = {
+            codigo: codigo,
+            tipoDocumentacao: document.getElementById("tipo_documento").value.trim(),
+            nomeDocumentacao: document.getElementById("nome_documento").value.trim(),
+            dataDocumentacao: converterDataParaTexto(document.getElementById("data_documento").value),
+            dataValidade: converterDataParaTexto(document.getElementById("data_validade").value),
+            equipamento: document.getElementById("equipamento").value,
+            fornecedor: document.getElementById("fornecedor").value,
+            ficheiro: document.getElementById("ficheiro").value.trim(),
+            observacoes: document.getElementById("observacoes").value.trim()
+        };
+
+        documentacaoGuardada[codigo] = novaDocumentacao;
+
+        localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
+
+        if (mensagemSucessoDocumentacao) {
+            mensagemSucessoDocumentacao.style.display = "block";
+            mensagemSucessoDocumentacao.textContent = "Documentação adicionada com sucesso.";
+            mensagemSucessoDocumentacao.classList.remove("erro");
+            mensagemSucessoDocumentacao.classList.add("sucesso");
+        }
+
+        setTimeout(function () {
+            window.location.href = "documentacao.html";
+        }, 800);
+    });
+
+    formularioNovaDocumentacao.addEventListener("input", function () {
+        if (mensagemSucessoDocumentacao) {
+            mensagemSucessoDocumentacao.style.display = "none";
+        }
+    });
+
+    formularioNovaDocumentacao.addEventListener("change", function () {
+        if (mensagemSucessoDocumentacao) {
+            mensagemSucessoDocumentacao.style.display = "none";
+        }
+    });
+}
+
+
+function inicializarEliminarDocumentacao() {
+    document.addEventListener("click", function (event) {
+        const botaoEliminarDocumentacao = event.target.closest(".eliminar-documentacao");
+
+        if (!botaoEliminarDocumentacao) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const idDocumentacao = botaoEliminarDocumentacao.getAttribute("data-id");
+
+        const confirmar = confirm("Tem a certeza que pretende eliminar esta documentação?");
+
+        if (!confirmar) {
+            return;
+        }
+
+        delete documentacaoGuardada[idDocumentacao];
+
+        localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
+
+        preencherListagemDocumentacao();
+    });
+}
+
+// ===============================
 // DROPDOWN DO UTILIZADOR
 // ===============================
 
@@ -1354,14 +1558,18 @@ function inicializarDropdownUtilizador() {
 // FUNÇÕES AUXILIARES
 // ===============================
 
-function preencherSelectFornecedores(idSelect, fornecedorSelecionado = "") {
+function preencherSelectFornecedores(idSelect, fornecedorSelecionado = "", opcional = false) {
     const selectFornecedor = document.getElementById(idSelect);
 
     if (!selectFornecedor) {
         return;
     }
 
-    selectFornecedor.innerHTML = '<option value="" selected disabled>Escolha um fornecedor</option>';
+    if (opcional) {
+        selectFornecedor.innerHTML = '<option value="">Sem fornecedor associado</option>';
+    } else {
+        selectFornecedor.innerHTML = '<option value="" selected disabled>Escolha um fornecedor</option>';
+    }
 
     Object.values(fornecedoresGuardados).forEach(function (fornecedor) {
         const option = document.createElement("option");
@@ -1374,6 +1582,29 @@ function preencherSelectFornecedores(idSelect, fornecedorSelecionado = "") {
         }
 
         selectFornecedor.appendChild(option);
+    });
+}
+
+function preencherSelectEquipamentos(idSelect, equipamentoSelecionado = "") {
+    const selectEquipamento = document.getElementById(idSelect);
+
+    if (!selectEquipamento) {
+        return;
+    }
+
+    selectEquipamento.innerHTML = '<option value="" selected disabled>Escolha um equipamento</option>';
+
+    Object.values(equipamentosGuardados).forEach(function (equipamento) {
+        const option = document.createElement("option");
+
+        option.value = equipamento.codigo;
+        option.textContent = equipamento.codigo;
+
+        if (equipamento.codigo === equipamentoSelecionado) {
+            option.selected = true;
+        }
+
+        selectEquipamento.appendChild(option);
     });
 }
 
@@ -1442,6 +1673,10 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarNovoFornecedor();
     inicializarEditarFornecedor();
     inicializarEliminarFornecedores();
+
+    preencherListagemDocumentacao();
+    inicializarNovaDocumentacao();
+    inicializarEliminarDocumentacao();
 
     inicializarDropdownUtilizador();
 });

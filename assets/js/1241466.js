@@ -939,7 +939,7 @@ const fornecedoresConsulta = {
         website: "www.tecnomed.pt",
         pessoaContacto: "João Almeida",
         telefonePessoaContacto: "+351 940 000 000",
-        tipoFornecedor: "Fornecedor de assistência técnica",
+        tipoFornecedor: "Empresa de assistência técnica",
         equipamentos: "Desfibrilhador",
         observacoes: "Empresa responsável por manutenção preventiva e corretiva."
     }

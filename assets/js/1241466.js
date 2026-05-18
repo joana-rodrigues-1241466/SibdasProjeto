@@ -879,6 +879,225 @@ function inicializarEliminarLocalizacoes() {
     });
 }
 
+// ===============================
+// FORNECEDORES
+// ===============================
+
+const fornecedoresConsulta = {
+    FOR001: {
+        codigo: "FOR001",
+        nomeEmpresa: "Philips Healthcare",
+        nif: "501234567",
+        telefone: "+351 930 193 126",
+        email: "contacto@philipshealthcare.pt",
+        morada: "Lisboa, Portugal",
+        website: "www.philips.pt/healthcare",
+        pessoaContacto: "Ana Martins",
+        telefonePessoaContacto: "+351 910 000 000",
+        tipoFornecedor: "Fabricante",
+        equipamentos: "Monitor multiparamétrico de sinais vitais",
+        observacoes: "Fornecedor associado a equipamentos de monitorização."
+    },
+
+    FOR002: {
+        codigo: "FOR002",
+        nomeEmpresa: "Dräger",
+        nif: "502345678",
+        telefone: "+351 930 327 344",
+        email: "contacto@draegermedical.pt",
+        morada: "Porto, Portugal",
+        website: "www.draeger.com",
+        pessoaContacto: "Miguel Santos",
+        telefonePessoaContacto: "+351 920 000 000",
+        tipoFornecedor: "Fabricante",
+        equipamentos: "Ventilador pulmonar",
+        observacoes: "Fabricante associado a equipamentos de suporte ventilatório."
+    },
+
+    FOR003: {
+        codigo: "FOR003",
+        nomeEmpresa: "MedSupply Portugal",
+        nif: "503456789",
+        telefone: "+351 930 248 308",
+        email: "contacto@medsupply.pt",
+        morada: "Aveiro, Portugal",
+        website: "www.medsupply.pt",
+        pessoaContacto: "Carla Ferreira",
+        telefonePessoaContacto: "+351 930 000 000",
+        tipoFornecedor: "Distribuidor ou Fornecedor comercial",
+        equipamentos: "Bomba de infusão",
+        observacoes: "Distribuidor comercial de equipamentos e consumíveis."
+    },
+
+    FOR004: {
+        codigo: "FOR004",
+        nomeEmpresa: "TecnoMed Assistência",
+        nif: "504567890",
+        telefone: "+351 930 656 375",
+        email: "contacto@tecnomed.pt",
+        morada: "Coimbra, Portugal",
+        website: "www.tecnomed.pt",
+        pessoaContacto: "João Almeida",
+        telefonePessoaContacto: "+351 940 000 000",
+        tipoFornecedor: "Fornecedor de assistência técnica",
+        equipamentos: "Desfibrilhador",
+        observacoes: "Empresa responsável por manutenção preventiva e corretiva."
+    }
+};
+
+let fornecedoresGuardados = JSON.parse(localStorage.getItem("fornecedoresGuardados"));
+
+if (!fornecedoresGuardados) {
+    fornecedoresGuardados = fornecedoresConsulta;
+    localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
+}
+
+
+// Preencher listagem de fornecedores na página fornecedores.html
+function preencherListagemFornecedores() {
+    const tabelaFornecedores = document.getElementById("tabela-fornecedores");
+
+    if (!tabelaFornecedores) {
+        return;
+    }
+
+    tabelaFornecedores.innerHTML = "";
+
+    Object.values(fornecedoresGuardados).forEach(function (fornecedor) {
+        const linha = document.createElement("tr");
+
+        linha.innerHTML = `
+            <td>${fornecedor.codigo}</td>
+            <td>${fornecedor.nomeEmpresa}</td>
+            <td>${fornecedor.nif}</td>
+            <td>${fornecedor.telefone}</td>
+            <td>${fornecedor.email}</td>
+            <td>${fornecedor.tipoFornecedor}</td>
+            <td>${fornecedor.equipamentos}</td>
+
+            <td class="acoes-tabela-privada">
+                <a href="consultar_fornecedor.html?id=${fornecedor.codigo}" class="acao-tabela-privada">
+                    <i class="fa-regular fa-eye"></i>
+                    Consultar
+                </a>
+
+                <a href="editar_fornecedor.html?id=${fornecedor.codigo}" class="acao-tabela-privada">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Editar
+                </a>
+
+                <a href="#" class="acao-tabela-privada eliminar-fornecedor" data-id="${fornecedor.codigo}">
+                    <i class="fa-regular fa-trash-can"></i>
+                    Eliminar
+                </a>
+            </td>
+        `;
+
+        tabelaFornecedores.appendChild(linha);
+    });
+}
+
+
+// Adicionar novo fornecedor e guardar no localStorage
+function inicializarNovoFornecedor() {
+    const formularioNovoFornecedor = document.getElementById("form-novo-fornecedor");
+    const mensagemSucessoFornecedor = document.getElementById("mensagemSucessoFornecedor");
+
+    if (!formularioNovoFornecedor) {
+        return;
+    }
+
+    formularioNovoFornecedor.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!formularioNovoFornecedor.checkValidity()) {
+            formularioNovoFornecedor.reportValidity();
+            return;
+        }
+
+        const codigo = document.getElementById("codigo").value.trim();
+
+        if (fornecedoresGuardados[codigo]) {
+            if (mensagemSucessoFornecedor) {
+                mensagemSucessoFornecedor.style.display = "block";
+                mensagemSucessoFornecedor.textContent = "Já existe um fornecedor com esse código.";
+                mensagemSucessoFornecedor.classList.remove("sucesso");
+                mensagemSucessoFornecedor.classList.add("erro");
+            }
+
+            return;
+        }
+
+        const novoFornecedor = {
+            codigo: codigo,
+            nomeEmpresa: document.getElementById("nome_empresa").value.trim(),
+            nif: document.getElementById("nif").value.trim(),
+            telefone: document.getElementById("telefone").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            morada: document.getElementById("morada").value.trim(),
+            website: document.getElementById("website").value.trim(),
+            pessoaContacto: document.getElementById("pessoa_contacto").value.trim(),
+            telefonePessoaContacto: document.getElementById("telefone_pessoa_contacto").value.trim(),
+            tipoFornecedor: document.getElementById("tipo_fornecedor").value.trim(),
+            equipamentos: document.getElementById("equipamentos").value.trim(),
+            observacoes: document.getElementById("observacoes").value.trim()
+        };
+
+        fornecedoresGuardados[codigo] = novoFornecedor;
+
+        localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
+
+        if (mensagemSucessoFornecedor) {
+            mensagemSucessoFornecedor.style.display = "block";
+            mensagemSucessoFornecedor.textContent = "Fornecedor adicionado com sucesso.";
+            mensagemSucessoFornecedor.classList.remove("erro");
+            mensagemSucessoFornecedor.classList.add("sucesso");
+        }
+
+        setTimeout(function () {
+            window.location.href = "fornecedores.html";
+        }, 800);
+    });
+
+    formularioNovoFornecedor.addEventListener("input", function () {
+        if (mensagemSucessoFornecedor) {
+            mensagemSucessoFornecedor.style.display = "none";
+        }
+    });
+
+    formularioNovoFornecedor.addEventListener("change", function () {
+        if (mensagemSucessoFornecedor) {
+            mensagemSucessoFornecedor.style.display = "none";
+        }
+    });
+}
+
+// Eliminar fornecedor da listagem
+function inicializarEliminarFornecedores() {
+    document.addEventListener("click", function (event) {
+        const botaoEliminarFornecedor = event.target.closest(".eliminar-fornecedor");
+
+        if (!botaoEliminarFornecedor) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const idFornecedor = botaoEliminarFornecedor.getAttribute("data-id");
+
+        const confirmar = confirm("Tem a certeza que pretende eliminar este fornecedor?");
+
+        if (!confirmar) {
+            return;
+        }
+
+        delete fornecedoresGuardados[idFornecedor];
+
+        localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
+
+        preencherListagemFornecedores();
+    });
+}
 
 // ===============================
 // DROPDOWN DO UTILIZADOR
@@ -970,6 +1189,10 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarNovaLocalizacao();
     inicializarEditarLocalizacao();
     inicializarEliminarLocalizacoes();
+
+    preencherListagemFornecedores();
+    inicializarNovoFornecedor();
+    inicializarEliminarFornecedores();
 
     inicializarDropdownUtilizador();
 });

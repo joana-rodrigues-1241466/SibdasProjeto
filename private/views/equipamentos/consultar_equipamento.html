@@ -97,93 +97,125 @@
                 <hr>
 
                 <!-- Identificação principal -->
-                <div class="linha-detalhes">
-                    <div class="campo-detalhes campo-largo">
-                        <h3>Código interno de inventário</h3>
-                        <p id="detalhe-codigo"></p>
+                <!-- Linha 1: Identificação -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Código interno de inventário</h3>
+                            <p id="detalhe-codigo"></p>
+                        </div>
                     </div>
 
-                    <div class="campo-detalhes campo-largo">
-                        <h3>Designação</h3>
-                        <p id="detalhe-designacao"></p>
-                    </div>
-                </div>
-
-                <!-- Categoria, marca e modelo -->
-                <div class="linha-detalhes">
-                    <div class="campo-detalhes">
-                        <h3>Categoria ou grupo</h3>
-                        <p id="detalhe-categoria"></p>
-                    </div>
-
-                    <div class="campo-detalhes">
-                        <h3>Marca</h3>
-                        <p id="detalhe-marca"></p>
-                    </div>
-
-                    <div class="campo-detalhes">
-                        <h3>Modelo</h3>
-                        <p id="detalhe-modelo"></p>
+                    <div class="col-md-6 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Designação do equipamento</h3>
+                            <p id="detalhe-designacao"></p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Número de série, fabricante e ano -->
-                <div class="linha-detalhes">
-                    <div class="campo-detalhes">
-                        <h3>N.º de série</h3>
-                        <p id="detalhe-numero-serie"></p>
+                <!-- Linha 2: Categoria / Marca / Modelo -->
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Categoria ou grupo</h3>
+                            <p id="detalhe-categoria"></p>
+                        </div>
                     </div>
 
-                    <div class="campo-detalhes">
-                        <h3>Fabricante</h3>
-                        <p id="detalhe-fabricante"></p>
+                    <div class="col-md-4 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Marca</h3>
+                            <p id="detalhe-marca"></p>
+                        </div>
                     </div>
 
-                    <div class="campo-detalhes">
-                        <h3>Ano de fabrico</h3>
-                        <p id="detalhe-ano-fabrico"></p>
-                    </div>
-                </div>
-
-                <!-- Aquisição -->
-                <div class="linha-detalhes">
-                    <div class="campo-detalhes">
-                        <h3>Data de aquisição</h3>
-                        <p id="detalhe-data-aquisicao"></p>
-                    </div>
-
-                    <div class="campo-detalhes">
-                        <h3>Custo de aquisição</h3>
-                        <p id="detalhe-custo-aquisicao"></p>
-                    </div>
-
-                    <div class="campo-detalhes">
-                        <h3>Tipo de entrada</h3>
-                        <p id="detalhe-tipo-entrada"></p>
+                    <div class="col-md-4 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Modelo</h3>
+                            <p id="detalhe-modelo"></p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Estado, criticidade e localização -->
-                <div class="linha-detalhes">
-                    <div class="campo-detalhes">
-                        <h3>Estado atual</h3>
-                        <p id="detalhe-estado"></p>
+                <!-- Linha 3: Série / Fabricante / Ano -->
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>N.º de série</h3>
+                            <p id="detalhe-numero-serie"></p>
+                        </div>
                     </div>
 
-                    <div class="campo-detalhes">
-                        <h3>Criticidade clínica</h3>
-                        <p id="detalhe-criticidade"></p>
+                    <div class="col-md-4 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Fabricante</h3>
+                            <p id="detalhe-fabricante"></p>
+                        </div>
                     </div>
 
-                    <div class="campo-detalhes">
-                        <h3>Localização</h3>
-                        <p id="detalhe-localizacao"></p>
+                    <div class="col-md-4 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Ano de fabrico</h3>
+                            <p id="detalhe-ano-fabrico"></p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Observações -->
-                <div class="linha-detalhes">
-                    <div class="campo-detalhes campo-largo">
+                <!-- Linha 4: Fornecedor associado -->
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Fornecedor associado</h3>
+                            <p id="detalhe-fornecedor"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Linha 5: Aquisição -->
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Data de aquisição</h3>
+                            <p id="detalhe-data-aquisicao"></p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Custo de aquisição</h3>
+                            <p id="detalhe-custo-aquisicao"></p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Tipo de entrada</h3>
+                            <p id="detalhe-tipo-entrada"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Linha 6: Estado / Criticidade -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Estado atual</h3>
+                            <p id="detalhe-estado"></p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <div class="campo-detalhes">
+                            <h3>Criticidade</h3>
+                            <p id="detalhe-criticidade"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Linha 7: Observações -->
+                <div class="mb-3">
+                    <div class="campo-detalhes">
                         <h3>Observações</h3>
                         <p id="detalhe-observacoes"></p>
                     </div>

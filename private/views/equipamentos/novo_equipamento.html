@@ -40,7 +40,7 @@
     <div class="layout-privado">
 
         <!-- Menu lateral -->
-         <aside class="menu-lateral-privada">
+        <aside class="menu-lateral-privada">
             <h2>Menu</h2>
 
             <nav>
@@ -97,18 +97,22 @@
 
                 <form id="form-novo-equipamento" class="form-equipamento-privado">
 
-                    <div class="mb-3">
-                        <label for="codigo" class="form-label">Código interno de inventário</label>
-                        <input type="text" class="form-control campo-formulario-privado" id="codigo" name="codigo"
-                            required>
+                    <!-- Linha 1: Identificação -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="codigo" class="form-label">Código interno de inventário</label>
+                            <input type="text" class="form-control campo-formulario-privado" id="codigo" name="codigo"
+                                required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="designacao" class="form-label">Designação do equipamento</label>
+                            <input type="text" class="form-control campo-formulario-privado" id="designacao"
+                                name="designacao" required>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="designacao" class="form-label">Designação do equipamento</label>
-                        <input type="text" class="form-control campo-formulario-privado" id="designacao"
-                            name="designacao" required>
-                    </div>
-
+                    <!-- Linha 2: Categoria / Marca / Modelo -->
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="categoria" class="form-label">Categoria ou grupo</label>
@@ -138,6 +142,7 @@
                         </div>
                     </div>
 
+                    <!-- Linha 3: Série / Fabricante / Ano -->
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="numero_serie" class="form-label">N.º de série</label>
@@ -158,6 +163,22 @@
                         </div>
                     </div>
 
+                    <!-- Linha 4: Fornecedor associado -->
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="fornecedor" class="form-label">Fornecedor associado</label>
+                            <select class="form-select campo-formulario-privado" id="fornecedor" name="fornecedor"
+                                required>
+                                <option value="" selected disabled>Escolha um fornecedor</option>
+                            </select>
+                            <small class="text-muted">
+                                Selecione um fornecedor previamente registado. Se o fornecedor ainda não existir,
+                                registe-o primeiro na página de fornecedores.
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Linha 5: Aquisição -->
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="data_aquisicao" class="form-label">Data de aquisição</label>
@@ -184,9 +205,9 @@
                         </div>
                     </div>
 
+                    <!-- Linha 6: Estado / Criticidade -->
                     <div class="row">
-
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label for="estado" class="form-label">Estado atual</label>
                             <select class="form-select campo-formulario-privado" id="estado" name="estado" required>
                                 <option value="" selected disabled>Escolha uma opção</option>
@@ -199,7 +220,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label for="criticidade" class="form-label">Criticidade</label>
                             <select class="form-select campo-formulario-privado" id="criticidade" name="criticidade"
                                 required>
@@ -212,6 +233,7 @@
                         </div>
                     </div>
 
+                    <!-- Linha 7: Observações -->
                     <div class="mb-3">
                         <label for="observacoes" class="form-label">Observações</label>
                         <textarea class="form-control campo-formulario-privado" id="observacoes" name="observacoes"

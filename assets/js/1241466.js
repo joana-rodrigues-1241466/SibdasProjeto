@@ -234,12 +234,13 @@ const equipamentosConsulta = {
         marca: "Philips",
         modelo: "IntelliVue MX450",
         numeroSerie: "PH-MX450-2021-001",
+        fornecedor: "FOR001",
         fabricante: "Philips Healthcare",
         anoFabrico: "2021",
         dataAquisicao: "12/03/2022",
         custoAquisicao: "8500 €",
         tipoEntrada: "Compra",
-        estado: "Operacional",
+        estado: "Ativo",
         criticidade: "Alta",
         localizacao: "Unidade de Cuidados Intensivos",
         observacoes: "Equipamento utilizado para monitorização contínua de sinais vitais em doentes críticos."
@@ -252,6 +253,7 @@ const equipamentosConsulta = {
         marca: "Dräger",
         modelo: "Evita V600",
         numeroSerie: "DR-EV600-2020-014",
+        fornecedor: "FOR002",
         fabricante: "Dräger Medical",
         anoFabrico: "2020",
         dataAquisicao: "08/09/2021",
@@ -266,16 +268,17 @@ const equipamentosConsulta = {
     EQ003: {
         codigo: "EQ003",
         designacao: "Bomba de infusão",
-        categoria: "Terapêutica",
+        categoria: "Terapia",
         marca: "B. Braun",
         modelo: "Infusomat Space",
         numeroSerie: "BB-INF-2019-033",
+        fornecedor: "FOR003",
         fabricante: "B. Braun Medical",
         anoFabrico: "2019",
         dataAquisicao: "21/01/2020",
         custoAquisicao: "3200 €",
         tipoEntrada: "Compra",
-        estado: "Operacional",
+        estado: "Em calibração",
         criticidade: "Média",
         localizacao: "Serviço de Medicina",
         observacoes: "Utilizada para administração controlada de terapêutica intravenosa."
@@ -284,16 +287,17 @@ const equipamentosConsulta = {
     EQ004: {
         codigo: "EQ004",
         designacao: "Desfibrilhador",
-        categoria: "Emergência",
+        categoria: "Suporte de vida",
         marca: "Zoll",
         modelo: "R Series",
         numeroSerie: "ZL-RS-2022-007",
+        fornecedor: "FOR004",
         fabricante: "Zoll Medical",
         anoFabrico: "2022",
         dataAquisicao: "15/06/2022",
         custoAquisicao: "12400 €",
         tipoEntrada: "Compra",
-        estado: "Operacional",
+        estado: "Ativo",
         criticidade: "Crítica",
         localizacao: "Urgência",
         observacoes: "Equipamento essencial para resposta rápida em situações de paragem cardiorrespiratória."
@@ -366,6 +370,8 @@ function inicializarNovoEquipamento() {
         return;
     }
 
+    preencherSelectFornecedores("fornecedor");
+
     formularioNovoEquipamento.addEventListener("submit", function (event) {
         event.preventDefault();
 
@@ -394,6 +400,7 @@ function inicializarNovoEquipamento() {
             marca: document.getElementById("marca").value.trim(),
             modelo: document.getElementById("modelo").value.trim(),
             numeroSerie: document.getElementById("numero_serie").value.trim(),
+            fornecedor: document.getElementById("fornecedor").value,
             fabricante: document.getElementById("fabricante").value.trim(),
             anoFabrico: document.getElementById("ano_fabrico").value.trim(),
             dataAquisicao: converterDataParaTexto(document.getElementById("data_aquisicao").value),
@@ -458,6 +465,9 @@ function preencherDetalhesEquipamento() {
     document.getElementById("detalhe-marca").textContent = equipamento.marca;
     document.getElementById("detalhe-modelo").textContent = equipamento.modelo;
     document.getElementById("detalhe-numero-serie").textContent = equipamento.numeroSerie;
+    if (document.getElementById("detalhe-fornecedor")) {
+        document.getElementById("detalhe-fornecedor").textContent = equipamento.fornecedor || "";
+    }
     document.getElementById("detalhe-fabricante").textContent = equipamento.fabricante;
     document.getElementById("detalhe-ano-fabrico").textContent = equipamento.anoFabrico;
     document.getElementById("detalhe-data-aquisicao").textContent = equipamento.dataAquisicao;
@@ -503,6 +513,8 @@ function inicializarEditarEquipamento() {
         return;
     }
 
+    preencherSelectFornecedores("fornecedor", equipamento.fornecedor);
+
     document.getElementById("codigo").value = equipamento.codigo;
     document.getElementById("designacao").value = equipamento.designacao;
     document.getElementById("categoria").value = equipamento.categoria;
@@ -537,6 +549,7 @@ function inicializarEditarEquipamento() {
         equipamentosGuardados[idEquipamento].marca = document.getElementById("marca").value.trim();
         equipamentosGuardados[idEquipamento].modelo = document.getElementById("modelo").value.trim();
         equipamentosGuardados[idEquipamento].numeroSerie = document.getElementById("numero_serie").value.trim();
+       equipamentosGuardados[idEquipamento].fornecedor = document.getElementById("fornecedor").value;
         equipamentosGuardados[idEquipamento].fabricante = document.getElementById("fabricante").value.trim();
         equipamentosGuardados[idEquipamento].anoFabrico = document.getElementById("ano_fabrico").value.trim();
         equipamentosGuardados[idEquipamento].dataAquisicao = converterDataParaTexto(document.getElementById("data_aquisicao").value);
@@ -973,7 +986,6 @@ function preencherListagemFornecedores() {
             <td>${fornecedor.telefone}</td>
             <td>${fornecedor.email}</td>
             <td>${fornecedor.tipoFornecedor}</td>
-            <td>${fornecedor.equipamentos}</td>
 
             <td class="acoes-tabela-privada">
                 <a href="consultar_fornecedor.html?id=${fornecedor.codigo}" class="acao-tabela-privada">
@@ -1015,11 +1027,41 @@ function inicializarNovoFornecedor() {
         }
 
         const codigo = document.getElementById("codigo").value.trim();
+        const nomeEmpresa = document.getElementById("nome_empresa").value.trim();
+        const nif = document.getElementById("nif").value.trim();
 
-        if (fornecedoresGuardados[codigo]) {
+        const telefoneNovo = document.getElementById("telefone").value.trim();
+        const emailNovo = document.getElementById("email").value.trim();
+        const moradaNova = document.getElementById("morada").value.trim();
+        const websiteNovo = document.getElementById("website").value.trim();
+        const pessoaContactoNova = document.getElementById("pessoa_contacto").value.trim();
+        const telefonePessoaContactoNovo = document.getElementById("telefone_pessoa_contacto").value.trim();
+        const tipoFornecedorNovo = document.getElementById("tipo_fornecedor").value.trim();
+        const equipamentoNovo = document.getElementById("equipamentos").value.trim();
+        const observacoesNovas = document.getElementById("observacoes").value.trim();
+
+        const fornecedorComMesmoCodigo = Object.values(fornecedoresGuardados).find(function (fornecedor) {
+            return fornecedor.codigo.toLowerCase() === codigo.toLowerCase();
+        });
+
+        const fornecedorComMesmoNome = Object.values(fornecedoresGuardados).find(function (fornecedor) {
+            return fornecedor.nomeEmpresa.toLowerCase() === nomeEmpresa.toLowerCase();
+        });
+
+        const fornecedorComMesmoNif = Object.values(fornecedoresGuardados).find(function (fornecedor) {
+            return fornecedor.nif.toLowerCase() === nif.toLowerCase();
+        });
+
+        const fornecedorExistente = Object.values(fornecedoresGuardados).find(function (fornecedor) {
+            return fornecedor.codigo.toLowerCase() === codigo.toLowerCase()
+                && fornecedor.nomeEmpresa.toLowerCase() === nomeEmpresa.toLowerCase()
+                && fornecedor.nif.toLowerCase() === nif.toLowerCase();
+        });
+
+        if (fornecedorComMesmoCodigo && !fornecedorExistente) {
             if (mensagemSucessoFornecedor) {
                 mensagemSucessoFornecedor.style.display = "block";
-                mensagemSucessoFornecedor.textContent = "Já existe um fornecedor com esse código.";
+                mensagemSucessoFornecedor.textContent = "Este código já existe. Para usar este código, o nome da empresa e o NIF têm de ser iguais aos já registados.";
                 mensagemSucessoFornecedor.classList.remove("sucesso");
                 mensagemSucessoFornecedor.classList.add("erro");
             }
@@ -1027,19 +1069,90 @@ function inicializarNovoFornecedor() {
             return;
         }
 
+        if (fornecedorComMesmoNome && !fornecedorExistente) {
+            if (mensagemSucessoFornecedor) {
+                mensagemSucessoFornecedor.style.display = "block";
+                mensagemSucessoFornecedor.textContent = "Este nome da empresa já existe. Para usar este nome, o código e o NIF têm de ser iguais aos já registados.";
+                mensagemSucessoFornecedor.classList.remove("sucesso");
+                mensagemSucessoFornecedor.classList.add("erro");
+            }
+
+            return;
+        }
+
+        if (fornecedorComMesmoNif && !fornecedorExistente) {
+            if (mensagemSucessoFornecedor) {
+                mensagemSucessoFornecedor.style.display = "block";
+                mensagemSucessoFornecedor.textContent = "Este NIF já existe. Para usar este NIF, o código e o nome da empresa têm de ser iguais aos já registados.";
+                mensagemSucessoFornecedor.classList.remove("sucesso");
+                mensagemSucessoFornecedor.classList.add("erro");
+            }
+
+            return;
+        }
+
+        function acrescentarValor(valorAtual, valorNovo, separador = ", ") {
+            if (valorNovo === "") {
+                return valorAtual || "";
+            }
+
+            if (!valorAtual || valorAtual === "") {
+                return valorNovo;
+            }
+
+            const listaValores = valorAtual.split(separador).map(function (valor) {
+                return valor.trim().toLowerCase();
+            });
+
+            if (!listaValores.includes(valorNovo.toLowerCase())) {
+                return valorAtual + separador + valorNovo;
+            }
+
+            return valorAtual;
+        }
+
+        if (fornecedorExistente) {
+            fornecedorExistente.telefone = acrescentarValor(fornecedorExistente.telefone, telefoneNovo);
+            fornecedorExistente.email = acrescentarValor(fornecedorExistente.email, emailNovo);
+            fornecedorExistente.morada = acrescentarValor(fornecedorExistente.morada, moradaNova);
+            fornecedorExistente.website = acrescentarValor(fornecedorExistente.website, websiteNovo);
+            fornecedorExistente.pessoaContacto = acrescentarValor(fornecedorExistente.pessoaContacto, pessoaContactoNova);
+            fornecedorExistente.telefonePessoaContacto = acrescentarValor(fornecedorExistente.telefonePessoaContacto, telefonePessoaContactoNovo);
+            fornecedorExistente.tipoFornecedor = acrescentarValor(fornecedorExistente.tipoFornecedor, tipoFornecedorNovo);
+            fornecedorExistente.equipamentos = acrescentarValor(fornecedorExistente.equipamentos, equipamentoNovo);
+            fornecedorExistente.observacoes = acrescentarValor(fornecedorExistente.observacoes, observacoesNovas, " | ");
+
+            fornecedoresGuardados[fornecedorExistente.codigo] = fornecedorExistente;
+
+            localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
+
+            if (mensagemSucessoFornecedor) {
+                mensagemSucessoFornecedor.style.display = "block";
+                mensagemSucessoFornecedor.textContent = "Fornecedor já existente. Novas informações acrescentadas com sucesso.";
+                mensagemSucessoFornecedor.classList.remove("erro");
+                mensagemSucessoFornecedor.classList.add("sucesso");
+            }
+
+            setTimeout(function () {
+                window.location.href = `consultar_fornecedor.html?id=${fornecedorExistente.codigo}`;
+            }, 800);
+
+            return;
+        }
+
         const novoFornecedor = {
             codigo: codigo,
-            nomeEmpresa: document.getElementById("nome_empresa").value.trim(),
-            nif: document.getElementById("nif").value.trim(),
-            telefone: document.getElementById("telefone").value.trim(),
-            email: document.getElementById("email").value.trim(),
-            morada: document.getElementById("morada").value.trim(),
-            website: document.getElementById("website").value.trim(),
-            pessoaContacto: document.getElementById("pessoa_contacto").value.trim(),
-            telefonePessoaContacto: document.getElementById("telefone_pessoa_contacto").value.trim(),
-            tipoFornecedor: document.getElementById("tipo_fornecedor").value.trim(),
-            equipamentos: document.getElementById("equipamentos").value.trim(),
-            observacoes: document.getElementById("observacoes").value.trim()
+            nomeEmpresa: nomeEmpresa,
+            nif: nif,
+            telefone: telefoneNovo,
+            email: emailNovo,
+            morada: moradaNova,
+            website: websiteNovo,
+            pessoaContacto: pessoaContactoNova,
+            telefonePessoaContacto: telefonePessoaContactoNovo,
+            tipoFornecedor: tipoFornecedorNovo,
+            equipamentos: equipamentoNovo,
+            observacoes: observacoesNovas
         };
 
         fornecedoresGuardados[codigo] = novoFornecedor;
@@ -1159,8 +1272,6 @@ function inicializarEditarFornecedor() {
             return;
         }
 
-        fornecedoresGuardados[idFornecedor].nomeEmpresa = document.getElementById("nome_empresa").value.trim();
-        fornecedoresGuardados[idFornecedor].nif = document.getElementById("nif").value.trim();
         fornecedoresGuardados[idFornecedor].telefone = document.getElementById("telefone").value.trim();
         fornecedoresGuardados[idFornecedor].email = document.getElementById("email").value.trim();
         fornecedoresGuardados[idFornecedor].morada = document.getElementById("morada").value.trim();
@@ -1242,6 +1353,29 @@ function inicializarDropdownUtilizador() {
 // ===============================
 // FUNÇÕES AUXILIARES
 // ===============================
+
+function preencherSelectFornecedores(idSelect, fornecedorSelecionado = "") {
+    const selectFornecedor = document.getElementById(idSelect);
+
+    if (!selectFornecedor) {
+        return;
+    }
+
+    selectFornecedor.innerHTML = '<option value="" selected disabled>Escolha um fornecedor</option>';
+
+    Object.values(fornecedoresGuardados).forEach(function (fornecedor) {
+        const option = document.createElement("option");
+
+        option.value = fornecedor.codigo;
+        option.textContent = fornecedor.codigo;
+
+        if (fornecedor.codigo === fornecedorSelecionado) {
+            option.selected = true;
+        }
+
+        selectFornecedor.appendChild(option);
+    });
+}
 
 function converterDataParaInput(dataTexto) {
     if (!dataTexto) {

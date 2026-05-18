@@ -888,6 +888,68 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// Preencher e guardar formulário da página editar_localizacao.html
+document.addEventListener("DOMContentLoaded", function () {
+
+    const formEditarLocalizacao = document.getElementById("form-editar-localizacao");
+
+    if (!formEditarLocalizacao) {
+        return;
+    }
+
+    const parametros = new URLSearchParams(window.location.search);
+    const idLocalizacao = parametros.get("id");
+
+    const localizacao = localizacoesGuardadas[idLocalizacao];
+
+    const mensagemEditarLocalizacao = document.getElementById("mensagem-editar-localizacao");
+
+    if (!localizacao) {
+        if (mensagemEditarLocalizacao) {
+            mensagemEditarLocalizacao.textContent = "Localização não encontrada.";
+            mensagemEditarLocalizacao.classList.add("erro");
+        }
+        return;
+    }
+
+    document.getElementById("codigo").value = localizacao.codigo;
+    document.getElementById("edificio").value = localizacao.edificio;
+    document.getElementById("piso").value = localizacao.piso;
+    document.getElementById("servico").value = localizacao.servico;
+    document.getElementById("sala").value = localizacao.sala;
+    document.getElementById("equipamentos").value = localizacao.equipamentos;
+    document.getElementById("observacoes").value = localizacao.observacoes;
+
+    const botaoCancelarEdicaoLocalizacao = document.getElementById("botao-cancelar-edicao-localizacao");
+
+    if (botaoCancelarEdicaoLocalizacao) {
+        botaoCancelarEdicaoLocalizacao.href = `consultar_localizacao.html?id=${localizacao.codigo}`;
+    }
+
+    formEditarLocalizacao.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        localizacoesGuardadas[idLocalizacao].edificio = document.getElementById("edificio").value.trim();
+        localizacoesGuardadas[idLocalizacao].piso = document.getElementById("piso").value.trim();
+        localizacoesGuardadas[idLocalizacao].servico = document.getElementById("servico").value.trim();
+        localizacoesGuardadas[idLocalizacao].sala = document.getElementById("sala").value.trim();
+        localizacoesGuardadas[idLocalizacao].equipamentos = document.getElementById("equipamentos").value.trim();
+        localizacoesGuardadas[idLocalizacao].observacoes = document.getElementById("observacoes").value.trim();
+
+        localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
+
+        if (mensagemEditarLocalizacao) {
+            mensagemEditarLocalizacao.textContent = "Alterações guardadas com sucesso.";
+            mensagemEditarLocalizacao.classList.remove("erro");
+            mensagemEditarLocalizacao.classList.add("sucesso");
+        }
+
+        setTimeout(function () {
+            window.location.href = `consultar_localizacao.html?id=${idLocalizacao}`;
+        }, 800);
+    });
+});
+
 // Converter data de dd/mm/aaaa para aaaa-mm-dd
 function converterDataParaInput(dataTexto) {
     if (!dataTexto) {

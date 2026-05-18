@@ -1,0 +1,207 @@
+<!DOCTYPE html> <!-- Define que o documento usa HTML5 -->
+<html lang="pt"> <!-- Define o idioma principal da página como português -->
+
+<head> <!-- Início da zona de configurações da página -->
+    <meta charset="UTF-8"> <!-- Permite usar acentos e caracteres especiais -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Torna a página responsiva -->
+
+    <title>Consultar Fornecedor</title> <!-- Título que aparece no separador do navegador -->
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome: biblioteca de ícones usada no projeto -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS próprio do projeto -->
+    <link rel="stylesheet" href="../../../assets/css/1241466.css">
+</head>
+
+<body class="pagina-privada"> <!-- Corpo da página privada -->
+
+    <!-- Barra superior da área privada -->
+    <header class="navbar-privada">
+
+        <!-- Logótipo e nome da aplicação -->
+        <div class="logo-privada">
+            <img src="../../../assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
+            <span class="nome-navbar-privada">MediVault</span>
+        </div>
+
+        <!-- Identificação do utilizador autenticado -->
+        <div class="utilizador-privado">
+            <i class="fa-regular fa-user"></i>
+            <span>Profissional de saúde</span>
+            <i class="fa-solid fa-caret-down"></i>
+        </div>
+
+    </header>
+
+    <!-- Layout principal com menu lateral e conteúdo -->
+    <div class="layout-privado">
+
+        <!-- Menu lateral da área privada -->
+        <aside class="menu-lateral-privada">
+            <h2>Menu</h2>
+
+            <nav>
+                <a href="../equipamentos/equipamentos.html">
+                    <i class="fa-solid fa-stethoscope"></i>
+                    Equipamentos
+                </a>
+
+                <a href="../fornecedores/fornecedores.html" class="ativo">
+                    <i class="fa-solid fa-truck-medical"></i>
+                    Fornecedores
+                </a>
+
+                <a href="../localizacoes/localizacoes.html">
+                    <i class="fa-solid fa-location-dot"></i>
+                    Localizações
+                </a>
+
+                <a href="../documentacao/documentacao.html">
+                    <i class="fa-solid fa-file-medical"></i>
+                    Documentação
+                </a>
+
+                <a href="../gestao_conteudos/gestao_conteudos.html">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Gestão de Conteúdos
+                </a>
+
+                <a href="../dashboard/dashboard.html">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Dashboard
+                </a>
+
+                <a href="../../../public/index.html">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Sair
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="conteudo-privado">
+
+            <!-- Card dos detalhes do equipamento -->
+            <section class="detalhes-equipamento-privada">
+
+                <!-- Título da ficha -->
+                <div class="titulo-detalhes-equipamento">
+                    <i class="fa-solid fa-stethoscope"></i>
+                    <h1>Detalhes do Fornecedor</h1>
+                </div>
+
+                <hr>
+
+                <!-- Identificação principal -->
+                <div class="linha-detalhes">
+                    <div class="campo-detalhes campo-largo">
+                        <h3>Código do fornecedor</h3>
+                        <p id="detalhe-codigo-fornecedor"></p>
+                    </div>
+
+                    <div class="campo-detalhes campo-largo">
+                        <h3>Nome da empresa</h3>
+                        <p id="detalhe-nome-empresa"></p>
+                    </div>
+                </div>
+
+                <!-- Contactos principais -->
+                <div class="linha-detalhes">
+                    <div class="campo-detalhes">
+                        <h3>NIF</h3>
+                        <p id="detalhe-nif"></p>
+                    </div>
+
+                    <div class="campo-detalhes">
+                        <h3>Contacto telefónico</h3>
+                        <p id="detalhe-telefone"></p>
+                    </div>
+
+                    <div class="campo-detalhes">
+                        <h3>Email</h3>
+                        <p id="detalhe-email"></p>
+                    </div>
+                </div>
+
+                <!-- Morada e website -->
+                <div class="linha-detalhes">
+                    <div class="campo-detalhes campo-largo">
+                        <h3>Morada</h3>
+                        <p id="detalhe-morada"></p>
+                    </div>
+
+                    <div class="campo-detalhes campo-largo">
+                        <h3>Website</h3>
+                        <p id="detalhe-website"></p>
+                    </div>
+                </div>
+
+                <!-- Pessoa de contacto-->
+                <div class="linha-detalhes">
+                    <div class="campo-detalhes">
+                        <h3>Pessoa de contacto</h3>
+                        <p id="detalhe-pessoa-contacto"></p>
+                    </div>
+
+                    <div class="campo-detalhes">
+                        <h3>Telefone da pessoa de contacto</h3>
+                        <p id="detalhe-telefone-pessoa-contacto"></p>
+                    </div>
+                </div>
+
+                <!-- tipo de fornecedor -->
+                <div>
+                    <div class="campo-detalhes">
+                        <h3>Tipo de fornecedor</h3>
+                        <p id="detalhe-tipo-fornecedor"></p>
+                    </div>
+                </div>
+
+                <!-- Equipamento associado -->
+                <div class="linha-detalhes mt-4">
+                    <div class="campo-detalhes campo-largo">
+                        <h3>Equipamento associado</h3>
+                        <p id="detalhe-equipamentos-fornecedor"></p>
+                    </div>
+                </div>
+
+                <!-- Observações -->
+                <div class="linha-detalhes">
+                    <div class="campo-detalhes campo-largo">
+                        <h3>Observações</h3>
+                        <p id="detalhe-observacoes-fornecedor"></p>
+                    </div>
+                </div>
+
+                <!-- Botões -->
+                <div class="botoes-detalhes-equipamento">
+                    <a href="fornecedores.html" class="botao-voltar-detalhes">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Voltar
+                    </a>
+
+                    <a href="editar_fornecedor.html" id="botao-editar-fornecedor" class="botao-editar-detalhes">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Editar
+                    </a>
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript próprio do projeto -->
+    <script src="../../../assets/js/1241466.js"></script>
+
+</body>
+
+</html>

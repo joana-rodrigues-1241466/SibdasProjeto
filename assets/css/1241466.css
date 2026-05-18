@@ -1054,6 +1054,12 @@ body {
     color: #ffffff;
 }
 
+#detalhe-email,
+#detalhe-website {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
 @media (max-width: 1200px) {
 
     /* Sobre: texto em cima e card por baixo */

@@ -997,7 +997,6 @@ function preencherListagemFornecedores() {
     });
 }
 
-
 // Adicionar novo fornecedor e guardar no localStorage
 function inicializarNovoFornecedor() {
     const formularioNovoFornecedor = document.getElementById("form-novo-fornecedor");
@@ -1070,6 +1069,44 @@ function inicializarNovoFornecedor() {
             mensagemSucessoFornecedor.style.display = "none";
         }
     });
+}
+
+// Consultar detalhes do fornecedor
+function preencherDetalhesFornecedor() {
+    const campoCodigoFornecedor = document.getElementById("detalhe-codigo-fornecedor");
+
+    if (!campoCodigoFornecedor) {
+        return;
+    }
+
+    const parametros = new URLSearchParams(window.location.search);
+    const idFornecedor = parametros.get("id");
+
+    const fornecedor = fornecedoresGuardados[idFornecedor];
+
+    if (!fornecedor) {
+        campoCodigoFornecedor.textContent = "Fornecedor não encontrado";
+        return;
+    }
+
+    document.getElementById("detalhe-codigo-fornecedor").textContent = fornecedor.codigo;
+    document.getElementById("detalhe-nome-empresa").textContent = fornecedor.nomeEmpresa;
+    document.getElementById("detalhe-nif").textContent = fornecedor.nif;
+    document.getElementById("detalhe-telefone").textContent = fornecedor.telefone;
+    document.getElementById("detalhe-email").textContent = fornecedor.email;
+    document.getElementById("detalhe-morada").textContent = fornecedor.morada;
+    document.getElementById("detalhe-website").textContent = fornecedor.website;
+    document.getElementById("detalhe-pessoa-contacto").textContent = fornecedor.pessoaContacto;
+    document.getElementById("detalhe-telefone-pessoa-contacto").textContent = fornecedor.telefonePessoaContacto;
+    document.getElementById("detalhe-tipo-fornecedor").textContent = fornecedor.tipoFornecedor;
+    document.getElementById("detalhe-equipamentos-fornecedor").textContent = fornecedor.equipamentos;
+    document.getElementById("detalhe-observacoes-fornecedor").textContent = fornecedor.observacoes;
+
+    const botaoEditarFornecedor = document.getElementById("botao-editar-fornecedor");
+
+    if (botaoEditarFornecedor) {
+        botaoEditarFornecedor.href = `editar_fornecedor.html?id=${fornecedor.codigo}`;
+    }
 }
 
 // Eliminar fornecedor da listagem
@@ -1191,6 +1228,7 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarEliminarLocalizacoes();
 
     preencherListagemFornecedores();
+    preencherDetalhesFornecedor();
     inicializarNovoFornecedor();
     inicializarEliminarFornecedores();
 

@@ -1109,6 +1109,82 @@ function preencherDetalhesFornecedor() {
     }
 }
 
+// Editar fornecedor
+function inicializarEditarFornecedor() {
+    const formEditarFornecedor = document.getElementById("form-editar-fornecedor");
+    const mensagemEditarFornecedor = document.getElementById("mensagem-editar-fornecedor");
+
+    if (!formEditarFornecedor) {
+        return;
+    }
+
+    const parametros = new URLSearchParams(window.location.search);
+    const idFornecedor = parametros.get("id");
+
+    const fornecedor = fornecedoresGuardados[idFornecedor];
+
+    if (!fornecedor) {
+        if (mensagemEditarFornecedor) {
+            mensagemEditarFornecedor.textContent = "Fornecedor não encontrado.";
+            mensagemEditarFornecedor.classList.add("erro");
+        }
+
+        return;
+    }
+
+    document.getElementById("codigo").value = fornecedor.codigo;
+    document.getElementById("nome_empresa").value = fornecedor.nomeEmpresa;
+    document.getElementById("nif").value = fornecedor.nif;
+    document.getElementById("telefone").value = fornecedor.telefone;
+    document.getElementById("email").value = fornecedor.email;
+    document.getElementById("morada").value = fornecedor.morada;
+    document.getElementById("website").value = fornecedor.website;
+    document.getElementById("pessoa_contacto").value = fornecedor.pessoaContacto;
+    document.getElementById("telefone_pessoa_contacto").value = fornecedor.telefonePessoaContacto;
+    document.getElementById("tipo_fornecedor").value = fornecedor.tipoFornecedor;
+    document.getElementById("equipamentos").value = fornecedor.equipamentos;
+    document.getElementById("observacoes").value = fornecedor.observacoes;
+
+    const botaoCancelarEdicaoFornecedor = document.getElementById("botao-cancelar-edicao-fornecedor");
+
+    if (botaoCancelarEdicaoFornecedor) {
+        botaoCancelarEdicaoFornecedor.href = `consultar_fornecedor.html?id=${fornecedor.codigo}`;
+    }
+
+    formEditarFornecedor.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!formEditarFornecedor.checkValidity()) {
+            formEditarFornecedor.reportValidity();
+            return;
+        }
+
+        fornecedoresGuardados[idFornecedor].nomeEmpresa = document.getElementById("nome_empresa").value.trim();
+        fornecedoresGuardados[idFornecedor].nif = document.getElementById("nif").value.trim();
+        fornecedoresGuardados[idFornecedor].telefone = document.getElementById("telefone").value.trim();
+        fornecedoresGuardados[idFornecedor].email = document.getElementById("email").value.trim();
+        fornecedoresGuardados[idFornecedor].morada = document.getElementById("morada").value.trim();
+        fornecedoresGuardados[idFornecedor].website = document.getElementById("website").value.trim();
+        fornecedoresGuardados[idFornecedor].pessoaContacto = document.getElementById("pessoa_contacto").value.trim();
+        fornecedoresGuardados[idFornecedor].telefonePessoaContacto = document.getElementById("telefone_pessoa_contacto").value.trim();
+        fornecedoresGuardados[idFornecedor].tipoFornecedor = document.getElementById("tipo_fornecedor").value.trim();
+        fornecedoresGuardados[idFornecedor].equipamentos = document.getElementById("equipamentos").value.trim();
+        fornecedoresGuardados[idFornecedor].observacoes = document.getElementById("observacoes").value.trim();
+
+        localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
+
+        if (mensagemEditarFornecedor) {
+            mensagemEditarFornecedor.textContent = "Alterações guardadas com sucesso.";
+            mensagemEditarFornecedor.classList.remove("erro");
+            mensagemEditarFornecedor.classList.add("sucesso");
+        }
+
+        setTimeout(function () {
+            window.location.href = `consultar_fornecedor.html?id=${idFornecedor}`;
+        }, 800);
+    });
+}
+
 // Eliminar fornecedor da listagem
 function inicializarEliminarFornecedores() {
     document.addEventListener("click", function (event) {
@@ -1230,6 +1306,7 @@ document.addEventListener("DOMContentLoaded", function () {
     preencherListagemFornecedores();
     preencherDetalhesFornecedor();
     inicializarNovoFornecedor();
+    inicializarEditarFornecedor();
     inicializarEliminarFornecedores();
 
     inicializarDropdownUtilizador();

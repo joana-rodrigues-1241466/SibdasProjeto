@@ -466,8 +466,18 @@ function preencherDetalhesEquipamento() {
     document.getElementById("detalhe-marca").textContent = equipamento.marca;
     document.getElementById("detalhe-modelo").textContent = equipamento.modelo;
     document.getElementById("detalhe-numero-serie").textContent = equipamento.numeroSerie;
-    if (document.getElementById("detalhe-fornecedor")) {
-        document.getElementById("detalhe-fornecedor").textContent = equipamento.fornecedor || "";
+    const campoFornecedorEquipamento = document.getElementById("detalhe-fornecedor");
+
+    if (campoFornecedorEquipamento) {
+        if (equipamento.fornecedor) {
+            campoFornecedorEquipamento.innerHTML = `
+            <a href="../fornecedores/consultar_fornecedor.html?id=${equipamento.fornecedor}" class="link-detalhe">
+                ${equipamento.fornecedor}
+            </a>
+        `;
+        } else {
+            campoFornecedorEquipamento.textContent = "Sem fornecedor associado";
+        }
     }
     document.getElementById("detalhe-fabricante").textContent = equipamento.fabricante;
     document.getElementById("detalhe-ano-fabrico").textContent = equipamento.anoFabrico;
@@ -477,9 +487,18 @@ function preencherDetalhesEquipamento() {
     document.getElementById("detalhe-estado").textContent = equipamento.estado;
     document.getElementById("detalhe-criticidade").textContent = equipamento.criticidade;
 
-    const detalheLocalizacao = document.getElementById("detalhe-localizacao");
-    if (detalheLocalizacao) {
-        detalheLocalizacao.textContent = equipamento.localizacao;
+    const campoLocalizacaoEquipamento = document.getElementById("detalhe-localizacao");
+
+    if (campoLocalizacaoEquipamento) {
+        if (equipamento.localizacao) {
+            campoLocalizacaoEquipamento.innerHTML = `
+            <a href="../localizacoes/consultar_localizacao.html?id=${equipamento.localizacao}" class="link-detalhe">
+                ${equipamento.localizacao}
+            </a>
+        `;
+        } else {
+            campoLocalizacaoEquipamento.textContent = "Sem localização associada";
+        }
     }
 
     const campoDocumentacaoAssociada = document.getElementById("detalhe-documentacao-associada-equipamento");
@@ -1092,7 +1111,6 @@ const fornecedoresConsulta = {
         pessoaContacto: "Ana Martins",
         telefonePessoaContacto: "+351 910 000 000",
         tipoFornecedor: "Fabricante",
-        equipamentos: "Monitor multiparamétrico de sinais vitais",
         observacoes: "Fornecedor associado a equipamentos de monitorização."
     },
 
@@ -1107,7 +1125,6 @@ const fornecedoresConsulta = {
         pessoaContacto: "Miguel Santos",
         telefonePessoaContacto: "+351 920 000 000",
         tipoFornecedor: "Fabricante",
-        equipamentos: "Ventilador pulmonar",
         observacoes: "Fabricante associado a equipamentos de suporte ventilatório."
     },
 
@@ -1122,7 +1139,6 @@ const fornecedoresConsulta = {
         pessoaContacto: "Carla Ferreira",
         telefonePessoaContacto: "+351 930 000 000",
         tipoFornecedor: "Distribuidor ou Fornecedor comercial",
-        equipamentos: "Bomba de infusão",
         observacoes: "Distribuidor comercial de equipamentos e consumíveis."
     },
 
@@ -1137,7 +1153,6 @@ const fornecedoresConsulta = {
         pessoaContacto: "João Almeida",
         telefonePessoaContacto: "+351 940 000 000",
         tipoFornecedor: "Empresa de assistência técnica",
-        equipamentos: "Desfibrilhador",
         observacoes: "Empresa responsável por manutenção preventiva e corretiva."
     }
 };
@@ -1213,7 +1228,6 @@ function inicializarNovoFornecedor() {
         const codigo = document.getElementById("codigo").value.trim();
         const nomeEmpresa = document.getElementById("nome_empresa").value.trim();
         const nif = document.getElementById("nif").value.trim();
-
         const telefoneNovo = document.getElementById("telefone").value.trim();
         const emailNovo = document.getElementById("email").value.trim();
         const moradaNova = document.getElementById("morada").value.trim();
@@ -1221,7 +1235,6 @@ function inicializarNovoFornecedor() {
         const pessoaContactoNova = document.getElementById("pessoa_contacto").value.trim();
         const telefonePessoaContactoNovo = document.getElementById("telefone_pessoa_contacto").value.trim();
         const tipoFornecedorNovo = document.getElementById("tipo_fornecedor").value.trim();
-        const equipamentoNovo = document.getElementById("equipamentos").value.trim();
         const observacoesNovas = document.getElementById("observacoes").value.trim();
 
         const fornecedorComMesmoCodigo = Object.values(fornecedoresGuardados).find(function (fornecedor) {
@@ -1303,7 +1316,6 @@ function inicializarNovoFornecedor() {
             fornecedorExistente.pessoaContacto = acrescentarValor(fornecedorExistente.pessoaContacto, pessoaContactoNova);
             fornecedorExistente.telefonePessoaContacto = acrescentarValor(fornecedorExistente.telefonePessoaContacto, telefonePessoaContactoNovo);
             fornecedorExistente.tipoFornecedor = acrescentarValor(fornecedorExistente.tipoFornecedor, tipoFornecedorNovo);
-            fornecedorExistente.equipamentos = acrescentarValor(fornecedorExistente.equipamentos, equipamentoNovo);
             fornecedorExistente.observacoes = acrescentarValor(fornecedorExistente.observacoes, observacoesNovas, " | ");
 
             fornecedoresGuardados[fornecedorExistente.codigo] = fornecedorExistente;
@@ -1335,7 +1347,6 @@ function inicializarNovoFornecedor() {
             pessoaContacto: pessoaContactoNova,
             telefonePessoaContacto: telefonePessoaContactoNovo,
             tipoFornecedor: tipoFornecedorNovo,
-            equipamentos: equipamentoNovo,
             observacoes: observacoesNovas
         };
 
@@ -1396,7 +1407,20 @@ function preencherDetalhesFornecedor() {
     document.getElementById("detalhe-pessoa-contacto").textContent = fornecedor.pessoaContacto;
     document.getElementById("detalhe-telefone-pessoa-contacto").textContent = fornecedor.telefonePessoaContacto;
     document.getElementById("detalhe-tipo-fornecedor").textContent = fornecedor.tipoFornecedor;
-    document.getElementById("detalhe-equipamentos-fornecedor").textContent = fornecedor.equipamentos;
+    const equipamentosDoFornecedor = obterEquipamentosPorFornecedor(idFornecedor);
+    const campoEquipamentosFornecedor = document.getElementById("detalhe-equipamentos-fornecedor");
+
+    if (campoEquipamentosFornecedor) {
+        if (equipamentosDoFornecedor.length === 0) {
+            campoEquipamentosFornecedor.textContent = "Sem equipamentos associados";
+        } else {
+            campoEquipamentosFornecedor.innerHTML = equipamentosDoFornecedor.map(function (equipamento) {
+                return `<a href="../equipamentos/consultar_equipamento.html?id=${equipamento.codigo}" class="link-detalhe">
+                    ${equipamento.codigo}
+                </a>`;
+            }).join(" ");
+        }
+    }
     document.getElementById("detalhe-observacoes-fornecedor").textContent = fornecedor.observacoes;
 
     const botaoEditarFornecedor = document.getElementById("botao-editar-fornecedor");
@@ -1439,7 +1463,6 @@ function inicializarEditarFornecedor() {
     document.getElementById("pessoa_contacto").value = fornecedor.pessoaContacto;
     document.getElementById("telefone_pessoa_contacto").value = fornecedor.telefonePessoaContacto;
     document.getElementById("tipo_fornecedor").value = fornecedor.tipoFornecedor;
-    document.getElementById("equipamentos").value = fornecedor.equipamentos;
     document.getElementById("observacoes").value = fornecedor.observacoes;
 
     const botaoCancelarEdicaoFornecedor = document.getElementById("botao-cancelar-edicao-fornecedor");
@@ -1463,7 +1486,6 @@ function inicializarEditarFornecedor() {
         fornecedoresGuardados[idFornecedor].pessoaContacto = document.getElementById("pessoa_contacto").value.trim();
         fornecedoresGuardados[idFornecedor].telefonePessoaContacto = document.getElementById("telefone_pessoa_contacto").value.trim();
         fornecedoresGuardados[idFornecedor].tipoFornecedor = document.getElementById("tipo_fornecedor").value.trim();
-        fornecedoresGuardados[idFornecedor].equipamentos = document.getElementById("equipamentos").value.trim();
         fornecedoresGuardados[idFornecedor].observacoes = document.getElementById("observacoes").value.trim();
 
         localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
@@ -1768,8 +1790,32 @@ function preencherDetalhesDocumentacao() {
     document.getElementById("detalhe-nome-documentacao").textContent = documentacao.nomeDocumentacao;
     document.getElementById("detalhe-data-documentacao").textContent = documentacao.dataDocumentacao;
     document.getElementById("detalhe-data-validade-documentacao").textContent = documentacao.dataValidade || "Sem data de validade";
-    document.getElementById("detalhe-equipamento-documentacao").textContent = documentacao.equipamento;
-    document.getElementById("detalhe-fornecedor-documentacao").textContent = documentacao.fornecedor || "Sem fornecedor associado";
+    const campoEquipamentoDocumentacao = document.getElementById("detalhe-equipamento-documentacao");
+
+    if (campoEquipamentoDocumentacao) {
+        if (documentacao.equipamento) {
+            campoEquipamentoDocumentacao.innerHTML = `
+            <a href="../equipamentos/consultar_equipamento.html?id=${documentacao.equipamento}" class="link-detalhe">
+                ${documentacao.equipamento}
+            </a>
+        `;
+        } else {
+            campoEquipamentoDocumentacao.textContent = "Sem equipamento associado";
+        }
+    }
+    const campoFornecedorDocumentacao = document.getElementById("detalhe-fornecedor-documentacao");
+
+    if (campoFornecedorDocumentacao) {
+        if (documentacao.fornecedor) {
+            campoFornecedorDocumentacao.innerHTML = `
+            <a href="../fornecedores/consultar_fornecedor.html?id=${documentacao.fornecedor}" class="link-detalhe">
+                ${documentacao.fornecedor}
+            </a>
+        `;
+        } else {
+            campoFornecedorDocumentacao.textContent = "Sem fornecedor associado";
+        }
+    }
     document.getElementById("detalhe-ficheiro-documentacao").textContent = documentacao.ficheiro;
     document.getElementById("detalhe-observacoes-documentacao").textContent = documentacao.observacoes || "Sem observações";
 

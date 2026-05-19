@@ -1060,6 +1060,111 @@ body {
     overflow-wrap: anywhere;
 }
 
+/* ===============================
+   PÁGINA ELIMINAR EQUIPAMENTO
+================================ */
+
+.cartao-eliminar {
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 56px 48px;
+    text-align: center;
+    border: 1px solid #d7e3ec;
+    border-radius: 18px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 28px rgba(0, 63, 120, 0.06);
+}
+
+.icone-eliminar {
+    color: #0b8793;
+    font-size: 48px;
+    margin-bottom: 28px;
+}
+
+.texto-confirmacao-eliminar {
+    font-size: 28px;
+    font-weight: 500;
+    color: #1f2d3a;
+    margin-bottom: 20px;
+}
+
+#eliminar-designacao-equipamento {
+    max-width: 620px;
+    margin: 0 auto 36px auto;
+    font-size: 32px;
+    font-weight: 700;
+    color: #00437a;
+    line-height: 1.25;
+    letter-spacing: 1px;
+}
+
+.detalhes-eliminar {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    margin-bottom: 44px;
+}
+
+.detalhes-eliminar p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 20px;
+    color: #1f2d3a;
+}
+
+.detalhes-eliminar i {
+    color: #0b8793;
+    font-size: 20px;
+}
+
+.detalhes-eliminar strong {
+    color: #122b3d;
+}
+
+.botoes-eliminar {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+.botoes-eliminar .botao-secundario,
+.botoes-eliminar .botao-eliminar {
+    min-width: 150px;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.botoes-eliminar .botao-secundario {
+    background-color: #ffffff;
+    color: #00437a;
+    border: 1px solid #9fb3c8;
+}
+
+.botoes-eliminar .botao-secundario:hover {
+    background-color: #f3f7fb;
+}
+
+.botoes-eliminar .botao-eliminar {
+    background-color: #00437a;
+    color: #ffffff;
+    border: 1px solid #00437a;
+}
+
+.botoes-eliminar .botao-eliminar:hover {
+    background-color: #00345f;
+    border-color: #00345f;
+}
+
 @media (max-width: 1200px) {
 
     /* Sobre: texto em cima e card por baixo */

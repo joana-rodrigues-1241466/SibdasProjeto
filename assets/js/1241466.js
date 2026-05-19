@@ -242,7 +242,7 @@ const equipamentosConsulta = {
         tipoEntrada: "Compra",
         estado: "Ativo",
         criticidade: "Alta",
-        localizacao: "Unidade de Cuidados Intensivos",
+        localizacao: "LOC001",
         observacoes: "Equipamento utilizado para monitorização contínua de sinais vitais em doentes críticos."
     },
 
@@ -261,7 +261,7 @@ const equipamentosConsulta = {
         tipoEntrada: "Compra",
         estado: "Em manutenção",
         criticidade: "Crítica",
-        localizacao: "Unidade de Cuidados Intensivos",
+        localizacao: "LOC002",
         observacoes: "Equipamento em manutenção preventiva programada."
     },
 
@@ -280,7 +280,7 @@ const equipamentosConsulta = {
         tipoEntrada: "Compra",
         estado: "Em calibração",
         criticidade: "Média",
-        localizacao: "Serviço de Medicina",
+        localizacao: "LOC003",
         observacoes: "Utilizada para administração controlada de terapêutica intravenosa."
     },
 
@@ -299,7 +299,7 @@ const equipamentosConsulta = {
         tipoEntrada: "Compra",
         estado: "Ativo",
         criticidade: "Crítica",
-        localizacao: "Urgência",
+        localizacao: "LOC004",
         observacoes: "Equipamento essencial para resposta rápida em situações de paragem cardiorrespiratória."
     }
 };
@@ -350,10 +350,10 @@ function preencherListagemEquipamentos() {
                     Editar
                 </a>
 
-                <a href="#" class="acao-tabela-privada eliminar-equipamento" data-id="${equipamento.codigo}">
-                    <i class="fa-regular fa-trash-can"></i>
-                    Eliminar
-                </a>
+                <a href="eliminar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
+    <i class="fa-regular fa-trash-can"></i>
+    Eliminar
+</a>
             </td>
         `;
 
@@ -371,6 +371,7 @@ function inicializarNovoEquipamento() {
     }
 
     preencherSelectFornecedores("fornecedor");
+    preencherSelectLocalizacoes("localizacao");
 
     formularioNovoEquipamento.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -538,6 +539,7 @@ function inicializarEditarEquipamento() {
     }
 
     preencherSelectFornecedores("fornecedor", equipamento.fornecedor);
+    preencherSelectLocalizacoes("localizacao", equipamento.localizacao);
 
     document.getElementById("codigo").value = equipamento.codigo;
     document.getElementById("designacao").value = equipamento.designacao;
@@ -552,11 +554,6 @@ function inicializarEditarEquipamento() {
     document.getElementById("tipo_entrada").value = equipamento.tipoEntrada;
     document.getElementById("estado").value = equipamento.estado;
     document.getElementById("criticidade").value = equipamento.criticidade;
-
-    if (document.getElementById("localizacao")) {
-        document.getElementById("localizacao").value = equipamento.localizacao;
-    }
-
     document.getElementById("observacoes").value = equipamento.observacoes;
 
     const botaoCancelarEdicao = document.getElementById("botao-cancelar-edicao");
@@ -621,42 +618,95 @@ function inicializarEditarEquipamento() {
                 return;
             }
 
+            if (origem === "filaLocalizacao") {
+                let filaEquipamentos = JSON.parse(localStorage.getItem("filaEdicaoEquipamentos")) || [];
+
+                filaEquipamentos = filaEquipamentos.filter(function (codigoEquipamento) {
+                    return codigoEquipamento !== idEquipamento;
+                });
+
+                localStorage.setItem("filaEdicaoEquipamentos", JSON.stringify(filaEquipamentos));
+
+                if (filaEquipamentos.length > 0) {
+                    window.location.href = `editar_equipamento.html?id=${filaEquipamentos[0]}&origem=filaLocalizacao`;
+                } else {
+                    localStorage.removeItem("filaEdicaoEquipamentos");
+
+                    alert("Todos os equipamentos associados à localização eliminada foram revistos.");
+
+                    window.location.href = "../localizacoes/localizacoes.html";
+                }
+
+                return;
+            }
+
             window.location.href = `consultar_equipamento.html?id=${idEquipamento}`;
         }, 800);
     });
 }
 
 
-function inicializarEliminarEquipamentos() {
-    document.addEventListener("click", function (event) {
-        const botaoEliminar = event.target.closest(".eliminar-equipamento");
+function preencherEliminarEquipamento() {
+    const campoDesignacao = document.getElementById("eliminar-designacao-equipamento");
 
-        if (!botaoEliminar) {
+    if (!campoDesignacao) {
+        return;
+    }
+
+    const parametros = new URLSearchParams(window.location.search);
+    const idEquipamento = parametros.get("id");
+
+    if (!idEquipamento) {
+        alert("Equipamento não encontrado.");
+        window.location.href = "equipamentos.html";
+        return;
+    }
+
+    const equipamento = equipamentosGuardados[idEquipamento];
+
+    if (!equipamento) {
+        alert("Equipamento não encontrado.");
+        window.location.href = "equipamentos.html";
+        return;
+    }
+
+    campoDesignacao.textContent = equipamento.designacao;
+
+    document.getElementById("eliminar-codigo-equipamento").textContent = equipamento.codigo;
+    document.getElementById("eliminar-estado-equipamento").textContent = equipamento.estado;
+}
+
+
+function inicializarConfirmacaoEliminarEquipamento() {
+    const botaoConfirmar = document.getElementById("botao-confirmar-eliminar-equipamento");
+
+    if (!botaoConfirmar) {
+        return;
+    }
+
+    botaoConfirmar.addEventListener("click", function () {
+        const parametros = new URLSearchParams(window.location.search);
+        const idEquipamento = parametros.get("id");
+
+        if (!idEquipamento) {
+            alert("Equipamento não encontrado.");
+            window.location.href = "equipamentos.html";
             return;
         }
 
-        event.preventDefault();
+        const equipamento = equipamentosGuardados[idEquipamento];
 
-        const idEquipamento = botaoEliminar.getAttribute("data-id");
-
-        const confirmar = confirm("Tem a certeza que pretende eliminar este equipamento?");
-
-        if (!confirmar) {
+        if (!equipamento) {
+            alert("Equipamento não encontrado.");
+            window.location.href = "equipamentos.html";
             return;
         }
 
         const documentacoesAfetadas = obterDocumentacoesPorEquipamento(idEquipamento);
 
-        // Limpa o equipamento nas documentações associadas ao equipamento eliminado
-        documentacoesAfetadas.forEach(function (documentacao) {
-            documentacaoGuardada[documentacao.codigo].equipamento = "";
-        });
-
-        // Só elimina depois da confirmação
         delete equipamentosGuardados[idEquipamento];
 
         localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
-        localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
 
         if (documentacoesAfetadas.length > 0) {
             const filaDocumentacao = documentacoesAfetadas.map(function (documentacao) {
@@ -671,7 +721,7 @@ function inicializarEliminarEquipamentos() {
             return;
         }
 
-        preencherListagemEquipamentos();
+        window.location.href = "equipamentos.html";
     });
 }
 
@@ -686,7 +736,6 @@ const localizacoesConsulta = {
         piso: "Piso 2",
         servico: "Unidade de Cuidados Intensivos",
         sala: "Sala 2.10",
-        equipamentos: "Monitor multiparamétrico de sinais vitais",
         observacoes: "Área destinada à monitorização contínua de doentes críticos."
     },
 
@@ -696,7 +745,6 @@ const localizacoesConsulta = {
         piso: "Piso 2",
         servico: "Unidade de Cuidados Intensivos",
         sala: "Sala 2.11",
-        equipamentos: "Ventilador pulmonar",
         observacoes: "Localização associada a equipamentos de suporte ventilatório."
     },
 
@@ -706,7 +754,6 @@ const localizacoesConsulta = {
         piso: "Piso 0",
         servico: "Serviço de Medicina",
         sala: "Gabinete 0.04",
-        equipamentos: "Bomba de infusão",
         observacoes: "Localização utilizada para equipamentos de apoio à terapêutica intravenosa."
     },
 
@@ -716,7 +763,6 @@ const localizacoesConsulta = {
         piso: "Piso 1",
         servico: "Urgência",
         sala: "Sala 1.02",
-        equipamentos: "Desfibrilhador",
         observacoes: "Localização destinada a equipamentos de resposta rápida."
     }
 };
@@ -747,7 +793,9 @@ function preencherListagemLocalizacoes() {
             <td>${localizacao.piso}</td>
             <td>${localizacao.servico}</td>
             <td>${localizacao.sala}</td>
-            <td>${localizacao.equipamentos}</td>
+            <td>${obterEquipamentosPorLocalizacao(localizacao.codigo).map(function (equipamento) {
+            return equipamento.codigo;
+        }).join(", ") || "Sem equipamentos"}</td>
 
             <td class="acoes-tabela-privada">
                 <a href="consultar_localizacao.html?id=${localizacao.codigo}" class="acao-tabela-privada">
@@ -760,10 +808,10 @@ function preencherListagemLocalizacoes() {
                     Editar
                 </a>
 
-                <a href="#" class="acao-tabela-privada eliminar-localizacao" data-id="${localizacao.codigo}">
-                    <i class="fa-regular fa-trash-can"></i>
-                    Eliminar
-                </a>
+                <a href="eliminar_localizacao.html?id=${localizacao.codigo}" class="acao-tabela-privada">
+    <i class="fa-regular fa-trash-can"></i>
+    Eliminar
+</a>
             </td>
         `;
 
@@ -807,7 +855,6 @@ function inicializarNovaLocalizacao() {
             piso: document.getElementById("piso").value.trim(),
             servico: document.getElementById("servico").value.trim(),
             sala: document.getElementById("sala").value.trim(),
-            equipamentos: document.getElementById("equipamentos").value.trim(),
             observacoes: document.getElementById("observacoes").value.trim()
         };
 
@@ -863,7 +910,20 @@ function preencherDetalhesLocalizacao() {
     document.getElementById("detalhe-piso").textContent = localizacao.piso;
     document.getElementById("detalhe-servico").textContent = localizacao.servico;
     document.getElementById("detalhe-sala").textContent = localizacao.sala;
-    document.getElementById("detalhe-equipamentos").textContent = localizacao.equipamentos;
+    const equipamentosDaLocalizacao = obterEquipamentosPorLocalizacao(idLocalizacao);
+    const campoEquipamentos = document.getElementById("detalhe-equipamentos-localizacao");
+
+    if (campoEquipamentos) {
+        if (equipamentosDaLocalizacao.length === 0) {
+            campoEquipamentos.textContent = "Sem equipamentos associados";
+        } else {
+            campoEquipamentos.innerHTML = equipamentosDaLocalizacao.map(function (equipamento) {
+                return `<a href="../equipamentos/consultar_equipamento.html?id=${equipamento.codigo}" class="link-detalhe">
+                        ${equipamento.codigo}
+                    </a>`;
+            }).join(" ");
+        }
+    }
     document.getElementById("detalhe-observacoes-localizacao").textContent = localizacao.observacoes;
 
     const botaoEditarLocalizacao = document.getElementById("botao-editar-localizacao");
@@ -901,7 +961,6 @@ function inicializarEditarLocalizacao() {
     document.getElementById("piso").value = localizacao.piso;
     document.getElementById("servico").value = localizacao.servico;
     document.getElementById("sala").value = localizacao.sala;
-    document.getElementById("equipamentos").value = localizacao.equipamentos;
     document.getElementById("observacoes").value = localizacao.observacoes;
 
     const botaoCancelarEdicaoLocalizacao = document.getElementById("botao-cancelar-edicao-localizacao");
@@ -917,7 +976,6 @@ function inicializarEditarLocalizacao() {
         localizacoesGuardadas[idLocalizacao].piso = document.getElementById("piso").value.trim();
         localizacoesGuardadas[idLocalizacao].servico = document.getElementById("servico").value.trim();
         localizacoesGuardadas[idLocalizacao].sala = document.getElementById("sala").value.trim();
-        localizacoesGuardadas[idLocalizacao].equipamentos = document.getElementById("equipamentos").value.trim();
         localizacoesGuardadas[idLocalizacao].observacoes = document.getElementById("observacoes").value.trim();
 
         localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
@@ -934,30 +992,87 @@ function inicializarEditarLocalizacao() {
     });
 }
 
+function preencherEliminarLocalizacao() {
+    const campoNome = document.getElementById("eliminar-nome-localizacao");
 
-function inicializarEliminarLocalizacoes() {
-    document.addEventListener("click", function (event) {
-        const botaoEliminarLocalizacao = event.target.closest(".eliminar-localizacao");
+    if (!campoNome) {
+        return;
+    }
 
-        if (!botaoEliminarLocalizacao) {
+    const parametros = new URLSearchParams(window.location.search);
+    const idLocalizacao = parametros.get("id");
+
+    if (!idLocalizacao) {
+        alert("Localização não encontrada.");
+        window.location.href = "localizacoes.html";
+        return;
+    }
+
+    const localizacao = localizacoesGuardadas[idLocalizacao];
+
+    if (!localizacao) {
+        alert("Localização não encontrada.");
+        window.location.href = "localizacoes.html";
+        return;
+    }
+
+    campoNome.textContent = localizacao.servico + " - " + localizacao.sala;
+
+    document.getElementById("eliminar-codigo-localizacao").textContent = localizacao.codigo;
+}
+
+
+function inicializarConfirmacaoEliminarLocalizacao() {
+    const botaoConfirmar = document.getElementById("botao-confirmar-eliminar-localizacao");
+
+    if (!botaoConfirmar) {
+        return;
+    }
+
+    botaoConfirmar.addEventListener("click", function () {
+        const parametros = new URLSearchParams(window.location.search);
+        const idLocalizacao = parametros.get("id");
+
+        if (!idLocalizacao) {
+            alert("Localização não encontrada.");
+            window.location.href = "localizacoes.html";
             return;
         }
 
-        event.preventDefault();
+        const localizacao = localizacoesGuardadas[idLocalizacao];
 
-        const idLocalizacao = botaoEliminarLocalizacao.getAttribute("data-id");
-
-        const confirmar = confirm("Tem a certeza que pretende eliminar esta localização?");
-
-        if (!confirmar) {
+        if (!localizacao) {
+            alert("Localização não encontrada.");
+            window.location.href = "localizacoes.html";
             return;
         }
+
+        const equipamentosAfetados = obterEquipamentosPorLocalizacao(idLocalizacao);
 
         delete localizacoesGuardadas[idLocalizacao];
 
         localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
 
-        preencherListagemLocalizacoes();
+        if (equipamentosAfetados.length > 0) {
+            const filaEquipamentos = equipamentosAfetados.map(function (equipamento) {
+                return equipamento.codigo;
+            });
+
+            equipamentosAfetados.forEach(function (equipamento) {
+                equipamentosGuardados[equipamento.codigo].localizacao = "";
+            });
+
+            localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
+
+            localStorage.setItem("filaEdicaoEquipamentos", JSON.stringify(filaEquipamentos));
+
+            alert("A localização foi eliminada. Existem equipamentos associados a esta localização. Vai editar cada equipamento afetado, um de cada vez.");
+
+            window.location.href = `../equipamentos/editar_equipamento.html?id=${filaEquipamentos[0]}&origem=filaLocalizacao`;
+            return;
+        }
+
+        window.location.href = "localizacoes.html";
     });
 }
 
@@ -1067,10 +1182,10 @@ function preencherListagemFornecedores() {
                     Editar
                 </a>
 
-                <a href="#" class="acao-tabela-privada eliminar-fornecedor" data-id="${fornecedor.codigo}">
-                    <i class="fa-regular fa-trash-can"></i>
-                    Eliminar
-                </a>
+                <a href="eliminar_fornecedor.html?id=${fornecedor.codigo}" class="acao-tabela-privada">
+    <i class="fa-regular fa-trash-can"></i>
+    Eliminar
+</a>
             </td>
         `;
 
@@ -1365,38 +1480,70 @@ function inicializarEditarFornecedor() {
     });
 }
 
-// Eliminar fornecedor da listagem
-function inicializarEliminarFornecedores() {
-    document.addEventListener("click", function (event) {
-        const botaoEliminarFornecedor = event.target.closest(".eliminar-fornecedor");
+function preencherEliminarFornecedor() {
+    const campoNome = document.getElementById("eliminar-nome-fornecedor");
 
-        if (!botaoEliminarFornecedor) {
+    if (!campoNome) {
+        return;
+    }
+
+    const parametros = new URLSearchParams(window.location.search);
+    const idFornecedor = parametros.get("id");
+
+    if (!idFornecedor) {
+        alert("Fornecedor não encontrado.");
+        window.location.href = "fornecedores.html";
+        return;
+    }
+
+    const fornecedor = fornecedoresGuardados[idFornecedor];
+
+    if (!fornecedor) {
+        alert("Fornecedor não encontrado.");
+        window.location.href = "fornecedores.html";
+        return;
+    }
+
+    campoNome.textContent = fornecedor.nomeEmpresa;
+
+    document.getElementById("eliminar-codigo-fornecedor").textContent = fornecedor.codigo;
+    document.getElementById("eliminar-nif-fornecedor").textContent = fornecedor.nif;
+}
+
+function inicializarConfirmacaoEliminarFornecedor() {
+    const botaoConfirmar = document.getElementById("botao-confirmar-eliminar-fornecedor");
+
+    if (!botaoConfirmar) {
+        return;
+    }
+
+    botaoConfirmar.addEventListener("click", function () {
+        const parametros = new URLSearchParams(window.location.search);
+        const idFornecedor = parametros.get("id");
+
+        if (!idFornecedor) {
+            alert("Fornecedor não encontrado.");
+            window.location.href = "fornecedores.html";
             return;
         }
 
-        event.preventDefault();
+        const fornecedor = fornecedoresGuardados[idFornecedor];
 
-        const idFornecedor = botaoEliminarFornecedor.getAttribute("data-id");
-
-        const confirmar = confirm("Tem a certeza que pretende eliminar este fornecedor?");
-
-        if (!confirmar) {
+        if (!fornecedor) {
+            alert("Fornecedor não encontrado.");
+            window.location.href = "fornecedores.html";
             return;
         }
 
         const equipamentosAfetados = obterEquipamentosPorFornecedor(idFornecedor);
         const documentacoesAfetadas = obterDocumentacoesPorFornecedor(idFornecedor);
 
-        // Apaga o fornecedor da lista de fornecedores
         delete fornecedoresGuardados[idFornecedor];
 
-        // Como o fornecedor na documentação é opcional, limpa automaticamente
         documentacoesAfetadas.forEach(function (documentacao) {
             documentacaoGuardada[documentacao.codigo].fornecedor = "";
         });
 
-        // Como o fornecedor no equipamento tem de ser revisto,
-        // limpamos o campo e mandamos o utilizador editar cada equipamento afetado
         equipamentosAfetados.forEach(function (equipamento) {
             equipamentosGuardados[equipamento.codigo].fornecedor = "";
         });
@@ -1418,7 +1565,7 @@ function inicializarEliminarFornecedores() {
             return;
         }
 
-        preencherListagemFornecedores();
+        window.location.href = "fornecedores.html";
     });
 }
 
@@ -1514,10 +1661,10 @@ function preencherListagemDocumentacao() {
                     Editar
                 </a>
 
-                <a href="#" class="acao-tabela-privada eliminar-documentacao" data-id="${documentacao.codigo}">
-                    <i class="fa-regular fa-trash-can"></i>
-                    Eliminar
-                </a>
+                <a href="eliminar_documentacao.html?id=${documentacao.codigo}" class="acao-tabela-privada">
+    <i class="fa-regular fa-trash-can"></i>
+    Eliminar
+</a>
             </td>
         `;
 
@@ -1729,21 +1876,58 @@ function inicializarEditarDocumentacao() {
     });
 }
 
-function inicializarEliminarDocumentacao() {
-    document.addEventListener("click", function (event) {
-        const botaoEliminarDocumentacao = event.target.closest(".eliminar-documentacao");
+function preencherEliminarDocumentacao() {
+    const campoNome = document.getElementById("eliminar-nome-documentacao");
 
-        if (!botaoEliminarDocumentacao) {
+    if (!campoNome) {
+        return;
+    }
+
+    const parametros = new URLSearchParams(window.location.search);
+    const idDocumentacao = parametros.get("id");
+
+    if (!idDocumentacao) {
+        alert("Documentação não encontrada.");
+        window.location.href = "documentacao.html";
+        return;
+    }
+
+    const documentacao = documentacaoGuardada[idDocumentacao];
+
+    if (!documentacao) {
+        alert("Documentação não encontrada.");
+        window.location.href = "documentacao.html";
+        return;
+    }
+
+    campoNome.textContent = documentacao.nomeDocumentacao;
+
+    document.getElementById("eliminar-codigo-documentacao").textContent = documentacao.codigo;
+    document.getElementById("eliminar-tipo-documentacao").textContent = documentacao.tipoDocumentacao;
+}
+
+function inicializarConfirmacaoEliminarDocumentacao() {
+    const botaoConfirmar = document.getElementById("botao-confirmar-eliminar-documentacao");
+
+    if (!botaoConfirmar) {
+        return;
+    }
+
+    botaoConfirmar.addEventListener("click", function () {
+        const parametros = new URLSearchParams(window.location.search);
+        const idDocumentacao = parametros.get("id");
+
+        if (!idDocumentacao) {
+            alert("Documentação não encontrada.");
+            window.location.href = "documentacao.html";
             return;
         }
 
-        event.preventDefault();
+        const documentacao = documentacaoGuardada[idDocumentacao];
 
-        const idDocumentacao = botaoEliminarDocumentacao.getAttribute("data-id");
-
-        const confirmar = confirm("Tem a certeza que pretende eliminar esta documentação?");
-
-        if (!confirmar) {
+        if (!documentacao) {
+            alert("Documentação não encontrada.");
+            window.location.href = "documentacao.html";
             return;
         }
 
@@ -1751,7 +1935,7 @@ function inicializarEliminarDocumentacao() {
 
         localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
 
-        preencherListagemDocumentacao();
+        window.location.href = "documentacao.html";
     });
 }
 
@@ -1806,6 +1990,12 @@ function obterEquipamentosPorFornecedor(codigoFornecedor) {
     });
 }
 
+function obterEquipamentosPorLocalizacao(codigoLocalizacao) {
+    return Object.values(equipamentosGuardados).filter(function (equipamento) {
+        return equipamento.localizacao === codigoLocalizacao;
+    });
+}
+
 function preencherSelectFornecedores(idSelect, fornecedorSelecionado = "", opcional = false) {
     const selectFornecedor = document.getElementById(idSelect);
 
@@ -1853,6 +2043,39 @@ function preencherSelectEquipamentos(idSelect, equipamentoSelecionado = "") {
         }
 
         selectEquipamento.appendChild(option);
+    });
+}
+
+function preencherSelectLocalizacoes(idSelect, localizacaoSelecionada = "") {
+    const selectLocalizacao = document.getElementById(idSelect);
+
+    if (!selectLocalizacao) {
+        return;
+    }
+
+    selectLocalizacao.innerHTML = '<option value="" selected disabled>Escolha uma localização</option>';
+
+    if (localizacaoSelecionada && !localizacoesGuardadas[localizacaoSelecionada]) {
+        const optionEliminada = document.createElement("option");
+
+        optionEliminada.value = localizacaoSelecionada;
+        optionEliminada.textContent = localizacaoSelecionada;
+        optionEliminada.selected = true;
+
+        selectLocalizacao.appendChild(optionEliminada);
+    }
+
+    Object.values(localizacoesGuardadas).forEach(function (localizacao) {
+        const option = document.createElement("option");
+
+        option.value = localizacao.codigo;
+        option.textContent = localizacao.codigo;
+
+        if (localizacao.codigo === localizacaoSelecionada) {
+            option.selected = true;
+        }
+
+        selectLocalizacao.appendChild(option);
     });
 }
 
@@ -1906,27 +2129,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
     preencherListagemEquipamentos();
     preencherDetalhesEquipamento();
+    preencherEliminarEquipamento();
     inicializarNovoEquipamento();
     inicializarEditarEquipamento();
-    inicializarEliminarEquipamentos();
+    inicializarConfirmacaoEliminarEquipamento();
 
     preencherListagemLocalizacoes();
     preencherDetalhesLocalizacao();
+    preencherEliminarLocalizacao();
     inicializarNovaLocalizacao();
     inicializarEditarLocalizacao();
-    inicializarEliminarLocalizacoes();
+    inicializarConfirmacaoEliminarLocalizacao();
 
     preencherListagemFornecedores();
     preencherDetalhesFornecedor();
+    preencherEliminarFornecedor();
     inicializarNovoFornecedor();
     inicializarEditarFornecedor();
-    inicializarEliminarFornecedores();
+    inicializarConfirmacaoEliminarFornecedor();
 
     preencherListagemDocumentacao();
     preencherDetalhesDocumentacao();
+    preencherEliminarDocumentacao();
     inicializarNovaDocumentacao();
     inicializarEditarDocumentacao();
-    inicializarEliminarDocumentacao();
+    inicializarConfirmacaoEliminarDocumentacao();
 
     inicializarDropdownUtilizador();
 });

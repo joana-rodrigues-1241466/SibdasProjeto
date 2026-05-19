@@ -481,6 +481,30 @@ function preencherDetalhesEquipamento() {
         detalheLocalizacao.textContent = equipamento.localizacao;
     }
 
+    const campoDocumentacaoAssociada = document.getElementById("detalhe-documentacao-associada-equipamento");
+
+    if (campoDocumentacaoAssociada) {
+        const documentacoesAssociadas = obterDocumentacoesPorEquipamento(equipamento.codigo);
+
+        if (documentacoesAssociadas.length === 0) {
+            campoDocumentacaoAssociada.textContent = "Sem documentação associada";
+        } else {
+            campoDocumentacaoAssociada.innerHTML = "";
+
+            documentacoesAssociadas.forEach(function (documentacao) {
+                const item = document.createElement("p");
+
+                item.innerHTML = `
+    <a href="../documentacao/consultar_documentacao.html?id=${documentacao.codigo}">
+        ${documentacao.codigo} - ${documentacao.nomeDocumentacao}
+    </a>
+`;
+
+                campoDocumentacaoAssociada.appendChild(item);
+            });
+        }
+    }
+
     document.getElementById("detalhe-observacoes").textContent = equipamento.observacoes;
 
     const botaoEditarEquipamento = document.getElementById("botao-editar-equipamento");
@@ -623,10 +647,16 @@ function inicializarEliminarEquipamentos() {
 
         const documentacoesAfetadas = obterDocumentacoesPorEquipamento(idEquipamento);
 
+        // Limpa o equipamento nas documentações associadas ao equipamento eliminado
+        documentacoesAfetadas.forEach(function (documentacao) {
+            documentacaoGuardada[documentacao.codigo].equipamento = "";
+        });
+
         // Só elimina depois da confirmação
         delete equipamentosGuardados[idEquipamento];
 
         localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
+        localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
 
         if (documentacoesAfetadas.length > 0) {
             const filaDocumentacao = documentacoesAfetadas.map(function (documentacao) {

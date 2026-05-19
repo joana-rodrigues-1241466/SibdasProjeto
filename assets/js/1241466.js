@@ -573,6 +573,30 @@ function inicializarEditarEquipamento() {
         }
 
         setTimeout(function () {
+            const origem = parametros.get("origem");
+
+            if (origem === "filaFornecedor") {
+                let filaEquipamentos = JSON.parse(localStorage.getItem("filaEdicaoEquipamentos")) || [];
+
+                filaEquipamentos = filaEquipamentos.filter(function (codigoEquipamento) {
+                    return codigoEquipamento !== idEquipamento;
+                });
+
+                localStorage.setItem("filaEdicaoEquipamentos", JSON.stringify(filaEquipamentos));
+
+                if (filaEquipamentos.length > 0) {
+                    window.location.href = `editar_equipamento.html?id=${filaEquipamentos[0]}&origem=filaFornecedor`;
+                } else {
+                    localStorage.removeItem("filaEdicaoEquipamentos");
+
+                    alert("Todos os equipamentos associados ao fornecedor eliminado foram revistos.");
+
+                    window.location.href = "../fornecedores/fornecedores.html";
+                }
+
+                return;
+            }
+
             window.location.href = `consultar_equipamento.html?id=${idEquipamento}`;
         }, 800);
     });
@@ -597,14 +621,29 @@ function inicializarEliminarEquipamentos() {
             return;
         }
 
+        const documentacoesAfetadas = obterDocumentacoesPorEquipamento(idEquipamento);
+
+        // Só elimina depois da confirmação
         delete equipamentosGuardados[idEquipamento];
 
         localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
 
+        if (documentacoesAfetadas.length > 0) {
+            const filaDocumentacao = documentacoesAfetadas.map(function (documentacao) {
+                return documentacao.codigo;
+            });
+
+            localStorage.setItem("filaEdicaoDocumentacao", JSON.stringify(filaDocumentacao));
+
+            alert("O equipamento foi eliminado. Existem documentações associadas a esse equipamento. Vai editar cada documentação afetada, uma de cada vez.");
+
+            window.location.href = `../documentacao/editar_documentacao.html?id=${filaDocumentacao[0]}&origem=filaEquipamento`;
+            return;
+        }
+
         preencherListagemEquipamentos();
     });
 }
-
 
 // ===============================
 // LOCALIZAÇÕES
@@ -1315,9 +1354,39 @@ function inicializarEliminarFornecedores() {
             return;
         }
 
+        const equipamentosAfetados = obterEquipamentosPorFornecedor(idFornecedor);
+        const documentacoesAfetadas = obterDocumentacoesPorFornecedor(idFornecedor);
+
+        // Apaga o fornecedor da lista de fornecedores
         delete fornecedoresGuardados[idFornecedor];
 
+        // Como o fornecedor na documentação é opcional, limpa automaticamente
+        documentacoesAfetadas.forEach(function (documentacao) {
+            documentacaoGuardada[documentacao.codigo].fornecedor = "";
+        });
+
+        // Como o fornecedor no equipamento tem de ser revisto,
+        // limpamos o campo e mandamos o utilizador editar cada equipamento afetado
+        equipamentosAfetados.forEach(function (equipamento) {
+            equipamentosGuardados[equipamento.codigo].fornecedor = "";
+        });
+
         localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
+        localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
+        localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
+
+        if (equipamentosAfetados.length > 0) {
+            const filaEquipamentos = equipamentosAfetados.map(function (equipamento) {
+                return equipamento.codigo;
+            });
+
+            localStorage.setItem("filaEdicaoEquipamentos", JSON.stringify(filaEquipamentos));
+
+            alert("O fornecedor foi eliminado. Existem equipamentos associados a esse fornecedor. Vai editar cada equipamento afetado, um de cada vez.");
+
+            window.location.href = `../equipamentos/editar_equipamento.html?id=${filaEquipamentos[0]}&origem=filaFornecedor`;
+            return;
+        }
 
         preencherListagemFornecedores();
     });
@@ -1534,32 +1603,6 @@ function preencherDetalhesDocumentacao() {
     }
 }
 
-function inicializarEliminarDocumentacao() {
-    document.addEventListener("click", function (event) {
-        const botaoEliminarDocumentacao = event.target.closest(".eliminar-documentacao");
-
-        if (!botaoEliminarDocumentacao) {
-            return;
-        }
-
-        event.preventDefault();
-
-        const idDocumentacao = botaoEliminarDocumentacao.getAttribute("data-id");
-
-        const confirmar = confirm("Tem a certeza que pretende eliminar esta documentação?");
-
-        if (!confirmar) {
-            return;
-        }
-
-        delete documentacaoGuardada[idDocumentacao];
-
-        localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
-
-        preencherListagemDocumentacao();
-    });
-}
-
 function inicializarEditarDocumentacao() {
     const formularioEditarDocumentacao = document.getElementById("form-editar-documentacao");
     const mensagemEditarDocumentacao = document.getElementById("mensagem-editar-documentacao");
@@ -1627,8 +1670,58 @@ function inicializarEditarDocumentacao() {
         }
 
         setTimeout(function () {
+            const origem = parametros.get("origem");
+
+            if (origem === "filaEquipamento") {
+                let filaDocumentacao = JSON.parse(localStorage.getItem("filaEdicaoDocumentacao")) || [];
+
+                filaDocumentacao = filaDocumentacao.filter(function (codigoDocumentacao) {
+                    return codigoDocumentacao !== idDocumentacao;
+                });
+
+                localStorage.setItem("filaEdicaoDocumentacao", JSON.stringify(filaDocumentacao));
+
+                if (filaDocumentacao.length > 0) {
+                    window.location.href = `editar_documentacao.html?id=${filaDocumentacao[0]}&origem=filaEquipamento`;
+                } else {
+                    localStorage.removeItem("filaEdicaoDocumentacao");
+
+                    alert("Todas as documentações associadas ao equipamento eliminado foram revistas.");
+
+                    window.location.href = "../equipamentos/equipamentos.html";
+                }
+
+                return;
+            }
+
             window.location.href = `consultar_documentacao.html?id=${idDocumentacao}`;
         }, 800);
+    });
+}
+
+function inicializarEliminarDocumentacao() {
+    document.addEventListener("click", function (event) {
+        const botaoEliminarDocumentacao = event.target.closest(".eliminar-documentacao");
+
+        if (!botaoEliminarDocumentacao) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const idDocumentacao = botaoEliminarDocumentacao.getAttribute("data-id");
+
+        const confirmar = confirm("Tem a certeza que pretende eliminar esta documentação?");
+
+        if (!confirmar) {
+            return;
+        }
+
+        delete documentacaoGuardada[idDocumentacao];
+
+        localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
+
+        preencherListagemDocumentacao();
     });
 }
 
@@ -1662,6 +1755,26 @@ function inicializarDropdownUtilizador() {
 // ===============================
 // FUNÇÕES AUXILIARES
 // ===============================
+
+function obterDocumentacoesPorFornecedor(codigoFornecedor) {
+    return Object.values(documentacaoGuardada).filter(function (documentacao) {
+        return documentacao.fornecedor === codigoFornecedor;
+    });
+}
+
+
+function obterDocumentacoesPorEquipamento(codigoEquipamento) {
+    return Object.values(documentacaoGuardada).filter(function (documentacao) {
+        return documentacao.equipamento === codigoEquipamento;
+    });
+}
+
+
+function obterEquipamentosPorFornecedor(codigoFornecedor) {
+    return Object.values(equipamentosGuardados).filter(function (equipamento) {
+        return equipamento.fornecedor === codigoFornecedor;
+    });
+}
 
 function preencherSelectFornecedores(idSelect, fornecedorSelecionado = "", opcional = false) {
     const selectFornecedor = document.getElementById(idSelect);

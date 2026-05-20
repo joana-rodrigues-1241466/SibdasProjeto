@@ -53,7 +53,7 @@
     <div class="layout-privado">
 
         <!-- Menu lateral da área privada -->
-         <aside class="menu-lateral-privada">
+        <aside class="menu-lateral-privada">
             <h2>Menu</h2>
 
             <nav>
@@ -110,8 +110,110 @@
             </div>
 
             <p class="mensagem-listagem">
-                Consulte abaixo os equipamentos registados no inventário hospitalar.
+                Consulta, pesquisa e filtra os equipamentos médicos registados no inventário hospitalar.
             </p>
+
+            <!-- PESQUISA E FILTROS -->
+            <section class="area-pesquisa-filtros">
+
+                <div class="caixa-pesquisa-equipamentos">
+                    <h2>Pesquisa</h2>
+
+                    <div class="linha-pesquisa-equipamentos">
+                        <input type="text" id="pesquisaEquipamentos" class="campo-pesquisa-equipamentos"
+                            placeholder="Pesquisar por código, designação, marca, modelo, n.º de série, fornecedor ou localização...">
+
+                        <button type="button" id="botaoPesquisarEquipamentos" class="botao-pesquisar-equipamentos">
+                            Pesquisar
+                        </button>
+
+                        <button type="button" id="botaoLimparApenasPesquisaEquipamentos"
+                            class="botao-limpar-equipamentos">
+                            Limpar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="caixa-filtros-equipamentos">
+                    <h2>Filtros</h2>
+
+                    <div class="grelha-filtros-equipamentos">
+
+                        <div class="grupo-filtro-equipamentos">
+                            <label for="filtroEstadoEquipamento">Estado</label>
+
+                            <div class="select-filtro-wrapper">
+                                <select id="filtroEstadoEquipamento" class="campo-filtro-equipamentos">
+                                    <option value="">Todos</option>
+                                    <option value="Ativo">Ativo</option>
+                                    <option value="Em manutenção">Em manutenção</option>
+                                    <option value="Inativo">Inativo</option>
+                                    <option value="Em calibração">Em calibração</option>
+                                    <option value="Em quarentena">Em quarentena</option>
+                                    <option value="Abatido">Abatido</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+                            <label for="filtroFornecedorEquipamento">Fornecedor</label>
+                            <div class="select-filtro-wrapper">
+                                <select id="filtroFornecedorEquipamento" class="campo-filtro-equipamentos">
+                                    <option value="">Todos</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+                            <label for="filtroLocalizacaoEquipamento">Localização</label>
+                            <div class="select-filtro-wrapper">
+                                <select id="filtroLocalizacaoEquipamento" class="campo-filtro-equipamentos">
+                                    <option value="">Todas</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+                            <label for="filtroCategoriaEquipamento">Categoria</label>
+                            <div class="select-filtro-wrapper">
+                                <select id="filtroCategoriaEquipamento" class="campo-filtro-equipamentos">
+                                    <option value="">Todas</option>
+                                    <option value="Monitorização">Monitorização</option>
+                                    <option value="Suporte de vida">Suporte de vida</option>
+                                    <option value="Terapia">Terapia</option>
+                                    <option value="Diagnóstico">Diagnóstico</option>
+                                    <option value="Laboratório">Laboratório</option>
+                                    <option value="Esterilização">Esterilização</option>
+                                    <option value="Reabilitação">Reabilitação</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+                            <label for="filtroCriticidadeEquipamento">Criticidade</label>
+                            <div class="select-filtro-wrapper">
+                                <select id="filtroCriticidadeEquipamento" class="campo-filtro-equipamentos">
+                                    <option value="">Todas</option>
+                                    <option value="Baixa">Baixa</option>
+                                    <option value="Média">Média</option>
+                                    <option value="Alta">Alta</option>
+                                    <option value="Suporte de vida">Suporte de vida</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos grupo-botao-limpar-filtros">
+                            <label>&nbsp;</label>
+                            <button type="button" id="botaoLimparApenasFiltrosEquipamentos"
+                                class="botao-limpar-apenas-filtros" title="Limpar filtros">
+                                <i class="fa-solid fa-filter-circle-xmark"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
 
             <div class="tabela-privada">
                 <table>

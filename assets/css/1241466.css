@@ -1165,6 +1165,206 @@ body {
     border-color: #00345f;
 }
 
+/* ============================================================
+   PESQUISA E FILTROS - EQUIPAMENTOS
+   ============================================================ */
+
+.area-pesquisa-filtros {
+    margin-bottom: 2rem;
+}
+
+.caixa-pesquisa-equipamentos {
+    background-color: #f8fafc;
+    border: 1px solid #d7e1ec;
+    border-radius: 18px;
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 1.3rem;
+}
+
+.caixa-pesquisa-equipamentos h2,
+.caixa-filtros-equipamentos h2 {
+    color: #0b3f6f;
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.linha-pesquisa-equipamentos {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.campo-pesquisa-equipamentos {
+    flex: 1;
+    height: 48px;
+    border: 1px solid #d7e1ec;
+    border-radius: 8px;
+    padding: 0 1rem;
+    font-size: 1rem;
+    color: #1f2d3d;
+    background-color: #ffffff;
+}
+
+.campo-pesquisa-equipamentos::placeholder {
+    color: #6b7785;
+}
+
+.botao-pesquisar-equipamentos {
+    height: 56px;
+    min-width: 170px;
+    border: none;
+    border-radius: 12px;
+    background-color: #003f78;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    padding: 0 2.2rem;
+}
+
+
+.botao-limpar-equipamentos {
+    height: 56px;
+    min-width: 150px;
+    border: 1px solid #8fa6b8;
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: #003f78;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    padding: 0 2.2rem;
+}
+
+.botao-pesquisar-equipamentos:hover,
+.botao-pesquisar-equipamentos:active {
+    background-color: #0086a8;
+}
+
+.botao-limpar-equipamentos:hover {
+    background-color: #eef6fb;
+    border-color: #003f78;
+}
+
+.botao-pesquisar-equipamentos:active {
+    transform: scale(0.98);
+}
+
+.botao-limpar-equipamentos:active {
+    transform: scale(0.98);
+}
+
+.caixa-filtros-equipamentos {
+    margin-bottom: 1.5rem;
+}
+
+.grelha-filtros-equipamentos {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(150px, 1fr)) 64px;
+    gap: 1rem;
+    align-items: end;
+}
+
+.grupo-filtro-equipamentos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.grupo-filtro-equipamentos label {
+    color: #0b3f6f;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.select-filtro-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.select-filtro-wrapper::after {
+    content: "▾";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1f2d3d;
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.campo-filtro-equipamentos {
+    width: 100%;
+    height: 48px;
+    border: 1px solid #d7e1ec;
+    border-radius: 8px;
+    padding: 0 3.4rem 0 1rem;
+    font-size: 1rem;
+    color: #1f2d3d;
+    background-color: #ffffff;
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.grupo-botao-limpar-filtros {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.botao-limpar-apenas-filtros {
+    height: 48px;
+    width: 64px;
+    border: 1px solid #8fa6b8;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #003f78;
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.botao-limpar-apenas-filtros:hover {
+    background-color: #eef4f8;
+    color: #00818c;
+}
+
+@media (max-width: 1100px) {
+    .grelha-filtros-equipamentos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .botao-limpar-apenas-filtros {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .linha-pesquisa-equipamentos {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .botao-pesquisar-equipamentos,
+    .botao-limpar-equipamentos {
+        width: 100%;
+    }
+
+    .grelha-filtros-equipamentos {
+        grid-template-columns: 1fr;
+    }
+
+    .botao-limpar-apenas-filtros {
+        width: 100%;
+    }
+}
+
 @media (max-width: 1200px) {
 
     /* Sobre: texto em cima e card por baixo */

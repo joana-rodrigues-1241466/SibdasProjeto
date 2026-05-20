@@ -339,56 +339,269 @@ if (!equipamentosGuardados) {
     localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
 }
 
-
-function preencherListagemEquipamentos() {
+function preencherListagemEquipamentos(listaEquipamentos = Object.values(equipamentosGuardados)) {
     const tabelaEquipamentos = document.getElementById("tabela-equipamentos");
 
     if (!tabelaEquipamentos) {
         return;
     }
 
+    ordenarEquipamentosPorCodigoCrescente(listaEquipamentos);
+
     tabelaEquipamentos.innerHTML = "";
 
-    Object.values(equipamentosGuardados).forEach(function (equipamento) {
+    if (listaEquipamentos.length === 0) {
+        tabelaEquipamentos.innerHTML = `
+            <tr>
+                <td colspan="14" class="text-center">Nenhum equipamento encontrado.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    listaEquipamentos.forEach(function (equipamento) {
         const linha = document.createElement("tr");
 
         linha.innerHTML = `
-            <td>${equipamento.codigo}</td>
-            <td>${equipamento.designacao}</td>
-            <td>${equipamento.categoria}</td>
-            <td>${equipamento.marca}</td>
-            <td>${equipamento.modelo}</td>
-            <td>${equipamento.numeroSerie}</td>
-            <td>${equipamento.fabricante}</td>
-            <td>${equipamento.anoFabrico}</td>
-            <td>${equipamento.dataAquisicao}</td>
-            <td>${equipamento.custoAquisicao}</td>
-            <td>${equipamento.tipoEntrada}</td>
-            <td>${equipamento.estado}</td>
-            <td>${equipamento.criticidade}</td>
+        <td>${equipamento.codigo}</td>
+        <td>${equipamento.designacao}</td>
+        <td>${equipamento.categoria}</td>
+        <td>${equipamento.marca}</td>
+        <td>${equipamento.modelo}</td>
+        <td>${equipamento.numeroSerie}</td>
+        <td>${equipamento.fabricante}</td>
+        <td>${equipamento.anoFabrico}</td>
+        <td>${equipamento.dataAquisicao}</td>
+        <td>${equipamento.custoAquisicao}</td>
+        <td>${equipamento.tipoEntrada}</td>
+        <td>${equipamento.estado}</td>
+        <td>${equipamento.criticidade}</td>
 
-            <td class="acoes-tabela-privada">
-                <a href="consultar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
-                    <i class="fa-regular fa-eye"></i>
-                    Consultar
-                </a>
+        <td class="acoes-tabela-privada">
+            <a href="consultar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
+                <i class="fa-regular fa-eye"></i>
+                Consultar
+            </a>
 
-                <a href="editar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                    Editar
-                </a>
+            <a href="editar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
+                <i class="fa-regular fa-pen-to-square"></i>
+                Editar
+            </a>
 
-                <a href="eliminar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
-    <i class="fa-regular fa-trash-can"></i>
-    Eliminar
-</a>
-            </td>
-        `;
+            <a href="eliminar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
+                <i class="fa-regular fa-trash-can"></i>
+                Eliminar
+            </a>
+        </td>
+    `;
 
         tabelaEquipamentos.appendChild(linha);
     });
 }
 
+function ordenarEquipamentosPorCodigoCrescente(listaEquipamentos) {
+    listaEquipamentos.sort(function (a, b) {
+        return (a.codigo || "").localeCompare(b.codigo || "");
+    });
+}
+
+function inicializarFiltrosEquipamentos() {
+    const pesquisaEquipamentos = document.getElementById("pesquisaEquipamentos");
+    const filtroEstado = document.getElementById("filtroEstadoEquipamento");
+    const filtroFornecedor = document.getElementById("filtroFornecedorEquipamento");
+    const filtroLocalizacao = document.getElementById("filtroLocalizacaoEquipamento");
+    const filtroCategoria = document.getElementById("filtroCategoriaEquipamento");
+    const filtroCriticidade = document.getElementById("filtroCriticidadeEquipamento");
+    const botaoLimparApenasPesquisa = document.getElementById("botaoLimparApenasPesquisaEquipamentos");
+    const botaoLimparApenasFiltros = document.getElementById("botaoLimparApenasFiltrosEquipamentos");
+    const botaoPesquisar = document.getElementById("botaoPesquisarEquipamentos");
+
+    if (!pesquisaEquipamentos || !filtroEstado || !filtroFornecedor || !filtroLocalizacao || !filtroCategoria || !filtroCriticidade) {
+        return;
+    }
+
+    preencherSelectFiltrosEquipamentos();
+
+    function aplicarFiltrosEquipamentos() {
+        const textoPesquisa = pesquisaEquipamentos.value.toLowerCase().trim();
+        const estadoSelecionado = filtroEstado.value;
+        const fornecedorSelecionado = filtroFornecedor.value;
+        const localizacaoSelecionada = filtroLocalizacao.value;
+        const categoriaSelecionada = filtroCategoria.value;
+        const criticidadeSelecionada = filtroCriticidade.value;
+
+        const equipamentosFiltrados = Object.values(equipamentosGuardados).filter(function (equipamento) {
+            const fornecedorAssociado = fornecedoresGuardados[equipamento.fornecedor];
+            const localizacaoAssociada = localizacoesGuardadas[equipamento.localizacao];
+
+            const textoFornecedor = fornecedorAssociado
+                ? [
+                    fornecedorAssociado.codigo,
+                    fornecedorAssociado.nomeEmpresa,
+                    fornecedorAssociado.nif,
+                    fornecedorAssociado.telefone,
+                    fornecedorAssociado.email,
+                    fornecedorAssociado.morada,
+                    fornecedorAssociado.website,
+                    fornecedorAssociado.pessoaContacto,
+                    fornecedorAssociado.telefonePessoaContacto,
+                    fornecedorAssociado.tipoFornecedor,
+                    fornecedorAssociado.observacoes
+                ].join(" ").toLowerCase()
+                : "";
+
+            const textoLocalizacao = localizacaoAssociada
+                ? [
+                    localizacaoAssociada.codigo,
+                    localizacaoAssociada.edificio,
+                    localizacaoAssociada.piso,
+                    localizacaoAssociada.servico,
+                    localizacaoAssociada.sala,
+                    localizacaoAssociada.observacoes
+                ].join(" ").toLowerCase()
+                : "";
+
+            const correspondePesquisa =
+                (equipamento.codigo || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.designacao || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.categoria || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.marca || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.modelo || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.numeroSerie || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.fabricante || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.anoFabrico || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.dataAquisicao || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.custoAquisicao || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.tipoEntrada || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.estado || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.criticidade || "").toLowerCase().includes(textoPesquisa) ||
+                (equipamento.observacoes || "").toLowerCase().includes(textoPesquisa) ||
+                textoFornecedor.includes(textoPesquisa) ||
+                textoLocalizacao.includes(textoPesquisa);
+
+            const correspondeEstado =
+                estadoSelecionado === "" || equipamento.estado === estadoSelecionado;
+
+            const correspondeFornecedor =
+                fornecedorSelecionado === "" || equipamento.fornecedor === fornecedorSelecionado;
+
+            const correspondeLocalizacao =
+                localizacaoSelecionada === "" || equipamento.localizacao === localizacaoSelecionada;
+
+            const correspondeCategoria =
+                categoriaSelecionada === "" || equipamento.categoria === categoriaSelecionada;
+
+            const correspondeCriticidade =
+                criticidadeSelecionada === "" || equipamento.criticidade === criticidadeSelecionada;
+
+            return correspondePesquisa &&
+                correspondeEstado &&
+                correspondeFornecedor &&
+                correspondeLocalizacao &&
+                correspondeCategoria &&
+                correspondeCriticidade;
+        });
+
+        ordenarEquipamentosPorCodigoCrescente(equipamentosFiltrados);
+        preencherListagemEquipamentos(equipamentosFiltrados);
+    }
+
+    pesquisaEquipamentos.addEventListener("input", aplicarFiltrosEquipamentos);
+    filtroEstado.addEventListener("change", aplicarFiltrosEquipamentos);
+    filtroFornecedor.addEventListener("change", aplicarFiltrosEquipamentos);
+    filtroLocalizacao.addEventListener("change", aplicarFiltrosEquipamentos);
+    filtroCategoria.addEventListener("change", aplicarFiltrosEquipamentos);
+    filtroCriticidade.addEventListener("change", aplicarFiltrosEquipamentos);
+
+    if (botaoPesquisar) {
+        botaoPesquisar.addEventListener("click", aplicarFiltrosEquipamentos);
+    }
+
+    if (botaoLimparApenasPesquisa) {
+        botaoLimparApenasPesquisa.addEventListener("click", function () {
+            pesquisaEquipamentos.value = "";
+
+            aplicarFiltrosEquipamentos();
+        });
+    }
+
+    if (botaoLimparApenasFiltros) {
+        botaoLimparApenasFiltros.addEventListener("click", function () {
+            filtroEstado.value = "";
+            filtroFornecedor.value = "";
+            filtroLocalizacao.value = "";
+            filtroCategoria.value = "";
+            filtroCriticidade.value = "";
+
+            aplicarFiltrosEquipamentos();
+        });
+    }
+}
+
+function preencherSelectFiltrosEquipamentos() {
+    const filtroFornecedor = document.getElementById("filtroFornecedorEquipamento");
+    const filtroLocalizacao = document.getElementById("filtroLocalizacaoEquipamento");
+    const filtroCategoria = document.getElementById("filtroCategoriaEquipamento");
+
+    if (!filtroFornecedor || !filtroLocalizacao || !filtroCategoria) {
+        return;
+    }
+
+    filtroFornecedor.innerHTML = '<option value="">Todos</option>';
+    filtroLocalizacao.innerHTML = '<option value="">Todas</option>';
+    filtroCategoria.innerHTML = '<option value="">Todas</option>';
+
+    const fornecedores = [...new Set(
+        Object.values(equipamentosGuardados)
+            .map(function (equipamento) {
+                return equipamento.fornecedor;
+            })
+            .filter(function (fornecedor) {
+                return fornecedor;
+            })
+    )];
+
+    const localizacoes = [...new Set(
+        Object.values(equipamentosGuardados)
+            .map(function (equipamento) {
+                return equipamento.localizacao;
+            })
+            .filter(function (localizacao) {
+                return localizacao;
+            })
+    )];
+
+    const categorias = [...new Set(
+        Object.values(equipamentosGuardados)
+            .map(function (equipamento) {
+                return equipamento.categoria;
+            })
+            .filter(function (categoria) {
+                return categoria;
+            })
+    )];
+
+    fornecedores.forEach(function (fornecedor) {
+        const option = document.createElement("option");
+        option.value = fornecedor;
+        option.textContent = fornecedor;
+        filtroFornecedor.appendChild(option);
+    });
+
+    localizacoes.forEach(function (localizacao) {
+        const option = document.createElement("option");
+        option.value = localizacao;
+        option.textContent = localizacao;
+        filtroLocalizacao.appendChild(option);
+    });
+
+    categorias.forEach(function (categoria) {
+        const option = document.createElement("option");
+        option.value = categoria;
+        option.textContent = categoria;
+        filtroCategoria.appendChild(option);
+    });
+}
 
 function inicializarNovoEquipamento() {
     const formularioNovoEquipamento = document.getElementById("form-novo-equipamento");
@@ -1744,9 +1957,10 @@ function preencherListagemDocumentacao() {
                 </a>
 
                 <a href="eliminar_documentacao.html?id=${documentacao.codigo}" class="acao-tabela-privada">
-    <i class="fa-regular fa-trash-can"></i>
-    Eliminar
-</a>
+                    <i class="fa-regular fa-trash-can"></i>
+                    Eliminar
+                </a>
+
             </td>
         `;
 
@@ -2311,6 +2525,7 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarGestaoConteudos();
 
     preencherListagemEquipamentos();
+    inicializarFiltrosEquipamentos();
     preencherDetalhesEquipamento();
     preencherEliminarEquipamento();
     inicializarNovoEquipamento();

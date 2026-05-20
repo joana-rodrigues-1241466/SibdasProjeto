@@ -258,9 +258,67 @@
 
                     <!-- Linha 7: Observações -->
                     <div class="mb-3">
-                        <label for="observacoes" class="form-label">Observações</label>
+                        <label for="observacoes" class="form-label">Observações gerais do equipamento</label>
                         <textarea class="form-control campo-formulario-privado" id="observacoes" name="observacoes"
                             rows="4"></textarea>
+                    </div>
+
+                    <!-- Garantia e contrato -->
+                    <h2 class="titulo-seccao-formulario">Garantia e contrato</h2>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="dataInicioGarantia" class="form-label">Data de início da garantia</label>
+                            <input type="date" id="dataInicioGarantia" class="form-control campo-formulario-privado">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="dataFimGarantia" class="form-label">Data de fim da garantia</label>
+                            <input type="date" id="dataFimGarantia" class="form-control campo-formulario-privado">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="contratoManutencao" class="form-label">Contrato de manutenção <span
+                                    class="campo-obrigatorio">*</span></label>
+                            <select id="contratoManutencao" class="form-select campo-formulario-privado" required>
+    <option value="" selected disabled>Selecione uma opção</option>
+    <option value="Sim">Sim</option>
+    <option value="Não">Não</option>
+</select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="tipoContrato" class="form-label">Tipo de contrato</label>
+                            <input type="text" id="tipoContrato" class="form-control campo-formulario-privado"
+                                placeholder="Ex.: manutenção preventiva">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="entidadeResponsavelContrato" class="form-label">Entidade responsável</label>
+                            <input type="text" id="entidadeResponsavelContrato" class="form-control campo-formulario-privado"
+                                placeholder="Ex.: Philips Healthcare">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="periodicidadeContrato" class="form-label">Periodicidade</label>
+                            <select id="periodicidadeContrato" class="form-select campo-formulario-privado">
+                                <option value="Não aplicável">Não aplicável</option>
+                                <option value="Mensal">Mensal</option>
+                                <option value="Trimestral">Trimestral</option>
+                                <option value="Semestral">Semestral</option>
+                                <option value="Anual">Anual</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="observacoesContrato" class="form-label">Observações sobre garantia/contrato</label>
+                        <textarea id="observacoesContrato" class="form-control campo-formulario-privado" rows="3"
+                            placeholder="Observações sobre a garantia ou contrato de manutenção"></textarea>
                     </div>
 
                     <div class="botoes-formulario-privado">

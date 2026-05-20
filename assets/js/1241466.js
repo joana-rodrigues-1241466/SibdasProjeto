@@ -243,7 +243,14 @@ const equipamentosConsulta = {
         estado: "Ativo",
         criticidade: "Alta",
         localizacao: "LOC001",
-        observacoes: "Equipamento utilizado para monitorização contínua de sinais vitais em doentes críticos."
+        observacoes: "Equipamento utilizado para monitorização contínua de sinais vitais em doentes críticos.",
+        dataInicioGarantia: "12/03/2022",
+        dataFimGarantia: "12/03/2025",
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "Philips Healthcare",
+        periodicidadeContrato: "Anual",
+        observacoesContrato: "Garantia ativa e contrato de manutenção preventiva associado."
     },
 
     EQ002: {
@@ -262,7 +269,14 @@ const equipamentosConsulta = {
         estado: "Em manutenção",
         criticidade: "Crítica",
         localizacao: "LOC002",
-        observacoes: "Equipamento em manutenção preventiva programada."
+        observacoes: "Equipamento em manutenção preventiva programada.",
+        dataInicioGarantia: "08/09/2021",
+        dataFimGarantia: "08/09/2024",
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva e corretiva",
+        entidadeResponsavelContrato: "TecnoMed Assistência",
+        periodicidadeContrato: "Semestral",
+        observacoesContrato: "Contrato de manutenção associado ao ventilador pulmonar."
     },
 
     EQ003: {
@@ -281,7 +295,14 @@ const equipamentosConsulta = {
         estado: "Em calibração",
         criticidade: "Média",
         localizacao: "LOC003",
-        observacoes: "Utilizada para administração controlada de terapêutica intravenosa."
+        observacoes: "Utilizada para administração controlada de terapêutica intravenosa.",
+        dataInicioGarantia: "21/01/2020",
+        dataFimGarantia: "21/01/2023",
+        contratoManutencao: "Não",
+        tipoContrato: "Não existe",
+        entidadeResponsavelContrato: "Não existe",
+        periodicidadeContrato: "Não aplicável",
+        observacoesContrato: "Sem contrato de manutenção associado."
     },
 
     EQ004: {
@@ -300,7 +321,14 @@ const equipamentosConsulta = {
         estado: "Ativo",
         criticidade: "Crítica",
         localizacao: "LOC004",
-        observacoes: "Equipamento essencial para resposta rápida em situações de paragem cardiorrespiratória."
+        observacoes: "Equipamento essencial para resposta rápida em situações de paragem cardiorrespiratória.",
+        dataInicioGarantia: "15/06/2022",
+        dataFimGarantia: "15/06/2025",
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção corretiva",
+        entidadeResponsavelContrato: "Zoll Medical",
+        periodicidadeContrato: "Anual",
+        observacoesContrato: "Garantia comercial associada ao equipamento."
     }
 };
 
@@ -410,7 +438,15 @@ function inicializarNovoEquipamento() {
             estado: document.getElementById("estado").value.trim(),
             criticidade: document.getElementById("criticidade").value.trim(),
             localizacao: document.getElementById("localizacao") ? document.getElementById("localizacao").value.trim() : "",
-            observacoes: document.getElementById("observacoes").value.trim()
+            observacoes: document.getElementById("observacoes").value.trim(),
+
+            dataInicioGarantia: converterDataParaTexto(document.getElementById("dataInicioGarantia").value),
+            dataFimGarantia: converterDataParaTexto(document.getElementById("dataFimGarantia").value),
+            contratoManutencao: document.getElementById("contratoManutencao").value,
+            tipoContrato: document.getElementById("contratoManutencao").value === "Não" ? "Não existe" : document.getElementById("tipoContrato").value.trim(),
+            entidadeResponsavelContrato: document.getElementById("contratoManutencao").value === "Não" ? "Não existe" : document.getElementById("entidadeResponsavelContrato").value.trim(),
+            periodicidadeContrato: document.getElementById("contratoManutencao").value === "Não" ? "Não aplicável" : document.getElementById("periodicidadeContrato").value,
+            observacoesContrato: document.getElementById("observacoesContrato").value.trim()
         };
 
         equipamentosGuardados[codigo] = novoEquipamento;
@@ -527,6 +563,14 @@ function preencherDetalhesEquipamento() {
 
     document.getElementById("detalhe-observacoes").textContent = equipamento.observacoes;
 
+    document.getElementById("detalhe-data-inicio-garantia").textContent = equipamento.dataInicioGarantia || "Sem data definida";
+    document.getElementById("detalhe-data-fim-garantia").textContent = equipamento.dataFimGarantia || "Sem data definida";
+    document.getElementById("detalhe-contrato-manutencao").textContent = equipamento.contratoManutencao || "Não definido";
+    document.getElementById("detalhe-tipo-contrato").textContent = equipamento.tipoContrato || "Não aplicável";
+    document.getElementById("detalhe-entidade-responsavel-contrato").textContent = equipamento.entidadeResponsavelContrato || "Não aplicável";
+    document.getElementById("detalhe-periodicidade-contrato").textContent = equipamento.periodicidadeContrato || "Não aplicável";
+    document.getElementById("detalhe-observacoes-contrato").textContent = equipamento.observacoesContrato || "Sem observações";
+
     const botaoEditarEquipamento = document.getElementById("botao-editar-equipamento");
 
     if (botaoEditarEquipamento) {
@@ -575,6 +619,14 @@ function inicializarEditarEquipamento() {
     document.getElementById("criticidade").value = equipamento.criticidade;
     document.getElementById("observacoes").value = equipamento.observacoes;
 
+    document.getElementById("dataInicioGarantia").value = converterDataParaInput(equipamento.dataInicioGarantia);
+    document.getElementById("dataFimGarantia").value = converterDataParaInput(equipamento.dataFimGarantia);
+    document.getElementById("contratoManutencao").value = equipamento.contratoManutencao || "";
+    document.getElementById("tipoContrato").value = equipamento.tipoContrato || "";
+    document.getElementById("entidadeResponsavelContrato").value = equipamento.entidadeResponsavelContrato || "";
+    document.getElementById("periodicidadeContrato").value = equipamento.periodicidadeContrato || "Não aplicável";
+    document.getElementById("observacoesContrato").value = equipamento.observacoesContrato || "";
+
     const botaoCancelarEdicao = document.getElementById("botao-cancelar-edicao");
 
     if (botaoCancelarEdicao) {
@@ -603,6 +655,14 @@ function inicializarEditarEquipamento() {
         }
 
         equipamentosGuardados[idEquipamento].observacoes = document.getElementById("observacoes").value.trim();
+
+        equipamentosGuardados[idEquipamento].dataInicioGarantia = converterDataParaTexto(document.getElementById("dataInicioGarantia").value);
+        equipamentosGuardados[idEquipamento].dataFimGarantia = converterDataParaTexto(document.getElementById("dataFimGarantia").value);
+        equipamentosGuardados[idEquipamento].contratoManutencao = document.getElementById("contratoManutencao").value;
+        equipamentosGuardados[idEquipamento].tipoContrato = document.getElementById("contratoManutencao").value === "Não" ? "Não existe" : document.getElementById("tipoContrato").value.trim();
+        equipamentosGuardados[idEquipamento].entidadeResponsavelContrato = document.getElementById("contratoManutencao").value === "Não" ? "Não existe" : document.getElementById("entidadeResponsavelContrato").value.trim();
+        equipamentosGuardados[idEquipamento].periodicidadeContrato = document.getElementById("contratoManutencao").value === "Não" ? "Não aplicável" : document.getElementById("periodicidadeContrato").value;
+        equipamentosGuardados[idEquipamento].observacoesContrato = document.getElementById("observacoesContrato").value.trim();
 
         localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
 
@@ -2163,6 +2223,83 @@ function limparCusto(custoTexto) {
     return custoTexto.replace("€", "").trim();
 }
 
+function controlarCamposContratoManutencao() {
+    const contratoManutencao = document.getElementById("contratoManutencao");
+    const tipoContrato = document.getElementById("tipoContrato");
+    const entidadeResponsavelContrato = document.getElementById("entidadeResponsavelContrato");
+    const periodicidadeContrato = document.getElementById("periodicidadeContrato");
+
+    if (!contratoManutencao || !tipoContrato || !entidadeResponsavelContrato || !periodicidadeContrato) {
+        return;
+    }
+
+    const opcaoNaoAplicavel = periodicidadeContrato.querySelector('option[value="Não aplicável"]');
+
+    function atualizarCamposContrato() {
+        if (contratoManutencao.value === "Não") {
+            tipoContrato.value = "Não existe";
+            entidadeResponsavelContrato.value = "Não existe";
+            periodicidadeContrato.value = "Não aplicável";
+
+            tipoContrato.disabled = true;
+            entidadeResponsavelContrato.disabled = true;
+            periodicidadeContrato.disabled = true;
+
+            tipoContrato.required = false;
+            entidadeResponsavelContrato.required = false;
+            periodicidadeContrato.required = false;
+
+            if (opcaoNaoAplicavel) {
+                opcaoNaoAplicavel.hidden = false;
+            }
+
+        } else if (contratoManutencao.value === "Sim") {
+            if (tipoContrato.value === "Não existe") {
+                tipoContrato.value = "";
+            }
+
+            if (entidadeResponsavelContrato.value === "Não existe") {
+                entidadeResponsavelContrato.value = "";
+            }
+
+            if (periodicidadeContrato.value === "Não aplicável") {
+                periodicidadeContrato.value = "";
+            }
+
+            tipoContrato.disabled = false;
+            entidadeResponsavelContrato.disabled = false;
+            periodicidadeContrato.disabled = false;
+
+            tipoContrato.required = true;
+            entidadeResponsavelContrato.required = true;
+            periodicidadeContrato.required = true;
+
+            if (opcaoNaoAplicavel) {
+                opcaoNaoAplicavel.hidden = true;
+            }
+
+        } else {
+            tipoContrato.value = "";
+            entidadeResponsavelContrato.value = "";
+            periodicidadeContrato.value = "";
+
+            tipoContrato.disabled = false;
+            entidadeResponsavelContrato.disabled = false;
+            periodicidadeContrato.disabled = false;
+
+            tipoContrato.required = false;
+            entidadeResponsavelContrato.required = false;
+            periodicidadeContrato.required = false;
+
+            if (opcaoNaoAplicavel) {
+                opcaoNaoAplicavel.hidden = true;
+            }
+        }
+    }
+
+    contratoManutencao.addEventListener("change", atualizarCamposContrato);
+    atualizarCamposContrato();
+}
 
 // ===============================
 // INICIALIZAÇÃO GERAL
@@ -2178,6 +2315,7 @@ document.addEventListener("DOMContentLoaded", function () {
     preencherEliminarEquipamento();
     inicializarNovoEquipamento();
     inicializarEditarEquipamento();
+    controlarCamposContratoManutencao();
     inicializarConfirmacaoEliminarEquipamento();
 
     preencherListagemLocalizacoes();

@@ -2259,6 +2259,79 @@ function inicializarConfirmacaoEliminarDocumentacao() {
     });
 }
 
+function inicializarDashboard() {
+    const totalEquipamentos = document.getElementById("totalEquipamentosDashboard");
+
+    if (!totalEquipamentos) {
+        return;
+    }
+
+    const equipamentos = Object.values(equipamentosGuardados || {});
+    const documentacao = Object.values(documentacaoGuardada || {});
+    const fornecedores = fornecedoresGuardados || {};
+    const localizacoes = localizacoesGuardadas || {};
+
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+
+    const total = equipamentos.length;
+
+    const ativos = equipamentos.filter(function (equipamento) {
+        return equipamento.estado === "Ativo";
+    }).length;
+
+    const manutencao = equipamentos.filter(function (equipamento) {
+        return equipamento.estado === "Em manutenção";
+    }).length;
+
+    const inativos = equipamentos.filter(function (equipamento) {
+        return equipamento.estado === "Inativo";
+    }).length;
+
+    const garantiasExpiradas = equipamentos.filter(function (equipamento) {
+        if (!equipamento.dataFimGarantia) {
+            return false;
+        }
+
+        const dataFim = converterTextoParaData(equipamento.dataFimGarantia);
+
+        if (!dataFim) {
+            return false;
+        }
+
+        dataFim.setHours(0, 0, 0, 0);
+
+        return dataFim < hoje;
+    }).length;
+
+    const equipamentosSemDocumentacao = equipamentos.filter(function (equipamento) {
+        return !documentacao.some(function (doc) {
+            return doc.equipamento === equipamento.codigo;
+        });
+    }).length;
+
+    totalEquipamentos.textContent = total;
+    document.getElementById("equipamentosAtivosDashboard").textContent = ativos;
+    document.getElementById("equipamentosManutencaoDashboard").textContent = manutencao;
+    document.getElementById("equipamentosInativosDashboard").textContent = inativos;
+    document.getElementById("garantiasExpiradasDashboard").textContent = garantiasExpiradas;
+    document.getElementById("semDocumentacaoDashboard").textContent = equipamentosSemDocumentacao;
+
+    preencherGraficoServicosDashboard(equipamentos, localizacoes);
+preencherDistribuicaoCategoriasDashboard(equipamentos);
+preencherTabelaGarantiasDashboard(equipamentos, fornecedores);
+preencherCriticidadeElevadaDashboard(equipamentos);
+preencherSuporteVidaDashboard(equipamentos, localizacoes);
+
+    const dataAtual = new Date();
+
+    document.getElementById("ultimaAtualizacaoDashboard").textContent =
+        "Última atualização: " +
+        dataAtual.toLocaleDateString("pt-PT") +
+        " " +
+        dataAtual.toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" });
+}
+
 // ===============================
 // DROPDOWN DO UTILIZADOR
 // ===============================
@@ -2399,6 +2472,28 @@ function preencherSelectLocalizacoes(idSelect, localizacaoSelecionada = "") {
     });
 }
 
+function converterTextoParaData(dataTexto) {
+    if (!dataTexto) {
+        return null;
+    }
+
+    const partes = dataTexto.split("/");
+
+    if (partes.length !== 3) {
+        return null;
+    }
+
+    return new Date(partes[2], partes[1] - 1, partes[0]);
+}
+
+function formatarData(data) {
+    if (!data) {
+        return "";
+    }
+
+    return data.toLocaleDateString("pt-PT");
+}
+
 function converterDataParaInput(dataTexto) {
     if (!dataTexto) {
         return "";
@@ -2515,6 +2610,230 @@ function controlarCamposContratoManutencao() {
     atualizarCamposContrato();
 }
 
+function contarPorCampo(lista, campo) {
+    const contagem = {};
+
+    lista.forEach(function (item) {
+        const valor = item[campo] || "Não definido";
+
+        if (!contagem[valor]) {
+            contagem[valor] = 0;
+        }
+
+        contagem[valor]++;
+    });
+
+    return contagem;
+}
+
+function preencherGraficoServicosDashboard(equipamentos, localizacoes) {
+    const container = document.getElementById("graficoServicosDashboard");
+
+    if (!container) {
+        return;
+    }
+
+    const contagemServicos = {};
+
+    equipamentos.forEach(function (equipamento) {
+        const localizacao = localizacoes[equipamento.localizacao];
+        const servico = localizacao ? localizacao.servico : "Não definido";
+
+        if (!contagemServicos[servico]) {
+            contagemServicos[servico] = 0;
+        }
+
+        contagemServicos[servico]++;
+    });
+
+    const servicos = Object.entries(contagemServicos)
+        .sort(function (a, b) {
+            return b[1] - a[1];
+        })
+        .slice(0, 7);
+
+    const maximo = servicos.length > 0 ? servicos[0][1] : 1;
+
+    container.innerHTML = "";
+
+    if (servicos.length === 0) {
+        container.innerHTML = "<p>Sem dados de serviços.</p>";
+        return;
+    }
+
+    servicos.forEach(function ([servico, valor]) {
+        const altura = (valor / maximo) * 150;
+
+        container.innerHTML += `
+            <div class="barra-servico-dashboard">
+                <span class="valor">${valor}</span>
+                <div class="barra" style="height: ${altura}px;"></div>
+                <span class="label">${servico}</span>
+            </div>
+        `;
+    });
+}
+
+function preencherDistribuicaoCategoriasDashboard(equipamentos) {
+    const container = document.getElementById("categoriasDashboard");
+
+    if (!container) {
+        return;
+    }
+
+    const contagem = contarPorCampo(equipamentos, "categoria");
+    const total = equipamentos.length || 1;
+
+    container.innerHTML = "";
+
+    Object.entries(contagem).forEach(function ([categoria, valor]) {
+        const percentagem = Math.round((valor / total) * 100);
+
+        container.innerHTML += `
+            <div class="item-distribuicao-dashboard">
+                <span class="nome">${categoria}</span>
+                <span class="valor">${valor} (${percentagem}%)</span>
+                <div class="barra-distribuicao-dashboard">
+                    <span style="width: ${percentagem}%;"></span>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function preencherTabelaGarantiasDashboard(equipamentos, fornecedores) {
+    const tabela = document.getElementById("tabelaGarantiasDashboard");
+
+    if (!tabela) {
+        return;
+    }
+
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+
+    const limite = new Date();
+    limite.setDate(hoje.getDate() + 30);
+    limite.setHours(0, 0, 0, 0);
+
+    const garantias = equipamentos.filter(function (equipamento) {
+        if (!equipamento.dataFimGarantia) {
+            return false;
+        }
+
+        const dataFim = converterTextoParaData(equipamento.dataFimGarantia);
+
+        if (!dataFim) {
+            return false;
+        }
+
+        dataFim.setHours(0, 0, 0, 0);
+
+        return dataFim >= hoje && dataFim <= limite;
+    }).sort(function (a, b) {
+        return converterTextoParaData(a.dataFimGarantia) - converterTextoParaData(b.dataFimGarantia);
+    });
+
+    tabela.innerHTML = "";
+
+    if (garantias.length === 0) {
+        tabela.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center">Nenhuma garantia a expirar nos próximos 30 dias.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    garantias.forEach(function (equipamento) {
+        const fornecedor = fornecedores[equipamento.fornecedor];
+        const nomeFornecedor = fornecedor ? fornecedor.nomeEmpresa : equipamento.fornecedor;
+
+        const dataFim = converterTextoParaData(equipamento.dataFimGarantia);
+        const diasRestantes = Math.ceil((dataFim - hoje) / (1000 * 60 * 60 * 24));
+
+        tabela.innerHTML += `
+            <tr>
+                <td>${equipamento.codigo}</td>
+                <td>${equipamento.designacao}</td>
+                <td>${nomeFornecedor || "Não definido"}</td>
+                <td>${formatarData(dataFim)}</td>
+                <td>${diasRestantes}</td>
+            </tr>
+        `;
+    });
+}
+
+function preencherCriticidadeElevadaDashboard(equipamentos) {
+    const numero = document.getElementById("criticidadeElevadaDashboard");
+    const percentagemTexto = document.getElementById("percentagemCriticidadeDashboard");
+
+    if (!numero || !percentagemTexto) {
+        return;
+    }
+
+    const total = equipamentos.length || 1;
+
+    const criticidadeElevada = equipamentos.filter(function (equipamento) {
+        return equipamento.criticidade === "Alta" || equipamento.criticidade === "Crítica";
+    }).length;
+
+    const percentagem = Math.round((criticidadeElevada / total) * 100);
+
+    numero.textContent = criticidadeElevada;
+    percentagemTexto.textContent = percentagem + "% do total";
+}
+
+function preencherSuporteVidaDashboard(equipamentos, localizacoes) {
+    const container = document.getElementById("suporteVidaDashboard");
+
+    if (!container) {
+        return;
+    }
+
+    const contagem = {};
+
+    equipamentos.forEach(function (equipamento) {
+        if (equipamento.categoria !== "Suporte de vida") {
+            return;
+        }
+
+        const localizacao = localizacoes[equipamento.localizacao];
+        const servico = localizacao ? localizacao.servico : "Não definido";
+
+        if (!contagem[servico]) {
+            contagem[servico] = 0;
+        }
+
+        contagem[servico]++;
+    });
+
+    const servicos = Object.entries(contagem)
+        .sort(function (a, b) {
+            return b[1] - a[1];
+        });
+
+    const maximo = servicos.length > 0 ? servicos[0][1] : 1;
+
+    container.innerHTML = "";
+
+    if (servicos.length === 0) {
+        container.innerHTML = "<p>Sem equipamentos de suporte de vida registados.</p>";
+        return;
+    }
+
+    servicos.forEach(function ([servico, valor]) {
+        const largura = (valor / maximo) * 100;
+
+        container.innerHTML += `
+            <div class="linha-horizontal-dashboard">
+                <span>${servico}</span>
+                <div class="barra-horizontal" style="width: ${largura}%;"></div>
+                <strong>${valor}</strong>
+            </div>
+        `;
+    });
+}
+
 // ===============================
 // INICIALIZAÇÃO GERAL
 // ===============================
@@ -2526,6 +2845,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     preencherListagemEquipamentos();
     inicializarFiltrosEquipamentos();
+    inicializarDashboard();
     preencherDetalhesEquipamento();
     preencherEliminarEquipamento();
     inicializarNovoEquipamento();

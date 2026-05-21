@@ -629,6 +629,7 @@ function inicializarNovoEquipamento() {
 
     preencherSelectFornecedores("fornecedor");
     preencherSelectLocalizacoes("localizacao");
+    preencherSelectDocumentacao("documentacaoAssociada");
 
     formularioNovoEquipamento.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -667,6 +668,7 @@ function inicializarNovoEquipamento() {
             estado: document.getElementById("estado").value.trim(),
             criticidade: document.getElementById("criticidade").value.trim(),
             localizacao: document.getElementById("localizacao") ? document.getElementById("localizacao").value.trim() : "",
+            documentacaoAssociada: document.getElementById("documentacaoAssociada").value,
             observacoes: document.getElementById("observacoes").value.trim(),
 
             dataInicioGarantia: converterDataParaTexto(document.getElementById("dataInicioGarantia").value),
@@ -2563,6 +2565,33 @@ function preencherSelectLocalizacoes(idSelect, localizacaoSelecionada = "") {
     });
 }
 
+function preencherSelectDocumentacao(idSelect, documentacaoSelecionada = "", opcional = true) {
+    const selectDocumentacao = document.getElementById(idSelect);
+
+    if (!selectDocumentacao) {
+        return;
+    }
+
+    if (opcional) {
+        selectDocumentacao.innerHTML = '<option value="">Sem documentação associada</option>';
+    } else {
+        selectDocumentacao.innerHTML = '<option value="" selected disabled>Escolha uma documentação</option>';
+    }
+
+    Object.values(documentacaoGuardada).forEach(function (documentacao) {
+        const option = document.createElement("option");
+
+        option.value = documentacao.codigo;
+        option.textContent = documentacao.codigo;
+
+        if (documentacao.codigo === documentacaoSelecionada) {
+            option.selected = true;
+        }
+
+        selectDocumentacao.appendChild(option);
+    });
+}
+
 function converterTextoParaData(dataTexto) {
     if (!dataTexto) {
         return null;
@@ -2935,6 +2964,11 @@ function inicializarTabsEquipamento() {
 
     botoesTabs.forEach(function (botao) {
         botao.addEventListener("click", function () {
+
+            if (botao.classList.contains("bloqueado")) {
+                return;
+            }
+
             const tabDestino = botao.getAttribute("data-tab");
 
             botoesTabs.forEach(function (botaoAtual) {
@@ -2956,6 +2990,87 @@ function inicializarTabsEquipamento() {
     });
 }
 
+function inicializarBotaoSeguinteEquipamento() {
+    const botaoSeguinte = document.getElementById("botaoPaginaSeguinteEquipamento");
+
+    if (!botaoSeguinte) {
+        return;
+    }
+
+    botaoSeguinte.addEventListener("click", function () {
+        const tabGarantia = document.querySelector('[data-tab="tab-nova-garantia"]');
+        const conteudoGarantia = document.getElementById("tab-nova-garantia");
+        const tabEquipamento = document.querySelector('[data-tab="tab-novo-equipamento"]');
+
+        const botoesTabs = document.querySelectorAll(".botao-tab-equipamento");
+        const conteudosTabs = document.querySelectorAll(".conteudo-tab-equipamento");
+
+        if (!tabGarantia || !conteudoGarantia) {
+            return;
+        }
+
+        tabGarantia.classList.remove("bloqueado");
+        tabGarantia.disabled = false;
+
+        if (tabEquipamento) {
+            tabEquipamento.classList.add("bloqueado");
+            tabEquipamento.disabled = true;
+        }
+
+        botoesTabs.forEach(function (botao) {
+            botao.classList.remove("ativo");
+        });
+
+        conteudosTabs.forEach(function (conteudo) {
+            conteudo.classList.remove("ativo");
+        });
+
+        tabGarantia.classList.add("ativo");
+        conteudoGarantia.classList.add("ativo");
+    });
+}
+
+function inicializarBotaoAnteriorEquipamento() {
+    const botaoAnterior = document.getElementById("botaoPaginaAnteriorEquipamento");
+
+    if (!botaoAnterior) {
+        return;
+    }
+
+    botaoAnterior.addEventListener("click", function () {
+        const tabEquipamento = document.querySelector('[data-tab="tab-novo-equipamento"]');
+        const conteudoEquipamento = document.getElementById("tab-novo-equipamento");
+
+        const tabGarantia = document.querySelector('[data-tab="tab-nova-garantia"]');
+
+        const botoesTabs = document.querySelectorAll(".botao-tab-equipamento");
+        const conteudosTabs = document.querySelectorAll(".conteudo-tab-equipamento");
+
+        if (!tabEquipamento || !conteudoEquipamento) {
+            return;
+        }
+
+        botoesTabs.forEach(function (botao) {
+            botao.classList.remove("ativo");
+        });
+
+        conteudosTabs.forEach(function (conteudo) {
+            conteudo.classList.remove("ativo");
+        });
+
+        tabEquipamento.classList.remove("bloqueado");
+        tabEquipamento.disabled = false;
+
+        tabEquipamento.classList.add("ativo");
+        conteudoEquipamento.classList.add("ativo");
+
+        if (tabGarantia) {
+            tabGarantia.classList.add("bloqueado");
+            tabGarantia.disabled = true;
+        }
+    });
+}
+
 // ===============================
 // INICIALIZAÇÃO GERAL
 // ===============================
@@ -2970,6 +3085,8 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarDashboard();
     preencherDetalhesEquipamento();
     inicializarTabsEquipamento();
+    inicializarBotaoSeguinteEquipamento();
+    inicializarBotaoAnteriorEquipamento();
     preencherEliminarEquipamento();
     inicializarNovoEquipamento();
     inicializarEditarEquipamento();

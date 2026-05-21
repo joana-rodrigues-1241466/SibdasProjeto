@@ -97,227 +97,291 @@
 
                 <form id="form-novo-equipamento" class="form-equipamento-privado">
 
-                    <!-- Linha 1: Identificação -->
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="codigo" class="form-label">Código interno de inventário</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="codigo" name="codigo"
-                                required>
+                    <div class="tabs-consulta-equipamento">
+
+                        <div class="botoes-tabs-equipamento">
+                            <button type="button" class="botao-tab-equipamento ativo" data-tab="tab-novo-equipamento">
+                                <i class="fa-solid fa-stethoscope"></i>
+                                Equipamento
+                            </button>
+
+                            <button type="button" class="botao-tab-equipamento bloqueado" data-tab="tab-nova-garantia"
+                                disabled>
+                                <i class="fa-solid fa-shield-halved"></i>
+                                Garantia e contrato
+                            </button>
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label for="designacao" class="form-label">Designação do equipamento</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="designacao"
-                                name="designacao" required>
-                        </div>
-                    </div>
+                        <!-- Separador Equipamento -->
+                        <div id="tab-novo-equipamento" class="conteudo-tab-equipamento ativo">
 
-                    <!-- Linha 2: Categoria / Marca / Modelo -->
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="categoria" class="form-label">Categoria ou grupo</label>
-                            <select class="form-select campo-formulario-privado" id="categoria" name="categoria"
-                                required>
-                                <option value="" selected disabled>Escolha uma opção</option>
-                                <option>Monitorização</option>
-                                <option>Suporte de vida</option>
-                                <option>Terapia</option>
-                                <option>Diagnóstico</option>
-                                <option>Laboratório</option>
-                                <option>Esterilização</option>
-                                <option>Reabilitação</option>
-                            </select>
-                        </div>
+                            <!-- Linha 1: Identificação -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="codigo" class="form-label">Código interno de inventário</label>
+                                    <input type="text" class="form-control campo-formulario-privado" id="codigo"
+                                        name="codigo" required>
+                                </div>
 
-                        <div class="col-md-4 mb-3">
-                            <label for="marca" class="form-label">Marca</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="marca" name="marca"
-                                required>
-                        </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="designacao" class="form-label">Designação do equipamento</label>
+                                    <input type="text" class="form-control campo-formulario-privado" id="designacao"
+                                        name="designacao" required>
+                                </div>
+                            </div>
 
-                        <div class="col-md-4 mb-3">
-                            <label for="modelo" class="form-label">Modelo</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="modelo" name="modelo"
-                                required>
-                        </div>
-                    </div>
+                            <!-- Linha 2: Categoria / Marca / Modelo -->
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="categoria" class="form-label">Categoria ou grupo</label>
+                                    <select class="form-select campo-formulario-privado" id="categoria" name="categoria"
+                                        required>
+                                        <option value="" selected disabled>Escolha uma opção</option>
+                                        <option>Monitorização</option>
+                                        <option>Suporte de vida</option>
+                                        <option>Terapia</option>
+                                        <option>Diagnóstico</option>
+                                        <option>Laboratório</option>
+                                        <option>Esterilização</option>
+                                        <option>Reabilitação</option>
+                                    </select>
+                                </div>
 
-                    <!-- Linha 3: Série / Fabricante / Ano -->
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="numero_serie" class="form-label">N.º de série</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="numero_serie"
-                                name="numero_serie" required>
-                        </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="marca" class="form-label">Marca</label>
+                                    <input type="text" class="form-control campo-formulario-privado" id="marca"
+                                        name="marca" required>
+                                </div>
 
-                        <div class="col-md-4 mb-3">
-                            <label for="fabricante" class="form-label">Fabricante</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="fabricante"
-                                name="fabricante" required>
-                        </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="modelo" class="form-label">Modelo</label>
+                                    <input type="text" class="form-control campo-formulario-privado" id="modelo"
+                                        name="modelo" required>
+                                </div>
+                            </div>
 
-                        <div class="col-md-4 mb-3">
-                            <label for="ano_fabrico" class="form-label">Ano de fabrico</label>
-                            <input type="number" class="form-control campo-formulario-privado" id="ano_fabrico"
-                                name="ano_fabrico" min="1900" max="2026" required>
-                        </div>
-                    </div>
+                            <!-- Linha 3: Série / Fabricante / Ano -->
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="numero_serie" class="form-label">N.º de série</label>
+                                    <input type="text" class="form-control campo-formulario-privado" id="numero_serie"
+                                        name="numero_serie" required>
+                                </div>
 
-                    <!-- Linha 4: Fornecedor e localização associados -->
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="fornecedor" class="form-label">Fornecedor associado</label>
-                            <select class="form-select campo-formulario-privado" id="fornecedor" name="fornecedor"
-                                required>
-                                <option value="" selected disabled>Escolha um fornecedor</option>
-                            </select>
-                            <small class="text-muted">
-                                Selecione um fornecedor previamente registado.
-                            </small>
-                        </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="fabricante" class="form-label">Fabricante</label>
+                                    <input type="text" class="form-control campo-formulario-privado" id="fabricante"
+                                        name="fabricante" required>
+                                </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label for="localizacao" class="form-label">Localização associada</label>
-                            <select class="form-select campo-formulario-privado" id="localizacao" name="localizacao"
-                                required>
-                                <option value="" selected disabled>Escolha uma localização</option>
-                            </select>
-                            <small class="text-muted">
-                                Selecione uma localização previamente registada.
-                            </small>
-                        </div>
-                    </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="ano_fabrico" class="form-label">Ano de fabrico</label>
+                                    <input type="number" class="form-control campo-formulario-privado" id="ano_fabrico"
+                                        name="ano_fabrico" min="1900" max="2026" required>
+                                </div>
+                            </div>
 
-                    <!-- Linha 5: Aquisição -->
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="data_aquisicao" class="form-label">Data de aquisição</label>
-                            <input type="date" class="form-control campo-formulario-privado" id="data_aquisicao"
-                                name="data_aquisicao" required>
-                        </div>
+                            <!-- Linha 4: Fornecedor / Localização / Documentação -->
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="fornecedor" class="form-label">Fornecedor associado</label>
+                                    <select class="form-select campo-formulario-privado" id="fornecedor"
+                                        name="fornecedor" required>
+                                        <option value="" selected disabled>Escolha um fornecedor</option>
+                                    </select>
+                                    <small class="text-muted">
+                                        Selecione um fornecedor previamente registado.
+                                    </small>
+                                </div>
 
-                        <div class="col-md-4 mb-3">
-                            <label for="custo_aquisicao" class="form-label">Custo de aquisição (€)</label>
-                            <input type="number" step="0.01" class="form-control campo-formulario-privado"
-                                id="custo_aquisicao" name="custo_aquisicao" min="0" required>
-                        </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="localizacao" class="form-label">Localização associada</label>
+                                    <select class="form-select campo-formulario-privado" id="localizacao"
+                                        name="localizacao" required>
+                                        <option value="" selected disabled>Escolha uma localização</option>
+                                    </select>
+                                    <small class="text-muted">
+                                        Selecione uma localização previamente registada.
+                                    </small>
+                                </div>
 
-                        <div class="col-md-4 mb-3">
-                            <label for="tipo_entrada" class="form-label">Tipo de entrada</label>
-                            <select class="form-select campo-formulario-privado" id="tipo_entrada" name="tipo_entrada"
-                                required>
-                                <option value="" selected disabled>Escolha uma opção</option>
-                                <option>Compra</option>
-                                <option>Doação</option>
-                                <option>Aluguer</option>
-                                <option>Empréstimo</option>
-                            </select>
-                        </div>
-                    </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="documentacaoAssociada" class="form-label">Documentação associada</label>
+                                    <select id="documentacaoAssociada" name="documentacaoAssociada"
+                                        class="form-select campo-formulario-privado">
+                                        <option value="" selected disabled>Escolha uma documentação</option>
+                                    </select>
+                                    <small class="text-muted">
+                                        Selecione uma documentação previamente registada.
+                                    </small>
+                                </div>
+                            </div>
 
-                    <!-- Linha 6: Estado / Criticidade -->
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="estado" class="form-label">Estado atual</label>
-                            <select class="form-select campo-formulario-privado" id="estado" name="estado" required>
-                                <option value="" selected disabled>Escolha uma opção</option>
-                                <option>Ativo</option>
-                                <option>Em manutenção</option>
-                                <option>Inativo</option>
-                                <option>Em calibração</option>
-                                <option>Em quarentena</option>
-                                <option>Abatido</option>
-                            </select>
-                        </div>
+                            <!-- Linha 5: Aquisição -->
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="data_aquisicao" class="form-label">Data de aquisição</label>
+                                    <input type="date" class="form-control campo-formulario-privado" id="data_aquisicao"
+                                        name="data_aquisicao" required>
+                                </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label for="criticidade" class="form-label">Criticidade</label>
-                            <select class="form-select campo-formulario-privado" id="criticidade" name="criticidade"
-                                required>
-                                <option value="" selected disabled>Escolha uma opção</option>
-                                <option>Baixa</option>
-                                <option>Média</option>
-                                <option>Alta</option>
-                                <option>Suporte de vida</option>
-                            </select>
-                        </div>
-                    </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="custo_aquisicao" class="form-label">Custo de aquisição (€)</label>
+                                    <input type="number" step="0.01" class="form-control campo-formulario-privado"
+                                        id="custo_aquisicao" name="custo_aquisicao" min="0" required>
+                                </div>
 
-                    <!-- Linha 7: Observações -->
-                    <div class="mb-3">
-                        <label for="observacoes" class="form-label">Observações gerais do equipamento</label>
-                        <textarea class="form-control campo-formulario-privado" id="observacoes" name="observacoes"
-                            rows="4"></textarea>
-                    </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="tipo_entrada" class="form-label">Tipo de entrada</label>
+                                    <select class="form-select campo-formulario-privado" id="tipo_entrada"
+                                        name="tipo_entrada" required>
+                                        <option value="" selected disabled>Escolha uma opção</option>
+                                        <option>Compra</option>
+                                        <option>Doação</option>
+                                        <option>Aluguer</option>
+                                        <option>Empréstimo</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <!-- Garantia e contrato -->
-                    <h2 class="titulo-seccao-formulario">Garantia e contrato</h2>
+                            <!-- Linha 6: Estado / Criticidade -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="estado" class="form-label">Estado atual</label>
+                                    <select class="form-select campo-formulario-privado" id="estado" name="estado"
+                                        required>
+                                        <option value="" selected disabled>Escolha uma opção</option>
+                                        <option>Ativo</option>
+                                        <option>Em manutenção</option>
+                                        <option>Inativo</option>
+                                        <option>Em calibração</option>
+                                        <option>Em quarentena</option>
+                                        <option>Abatido</option>
+                                    </select>
+                                </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="dataInicioGarantia" class="form-label">Data de início da garantia</label>
-                            <input type="date" id="dataInicioGarantia" class="form-control campo-formulario-privado" required>
-                        </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="criticidade" class="form-label">Criticidade</label>
+                                    <select class="form-select campo-formulario-privado" id="criticidade"
+                                        name="criticidade" required>
+                                        <option value="" selected disabled>Escolha uma opção</option>
+                                        <option>Baixa</option>
+                                        <option>Média</option>
+                                        <option>Alta</option>
+                                        <option>Suporte de vida</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label for="dataFimGarantia" class="form-label">Data de fim da garantia</label>
-                            <input type="date" id="dataFimGarantia" class="form-control campo-formulario-privado" required>
-                        </div>
-                    </div>
+                            <!-- Linha 7: Observações -->
+                            <div class="mb-3">
+                                <label for="observacoes" class="form-label">Observações do equipamento</label>
+                                <textarea class="form-control campo-formulario-privado" id="observacoes"
+                                    name="observacoes" rows="4"></textarea>
+                            </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="contratoManutencao" class="form-label">Contrato de manutenção <span
-                                    class="campo-obrigatorio">*</span></label>
-                            <select id="contratoManutencao" class="form-select campo-formulario-privado" required>
-    <option value="" selected disabled>Selecione uma opção</option>
-    <option value="Sim">Sim</option>
-    <option value="Não">Não</option>
-</select>
-                        </div>
+                            <div class="botoes-formulario-privado">
+                                <a href="equipamentos.html" class="botao-cancelar-privado">
+                                    <i class="fa-solid fa-xmark"></i>
+                                    Cancelar
+                                </a>
 
-                        <div class="col-md-6 mb-3">
-                            <label for="tipoContrato" class="form-label">Tipo de contrato</label>
-                            <input type="text" id="tipoContrato" class="form-control campo-formulario-privado"
-                                placeholder="Ex.: manutenção preventiva">
-                        </div>
-                    </div>
+                                <button type="button" id="botaoPaginaSeguinteEquipamento" class="botao-guardar-privado">
+                                    Página seguinte
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="entidadeResponsavelContrato" class="form-label">Entidade responsável</label>
-                            <input type="text" id="entidadeResponsavelContrato" class="form-control campo-formulario-privado"
-                                placeholder="Ex.: Philips Healthcare">
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label for="periodicidadeContrato" class="form-label">Periodicidade</label>
-                            <select id="periodicidadeContrato" class="form-select campo-formulario-privado">
-                                <option value="Não aplicável">Não aplicável</option>
-                                <option value="Mensal">Mensal</option>
-                                <option value="Trimestral">Trimestral</option>
-                                <option value="Semestral">Semestral</option>
-                                <option value="Anual">Anual</option>
-                            </select>
+                        <!-- Separador Garantia e contrato -->
+                        <div id="tab-nova-garantia" class="conteudo-tab-equipamento">
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="dataInicioGarantia" class="form-label">Data de início da
+                                        garantia</label>
+                                    <input type="date" id="dataInicioGarantia"
+                                        class="form-control campo-formulario-privado" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="dataFimGarantia" class="form-label">Data de fim da garantia</label>
+                                    <input type="date" id="dataFimGarantia"
+                                        class="form-control campo-formulario-privado" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="contratoManutencao" class="form-label">
+                                        Contrato de manutenção <span class="campo-obrigatorio">*</span>
+                                    </label>
+                                    <select id="contratoManutencao" class="form-select campo-formulario-privado"
+                                        required>
+                                        <option value="" selected disabled>Selecione uma opção</option>
+                                        <option value="Sim">Sim</option>
+                                        <option value="Não">Não</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="tipoContrato" class="form-label">Tipo de contrato</label>
+                                    <input type="text" id="tipoContrato" class="form-control campo-formulario-privado"
+                                        placeholder="Ex.: manutenção preventiva">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="entidadeResponsavelContrato" class="form-label">Entidade
+                                        responsável</label>
+                                    <input type="text" id="entidadeResponsavelContrato"
+                                        class="form-control campo-formulario-privado"
+                                        placeholder="Ex.: Philips Healthcare">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="periodicidadeContrato" class="form-label">Periodicidade</label>
+                                    <select id="periodicidadeContrato" class="form-select campo-formulario-privado">
+                                        <option value="Não aplicável">Não aplicável</option>
+                                        <option value="Mensal">Mensal</option>
+                                        <option value="Trimestral">Trimestral</option>
+                                        <option value="Semestral">Semestral</option>
+                                        <option value="Anual">Anual</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="observacoesContrato" class="form-label">Observações da
+                                    garantia/contrato</label>
+                                <textarea id="observacoesContrato" class="form-control campo-formulario-privado"
+                                    rows="3"
+                                    placeholder="Observações sobre a garantia ou contrato de manutenção"></textarea>
+                            </div>
+
+                            <div class="botoes-formulario-privado">
+                                <button type="button" id="botaoPaginaAnteriorEquipamento"
+                                    class="botao-cancelar-privado">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                    Página anterior
+                                </button>
+
+                                <a href="equipamentos.html" class="botao-cancelar-privado">
+                                    <i class="fa-solid fa-xmark"></i>
+                                    Cancelar
+                                </a>
+
+                                <button type="submit" class="botao-guardar-privado">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    Guardar
+                                </button>
+
+                            </div>
+
                         </div>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="observacoesContrato" class="form-label">Observações sobre garantia/contrato</label>
-                        <textarea id="observacoesContrato" class="form-control campo-formulario-privado" rows="3"
-                            placeholder="Observações sobre a garantia ou contrato de manutenção"></textarea>
-                    </div>
-
-                    <div class="botoes-formulario-privado">
-                        <a href="equipamentos.html" class="botao-cancelar-privado">
-                            <i class="fa-solid fa-xmark"></i>
-                            Cancelar
-                        </a>
-
-                        <button type="submit" class="botao-guardar-privado">
-                            <i class="fa-solid fa-floppy-disk"></i>
-                            Guardar
-                        </button>
                     </div>
 
                     <div id="mensagemSucessoEquipamento" class="mensagem-sucesso-privada">

@@ -740,6 +740,9 @@ function preencherDetalhesEquipamento() {
     const campoFornecedorEmail = document.getElementById("detalhe-fornecedor-email");
     const campoFornecedorTelefone = document.getElementById("detalhe-fornecedor-telefone");
     const campoFornecedorMorada = document.getElementById("detalhe-fornecedor-morada");
+    const campoFornecedorWebsite = document.getElementById("detalhe-fornecedor-website");
+    const campoFornecedorPessoaContacto = document.getElementById("detalhe-fornecedor-pessoa-contacto");
+    const campoFornecedorTelefonePessoaContacto = document.getElementById("detalhe-fornecedor-telefone-pessoa-contacto");
     const campoFornecedorTipo = document.getElementById("detalhe-fornecedor-tipo");
     const campoFornecedorObservacoes = document.getElementById("detalhe-fornecedor-observacoes");
 
@@ -752,6 +755,9 @@ function preencherDetalhesEquipamento() {
             if (campoFornecedorEmail) campoFornecedorEmail.textContent = fornecedorAssociado.email || "Não definido";
             if (campoFornecedorTelefone) campoFornecedorTelefone.textContent = fornecedorAssociado.telefone || "Não definido";
             if (campoFornecedorMorada) campoFornecedorMorada.textContent = fornecedorAssociado.morada || "Não definido";
+            if (campoFornecedorWebsite) campoFornecedorWebsite.textContent = fornecedorAssociado.website || "Não definido";
+            if (campoFornecedorPessoaContacto) campoFornecedorPessoaContacto.textContent = fornecedorAssociado.pessoaContacto || "Não definido";
+            if (campoFornecedorTelefonePessoaContacto) campoFornecedorTelefonePessoaContacto.textContent = fornecedorAssociado.telefonePessoaContacto || "Não definido";
             if (campoFornecedorTipo) campoFornecedorTipo.textContent = fornecedorAssociado.tipoFornecedor || "Não definido";
             if (campoFornecedorObservacoes) campoFornecedorObservacoes.textContent = fornecedorAssociado.observacoes || "Sem observações";
         } else {
@@ -762,6 +768,9 @@ function preencherDetalhesEquipamento() {
             if (campoFornecedorEmail) campoFornecedorEmail.textContent = "Não definido";
             if (campoFornecedorTelefone) campoFornecedorTelefone.textContent = "Não definido";
             if (campoFornecedorMorada) campoFornecedorMorada.textContent = "Não definido";
+            if (campoFornecedorWebsite) campoFornecedorWebsite.textContent = "Não definido";
+            if (campoFornecedorPessoaContacto) campoFornecedorPessoaContacto.textContent = "Não definido";
+            if (campoFornecedorTelefonePessoaContacto) campoFornecedorTelefonePessoaContacto.textContent = "Não definido";
             if (campoFornecedorTipo) campoFornecedorTipo.textContent = "Não definido";
             if (campoFornecedorObservacoes) campoFornecedorObservacoes.textContent = "Sem observações";
         }

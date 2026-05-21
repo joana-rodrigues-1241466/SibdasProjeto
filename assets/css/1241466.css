@@ -1171,7 +1171,9 @@ body {
 }
 
 #detalhe-email,
-#detalhe-website {
+#detalhe-website,
+#detalhe-fornecedor-email,
+#detalhe-fornecedor-website {
     word-break: break-word;
     overflow-wrap: anywhere;
 }

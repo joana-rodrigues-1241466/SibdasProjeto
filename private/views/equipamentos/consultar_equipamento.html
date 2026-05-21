@@ -91,213 +91,297 @@
                 <!-- Título da ficha -->
                 <div class="titulo-detalhes-equipamento">
                     <i class="fa-solid fa-stethoscope"></i>
-                    <h1>Detalhes do Equipamento</h1>
+                    <h1>Detalhes</h1>
                 </div>
 
-                <hr>
+                <!-- Separadores da página de consulta -->
+                <div class="tabs-consulta-equipamento">
 
-                <!-- Identificação principal -->
-                <!-- Linha 1: Identificação -->
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Código interno de inventário</h3>
-                            <p id="detalhe-codigo"></p>
-                        </div>
+                    <!-- Botões dos separadores -->
+                    <div class="botoes-tabs-equipamento">
+
+                        <button type="button" class="botao-tab-equipamento ativo" data-tab="tab-dados-equipamento">
+                            <i class="fa-solid fa-stethoscope"></i>
+                            Equipamento
+                        </button>
+
+                        <button type="button" class="botao-tab-equipamento" data-tab="tab-fornecedor-equipamento">
+                            <i class="fa-solid fa-truck-medical"></i>
+                            Fornecedor associado
+                        </button>
+
+                        <button type="button" class="botao-tab-equipamento" data-tab="tab-localizacao-equipamento">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Localização associada
+                        </button>
+
+                        <button type="button" class="botao-tab-equipamento" data-tab="tab-documentacao-equipamento">
+                            <i class="fa-solid fa-file-medical"></i>
+                            Documentação associada
+                        </button>
+
+                        <button type="button" class="botao-tab-equipamento" data-tab="tab-garantia-equipamento">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            Garantia e contrato
+                        </button>
+
                     </div>
 
-                    <div class="col-md-6 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Designação do equipamento</h3>
-                            <p id="detalhe-designacao"></p>
-                        </div>
-                    </div>
-                </div>
+                    <!-- Separador 1: Detalhes do equipamento -->
+                    <section id="tab-dados-equipamento" class="conteudo-tab-equipamento ativo">
 
-                <!-- Linha 2: Categoria / Marca / Modelo -->
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Categoria ou grupo</h3>
-                            <p id="detalhe-categoria"></p>
-                        </div>
-                    </div>
+                        <div class="grelha-detalhes-equipamento">
 
-                    <div class="col-md-4 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Marca</h3>
-                            <p id="detalhe-marca"></p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Modelo</h3>
-                            <p id="detalhe-modelo"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Linha 3: Série / Fabricante / Ano -->
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>N.º de série</h3>
-                            <p id="detalhe-numero-serie"></p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Fabricante</h3>
-                            <p id="detalhe-fabricante"></p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Ano de fabrico</h3>
-                            <p id="detalhe-ano-fabrico"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Linha 4: Fornecedor e localização associados -->
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Fornecedor associado</h3>
-                            <p id="detalhe-fornecedor"></p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Localização associada</h3>
-                            <p id="detalhe-localizacao"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Linha 5: Aquisição -->
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Data de aquisição</h3>
-                            <p id="detalhe-data-aquisicao"></p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Custo de aquisição</h3>
-                            <p id="detalhe-custo-aquisicao"></p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Tipo de entrada</h3>
-                            <p id="detalhe-tipo-entrada"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Linha 6: Estado / Criticidade -->
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Estado atual</h3>
-                            <p id="detalhe-estado"></p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Criticidade</h3>
-                            <p id="detalhe-criticidade"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Documentação associada -->
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Documentação associada</h3>
-                            <div id="detalhe-documentacao-associada-equipamento">
-                                Sem documentação associada
+                            <div class="campo-detalhes">
+                                <h3>Código interno de inventário</h3>
+                                <p id="detalhe-codigo"></p>
                             </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Designação do equipamento</h3>
+                                <p id="detalhe-designacao"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Categoria ou grupo</h3>
+                                <p id="detalhe-categoria"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Marca</h3>
+                                <p id="detalhe-marca"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Modelo</h3>
+                                <p id="detalhe-modelo"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>N.º de série</h3>
+                                <p id="detalhe-numero-serie"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Fabricante</h3>
+                                <p id="detalhe-fabricante"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Ano de fabrico</h3>
+                                <p id="detalhe-ano-fabrico"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Data de aquisição</h3>
+                                <p id="detalhe-data-aquisicao"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Custo de aquisição</h3>
+                                <p id="detalhe-custo-aquisicao"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Tipo de entrada</h3>
+                                <p id="detalhe-tipo-entrada"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Estado atual</h3>
+                                <p id="detalhe-estado"></p>
+                            </div>
+
+                            <div class="campo-detalhes campo-criticidade-destaque">
+                                <h3>Criticidade</h3>
+                                <p id="detalhe-criticidade"></p>
+                            </div>
+
+                            <div class="campo-detalhes campo-detalhes-largo">
+                                <h3>Observações do equipamento</h3>
+                                <p id="detalhe-observacoes"></p>
+                            </div>
+
                         </div>
-                    </div>
-                </div>
 
-                <!-- Linha 7: Observações -->
-                <div class="mb-3">
-                    <div class="campo-detalhes">
-                        <h3>Observações gerais do equipamento</h3>
-                        <p id="detalhe-observacoes"></p>
-                    </div>
-                </div>
+                    </section>
 
-                <!-- Garantia e contrato -->
-                <h2 class="titulo-seccao-formulario">Garantia e contrato</h2>
+                    <!-- Separador 2: Fornecedor associado -->
+                    <section id="tab-fornecedor-equipamento" class="conteudo-tab-equipamento">
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Data de início da garantia</h3>
-                            <p id="detalhe-data-inicio-garantia"></p>
+                        <div class="grelha-detalhes-equipamento">
+
+                            <div class="campo-detalhes">
+                                <h3>Código do fornecedor</h3>
+                                <p id="detalhe-fornecedor-codigo"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Nome do fornecedor</h3>
+                                <p id="detalhe-fornecedor-nome"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>NIF</h3>
+                                <p id="detalhe-fornecedor-nif"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Email</h3>
+                                <p id="detalhe-fornecedor-email"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Telefone</h3>
+                                <p id="detalhe-fornecedor-telefone"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Morada</h3>
+                                <p id="detalhe-fornecedor-morada"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Tipo de fornecedor</h3>
+                                <p id="detalhe-fornecedor-tipo"></p>
+                            </div>
+
+                            <div class="campo-detalhes campo-detalhes-largo">
+                                <h3>Observações do fornecedor</h3>
+                                <p id="detalhe-fornecedor-observacoes"></p>
+                            </div>
+
                         </div>
-                    </div>
 
-                    <div class="col-md-6 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Data de fim da garantia</h3>
-                            <p id="detalhe-data-fim-garantia"></p>
-                        </div>
-                    </div>
-                </div>
+                    </section>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Contrato de manutenção</h3>
-                            <p id="detalhe-contrato-manutencao"></p>
-                        </div>
-                    </div>
+                    <!-- Separador 3: Localização associada -->
+                    <section id="tab-localizacao-equipamento" class="conteudo-tab-equipamento">
 
-                    <div class="col-md-6 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Tipo de contrato</h3>
-                            <p id="detalhe-tipo-contrato"></p>
-                        </div>
-                    </div>
-                </div>
+                        <div class="grelha-detalhes-equipamento">
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Entidade responsável</h3>
-                            <p id="detalhe-entidade-responsavel-contrato"></p>
-                        </div>
-                    </div>
+                            <div class="campo-detalhes">
+                                <h3>Código da localização</h3>
+                                <p id="detalhe-localizacao-codigo"></p>
+                            </div>
 
-                    <div class="col-md-6 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Periodicidade</h3>
-                            <p id="detalhe-periodicidade-contrato"></p>
-                        </div>
-                    </div>
-                </div>
+                            <div class="campo-detalhes">
+                                <h3>Serviço</h3>
+                                <p id="detalhe-localizacao-servico"></p>
+                            </div>
 
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <div class="campo-detalhes">
-                            <h3>Observações sobre garantia/contrato</h3>
-                            <p id="detalhe-observacoes-contrato"></p>
+                            <div class="campo-detalhes">
+                                <h3>Piso</h3>
+                                <p id="detalhe-localizacao-piso"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Sala</h3>
+                                <p id="detalhe-localizacao-sala"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Edifício</h3>
+                                <p id="detalhe-localizacao-edificio"></p>
+                            </div>
+
+                            <div class="campo-detalhes campo-detalhes-largo">
+                                <h3>Observações da localização</h3>
+                                <p id="detalhe-localizacao-observacoes"></p>
+                            </div>
+
                         </div>
-                    </div>
+
+                    </section>
+
+                    <!-- Separador 4: Documentação associada -->
+                    <section id="tab-documentacao-equipamento" class="conteudo-tab-equipamento">
+
+                        <div class="grelha-detalhes-equipamento">
+
+                            <div class="campo-detalhes">
+                                <h3>Código da documentação</h3>
+                                <p id="detalhe-doc-codigo"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Tipo de documentação</h3>
+                                <p id="detalhe-doc-tipo"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Nome da documentação</h3>
+                                <p id="detalhe-doc-nome"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Data da documentação</h3>
+                                <p id="detalhe-doc-data"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Data de validade</h3>
+                                <p id="detalhe-doc-validade"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Ficheiro / localização</h3>
+                                <p id="detalhe-doc-ficheiro"></p>
+                            </div>
+
+                            <div class="campo-detalhes campo-detalhes-largo">
+                                <h3>Observações da documentação</h3>
+                                <p id="detalhe-doc-observacoes"></p>
+                            </div>
+
+                        </div>
+
+                    </section>
+
+                    <!-- Separador 5: Garantia e contrato -->
+                    <section id="tab-garantia-equipamento" class="conteudo-tab-equipamento">
+
+                        <div class="grelha-detalhes-equipamento">
+
+                            <div class="campo-detalhes">
+                                <h3>Data de início da garantia</h3>
+                                <p id="detalhe-data-inicio-garantia"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Data de fim da garantia</h3>
+                                <p id="detalhe-data-fim-garantia"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Contrato de manutenção</h3>
+                                <p id="detalhe-contrato-manutencao"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Tipo de contrato</h3>
+                                <p id="detalhe-tipo-contrato"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Entidade responsável</h3>
+                                <p id="detalhe-entidade-responsavel-contrato"></p>
+                            </div>
+
+                            <div class="campo-detalhes">
+                                <h3>Periodicidade</h3>
+                                <p id="detalhe-periodicidade-contrato"></p>
+                            </div>
+
+                            <div class="campo-detalhes campo-detalhes-largo">
+                                <h3>Observações da garantia/contrato</h3>
+                                <p id="detalhe-observacoes-contrato"></p>
+                            </div>
+
+                        </div>
+
+                    </section>
+
                 </div>
 
                 <!-- Botões -->
@@ -307,10 +391,6 @@
                         Voltar
                     </a>
 
-                    <a href="editar_equipamento.html" id="botao-editar-equipamento" class="botao-editar-detalhes">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        Editar
-                    </a>
                 </div>
 
             </section>

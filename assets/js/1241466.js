@@ -267,7 +267,7 @@ const equipamentosConsulta = {
         custoAquisicao: "23500 €",
         tipoEntrada: "Compra",
         estado: "Em manutenção",
-        criticidade: "Crítica",
+        criticidade: "Suporte de vida",
         localizacao: "LOC002",
         observacoes: "Equipamento em manutenção preventiva programada.",
         dataInicioGarantia: "08/09/2021",
@@ -319,7 +319,7 @@ const equipamentosConsulta = {
         custoAquisicao: "12400 €",
         tipoEntrada: "Compra",
         estado: "Ativo",
-        criticidade: "Crítica",
+        criticidade: "Baixa",
         localizacao: "LOC004",
         observacoes: "Equipamento essencial para resposta rápida em situações de paragem cardiorrespiratória.",
         dataInicioGarantia: "15/06/2022",
@@ -715,74 +715,141 @@ function preencherDetalhesEquipamento() {
     document.getElementById("detalhe-marca").textContent = equipamento.marca;
     document.getElementById("detalhe-modelo").textContent = equipamento.modelo;
     document.getElementById("detalhe-numero-serie").textContent = equipamento.numeroSerie;
-    const campoFornecedorEquipamento = document.getElementById("detalhe-fornecedor");
 
-    if (campoFornecedorEquipamento) {
-        if (equipamento.fornecedor) {
-            campoFornecedorEquipamento.innerHTML = `
-            <a href="../fornecedores/consultar_fornecedor.html?id=${equipamento.fornecedor}" class="link-detalhe">
-                ${equipamento.fornecedor}
-            </a>
-        `;
+    const fornecedorAssociado = fornecedoresGuardados[equipamento.fornecedor];
+
+    const campoFornecedorCodigo = document.getElementById("detalhe-fornecedor-codigo");
+    const campoFornecedorNome = document.getElementById("detalhe-fornecedor-nome");
+    const campoFornecedorNif = document.getElementById("detalhe-fornecedor-nif");
+    const campoFornecedorEmail = document.getElementById("detalhe-fornecedor-email");
+    const campoFornecedorTelefone = document.getElementById("detalhe-fornecedor-telefone");
+    const campoFornecedorMorada = document.getElementById("detalhe-fornecedor-morada");
+    const campoFornecedorTipo = document.getElementById("detalhe-fornecedor-tipo");
+    const campoFornecedorObservacoes = document.getElementById("detalhe-fornecedor-observacoes");
+
+    if (campoFornecedorCodigo) {
+        if (fornecedorAssociado) {
+            campoFornecedorCodigo.textContent = fornecedorAssociado.codigo || "Não definido";
+
+            if (campoFornecedorNome) campoFornecedorNome.textContent = fornecedorAssociado.nomeEmpresa || "Não definido";
+            if (campoFornecedorNif) campoFornecedorNif.textContent = fornecedorAssociado.nif || "Não definido";
+            if (campoFornecedorEmail) campoFornecedorEmail.textContent = fornecedorAssociado.email || "Não definido";
+            if (campoFornecedorTelefone) campoFornecedorTelefone.textContent = fornecedorAssociado.telefone || "Não definido";
+            if (campoFornecedorMorada) campoFornecedorMorada.textContent = fornecedorAssociado.morada || "Não definido";
+            if (campoFornecedorTipo) campoFornecedorTipo.textContent = fornecedorAssociado.tipoFornecedor || "Não definido";
+            if (campoFornecedorObservacoes) campoFornecedorObservacoes.textContent = fornecedorAssociado.observacoes || "Sem observações";
         } else {
-            campoFornecedorEquipamento.textContent = "Sem fornecedor associado";
+            campoFornecedorCodigo.textContent = equipamento.fornecedor || "Sem fornecedor associado";
+
+            if (campoFornecedorNome) campoFornecedorNome.textContent = "Não definido";
+            if (campoFornecedorNif) campoFornecedorNif.textContent = "Não definido";
+            if (campoFornecedorEmail) campoFornecedorEmail.textContent = "Não definido";
+            if (campoFornecedorTelefone) campoFornecedorTelefone.textContent = "Não definido";
+            if (campoFornecedorMorada) campoFornecedorMorada.textContent = "Não definido";
+            if (campoFornecedorTipo) campoFornecedorTipo.textContent = "Não definido";
+            if (campoFornecedorObservacoes) campoFornecedorObservacoes.textContent = "Sem observações";
         }
     }
+
     document.getElementById("detalhe-fabricante").textContent = equipamento.fabricante;
     document.getElementById("detalhe-ano-fabrico").textContent = equipamento.anoFabrico;
     document.getElementById("detalhe-data-aquisicao").textContent = equipamento.dataAquisicao;
     document.getElementById("detalhe-custo-aquisicao").textContent = equipamento.custoAquisicao;
     document.getElementById("detalhe-tipo-entrada").textContent = equipamento.tipoEntrada;
     document.getElementById("detalhe-estado").textContent = equipamento.estado;
-    document.getElementById("detalhe-criticidade").textContent = equipamento.criticidade;
+    const campoCriticidade = document.getElementById("detalhe-criticidade");
 
-    const campoLocalizacaoEquipamento = document.getElementById("detalhe-localizacao");
+    if (campoCriticidade) {
+        const classesCriticidade = {
+            "Suporte de vida": "badge-criticidade-suporte",
+            "Alta": "badge-criticidade-alta",
+            "Média": "badge-criticidade-media",
+            "Baixa": "badge-criticidade-baixa"
+        };
 
-    if (campoLocalizacaoEquipamento) {
-        if (equipamento.localizacao) {
-            campoLocalizacaoEquipamento.innerHTML = `
-            <a href="../localizacoes/consultar_localizacao.html?id=${equipamento.localizacao}" class="link-detalhe">
-                ${equipamento.localizacao}
-            </a>
+        const classeCriticidade = classesCriticidade[equipamento.criticidade];
+
+        if (classeCriticidade) {
+            campoCriticidade.innerHTML = `
+            <span class="badge-detalhe ${classeCriticidade}">
+                ${equipamento.criticidade}
+            </span>
         `;
         } else {
-            campoLocalizacaoEquipamento.textContent = "Sem localização associada";
+            campoCriticidade.textContent = equipamento.criticidade || "Não definida";
         }
     }
 
-    const campoDocumentacaoAssociada = document.getElementById("detalhe-documentacao-associada-equipamento");
+    const localizacaoAssociada = localizacoesGuardadas[equipamento.localizacao];
 
-    if (campoDocumentacaoAssociada) {
+    const campoLocalizacaoCodigo = document.getElementById("detalhe-localizacao-codigo");
+    const campoLocalizacaoServico = document.getElementById("detalhe-localizacao-servico");
+    const campoLocalizacaoPiso = document.getElementById("detalhe-localizacao-piso");
+    const campoLocalizacaoSala = document.getElementById("detalhe-localizacao-sala");
+    const campoLocalizacaoEdificio = document.getElementById("detalhe-localizacao-edificio");
+    const campoLocalizacaoObservacoes = document.getElementById("detalhe-localizacao-observacoes");
+
+    if (campoLocalizacaoCodigo) {
+        if (localizacaoAssociada) {
+            campoLocalizacaoCodigo.textContent = localizacaoAssociada.codigo || "Não definido";
+
+            campoLocalizacaoServico.textContent = localizacaoAssociada.servico || "Não definido";
+            campoLocalizacaoPiso.textContent = localizacaoAssociada.piso || "Não definido";
+            campoLocalizacaoSala.textContent = localizacaoAssociada.sala || "Não definido";
+            campoLocalizacaoEdificio.textContent = localizacaoAssociada.edificio || "Não definido";
+            campoLocalizacaoObservacoes.textContent = localizacaoAssociada.observacoes || "Sem observações";
+        } else {
+            campoLocalizacaoCodigo.textContent = equipamento.localizacao || "Sem localização associada";
+            campoLocalizacaoServico.textContent = "Não definido";
+            campoLocalizacaoPiso.textContent = "Não definido";
+            campoLocalizacaoSala.textContent = "Não definido";
+            campoLocalizacaoEdificio.textContent = "Não definido";
+            campoLocalizacaoObservacoes.textContent = "Sem observações";
+        }
+    }
+
+    const campoDocCodigo = document.getElementById("detalhe-doc-codigo");
+    const campoDocTipo = document.getElementById("detalhe-doc-tipo");
+    const campoDocNome = document.getElementById("detalhe-doc-nome");
+    const campoDocData = document.getElementById("detalhe-doc-data");
+    const campoDocValidade = document.getElementById("detalhe-doc-validade");
+    const campoDocFicheiro = document.getElementById("detalhe-doc-ficheiro");
+    const campoDocObservacoes = document.getElementById("detalhe-doc-observacoes");
+
+    if (campoDocCodigo) {
         const documentacoesAssociadas = obterDocumentacoesPorEquipamento(equipamento.codigo);
 
         if (documentacoesAssociadas.length === 0) {
-            campoDocumentacaoAssociada.textContent = "Sem documentação associada";
+            campoDocCodigo.textContent = "Sem documentação associada";
+            campoDocTipo.textContent = "-";
+            campoDocNome.textContent = "-";
+            campoDocData.textContent = "-";
+            campoDocValidade.textContent = "-";
+            campoDocFicheiro.textContent = "-";
+            campoDocObservacoes.textContent = "-";
         } else {
-            campoDocumentacaoAssociada.innerHTML = "";
+            const documentacao = documentacoesAssociadas[0];
 
-            documentacoesAssociadas.forEach(function (documentacao) {
-                const item = document.createElement("p");
+            campoDocCodigo.textContent = documentacao.codigo || "Não definido";
 
-                item.innerHTML = `
-    <a href="../documentacao/consultar_documentacao.html?id=${documentacao.codigo}">
-        ${documentacao.codigo} - ${documentacao.nomeDocumentacao}
-    </a>
-`;
-
-                campoDocumentacaoAssociada.appendChild(item);
-            });
+            campoDocTipo.textContent = documentacao.tipoDocumentacao || "Não definido";
+            campoDocNome.textContent = documentacao.nomeDocumentacao || "Não definido";
+            campoDocData.textContent = documentacao.dataDocumentacao || "Não definido";
+            campoDocValidade.textContent = documentacao.dataValidade || "Sem data de validade";
+            campoDocFicheiro.textContent = documentacao.ficheiro || "Não definido";
+            campoDocObservacoes.textContent = documentacao.observacoes || "Sem observações";
         }
     }
 
     document.getElementById("detalhe-observacoes").textContent = equipamento.observacoes;
 
-    document.getElementById("detalhe-data-inicio-garantia").textContent = equipamento.dataInicioGarantia || "Sem data definida";
-    document.getElementById("detalhe-data-fim-garantia").textContent = equipamento.dataFimGarantia || "Sem data definida";
-    document.getElementById("detalhe-contrato-manutencao").textContent = equipamento.contratoManutencao || "Não definido";
-    document.getElementById("detalhe-tipo-contrato").textContent = equipamento.tipoContrato || "Não aplicável";
-    document.getElementById("detalhe-entidade-responsavel-contrato").textContent = equipamento.entidadeResponsavelContrato || "Não aplicável";
-    document.getElementById("detalhe-periodicidade-contrato").textContent = equipamento.periodicidadeContrato || "Não aplicável";
-    document.getElementById("detalhe-observacoes-contrato").textContent = equipamento.observacoesContrato || "Sem observações";
+    document.getElementById("detalhe-data-inicio-garantia").textContent = equipamento.dataInicioGarantia;
+    document.getElementById("detalhe-data-fim-garantia").textContent = equipamento.dataFimGarantia;
+    document.getElementById("detalhe-contrato-manutencao").textContent = equipamento.contratoManutencao;
+    document.getElementById("detalhe-tipo-contrato").textContent = equipamento.tipoContrato;
+    document.getElementById("detalhe-entidade-responsavel-contrato").textContent = equipamento.entidadeResponsavelContrato;
+    document.getElementById("detalhe-periodicidade-contrato").textContent = equipamento.periodicidadeContrato;
+    document.getElementById("detalhe-observacoes-contrato").textContent = equipamento.observacoesContrato;
 
     const botaoEditarEquipamento = document.getElementById("botao-editar-equipamento");
 
@@ -790,7 +857,6 @@ function preencherDetalhesEquipamento() {
         botaoEditarEquipamento.href = `editar_equipamento.html?id=${equipamento.codigo}`;
     }
 }
-
 
 function inicializarEditarEquipamento() {
     const formEditarEquipamento = document.getElementById("form-editar-equipamento");
@@ -1887,7 +1953,7 @@ const documentacaoConsulta = {
         nomeDocumentacao: "Certificado de calibração da bomba de infusão",
         dataDocumentacao: "15/03/2024",
         dataValidade: "15/03/2025",
-        equipamento: "EQ003",
+        equipamento: "EQ002",
         fornecedor: "",
         ficheiro: "certificado_calibracao_bomba_infusao.pdf",
         observacoes: "Documento válido por um ano."
@@ -1899,8 +1965,8 @@ const documentacaoConsulta = {
         nomeDocumentacao: "Relatório de manutenção do ventilador pulmonar",
         dataDocumentacao: "20/09/2024",
         dataValidade: "",
-        equipamento: "EQ002",
-        fornecedor: "FOR004",
+        equipamento: "EQ003",
+        fornecedor: "FOR03",
         ficheiro: "relatorio_manutencao_ventilador.pdf",
         observacoes: "Relatório associado à intervenção técnica realizada."
     },
@@ -1912,7 +1978,7 @@ const documentacaoConsulta = {
         dataDocumentacao: "05/06/2022",
         dataValidade: "05/06/2025",
         equipamento: "EQ004",
-        fornecedor: "FOR002",
+        fornecedor: "FOR004",
         ficheiro: "garantia_desfibrilhador.pdf",
         observacoes: "Garantia comercial do equipamento."
     }
@@ -2318,10 +2384,10 @@ function inicializarDashboard() {
     document.getElementById("semDocumentacaoDashboard").textContent = equipamentosSemDocumentacao;
 
     preencherGraficoServicosDashboard(equipamentos, localizacoes);
-preencherDistribuicaoCategoriasDashboard(equipamentos);
-preencherTabelaGarantiasDashboard(equipamentos, fornecedores);
-preencherCriticidadeElevadaDashboard(equipamentos);
-preencherSuporteVidaDashboard(equipamentos, localizacoes);
+    preencherDistribuicaoCategoriasDashboard(equipamentos);
+    preencherTabelaGarantiasDashboard(equipamentos, fornecedores);
+    preencherCriticidadeAltaDashboard(equipamentos);
+    preencherSuporteVidaDashboard(equipamentos, localizacoes);
 
     const dataAtual = new Date();
 
@@ -2763,9 +2829,9 @@ function preencherTabelaGarantiasDashboard(equipamentos, fornecedores) {
     });
 }
 
-function preencherCriticidadeElevadaDashboard(equipamentos) {
-    const numero = document.getElementById("criticidadeElevadaDashboard");
-    const percentagemTexto = document.getElementById("percentagemCriticidadeDashboard");
+function preencherCriticidadeAltaDashboard(equipamentos) {
+    const numero = document.getElementById("criticidadeAltaDashboard");
+    const percentagemTexto = document.getElementById("percentagemCriticidadeAltaDashboard");
 
     if (!numero || !percentagemTexto) {
         return;
@@ -2773,13 +2839,13 @@ function preencherCriticidadeElevadaDashboard(equipamentos) {
 
     const total = equipamentos.length || 1;
 
-    const criticidadeElevada = equipamentos.filter(function (equipamento) {
-        return equipamento.criticidade === "Alta" || equipamento.criticidade === "Crítica";
+    const criticidadeAlta = equipamentos.filter(function (equipamento) {
+        return equipamento.criticidade === "Alta";
     }).length;
 
-    const percentagem = Math.round((criticidadeElevada / total) * 100);
+    const percentagem = Math.round((criticidadeAlta / total) * 100);
 
-    numero.textContent = criticidadeElevada;
+    numero.textContent = criticidadeAlta;
     percentagemTexto.textContent = percentagem + "% do total";
 }
 
@@ -2834,6 +2900,37 @@ function preencherSuporteVidaDashboard(equipamentos, localizacoes) {
     });
 }
 
+function inicializarTabsEquipamento() {
+    const botoesTabs = document.querySelectorAll(".botao-tab-equipamento");
+    const conteudosTabs = document.querySelectorAll(".conteudo-tab-equipamento");
+
+    if (botoesTabs.length === 0 || conteudosTabs.length === 0) {
+        return;
+    }
+
+    botoesTabs.forEach(function (botao) {
+        botao.addEventListener("click", function () {
+            const tabDestino = botao.getAttribute("data-tab");
+
+            botoesTabs.forEach(function (botaoAtual) {
+                botaoAtual.classList.remove("ativo");
+            });
+
+            conteudosTabs.forEach(function (conteudoAtual) {
+                conteudoAtual.classList.remove("ativo");
+            });
+
+            botao.classList.add("ativo");
+
+            const conteudoSelecionado = document.getElementById(tabDestino);
+
+            if (conteudoSelecionado) {
+                conteudoSelecionado.classList.add("ativo");
+            }
+        });
+    });
+}
+
 // ===============================
 // INICIALIZAÇÃO GERAL
 // ===============================
@@ -2847,6 +2944,7 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarFiltrosEquipamentos();
     inicializarDashboard();
     preencherDetalhesEquipamento();
+    inicializarTabsEquipamento();
     preencherEliminarEquipamento();
     inicializarNovoEquipamento();
     inicializarEditarEquipamento();

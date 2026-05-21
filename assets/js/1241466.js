@@ -352,48 +352,64 @@ function preencherListagemEquipamentos(listaEquipamentos = Object.values(equipam
 
     if (listaEquipamentos.length === 0) {
         tabelaEquipamentos.innerHTML = `
-            <tr>
-                <td colspan="14" class="text-center">Nenhum equipamento encontrado.</td>
-            </tr>
-        `;
+        <tr>
+            <td colspan="7" class="text-center">Nenhum equipamento encontrado.</td>
+        </tr>
+    `;
         return;
     }
 
     listaEquipamentos.forEach(function (equipamento) {
         const linha = document.createElement("tr");
 
+        const fornecedorAssociado = fornecedoresGuardados[equipamento.fornecedor];
+
+        const pessoaContactoFornecedor = fornecedorAssociado
+            ? fornecedorAssociado.pessoaContacto || "-"
+            : "-";
+
+        const telefonePessoaContactoFornecedor = fornecedorAssociado
+            ? fornecedorAssociado.telefonePessoaContacto || "-"
+            : "-";
+
+        const classesCriticidade = {
+            "Suporte de vida": "badge-criticidade-suporte",
+            "Alta": "badge-criticidade-alta",
+            "Média": "badge-criticidade-media",
+            "Baixa": "badge-criticidade-baixa"
+        };
+
+        const classeCriticidade = classesCriticidade[equipamento.criticidade];
+
+        const criticidadeHTML = classeCriticidade
+            ? `<span class="badge-detalhe ${classeCriticidade}">${equipamento.criticidade}</span>`
+            : (equipamento.criticidade || "-");
+
         linha.innerHTML = `
-        <td>${equipamento.codigo}</td>
-        <td>${equipamento.designacao}</td>
-        <td>${equipamento.categoria}</td>
-        <td>${equipamento.marca}</td>
-        <td>${equipamento.modelo}</td>
-        <td>${equipamento.numeroSerie}</td>
-        <td>${equipamento.fabricante}</td>
-        <td>${equipamento.anoFabrico}</td>
-        <td>${equipamento.dataAquisicao}</td>
-        <td>${equipamento.custoAquisicao}</td>
-        <td>${equipamento.tipoEntrada}</td>
-        <td>${equipamento.estado}</td>
-        <td>${equipamento.criticidade}</td>
+    <td>${equipamento.designacao || "-"}</td>
+    <td>${equipamento.marca || "-"}</td>
+    <td>${pessoaContactoFornecedor}</td>
+    <td>${telefonePessoaContactoFornecedor}</td>
+    <td>${equipamento.estado || "-"}</td>
+    <td>${criticidadeHTML}</td>
 
-        <td class="acoes-tabela-privada">
-            <a href="consultar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
-                <i class="fa-regular fa-eye"></i>
-                Consultar
-            </a>
+    <td class="acoes-tabela-privada">
+        <a href="consultar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
+            <i class="fa-regular fa-eye"></i>
+            Consultar
+        </a>
 
-            <a href="editar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
-                <i class="fa-regular fa-pen-to-square"></i>
-                Editar
-            </a>
+        <a href="editar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Editar
+        </a>
 
-            <a href="eliminar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
-                <i class="fa-regular fa-trash-can"></i>
-                Eliminar
-            </a>
-        </td>
-    `;
+        <a href="eliminar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
+            <i class="fa-regular fa-trash-can"></i>
+            Eliminar
+        </a>
+    </td>
+`;
 
         tabelaEquipamentos.appendChild(linha);
     });

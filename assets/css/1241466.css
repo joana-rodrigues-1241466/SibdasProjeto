@@ -809,7 +809,6 @@ body {
 
 /* Ações da tabela privada */
 .acoes-tabela-privada {
-    display: flex;
     align-items: center;
     gap: 22px;
     white-space: nowrap;
@@ -828,6 +827,10 @@ body {
 
 .acoes-tabela-privada i {
     margin-right: 5px;
+}
+
+.acao-tabela-privada:not(:last-child) {
+    margin-right: 14px;
 }
 
 /* Formulário da área privada */

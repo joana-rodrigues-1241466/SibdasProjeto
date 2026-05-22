@@ -105,6 +105,24 @@
                                 Equipamento
                             </button>
 
+                            <button type="button" class="botao-tab-equipamento bloqueado" data-tab="tab-novo-fornecedor"
+                                disabled>
+                                <i class="fa-solid fa-truck-medical"></i>
+                                Fornecedor associado
+                            </button>
+
+                            <button type="button" class="botao-tab-equipamento bloqueado"
+                                data-tab="tab-nova-localizacao" disabled>
+                                <i class="fa-solid fa-location-dot"></i>
+                                Localização associada
+                            </button>
+
+                            <button type="button" class="botao-tab-equipamento bloqueado"
+                                data-tab="tab-nova-documentacao" disabled>
+                                <i class="fa-solid fa-file-medical"></i>
+                                Documentação associada
+                            </button>
+
                             <button type="button" class="botao-tab-equipamento bloqueado" data-tab="tab-nova-garantia"
                                 disabled>
                                 <i class="fa-solid fa-shield-halved"></i>
@@ -181,43 +199,7 @@
                                 </div>
                             </div>
 
-                            <!-- Linha 4: Fornecedor / Localização / Documentação -->
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="fornecedor" class="form-label">Fornecedor associado</label>
-                                    <select class="form-select campo-formulario-privado" id="fornecedor"
-                                        name="fornecedor" required>
-                                        <option value="" selected disabled>Escolha um fornecedor</option>
-                                    </select>
-                                    <small class="text-muted">
-                                        Selecione um fornecedor previamente registado.
-                                    </small>
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label for="localizacao" class="form-label">Localização associada</label>
-                                    <select class="form-select campo-formulario-privado" id="localizacao"
-                                        name="localizacao" required>
-                                        <option value="" selected disabled>Escolha uma localização</option>
-                                    </select>
-                                    <small class="text-muted">
-                                        Selecione uma localização previamente registada.
-                                    </small>
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label for="documentacaoAssociada" class="form-label">Documentação associada</label>
-                                    <select id="documentacaoAssociada" name="documentacaoAssociada"
-                                        class="form-select campo-formulario-privado">
-                                        <option value="" selected disabled>Escolha uma documentação</option>
-                                    </select>
-                                    <small class="text-muted">
-                                        Selecione uma documentação previamente registada.
-                                    </small>
-                                </div>
-                            </div>
-
-                            <!-- Linha 5: Aquisição -->
+                            <!-- Linha 4: Aquisição -->
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="data_aquisicao" class="form-label">Data de aquisição</label>
@@ -244,7 +226,7 @@
                                 </div>
                             </div>
 
-                            <!-- Linha 6: Estado / Criticidade -->
+                            <!-- Linha 5: Estado / Criticidade -->
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="estado" class="form-label">Estado atual</label>
@@ -273,7 +255,7 @@
                                 </div>
                             </div>
 
-                            <!-- Linha 7: Observações -->
+                            <!-- Linha 6: Observações -->
                             <div class="mb-3">
                                 <label for="observacoes" class="form-label">Observações do equipamento</label>
                                 <textarea class="form-control campo-formulario-privado" id="observacoes"
@@ -287,6 +269,204 @@
                                 </a>
 
                                 <button type="button" id="botaoPaginaSeguinteEquipamento" class="botao-guardar-privado">
+                                    Página seguinte
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div id="tab-novo-fornecedor" class="conteudo-tab-equipamento">
+
+                            <div class="form-grid-privado">
+
+                                <div class="grupo-campo-privado">
+                                    <label for="fornecedor">Código do fornecedor associado</label>
+                                    <select id="fornecedor" name="fornecedor"
+                                        class="form-select campo-formulario-privado">
+                                        <option value="" selected disabled>Escolha um fornecedor</option>
+                                    </select>
+                                    <small>Selecione um fornecedor previamente registado.</small>
+                                </div>
+
+                                <div class="grupo-campo-privado">
+                                    <label for="nomeFornecedor">Nome da empresa</label>
+                                    <input type="text" id="nomeFornecedor" name="nomeFornecedor"
+                                        class="campo-formulario-privado" readonly>
+                                </div>
+
+                                <div class="grupo-campo-privado">
+                                    <label for="nifFornecedor">NIF</label>
+                                    <input type="text" id="nifFornecedor" name="nifFornecedor"
+                                        class="campo-formulario-privado" readonly>
+                                </div>
+
+                                <div class="grupo-campo-privado">
+                                    <label for="telefoneFornecedor">Contacto telefónico geral</label>
+                                    <input type="text" id="telefoneFornecedor" name="telefoneFornecedor"
+                                        class="campo-formulario-privado" readonly>
+                                </div>
+
+                                <div class="grupo-campo-privado">
+                                    <label for="emailFornecedor">Email geral</label>
+                                    <input type="email" id="emailFornecedor" name="emailFornecedor"
+                                        class="campo-formulario-privado" readonly>
+                                </div>
+
+                                <div class="grupo-campo-privado">
+                                    <label for="websiteFornecedor">Website</label>
+                                    <input type="text" id="websiteFornecedor" name="websiteFornecedor"
+                                        class="campo-formulario-privado" readonly>
+                                </div>
+
+                                <div class="grupo-campo-privado">
+                                    <label for="moradaFornecedorEquipamento">Morada associada a este equipamento</label>
+                                    <input type="text" id="moradaFornecedorEquipamento"
+                                        name="moradaFornecedorEquipamento" class="campo-formulario-privado">
+                                </div>
+
+                                <div class="grupo-campo-privado">
+                                    <label for="pessoaContactoFornecedor">Pessoa de contacto</label>
+                                    <input type="text" id="pessoaContactoFornecedor" name="pessoaContactoFornecedor"
+                                        class="campo-formulario-privado">
+                                </div>
+
+                                <div class="grupo-campo-privado">
+                                    <label for="telefonePessoaContactoFornecedor">Telefone da pessoa de contacto</label>
+                                    <input type="text" id="telefonePessoaContactoFornecedor"
+                                        name="telefonePessoaContactoFornecedor" class="campo-formulario-privado">
+                                </div>
+
+                                <div class="grupo-campo-privado">
+                                    <label for="tipoFornecedorEquipamento">Tipo de fornecedor</label>
+                                    <select id="tipoFornecedorEquipamento" name="tipoFornecedorEquipamento"
+                                        class="form-select campo-formulario-privado">
+                                        <option value="" selected disabled>Escolha uma opção</option>
+                                        <option value="Fabricante">Fabricante</option>
+                                        <option value="Distribuidor ou Fornecedor comercial">Distribuidor ou Fornecedor
+                                            comercial</option>
+                                        <option value="Empresa de assistência técnica">Empresa de assistência técnica
+                                        </option>
+                                        <option value="Fornecedor de consumíveis ou acessórios">Fornecedor de
+                                            consumíveis ou acessórios</option>
+                                    </select>
+                                </div>
+
+                                <div class="grupo-campo-privado grupo-campo-total">
+                                    <label for="observacoesFornecedorEquipamento">Observações do fornecedor</label>
+                                    <textarea id="observacoesFornecedorEquipamento"
+                                        name="observacoesFornecedorEquipamento" class="campo-formulario-privado"
+                                        rows="4"></textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="acoes-formulario-privado">
+                                <button type="button" id="botaoPaginaAnteriorFornecedor" class="botao-cancelar-privado">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                    Página anterior
+                                </button>
+
+                                <a href="equipamentos.html" class="botao-cancelar-privado">
+                                    <i class="fa-solid fa-xmark"></i>
+                                    Cancelar
+                                </a>
+
+                                <button type="button" id="botaoPaginaSeguinteFornecedor" class="botao-guardar-privado">
+                                    Página seguinte
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <!-- Separador Localização associada -->
+                        <div id="tab-nova-localizacao" class="conteudo-tab-equipamento">
+
+                            <div class="form-grid-privado">
+
+                                <div class="grupo-campo-privado grupo-campo-total">
+                                    <label for="localizacao">Localização associada</label>
+                                    <select id="localizacao" name="localizacao"
+                                        class="form-select campo-formulario-privado" required>
+                                        <option value="" selected disabled>Escolha uma localização</option>
+                                    </select>
+                                    <small>Selecione uma localização previamente registada.</small>
+                                </div>
+
+                                <div class="grupo-campo-privado grupo-campo-total">
+                                    <label for="observacoesLocalizacao">Observações da localização</label>
+                                    <textarea id="observacoesLocalizacao" name="observacoesLocalizacao"
+                                        class="campo-formulario-privado" rows="4"
+                                        placeholder="Escreva observações específicas sobre a localização deste equipamento"></textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="acoes-formulario-privado">
+                                <button type="button" id="botaoPaginaAnteriorLocalizacao"
+                                    class="botao-cancelar-privado">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                    Página anterior
+                                </button>
+
+                                <a href="equipamentos.html" class="botao-cancelar-privado">
+                                    <i class="fa-solid fa-xmark"></i>
+                                    Cancelar
+                                </a>
+
+                                <button type="button" id="botaoPaginaSeguinteLocalizacao" class="botao-guardar-privado">
+                                    Página seguinte
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <!-- Separador Documentação associada -->
+                        <div id="tab-nova-documentacao" class="conteudo-tab-equipamento">
+
+                            <div class="form-grid-privado">
+
+                                <div class="grupo-campo-privado grupo-campo-total">
+                                    <label for="documentacaoAssociada">Documentações associadas</label>
+
+                                    <select id="documentacaoAssociada" name="documentacaoAssociada" class="form-control"
+                                        multiple size="4">
+                                    </select>
+
+                                    <p class="texto-ajuda">
+                                        Selecione uma ou mais documentações previamente registadas. Para selecionar
+                                        várias,
+                                        mantenha pressionada a tecla Ctrl, ou Cmd no Mac.
+                                    </p>
+                                </div>
+
+                                <div class="grupo-campo-privado grupo-campo-total">
+                                    <label for="observacoesDocumentacaoEquipamento">Observações sobre a
+                                        documentação</label>
+                                    <textarea id="observacoesDocumentacaoEquipamento"
+                                        name="observacoesDocumentacaoEquipamento" class="campo-formulario-privado"
+                                        rows="4"
+                                        placeholder="Observações sobre a documentação associada a este equipamento"></textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="acoes-formulario-privado">
+                                <button type="button" id="botaoPaginaAnteriorDocumentacao"
+                                    class="botao-cancelar-privado">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                    Página anterior
+                                </button>
+
+                                <a href="equipamentos.html" class="botao-cancelar-privado">
+                                    <i class="fa-solid fa-xmark"></i>
+                                    Cancelar
+                                </a>
+
+                                <button type="button" id="botaoPaginaSeguinteDocumentacao"
+                                    class="botao-guardar-privado">
                                     Página seguinte
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </button>
@@ -362,8 +542,7 @@
                             </div>
 
                             <div class="botoes-formulario-privado">
-                                <button type="button" id="botaoPaginaAnteriorEquipamento"
-                                    class="botao-cancelar-privado">
+                                <button type="button" id="botaoPaginaAnteriorGarantia" class="botao-cancelar-privado">
                                     <i class="fa-solid fa-arrow-left"></i>
                                     Página anterior
                                 </button>

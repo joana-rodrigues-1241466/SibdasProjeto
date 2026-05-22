@@ -235,6 +235,11 @@ const equipamentosConsulta = {
         modelo: "IntelliVue MX450",
         numeroSerie: "PH-MX450-2021-001",
         fornecedor: "FOR001",
+        moradaFornecedorEquipamento: "Lisboa, Portugal",
+        pessoaContactoFornecedor: "Ana Martins",
+        telefonePessoaContactoFornecedor: "+351 910 000 000",
+        tipoFornecedorEquipamento: "Fabricante",
+        observacoesFornecedorEquipamento: "Fornecedor associado a equipamentos de monitorização.",
         fabricante: "Philips Healthcare",
         anoFabrico: "2021",
         dataAquisicao: "12/03/2022",
@@ -261,6 +266,11 @@ const equipamentosConsulta = {
         modelo: "Evita V600",
         numeroSerie: "DR-EV600-2020-014",
         fornecedor: "FOR002",
+        moradaFornecedorEquipamento: "Porto, Portugal",
+        pessoaContactoFornecedor: "Miguel Santos",
+        telefonePessoaContactoFornecedor: "+351 920 000 000",
+        tipoFornecedorEquipamento: "Fabricante",
+        observacoesFornecedorEquipamento: "Fabricante associado a equipamentos de suporte ventilatório.",
         fabricante: "Dräger Medical",
         anoFabrico: "2020",
         dataAquisicao: "08/09/2021",
@@ -287,6 +297,11 @@ const equipamentosConsulta = {
         modelo: "Infusomat Space",
         numeroSerie: "BB-INF-2019-033",
         fornecedor: "FOR003",
+        moradaFornecedorEquipamento: "Aveiro, Portugal",
+        pessoaContactoFornecedor: "Carla Ferreira",
+        telefonePessoaContactoFornecedor: "+351 930 000 000",
+        tipoFornecedorEquipamento: "Distribuidor ou Fornecedor comercial",
+        observacoesFornecedorEquipamento: "Distribuidor comercial de equipamentos e consumíveis.",
         fabricante: "B. Braun Medical",
         anoFabrico: "2019",
         dataAquisicao: "21/01/2020",
@@ -313,6 +328,11 @@ const equipamentosConsulta = {
         modelo: "R Series",
         numeroSerie: "ZL-RS-2022-007",
         fornecedor: "FOR004",
+        moradaFornecedorEquipamento: "Coimbra, Portugal",
+        pessoaContactoFornecedor: "João Almeida",
+        telefonePessoaContactoFornecedor: "+351 940 000 000",
+        tipoFornecedorEquipamento: "Empresa de assistência técnica",
+        observacoesFornecedorEquipamento: "Empresa responsável por manutenção preventiva e corretiva.",
         fabricante: "Zoll Medical",
         anoFabrico: "2022",
         dataAquisicao: "15/06/2022",
@@ -362,15 +382,9 @@ function preencherListagemEquipamentos(listaEquipamentos = Object.values(equipam
     listaEquipamentos.forEach(function (equipamento) {
         const linha = document.createElement("tr");
 
-        const fornecedorAssociado = fornecedoresGuardados[equipamento.fornecedor];
+        const pessoaContactoFornecedor = equipamento.pessoaContactoFornecedor || "-";
 
-        const pessoaContactoFornecedor = fornecedorAssociado
-            ? fornecedorAssociado.pessoaContacto || "-"
-            : "-";
-
-        const telefonePessoaContactoFornecedor = fornecedorAssociado
-            ? fornecedorAssociado.telefonePessoaContacto || "-"
-            : "-";
+        const telefonePessoaContactoFornecedor = equipamento.telefonePessoaContactoFornecedor || "-";
 
         const classesCriticidade = {
             "Suporte de vida": "badge-criticidade-suporte",
@@ -630,6 +644,8 @@ function inicializarNovoEquipamento() {
     preencherSelectFornecedores("fornecedor");
     preencherSelectLocalizacoes("localizacao");
     preencherSelectDocumentacao("documentacaoAssociada");
+    preencherDadosFornecedorAssociado();
+    preencherDadosLocalizacaoAssociada();
 
     formularioNovoEquipamento.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -659,7 +675,6 @@ function inicializarNovoEquipamento() {
             marca: document.getElementById("marca").value.trim(),
             modelo: document.getElementById("modelo").value.trim(),
             numeroSerie: document.getElementById("numero_serie").value.trim(),
-            fornecedor: document.getElementById("fornecedor").value,
             fabricante: document.getElementById("fabricante").value.trim(),
             anoFabrico: document.getElementById("ano_fabrico").value.trim(),
             dataAquisicao: converterDataParaTexto(document.getElementById("data_aquisicao").value),
@@ -667,9 +682,21 @@ function inicializarNovoEquipamento() {
             tipoEntrada: document.getElementById("tipo_entrada").value.trim(),
             estado: document.getElementById("estado").value.trim(),
             criticidade: document.getElementById("criticidade").value.trim(),
-            localizacao: document.getElementById("localizacao") ? document.getElementById("localizacao").value.trim() : "",
-            documentacaoAssociada: document.getElementById("documentacaoAssociada").value,
             observacoes: document.getElementById("observacoes").value.trim(),
+
+            fornecedor: document.getElementById("fornecedor").value,
+            moradaFornecedorEquipamento: document.getElementById("moradaFornecedorEquipamento").value.trim(),
+            pessoaContactoFornecedor: document.getElementById("pessoaContactoFornecedor").value.trim(),
+            telefonePessoaContactoFornecedor: document.getElementById("telefonePessoaContactoFornecedor").value.trim(),
+            tipoFornecedorEquipamento: document.getElementById("tipoFornecedorEquipamento").value,
+            observacoesFornecedorEquipamento: document.getElementById("observacoesFornecedorEquipamento").value.trim(),
+
+            localizacao: document.getElementById("localizacao") ? document.getElementById("localizacao").value.trim() : "",
+            observacoesLocalizacao: document.getElementById("observacoesLocalizacao")?.value || "",
+
+            documentacaoAssociada: Array.from(document.getElementById("documentacaoAssociada").selectedOptions).map(function (option) {
+                return option.value;
+            }),
 
             dataInicioGarantia: converterDataParaTexto(document.getElementById("dataInicioGarantia").value),
             dataFimGarantia: converterDataParaTexto(document.getElementById("dataFimGarantia").value),
@@ -756,12 +783,27 @@ function preencherDetalhesEquipamento() {
             if (campoFornecedorNif) campoFornecedorNif.textContent = fornecedorAssociado.nif || "Não definido";
             if (campoFornecedorEmail) campoFornecedorEmail.textContent = fornecedorAssociado.email || "Não definido";
             if (campoFornecedorTelefone) campoFornecedorTelefone.textContent = fornecedorAssociado.telefone || "Não definido";
-            if (campoFornecedorMorada) campoFornecedorMorada.textContent = fornecedorAssociado.morada || "Não definido";
             if (campoFornecedorWebsite) campoFornecedorWebsite.textContent = fornecedorAssociado.website || "Não definido";
-            if (campoFornecedorPessoaContacto) campoFornecedorPessoaContacto.textContent = fornecedorAssociado.pessoaContacto || "Não definido";
-            if (campoFornecedorTelefonePessoaContacto) campoFornecedorTelefonePessoaContacto.textContent = fornecedorAssociado.telefonePessoaContacto || "Não definido";
-            if (campoFornecedorTipo) campoFornecedorTipo.textContent = fornecedorAssociado.tipoFornecedor || "Não definido";
-            if (campoFornecedorObservacoes) campoFornecedorObservacoes.textContent = fornecedorAssociado.observacoes || "Sem observações";
+
+            if (campoFornecedorMorada) {
+                campoFornecedorMorada.textContent = equipamento.moradaFornecedorEquipamento || "Não definido";
+            }
+
+            if (campoFornecedorPessoaContacto) {
+                campoFornecedorPessoaContacto.textContent = equipamento.pessoaContactoFornecedor || "Não definido";
+            }
+
+            if (campoFornecedorTelefonePessoaContacto) {
+                campoFornecedorTelefonePessoaContacto.textContent = equipamento.telefonePessoaContactoFornecedor || "Não definido";
+            }
+
+            if (campoFornecedorTipo) {
+                campoFornecedorTipo.textContent = equipamento.tipoFornecedorEquipamento || "Não definido";
+            }
+
+            if (campoFornecedorObservacoes) {
+                campoFornecedorObservacoes.textContent = equipamento.observacoesFornecedorEquipamento || "Sem observações";
+            }
         } else {
             campoFornecedorCodigo.textContent = equipamento.fornecedor || "Sem fornecedor associado";
 
@@ -809,62 +851,66 @@ function preencherDetalhesEquipamento() {
 
     const localizacaoAssociada = localizacoesGuardadas[equipamento.localizacao];
 
-    const campoLocalizacaoCodigo = document.getElementById("detalhe-localizacao-codigo");
-    const campoLocalizacaoServico = document.getElementById("detalhe-localizacao-servico");
-    const campoLocalizacaoPiso = document.getElementById("detalhe-localizacao-piso");
-    const campoLocalizacaoSala = document.getElementById("detalhe-localizacao-sala");
-    const campoLocalizacaoEdificio = document.getElementById("detalhe-localizacao-edificio");
-    const campoLocalizacaoObservacoes = document.getElementById("detalhe-localizacao-observacoes");
+    const containerDocumentacao = document.getElementById("detalhes-documentacao-associada");
 
-    if (campoLocalizacaoCodigo) {
-        if (localizacaoAssociada) {
-            campoLocalizacaoCodigo.textContent = localizacaoAssociada.codigo || "Não definido";
-
-            campoLocalizacaoServico.textContent = localizacaoAssociada.servico || "Não definido";
-            campoLocalizacaoPiso.textContent = localizacaoAssociada.piso || "Não definido";
-            campoLocalizacaoSala.textContent = localizacaoAssociada.sala || "Não definido";
-            campoLocalizacaoEdificio.textContent = localizacaoAssociada.edificio || "Não definido";
-            campoLocalizacaoObservacoes.textContent = localizacaoAssociada.observacoes || "Sem observações";
-        } else {
-            campoLocalizacaoCodigo.textContent = equipamento.localizacao || "Sem localização associada";
-            campoLocalizacaoServico.textContent = "Não definido";
-            campoLocalizacaoPiso.textContent = "Não definido";
-            campoLocalizacaoSala.textContent = "Não definido";
-            campoLocalizacaoEdificio.textContent = "Não definido";
-            campoLocalizacaoObservacoes.textContent = "Sem observações";
-        }
-    }
-
-    const campoDocCodigo = document.getElementById("detalhe-doc-codigo");
-    const campoDocTipo = document.getElementById("detalhe-doc-tipo");
-    const campoDocNome = document.getElementById("detalhe-doc-nome");
-    const campoDocData = document.getElementById("detalhe-doc-data");
-    const campoDocValidade = document.getElementById("detalhe-doc-validade");
-    const campoDocFicheiro = document.getElementById("detalhe-doc-ficheiro");
-    const campoDocObservacoes = document.getElementById("detalhe-doc-observacoes");
-
-    if (campoDocCodigo) {
+    if (containerDocumentacao) {
         const documentacoesAssociadas = obterDocumentacoesPorEquipamento(equipamento.codigo);
 
+        containerDocumentacao.innerHTML = "";
+
         if (documentacoesAssociadas.length === 0) {
-            campoDocCodigo.textContent = "Sem documentação associada";
-            campoDocTipo.textContent = "-";
-            campoDocNome.textContent = "-";
-            campoDocData.textContent = "-";
-            campoDocValidade.textContent = "-";
-            campoDocFicheiro.textContent = "-";
-            campoDocObservacoes.textContent = "-";
+            containerDocumentacao.innerHTML = `
+            <p class="texto-sem-dados">Sem documentação associada.</p>
+        `;
         } else {
-            const documentacao = documentacoesAssociadas[0];
+            documentacoesAssociadas.forEach(function (documentacao) {
+                containerDocumentacao.innerHTML += `
+                <div class="cartao-documentacao-associada">
+                    <div class="grelha-detalhes-equipamento">
 
-            campoDocCodigo.textContent = documentacao.codigo || "Não definido";
+                        <div>
+                            <span class="label-detalhe">Código</span>
+                            <p>
+                                <a href="../documentacao/consultar_documentacao.html?id=${documentacao.codigo}" class="link-detalhe">
+                                    ${documentacao.codigo || "Não definido"}
+                                </a>
+                            </p>
+                        </div>
 
-            campoDocTipo.textContent = documentacao.tipoDocumentacao || "Não definido";
-            campoDocNome.textContent = documentacao.nomeDocumentacao || "Não definido";
-            campoDocData.textContent = documentacao.dataDocumentacao || "Não definido";
-            campoDocValidade.textContent = documentacao.dataValidade || "Sem data de validade";
-            campoDocFicheiro.textContent = documentacao.ficheiro || "Não definido";
-            campoDocObservacoes.textContent = documentacao.observacoes || "Sem observações";
+                        <div>
+                            <span class="label-detalhe">Tipo de documentação</span>
+                            <p>${documentacao.tipoDocumentacao || "Não definido"}</p>
+                        </div>
+
+                        <div>
+                            <span class="label-detalhe">Nome da documentação</span>
+                            <p>${documentacao.nomeDocumentacao || "Não definido"}</p>
+                        </div>
+
+                        <div>
+                            <span class="label-detalhe">Data da documentação</span>
+                            <p>${documentacao.dataDocumentacao || "Não definido"}</p>
+                        </div>
+
+                        <div>
+                            <span class="label-detalhe">Data de validade</span>
+                            <p>${documentacao.dataValidade || "Sem data de validade"}</p>
+                        </div>
+
+                        <div>
+                            <span class="label-detalhe">Ficheiro</span>
+                            <p>${documentacao.ficheiro || "Não definido"}</p>
+                        </div>
+
+                        <div>
+                            <span class="label-detalhe">Observações</span>
+                            <p>${documentacao.observacoes || "Sem observações"}</p>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+            });
         }
     }
 
@@ -910,6 +956,19 @@ function inicializarEditarEquipamento() {
     preencherSelectFornecedores("fornecedor", equipamento.fornecedor);
     preencherSelectLocalizacoes("localizacao", equipamento.localizacao);
 
+    preencherDadosFornecedorAssociado();
+    preencherDadosLocalizacaoAssociada();
+
+    if (document.getElementById("observacoesLocalizacao")) {
+        document.getElementById("observacoesLocalizacao").value = equipamento.observacoesLocalizacao || "";
+    }
+
+    document.getElementById("moradaFornecedorEquipamento").value = equipamento.moradaFornecedorEquipamento || "";
+    document.getElementById("pessoaContactoFornecedor").value = equipamento.pessoaContactoFornecedor || "";
+    document.getElementById("telefonePessoaContactoFornecedor").value = equipamento.telefonePessoaContactoFornecedor || "";
+    document.getElementById("tipoFornecedorEquipamento").value = equipamento.tipoFornecedorEquipamento || "";
+    document.getElementById("observacoesFornecedorEquipamento").value = equipamento.observacoesFornecedorEquipamento || "";
+
     document.getElementById("codigo").value = equipamento.codigo;
     document.getElementById("designacao").value = equipamento.designacao;
     document.getElementById("categoria").value = equipamento.categoria;
@@ -948,6 +1007,11 @@ function inicializarEditarEquipamento() {
         equipamentosGuardados[idEquipamento].modelo = document.getElementById("modelo").value.trim();
         equipamentosGuardados[idEquipamento].numeroSerie = document.getElementById("numero_serie").value.trim();
         equipamentosGuardados[idEquipamento].fornecedor = document.getElementById("fornecedor").value;
+        equipamentosGuardados[idEquipamento].moradaFornecedorEquipamento = document.getElementById("moradaFornecedorEquipamento").value.trim();
+        equipamentosGuardados[idEquipamento].pessoaContactoFornecedor = document.getElementById("pessoaContactoFornecedor").value.trim();
+        equipamentosGuardados[idEquipamento].telefonePessoaContactoFornecedor = document.getElementById("telefonePessoaContactoFornecedor").value.trim();
+        equipamentosGuardados[idEquipamento].tipoFornecedorEquipamento = document.getElementById("tipoFornecedorEquipamento").value;
+        equipamentosGuardados[idEquipamento].observacoesFornecedorEquipamento = document.getElementById("observacoesFornecedorEquipamento").value.trim();
         equipamentosGuardados[idEquipamento].fabricante = document.getElementById("fabricante").value.trim();
         equipamentosGuardados[idEquipamento].anoFabrico = document.getElementById("ano_fabrico").value.trim();
         equipamentosGuardados[idEquipamento].dataAquisicao = converterDataParaTexto(document.getElementById("data_aquisicao").value);
@@ -958,6 +1022,11 @@ function inicializarEditarEquipamento() {
 
         if (document.getElementById("localizacao")) {
             equipamentosGuardados[idEquipamento].localizacao = document.getElementById("localizacao").value.trim();
+        }
+
+        if (document.getElementById("observacoesLocalizacao")) {
+            equipamentosGuardados[idEquipamento].observacoesLocalizacao =
+                document.getElementById("observacoesLocalizacao").value.trim();
         }
 
         equipamentosGuardados[idEquipamento].observacoes = document.getElementById("observacoes").value.trim();
@@ -1993,7 +2062,7 @@ const documentacaoConsulta = {
         dataDocumentacao: "20/09/2024",
         dataValidade: "",
         equipamento: "EQ003",
-        fornecedor: "FOR03",
+        fornecedor: "FOR003",
         ficheiro: "relatorio_manutencao_ventilador.pdf",
         observacoes: "Relatório associado à intervenção técnica realizada."
     },
@@ -2456,6 +2525,103 @@ function inicializarDropdownUtilizador() {
 // FUNÇÕES AUXILIARES
 // ===============================
 
+function preencherDadosLocalizacaoAssociada() {
+    const selectLocalizacao = document.getElementById("localizacao");
+
+    const campoEdificioLocalizacao = document.getElementById("edificioLocalizacao");
+    const campoPisoLocalizacao = document.getElementById("pisoLocalizacao");
+    const campoServicoLocalizacao = document.getElementById("servicoLocalizacao");
+    const campoSalaLocalizacao = document.getElementById("salaLocalizacao");
+
+    if (!selectLocalizacao) {
+        return;
+    }
+
+    function limparCamposLocalizacao() {
+        if (campoEdificioLocalizacao) campoEdificioLocalizacao.value = "";
+        if (campoPisoLocalizacao) campoPisoLocalizacao.value = "";
+        if (campoServicoLocalizacao) campoServicoLocalizacao.value = "";
+        if (campoSalaLocalizacao) campoSalaLocalizacao.value = "";
+    }
+
+    function atualizarCamposLocalizacao() {
+        const codigoLocalizacao = selectLocalizacao.value;
+        const localizacao = localizacoesGuardadas[codigoLocalizacao];
+
+        if (!localizacao) {
+            limparCamposLocalizacao();
+            return;
+        }
+
+        if (campoEdificioLocalizacao) campoEdificioLocalizacao.value = localizacao.edificio || "";
+        if (campoPisoLocalizacao) campoPisoLocalizacao.value = localizacao.piso || "";
+        if (campoServicoLocalizacao) campoServicoLocalizacao.value = localizacao.servico || "";
+        if (campoSalaLocalizacao) campoSalaLocalizacao.value = localizacao.sala || "";
+    }
+
+    selectLocalizacao.addEventListener("change", atualizarCamposLocalizacao);
+    atualizarCamposLocalizacao();
+}
+
+function preencherDadosFornecedorAssociado() {
+    const selectFornecedor = document.getElementById("fornecedor");
+
+    const campoNomeFornecedor = document.getElementById("nomeFornecedor");
+    const campoNifFornecedor = document.getElementById("nifFornecedor");
+    const campoTelefoneFornecedor = document.getElementById("telefoneFornecedor");
+    const campoEmailFornecedor = document.getElementById("emailFornecedor");
+    const campoWebsiteFornecedor = document.getElementById("websiteFornecedor");
+
+    const campoMoradaFornecedorEquipamento = document.getElementById("moradaFornecedorEquipamento");
+    const campoPessoaContactoFornecedor = document.getElementById("pessoaContactoFornecedor");
+    const campoTelefonePessoaContactoFornecedor = document.getElementById("telefonePessoaContactoFornecedor");
+    const campoTipoFornecedorEquipamento = document.getElementById("tipoFornecedorEquipamento");
+    const campoObservacoesFornecedorEquipamento = document.getElementById("observacoesFornecedorEquipamento");
+
+    if (!selectFornecedor) {
+        return;
+    }
+
+    function limparCamposFornecedor() {
+        if (campoNomeFornecedor) campoNomeFornecedor.value = "";
+        if (campoNifFornecedor) campoNifFornecedor.value = "";
+        if (campoTelefoneFornecedor) campoTelefoneFornecedor.value = "";
+        if (campoEmailFornecedor) campoEmailFornecedor.value = "";
+        if (campoWebsiteFornecedor) campoWebsiteFornecedor.value = "";
+
+        if (campoMoradaFornecedorEquipamento) campoMoradaFornecedorEquipamento.value = "";
+        if (campoPessoaContactoFornecedor) campoPessoaContactoFornecedor.value = "";
+        if (campoTelefonePessoaContactoFornecedor) campoTelefonePessoaContactoFornecedor.value = "";
+        if (campoTipoFornecedorEquipamento) campoTipoFornecedorEquipamento.value = "";
+        if (campoObservacoesFornecedorEquipamento) campoObservacoesFornecedorEquipamento.value = "";
+    }
+
+    function atualizarCamposFornecedor() {
+        const codigoFornecedor = selectFornecedor.value;
+        const fornecedor = fornecedoresGuardados[codigoFornecedor];
+
+        if (!fornecedor) {
+            limparCamposFornecedor();
+            return;
+        }
+
+        if (campoNomeFornecedor) campoNomeFornecedor.value = fornecedor.nomeEmpresa || "";
+        if (campoNifFornecedor) campoNifFornecedor.value = fornecedor.nif || "";
+        if (campoTelefoneFornecedor) campoTelefoneFornecedor.value = fornecedor.telefone || "";
+        if (campoEmailFornecedor) campoEmailFornecedor.value = fornecedor.email || "";
+        if (campoWebsiteFornecedor) campoWebsiteFornecedor.value = fornecedor.website || "";
+
+        if (campoMoradaFornecedorEquipamento) campoMoradaFornecedorEquipamento.value = "";
+        if (campoPessoaContactoFornecedor) campoPessoaContactoFornecedor.value = "";
+        if (campoTelefonePessoaContactoFornecedor) campoTelefonePessoaContactoFornecedor.value = "";
+        if (campoTipoFornecedorEquipamento) campoTipoFornecedorEquipamento.value = "";
+        if (campoObservacoesFornecedorEquipamento) campoObservacoesFornecedorEquipamento.value = "";
+    }
+
+    selectFornecedor.addEventListener("change", atualizarCamposFornecedor);
+    atualizarCamposFornecedor();
+}
+
 function obterDocumentacoesPorFornecedor(codigoFornecedor) {
     return Object.values(documentacaoGuardada).filter(function (documentacao) {
         return documentacao.fornecedor === codigoFornecedor;
@@ -2565,26 +2731,22 @@ function preencherSelectLocalizacoes(idSelect, localizacaoSelecionada = "") {
     });
 }
 
-function preencherSelectDocumentacao(idSelect, documentacaoSelecionada = "", opcional = true) {
+function preencherSelectDocumentacao(idSelect, documentacaoSelecionada = [], opcional = true) {
     const selectDocumentacao = document.getElementById(idSelect);
 
     if (!selectDocumentacao) {
         return;
     }
 
-    if (opcional) {
-        selectDocumentacao.innerHTML = '<option value="">Sem documentação associada</option>';
-    } else {
-        selectDocumentacao.innerHTML = '<option value="" selected disabled>Escolha uma documentação</option>';
-    }
+    selectDocumentacao.innerHTML = "";
 
     Object.values(documentacaoGuardada).forEach(function (documentacao) {
         const option = document.createElement("option");
 
         option.value = documentacao.codigo;
-        option.textContent = documentacao.codigo;
+        option.textContent = documentacao.codigo + " - " + documentacao.nomeDocumentacao;
 
-        if (documentacao.codigo === documentacaoSelecionada) {
+        if (Array.isArray(documentacaoSelecionada) && documentacaoSelecionada.includes(documentacao.codigo)) {
             option.selected = true;
         }
 
@@ -2998,19 +3160,20 @@ function inicializarBotaoSeguinteEquipamento() {
     }
 
     botaoSeguinte.addEventListener("click", function () {
-        const tabGarantia = document.querySelector('[data-tab="tab-nova-garantia"]');
-        const conteudoGarantia = document.getElementById("tab-nova-garantia");
         const tabEquipamento = document.querySelector('[data-tab="tab-novo-equipamento"]');
+        const tabFornecedor = document.querySelector('[data-tab="tab-novo-fornecedor"]');
+
+        const conteudoFornecedor = document.getElementById("tab-novo-fornecedor");
 
         const botoesTabs = document.querySelectorAll(".botao-tab-equipamento");
         const conteudosTabs = document.querySelectorAll(".conteudo-tab-equipamento");
 
-        if (!tabGarantia || !conteudoGarantia) {
+        if (!tabFornecedor || !conteudoFornecedor) {
             return;
         }
 
-        tabGarantia.classList.remove("bloqueado");
-        tabGarantia.disabled = false;
+        tabFornecedor.classList.remove("bloqueado");
+        tabFornecedor.disabled = false;
 
         if (tabEquipamento) {
             tabEquipamento.classList.add("bloqueado");
@@ -3025,28 +3188,32 @@ function inicializarBotaoSeguinteEquipamento() {
             conteudo.classList.remove("ativo");
         });
 
-        tabGarantia.classList.add("ativo");
-        conteudoGarantia.classList.add("ativo");
+        tabFornecedor.classList.add("ativo");
+        conteudoFornecedor.classList.add("ativo");
     });
 }
 
+
 function inicializarBotaoAnteriorEquipamento() {
-    const botaoAnterior = document.getElementById("botaoPaginaAnteriorEquipamento");
+    const botaoAnteriorFornecedor = document.getElementById("botaoPaginaAnteriorFornecedor");
+    const botaoSeguinteFornecedor = document.getElementById("botaoPaginaSeguinteFornecedor");
 
-    if (!botaoAnterior) {
-        return;
-    }
+    const botaoAnteriorLocalizacao = document.getElementById("botaoPaginaAnteriorLocalizacao");
+    const botaoSeguinteLocalizacao = document.getElementById("botaoPaginaSeguinteLocalizacao");
 
-    botaoAnterior.addEventListener("click", function () {
-        const tabEquipamento = document.querySelector('[data-tab="tab-novo-equipamento"]');
-        const conteudoEquipamento = document.getElementById("tab-novo-equipamento");
+    const botaoAnteriorDocumentacao = document.getElementById("botaoPaginaAnteriorDocumentacao");
+    const botaoSeguinteDocumentacao = document.getElementById("botaoPaginaSeguinteDocumentacao");
 
-        const tabGarantia = document.querySelector('[data-tab="tab-nova-garantia"]');
+    const botaoAnteriorGarantia = document.getElementById("botaoPaginaAnteriorGarantia");
 
-        const botoesTabs = document.querySelectorAll(".botao-tab-equipamento");
-        const conteudosTabs = document.querySelectorAll(".conteudo-tab-equipamento");
+    const botoesTabs = document.querySelectorAll(".botao-tab-equipamento");
+    const conteudosTabs = document.querySelectorAll(".conteudo-tab-equipamento");
 
-        if (!tabEquipamento || !conteudoEquipamento) {
+    function mostrarTab(idTab) {
+        const botaoTab = document.querySelector(`[data-tab="${idTab}"]`);
+        const conteudoTab = document.getElementById(idTab);
+
+        if (!botaoTab || !conteudoTab) {
             return;
         }
 
@@ -3058,17 +3225,103 @@ function inicializarBotaoAnteriorEquipamento() {
             conteudo.classList.remove("ativo");
         });
 
-        tabEquipamento.classList.remove("bloqueado");
-        tabEquipamento.disabled = false;
+        botaoTab.classList.remove("bloqueado");
+        botaoTab.disabled = false;
 
-        tabEquipamento.classList.add("ativo");
-        conteudoEquipamento.classList.add("ativo");
+        botaoTab.classList.add("ativo");
+        conteudoTab.classList.add("ativo");
+    }
 
-        if (tabGarantia) {
-            tabGarantia.classList.add("bloqueado");
-            tabGarantia.disabled = true;
-        }
-    });
+    if (botaoAnteriorFornecedor) {
+        botaoAnteriorFornecedor.addEventListener("click", function () {
+            mostrarTab("tab-novo-equipamento");
+
+            const tabFornecedor = document.querySelector('[data-tab="tab-novo-fornecedor"]');
+
+            if (tabFornecedor) {
+                tabFornecedor.classList.add("bloqueado");
+                tabFornecedor.disabled = true;
+            }
+        });
+    }
+
+    if (botaoSeguinteFornecedor) {
+        botaoSeguinteFornecedor.addEventListener("click", function () {
+            mostrarTab("tab-nova-localizacao");
+
+            const tabFornecedor = document.querySelector('[data-tab="tab-novo-fornecedor"]');
+
+            if (tabFornecedor) {
+                tabFornecedor.classList.add("bloqueado");
+                tabFornecedor.disabled = true;
+            }
+        });
+    }
+
+    if (botaoAnteriorLocalizacao) {
+        botaoAnteriorLocalizacao.addEventListener("click", function () {
+            mostrarTab("tab-novo-fornecedor");
+
+            const tabLocalizacao = document.querySelector('[data-tab="tab-nova-localizacao"]');
+
+            if (tabLocalizacao) {
+                tabLocalizacao.classList.add("bloqueado");
+                tabLocalizacao.disabled = true;
+            }
+        });
+    }
+
+    if (botaoSeguinteLocalizacao) {
+        botaoSeguinteLocalizacao.addEventListener("click", function () {
+            mostrarTab("tab-nova-documentacao");
+
+            const tabLocalizacao = document.querySelector('[data-tab="tab-nova-localizacao"]');
+
+            if (tabLocalizacao) {
+                tabLocalizacao.classList.add("bloqueado");
+                tabLocalizacao.disabled = true;
+            }
+        });
+    }
+
+    if (botaoAnteriorDocumentacao) {
+        botaoAnteriorDocumentacao.addEventListener("click", function () {
+            mostrarTab("tab-nova-localizacao");
+
+            const tabDocumentacao = document.querySelector('[data-tab="tab-nova-documentacao"]');
+
+            if (tabDocumentacao) {
+                tabDocumentacao.classList.add("bloqueado");
+                tabDocumentacao.disabled = true;
+            }
+        });
+    }
+
+    if (botaoSeguinteDocumentacao) {
+        botaoSeguinteDocumentacao.addEventListener("click", function () {
+            mostrarTab("tab-nova-garantia");
+
+            const tabDocumentacao = document.querySelector('[data-tab="tab-nova-documentacao"]');
+
+            if (tabDocumentacao) {
+                tabDocumentacao.classList.add("bloqueado");
+                tabDocumentacao.disabled = true;
+            }
+        });
+    }
+
+    if (botaoAnteriorGarantia) {
+        botaoAnteriorGarantia.addEventListener("click", function () {
+            mostrarTab("tab-nova-documentacao");
+
+            const tabGarantia = document.querySelector('[data-tab="tab-nova-garantia"]');
+
+            if (tabGarantia) {
+                tabGarantia.classList.add("bloqueado");
+                tabGarantia.disabled = true;
+            }
+        });
+    }
 }
 
 // ===============================

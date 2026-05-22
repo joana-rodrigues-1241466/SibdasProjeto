@@ -878,6 +878,57 @@ body {
     margin-bottom: 8px;
 }
 
+/* Grelha dos campos do formulário privado */
+.form-grid-privado {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 28px;
+    row-gap: 22px;
+    align-items: start;
+}
+
+/* Cada campo dentro da grelha */
+.grupo-campo-privado {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels dos campos da grelha */
+.grupo-campo-privado label {
+    color: #0b2d45;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* Inputs, selects e textareas dentro da grelha */
+.grupo-campo-privado input,
+.grupo-campo-privado select,
+.grupo-campo-privado textarea {
+    width: 100%;
+}
+
+/* Texto pequeno por baixo dos selects */
+.grupo-campo-privado small {
+    color: #6c757d;
+    font-size: 0.9em;
+    margin-top: 6px;
+}
+
+/* Campos que ocupam a largura toda */
+.grupo-campo-total {
+    grid-column: 1 / -1;
+}
+
+/* Botões do separador do fornecedor */
+.acoes-formulario-privado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+}
+
 .campo-formulario-privado {
     border: 1px solid #d7e3ec;
     border-radius: 8px;
@@ -1262,6 +1313,19 @@ body {
     margin-bottom: 0.6rem;
 }
 
+.cartao-documentacao-associada {
+    margin-bottom: 24px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background-color: #ffffff;
+}
+
+.texto-sem-dados {
+    color: #6b7280;
+    font-style: italic;
+}
+
 @media (max-width: 1100px) {
     .grelha-detalhes-equipamento {
         grid-template-columns: repeat(2, 1fr);
@@ -1445,7 +1509,6 @@ body {
     cursor: pointer;
     padding: 0 2.2rem;
 }
-
 
 .botao-limpar-equipamentos {
     height: 56px;
@@ -2060,6 +2123,19 @@ body {
 }
 
 @media (max-width: 900px) {
+
+    .form-grid-privado {
+        grid-template-columns: 1fr;
+    }
+
+    .acoes-formulario-privado {
+        justify-content: center;
+    }
+
+    .acoes-formulario-privado .botao-cancelar-privado,
+    .acoes-formulario-privado .botao-guardar-privado {
+        width: 100%;
+    }
 
     .logo-navbar {
         height: 65px;

@@ -1029,7 +1029,14 @@ function inicializarEditarEquipamento() {
     preencherSelectLocalizacoes("localizacao", equipamento.localizacao);
 
     preencherDadosFornecedorAssociado();
+
     preencherDadosLocalizacaoAssociada();
+    preencherSelectDocumentacao(
+        "documentacaoAssociada",
+        equipamento.documentacaoAssociada || []
+    );
+
+    preencherDadosDocumentacaoAssociada();
 
     if (document.getElementById("observacoesLocalizacao")) {
         document.getElementById("observacoesLocalizacao").value = equipamento.observacoesLocalizacao || "";
@@ -2689,10 +2696,17 @@ function preencherDadosFornecedorAssociado() {
         if (campoEmailFornecedor) campoEmailFornecedor.value = fornecedor.email || "";
         if (campoWebsiteFornecedor) campoWebsiteFornecedor.value = fornecedor.website || "";
 
-        if (campoMoradaFornecedorEquipamento) campoMoradaFornecedorEquipamento.value = "";
-        if (campoPessoaContactoFornecedor) campoPessoaContactoFornecedor.value = "";
-        if (campoTelefonePessoaContactoFornecedor) campoTelefonePessoaContactoFornecedor.value = "";
-        if (campoTipoFornecedorEquipamento) campoTipoFornecedorEquipamento.value = "";
+        if (campoMoradaFornecedorEquipamento)
+    campoMoradaFornecedorEquipamento.value = "";
+
+if (campoPessoaContactoFornecedor)
+    campoPessoaContactoFornecedor.value = "";
+
+if (campoTelefonePessoaContactoFornecedor)
+    campoTelefonePessoaContactoFornecedor.value = "";
+
+if (campoTipoFornecedorEquipamento)
+    campoTipoFornecedorEquipamento.value = "";
 
         if (campoObservacoesFornecedorEquipamento) {
             campoObservacoesFornecedorEquipamento.value =

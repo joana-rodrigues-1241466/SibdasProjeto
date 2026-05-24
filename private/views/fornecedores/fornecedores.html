@@ -110,16 +110,185 @@
             </div>
 
             <p class="mensagem-listagem">
-                Consulte abaixo os fornecedores associados aos equipamentos médicos do inventário hospitalar.
+                Consulte, pesquise e filtre os fornecedores associados aos equipamentos médicos do inventário
+                hospitalar.
+            </p>
+
+            <!-- PESQUISA E FILTROS -->
+            <section class="area-pesquisa-filtros">
+
+                <div class="caixa-pesquisa-equipamentos">
+                    <h2>Pesquisa</h2>
+
+                    <div class="linha-pesquisa-equipamentos">
+                        <input type="text" id="pesquisaFornecedores" class="campo-pesquisa-equipamentos"
+                            placeholder="Pesquisar por código, nome da empresa, NIF, contacto telefónico, email, morada, website, pessoa de contacto, tipo de fornecedor ou equipamento associado...">
+                        <button type="button" id="botaoPesquisarFornecedores" class="botao-pesquisar-equipamentos">
+                            Pesquisar
+                        </button>
+
+                        <button type="button" id="botaoLimparApenasPesquisaFornecedores"
+                            class="botao-limpar-equipamentos">
+                            Limpar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="caixa-filtros-equipamentos">
+                    <h2>Filtros</h2>
+
+                    <div class="grelha-filtros-equipamentos">
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroTipoFornecedor">
+                                Tipo de fornecedor
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroTipoFornecedor" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todos</option>
+
+                                    <option value="Fabricante">
+                                        Fabricante
+                                    </option>
+
+                                    <option value="Distribuidor ou Fornecedor comercial">
+                                        Distribuidor ou Fornecedor comercial
+                                    </option>
+
+                                    <option value="Empresa de assistência técnica">
+                                        Empresa de assistência técnica
+                                    </option>
+
+                                    <option value="Fornecedor de consumíveis ou acessórios">
+                                        Fornecedor de consumíveis ou acessórios
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroNomeEmpresa">
+                                Nome da empresa
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroNomeEmpresa" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todas</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroMoradaFornecedor">
+                                Morada
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroMoradaFornecedor" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todos</option>
+
+                                    <option value="Aveiro">Aveiro, Portugal</option>
+                                    <option value="Beja">Beja, Portugal</option>
+                                    <option value="Braga">Braga, Portugal</option>
+                                    <option value="Bragança">Bragança, Portugal</option>
+                                    <option value="Castelo Branco">Castelo Branco, Portugal</option>
+                                    <option value="Coimbra">Coimbra, Portugal</option>
+                                    <option value="Évora">Évora, Portugal</option>
+                                    <option value="Faro">Faro, Portugal</option>
+                                    <option value="Guarda">Guarda, Portugal</option>
+                                    <option value="Leiria">Leiria, Portugal</option>
+                                    <option value="Lisboa">Lisboa, Portugal</option>
+                                    <option value="Portalegre">Portalegre, Portugal</option>
+                                    <option value="Porto">Porto, Portugal</option>
+                                    <option value="Santarém">Santarém, Portugal</option>
+                                    <option value="Setúbal">Setúbal, Portugal</option>
+                                    <option value="Viana do Castelo">Viana do Castelo, Portugal</option>
+                                    <option value="Vila Real">Vila Real, Portugall</option>
+                                    <option value="Viseu">Viseu, Portugal</option>
+                                    <option value="Região Autónoma dos Açores">Região Autónoma dos Açores, Portugal
+                                    </option>
+                                    <option value="Região Autónoma da Madeira">Região Autónoma da Madeira, Portugal
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroPessoaContacto">
+                                Pessoa de contacto
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroPessoaContacto" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todas</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroEquipamentoAssociado">
+                                Equipamento associado
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroEquipamentoAssociado" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todos</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos grupo-botao-limpar-filtros">
+                            <label>&nbsp;</label>
+                            <button type="button" id="botaoLimparApenasFiltrosFornecedores"
+                                class="botao-limpar-apenas-filtros" title="Limpar filtros">
+                                <i class="fa-solid fa-filter-circle-xmark"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+
             <div class="tabela-privada">
                 <table>
                     <thead>
                         <tr>
-                            <th>Código</th>
                             <th>Nome da empresa</th>
-                            <th>NIF</th>
-                            <th>Contacto telefónico</th>
-                            <th>Email</th>
+                            <th>Contacto telefónico geral</th>
+                            <th>Email geral</th>
+                            <th>Website geral</th>
                             <th>Tipo de fornecedor</th>
                             <th>Ações</th>
                         </tr>
@@ -127,11 +296,10 @@
 
                     <tbody id="tabela-fornecedores">
                         <tr>
-                            <td>FOR001</td>
                             <td>Philips Healthcare</td>
-                            <td>501234567</td>
                             <td>+351 930 193 126</td>
                             <td>contacto@philipshealthcare.pt</td>
+                            <td>www.philips.com</td>
                             <td>Fabricante</td>
                             <td class="acoes-tabela-privada">
                                 <a href="consultar_fornecedor.html?id=FOR001" class="acao-tabela-privada">
@@ -152,11 +320,10 @@
                         </tr>
 
                         <tr>
-                            <td>FOR002</td>
                             <td>Dräger</td>
-                            <td>502345678</td>
                             <td>+351 930 327 344</td>
                             <td>contacto@draegermedical.pt</td>
+                            <td>www.draeger.com</td>
                             <td>Fabricante</td>
                             <td class="acoes-tabela-privada">
                                 <a href="consultar_fornecedor.html?id=FOR002" class="acao-tabela-privada">
@@ -177,11 +344,10 @@
                         </tr>
 
                         <tr>
-                            <td>FOR003</td>
                             <td>MedSupply Portugal</td>
-                            <td>503456789</td>
                             <td>+351 930 248 308</td>
                             <td>contacto@medsupply.pt</td>
+                            <td>www.medsupply.com</td>
                             <td>Distribuidor ou Fornecedor comercial</td>
                             <td class="acoes-tabela-privada">
                                 <a href="consultar_fornecedor.html?id=FOR003" class="acao-tabela-privada">
@@ -202,11 +368,10 @@
                         </tr>
 
                         <tr>
-                            <td>FOR004</td>
                             <td>TecnoMed Assistência</td>
-                            <td>504567890</td>
                             <td>+351 930 656 375</td>
                             <td>contacto@tecnomed.pt</td>
+                            <td>www.tecnomed.com</td>
                             <td>Empresa de assistência técnica</td>
                             <td class="acoes-tabela-privada">
                                 <a href="consultar_fornecedor.html?id=FOR004" class="acao-tabela-privada">

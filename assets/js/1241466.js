@@ -610,15 +610,16 @@ function preencherSelectFiltrosEquipamentos() {
             })
     )];
 
-    const categorias = [...new Set(
-        Object.values(equipamentosGuardados)
-            .map(function (equipamento) {
-                return equipamento.categoria;
-            })
-            .filter(function (categoria) {
-                return categoria;
-            })
-    )];
+    const categorias = [
+        "Monitorização",
+        "Suporte de vida",
+        "Terapia",
+        "Diagnóstico",
+        "Imagiologia",
+        "Laboratório",
+        "Cirurgia",
+        "Reabilitação"
+    ];
 
     fornecedores.forEach(function (fornecedor) {
         const option = document.createElement("option");
@@ -1593,7 +1594,7 @@ const fornecedoresConsulta = {
         telefone: "+351 930 193 126",
         email: "contacto@philipshealthcare.pt",
         morada: "Lisboa, Portugal",
-        website: "www.philips.pt/healthcare",
+        website: "www.philips.com",
         pessoaContacto: "Ana Martins",
         telefonePessoaContacto: "+351 910 000 000",
         tipoFornecedor: "Fabricante",
@@ -1621,7 +1622,7 @@ const fornecedoresConsulta = {
         telefone: "+351 930 248 308",
         email: "contacto@medsupply.pt",
         morada: "Aveiro, Portugal",
-        website: "www.medsupply.pt",
+        website: "www.medsupply.com",
         pessoaContacto: "Carla Ferreira",
         telefonePessoaContacto: "+351 930 000 000",
         tipoFornecedor: "Distribuidor ou Fornecedor comercial",
@@ -1635,7 +1636,7 @@ const fornecedoresConsulta = {
         telefone: "+351 930 656 375",
         email: "contacto@tecnomed.pt",
         morada: "Coimbra, Portugal",
-        website: "www.tecnomed.pt",
+        website: "www.tecnomed.com",
         pessoaContacto: "João Almeida",
         telefonePessoaContacto: "+351 940 000 000",
         tipoFornecedor: "Empresa de assistência técnica",
@@ -1652,7 +1653,8 @@ if (!fornecedoresGuardados) {
 
 
 // Preencher listagem de fornecedores na página fornecedores.html
-function preencherListagemFornecedores() {
+function preencherListagemFornecedores(
+    listaFornecedores = Object.values(fornecedoresGuardados)) {
     const tabelaFornecedores = document.getElementById("tabela-fornecedores");
 
     if (!tabelaFornecedores) {
@@ -1661,16 +1663,30 @@ function preencherListagemFornecedores() {
 
     tabelaFornecedores.innerHTML = "";
 
-    Object.values(fornecedoresGuardados).forEach(function (fornecedor) {
+    ordenarFornecedoresPorCodigoCrescente(listaFornecedores);
+
+    if (listaFornecedores.length === 0) {
+
+        tabelaFornecedores.innerHTML = `
+        <tr>
+            <td colspan="7" class="text-center">
+                Nenhum fornecedor encontrado.
+            </td>
+        </tr>
+    `;
+
+        return;
+    }
+
+    listaFornecedores.forEach(function (fornecedor) {
         const linha = document.createElement("tr");
 
         linha.innerHTML = `
-            <td>${fornecedor.codigo}</td>
-            <td>${fornecedor.nomeEmpresa}</td>
-            <td>${fornecedor.nif}</td>
-            <td>${fornecedor.telefone}</td>
-            <td>${fornecedor.email}</td>
-            <td>${fornecedor.tipoFornecedor}</td>
+    <td>${fornecedor.nomeEmpresa}</td>
+    <td>${fornecedor.telefone}</td>
+    <td>${fornecedor.email}</td>
+    <td>${fornecedor.website}</td>
+    <td>${fornecedor.tipoFornecedor}</td>
 
             <td class="acoes-tabela-privada">
                 <a href="consultar_fornecedor.html?id=${fornecedor.codigo}" class="acao-tabela-privada">
@@ -1691,6 +1707,363 @@ function preencherListagemFornecedores() {
         `;
 
         tabelaFornecedores.appendChild(linha);
+    });
+}
+
+function inicializarFiltrosFornecedores() {
+
+    const pesquisaFornecedores =
+        document.getElementById("pesquisaFornecedores");
+
+    const filtroTipoFornecedor =
+        document.getElementById("filtroTipoFornecedor");
+
+    const filtroNomeEmpresa =
+        document.getElementById("filtroNomeEmpresa");
+
+    const filtroMoradaFornecedor =
+        document.getElementById("filtroMoradaFornecedor");
+
+    const filtroPessoaContacto =
+        document.getElementById("filtroPessoaContacto");
+
+    const filtroEquipamentoAssociado =
+        document.getElementById("filtroEquipamentoAssociado");
+
+    const botaoLimparPesquisa =
+        document.getElementById("botaoLimparApenasPesquisaFornecedores");
+
+    const botaoLimparFiltros =
+        document.getElementById("botaoLimparApenasFiltrosFornecedores");
+
+    const botaoPesquisar =
+        document.getElementById("botaoPesquisarFornecedores");
+
+    if (
+        !pesquisaFornecedores ||
+        !filtroTipoFornecedor ||
+        !filtroMoradaFornecedor
+    ) {
+        return;
+    }
+
+    preencherSelectFiltrosFornecedores();
+
+    function aplicarFiltrosFornecedores() {
+
+        const textoPesquisa =
+            pesquisaFornecedores.value.toLowerCase().trim();
+
+        const tipoSelecionado =
+            filtroTipoFornecedor.value;
+
+        const nomeEmpresaSelecionado =
+            filtroNomeEmpresa.value;
+
+        const moradaSelecionada =
+            filtroMoradaFornecedor.value;
+
+        const pessoaContactoSelecionada =
+            filtroPessoaContacto.value;
+
+        const equipamentoSelecionado =
+            filtroEquipamentoAssociado.value;
+
+        const fornecedoresFiltrados =
+            Object.values(fornecedoresGuardados).filter(function (fornecedor) {
+
+                const equipamentosAssociados =
+                    obterEquipamentosPorFornecedor(fornecedor.codigo);
+
+                const textoEquipamentos =
+                    equipamentosAssociados.map(function (equipamento) {
+
+                        return [
+                            equipamento.codigo,
+                            equipamento.designacao,
+                            equipamento.marca,
+                            equipamento.modelo,
+                            equipamento.categoria
+                        ].join(" ");
+
+                    }).join(" ").toLowerCase();
+
+                const correspondePesquisa =
+
+                    (fornecedor.codigo || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (fornecedor.nomeEmpresa || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (fornecedor.nif || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (fornecedor.telefone || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (fornecedor.email || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (fornecedor.morada || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (fornecedor.website || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (fornecedor.pessoaContacto || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (fornecedor.telefonePessoaContacto || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (fornecedor.tipoFornecedor || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (fornecedor.observacoes || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    textoEquipamentos.includes(textoPesquisa);
+
+                const correspondeTipo =
+                    tipoSelecionado === ""
+                    ||
+                    fornecedor.tipoFornecedor === tipoSelecionado;
+
+                const correspondeNomeEmpresa =
+                    nomeEmpresaSelecionado === ""
+                    ||
+                    fornecedor.nomeEmpresa === nomeEmpresaSelecionado;
+
+                const correspondeMorada =
+                    moradaSelecionada === ""
+                    ||
+                    (fornecedor.morada || "")
+                        .toLowerCase()
+                        .includes(moradaSelecionada.toLowerCase());
+
+                const correspondePessoaContacto =
+                    pessoaContactoSelecionada === ""
+                    ||
+                    fornecedor.pessoaContacto === pessoaContactoSelecionada;
+
+                const correspondeEquipamento =
+                    equipamentoSelecionado === ""
+                    ||
+                    equipamentosAssociados.some(function (equipamento) {
+                        return equipamento.codigo === equipamentoSelecionado;
+                    });
+
+                return (
+                    correspondePesquisa &&
+                    correspondeTipo &&
+                    correspondeNomeEmpresa &&
+                    correspondeMorada &&
+                    correspondePessoaContacto &&
+                    correspondeEquipamento
+                );
+            });
+
+        preencherListagemFornecedores(fornecedoresFiltrados);
+    }
+
+    pesquisaFornecedores.addEventListener(
+        "input",
+        aplicarFiltrosFornecedores
+    );
+
+    filtroTipoFornecedor.addEventListener(
+        "change",
+        aplicarFiltrosFornecedores
+    );
+
+    filtroNomeEmpresa.addEventListener(
+        "change",
+        aplicarFiltrosFornecedores
+    );
+
+    filtroMoradaFornecedor.addEventListener(
+        "change",
+        aplicarFiltrosFornecedores
+    );
+
+    filtroPessoaContacto.addEventListener(
+        "change",
+        aplicarFiltrosFornecedores
+    );
+
+    filtroEquipamentoAssociado.addEventListener(
+        "change",
+        aplicarFiltrosFornecedores
+    );
+
+    if (botaoPesquisar) {
+
+        botaoPesquisar.addEventListener(
+            "click",
+            aplicarFiltrosFornecedores
+        );
+    }
+
+    if (botaoLimparPesquisa) {
+
+        botaoLimparPesquisa.addEventListener(
+            "click",
+            function () {
+
+                pesquisaFornecedores.value = "";
+
+                aplicarFiltrosFornecedores();
+            }
+        );
+    }
+
+    if (botaoLimparFiltros) {
+
+        botaoLimparFiltros.addEventListener(
+            "click",
+            function () {
+
+                filtroTipoFornecedor.value = "";
+                filtroNomeEmpresa.value = "";
+                filtroMoradaFornecedor.value = "";
+                filtroPessoaContacto.value = "";
+                filtroEquipamentoAssociado.value = "";
+
+                aplicarFiltrosFornecedores();
+            }
+        );
+    }
+}
+
+function preencherSelectFiltrosFornecedores() {
+
+    const filtroTipoFornecedor =
+        document.getElementById("filtroTipoFornecedor");
+
+    const filtroNomeEmpresa =
+        document.getElementById("filtroNomeEmpresa");
+
+    const filtroPessoaContacto =
+        document.getElementById("filtroPessoaContacto");
+
+    const filtroEquipamentoAssociado =
+        document.getElementById("filtroEquipamentoAssociado");
+
+    if (
+        !filtroTipoFornecedor ||
+        !filtroNomeEmpresa ||
+        !filtroPessoaContacto ||
+        !filtroEquipamentoAssociado
+    ) {
+        return;
+    }
+
+    filtroTipoFornecedor.innerHTML =
+        '<option value="">Todos</option>';
+
+    filtroNomeEmpresa.innerHTML =
+        '<option value="">Todos</option>';
+
+    filtroPessoaContacto.innerHTML =
+        '<option value="">Todos</option>';
+
+    filtroEquipamentoAssociado.innerHTML =
+        '<option value="">Todos</option>';
+
+    // TIPOS DE FORNECEDOR
+    const tiposFornecedor = [
+        "Fabricante",
+        "Distribuidor ou Fornecedor comercial",
+        "Empresa de assistência técnica",
+        "Prestador de serviços"
+    ];
+
+    tiposFornecedor.forEach(function (tipo) {
+
+        const option = document.createElement("option");
+
+        option.value = tipo;
+        option.textContent = tipo;
+
+        filtroTipoFornecedor.appendChild(option);
+    });
+
+    // NOMES DAS EMPRESAS
+    Object.values(fornecedoresGuardados).forEach(function (fornecedor) {
+
+        const option = document.createElement("option");
+
+        option.value = fornecedor.nomeEmpresa;
+        option.textContent = fornecedor.nomeEmpresa;
+
+        filtroNomeEmpresa.appendChild(option);
+    });
+
+    // PESSOAS DE CONTACTO
+    Object.values(fornecedoresGuardados).forEach(function (fornecedor) {
+
+        const option = document.createElement("option");
+
+        option.value = fornecedor.pessoaContacto;
+        option.textContent = fornecedor.pessoaContacto;
+
+        filtroPessoaContacto.appendChild(option);
+    });
+
+    // EQUIPAMENTOS ASSOCIADOS
+    Object.values(equipamentosGuardados).forEach(function (equipamento) {
+
+        const option = document.createElement("option");
+
+        option.value = equipamento.codigo;
+        option.textContent =
+            equipamento.codigo + " - " + equipamento.designacao;
+
+        filtroEquipamentoAssociado.appendChild(option);
+    });
+}
+
+function ordenarFornecedoresPorCodigoCrescente(listaFornecedores) {
+
+    listaFornecedores.sort(function (a, b) {
+
+        return (a.codigo || "")
+            .localeCompare(b.codigo || "");
+
     });
 }
 
@@ -3473,6 +3846,7 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarConfirmacaoEliminarLocalizacao();
 
     preencherListagemFornecedores();
+    inicializarFiltrosFornecedores();
     preencherDetalhesFornecedor();
     preencherEliminarFornecedor();
     inicializarNovoFornecedor();

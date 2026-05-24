@@ -422,10 +422,15 @@ function preencherListagemEquipamentos(listaEquipamentos = Object.values(equipam
             Editar
         </a>
 
-        <a href="eliminar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
-            <i class="fa-regular fa-trash-can"></i>
-            Eliminar
-        </a>
+        <button
+    class="acao-tabela-privada botao-acao-tabela"
+    data-bs-toggle="modal"
+    data-bs-target="#modalEliminarEquipamento"
+    onclick="prepararEliminacaoEquipamento('${equipamento.codigo}')">
+
+    <i class="fa-regular fa-trash-can"></i>
+    Eliminar
+</button>
     </td>
 `;
 
@@ -1178,84 +1183,51 @@ function inicializarEditarEquipamento() {
     });
 }
 
+let codigoEquipamentoEliminar = null;
 
-function preencherEliminarEquipamento() {
-    const campoDesignacao = document.getElementById("eliminar-designacao-equipamento");
+function prepararEliminacaoEquipamento(codigo) {
 
-    if (!campoDesignacao) {
-        return;
+    codigoEquipamentoEliminar = codigo;
+
+    const equipamento = equipamentosGuardados[codigo];
+
+    const textoModal =
+        document.getElementById("textoModalEliminarEquipamento");
+
+    if (textoModal && equipamento) {
+
+        textoModal.innerHTML =
+            `Tem a certeza que pretende eliminar o equipamento 
+            <strong>${equipamento.designacao}</strong>?`;
     }
-
-    const parametros = new URLSearchParams(window.location.search);
-    const idEquipamento = parametros.get("id");
-
-    if (!idEquipamento) {
-        alert("Equipamento não encontrado.");
-        window.location.href = "equipamentos.html";
-        return;
-    }
-
-    const equipamento = equipamentosGuardados[idEquipamento];
-
-    if (!equipamento) {
-        alert("Equipamento não encontrado.");
-        window.location.href = "equipamentos.html";
-        return;
-    }
-
-    campoDesignacao.textContent = equipamento.designacao;
-
-    document.getElementById("eliminar-codigo-equipamento").textContent = equipamento.codigo;
-    document.getElementById("eliminar-estado-equipamento").textContent = equipamento.estado;
 }
 
+function confirmarEliminacaoEquipamento() {
 
-function inicializarConfirmacaoEliminarEquipamento() {
-    const botaoConfirmar = document.getElementById("botao-confirmar-eliminar-equipamento");
-
-    if (!botaoConfirmar) {
+    if (!codigoEquipamentoEliminar) {
         return;
     }
 
-    botaoConfirmar.addEventListener("click", function () {
-        const parametros = new URLSearchParams(window.location.search);
-        const idEquipamento = parametros.get("id");
+    delete equipamentosGuardados[codigoEquipamentoEliminar];
 
-        if (!idEquipamento) {
-            alert("Equipamento não encontrado.");
-            window.location.href = "equipamentos.html";
-            return;
-        }
+    localStorage.setItem(
+        "equipamentosGuardados",
+        JSON.stringify(equipamentosGuardados)
+    );
 
-        const equipamento = equipamentosGuardados[idEquipamento];
+    preencherListagemEquipamentos();
 
-        if (!equipamento) {
-            alert("Equipamento não encontrado.");
-            window.location.href = "equipamentos.html";
-            return;
-        }
+    const modalElement =
+        document.getElementById("modalEliminarEquipamento");
 
-        const documentacoesAfetadas = obterDocumentacoesPorEquipamento(idEquipamento);
+    const modalBootstrap =
+        bootstrap.Modal.getInstance(modalElement);
 
-        delete equipamentosGuardados[idEquipamento];
+    if (modalBootstrap) {
+        modalBootstrap.hide();
+    }
 
-        localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
-
-        if (documentacoesAfetadas.length > 0) {
-            const filaDocumentacao = documentacoesAfetadas.map(function (documentacao) {
-                return documentacao.codigo;
-            });
-
-            localStorage.setItem("filaEdicaoDocumentacao", JSON.stringify(filaDocumentacao));
-
-            alert("O equipamento foi eliminado. Existem documentações associadas a esse equipamento. Vai editar cada documentação afetada, uma de cada vez.");
-
-            window.location.href = `../documentacao/editar_documentacao.html?id=${filaDocumentacao[0]}&origem=filaEquipamento`;
-            return;
-        }
-
-        window.location.href = "equipamentos.html";
-    });
+    codigoEquipamentoEliminar = null;
 }
 
 // ===============================
@@ -2697,16 +2669,16 @@ function preencherDadosFornecedorAssociado() {
         if (campoWebsiteFornecedor) campoWebsiteFornecedor.value = fornecedor.website || "";
 
         if (campoMoradaFornecedorEquipamento)
-    campoMoradaFornecedorEquipamento.value = "";
+            campoMoradaFornecedorEquipamento.value = "";
 
-if (campoPessoaContactoFornecedor)
-    campoPessoaContactoFornecedor.value = "";
+        if (campoPessoaContactoFornecedor)
+            campoPessoaContactoFornecedor.value = "";
 
-if (campoTelefonePessoaContactoFornecedor)
-    campoTelefonePessoaContactoFornecedor.value = "";
+        if (campoTelefonePessoaContactoFornecedor)
+            campoTelefonePessoaContactoFornecedor.value = "";
 
-if (campoTipoFornecedorEquipamento)
-    campoTipoFornecedorEquipamento.value = "";
+        if (campoTipoFornecedorEquipamento)
+            campoTipoFornecedorEquipamento.value = "";
 
         if (campoObservacoesFornecedorEquipamento) {
             campoObservacoesFornecedorEquipamento.value =
@@ -3489,11 +3461,9 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarTabsEquipamento();
     inicializarBotaoSeguinteEquipamento();
     inicializarBotaoAnteriorEquipamento();
-    preencherEliminarEquipamento();
     inicializarNovoEquipamento();
     inicializarEditarEquipamento();
     controlarCamposContratoManutencao();
-    inicializarConfirmacaoEliminarEquipamento();
 
     preencherListagemLocalizacoes();
     preencherDetalhesLocalizacao();

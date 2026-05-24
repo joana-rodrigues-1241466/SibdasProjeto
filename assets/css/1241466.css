@@ -833,6 +833,20 @@ body {
     margin-right: 14px;
 }
 
+.botao-acao-tabela {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #003f78;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.botao-acao-tabela:hover {
+    color: #0086a8;
+    text-decoration: underline;
+}
+
 /* Formulário da área privada */
 .formulario-privado {
     background-color: #ffffff;
@@ -1361,108 +1375,76 @@ body {
 }
 
 /* ===============================
-   PÁGINA ELIMINAR EQUIPAMENTO
+   MODAL ELIMINAR EQUIPAMENTO
 ================================ */
 
-.cartao-eliminar {
-    max-width: 760px;
-    margin: 40px auto;
-    padding: 56px 48px;
-    text-align: center;
-    border: 1px solid #d7e3ec;
-    border-radius: 18px;
-    background-color: #ffffff;
-    box-shadow: 0 8px 28px rgba(0, 63, 120, 0.06);
+.modal-eliminar-equipamento .modal-content {
+    border-radius: 16px;
+    border: none;
+    padding: 10px;
 }
 
-.icone-eliminar {
-    color: #0b8793;
-    font-size: 48px;
-    margin-bottom: 28px;
+.modal-eliminar-equipamento .modal-header {
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
-.texto-confirmacao-eliminar {
-    font-size: 28px;
-    font-weight: 500;
-    color: #1f2d3a;
+.modal-eliminar-equipamento .modal-title {
+    color: #003f78;
+    font-weight: 700;
+}
+
+.modal-eliminar-equipamento .modal-body {
+    text-align: left;
+    padding: 30px 45px;
+}
+
+.modal-eliminar-equipamento .modal-body i {
+    font-size: 55px;
+    color: #dc3545;
     margin-bottom: 20px;
 }
 
-#eliminar-designacao-equipamento {
-    max-width: 620px;
-    margin: 0 auto 36px auto;
-    font-size: 32px;
-    font-weight: 700;
-    color: #00437a;
-    line-height: 1.25;
-    letter-spacing: 1px;
-}
-
-.detalhes-eliminar {
-    display: flex;
-    justify-content: center;
-    gap: 48px;
-    flex-wrap: wrap;
-    margin-bottom: 44px;
-}
-
-.detalhes-eliminar p {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.modal-eliminar-equipamento .modal-body p {
+    font-size: 1.05rem;
+    color: #1f2d3d;
     margin: 0;
-    font-size: 20px;
-    color: #1f2d3a;
+    padding-right: 10px;
+    line-height: 1.7;
 }
 
-.detalhes-eliminar i {
-    color: #0b8793;
-    font-size: 20px;
-}
-
-.detalhes-eliminar strong {
-    color: #122b3d;
-}
-
-.botoes-eliminar {
-    display: flex;
+.modal-eliminar-equipamento .modal-footer {
+    border-top: none;
     justify-content: center;
-    gap: 24px;
+    gap: 12px;
+    padding-top: 0;
+    padding-bottom: 25px;
 }
 
-.botoes-eliminar .botao-secundario,
-.botoes-eliminar .botao-eliminar {
-    min-width: 150px;
-    padding: 14px 28px;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: 700;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.botoes-eliminar .botao-secundario {
+.botao-cancelar-modal {
     background-color: #ffffff;
-    color: #00437a;
-    border: 1px solid #9fb3c8;
+    color: #003f78;
+    border: 1px solid #8fa6b8;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 700;
 }
 
-.botoes-eliminar .botao-secundario:hover {
-    background-color: #f3f7fb;
+.botao-cancelar-modal:hover {
+    background-color: #eef6fb;
 }
 
-.botoes-eliminar .botao-eliminar {
-    background-color: #00437a;
+.botao-confirmar-eliminar {
+    background-color: #dc3545;
     color: #ffffff;
-    border: 1px solid #00437a;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 700;
 }
 
-.botoes-eliminar .botao-eliminar:hover {
-    background-color: #00345f;
-    border-color: #00345f;
+.botao-confirmar-eliminar:hover {
+    background-color: #bb2d3b;
 }
 
 /* ============================================================

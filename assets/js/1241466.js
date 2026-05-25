@@ -1699,10 +1699,15 @@ function preencherListagemFornecedores(
                     Editar
                 </a>
 
-                <a href="eliminar_fornecedor.html?id=${fornecedor.codigo}" class="acao-tabela-privada">
+                <button
+    class="acao-tabela-privada botao-acao-tabela"
+    data-bs-toggle="modal"
+    data-bs-target="#modalEliminarFornecedor"
+    onclick="prepararEliminacaoFornecedor('${fornecedor.codigo}')">
+
     <i class="fa-regular fa-trash-can"></i>
     Eliminar
-</a>
+</button>
             </td>
         `;
 
@@ -2361,93 +2366,51 @@ function inicializarEditarFornecedor() {
     });
 }
 
-function preencherEliminarFornecedor() {
-    const campoNome = document.getElementById("eliminar-nome-fornecedor");
+let codigoFornecedorEliminar = null;
 
-    if (!campoNome) {
-        return;
+function prepararEliminacaoFornecedor(codigo) {
+
+    codigoFornecedorEliminar = codigo;
+
+    const fornecedor = fornecedoresGuardados[codigo];
+
+    const textoModal =
+        document.getElementById("textoModalEliminarFornecedor");
+
+    if (textoModal && fornecedor) {
+
+        textoModal.innerHTML =
+            `Tem a certeza que pretende eliminar o fornecedor 
+            <strong>${fornecedor.nomeEmpresa}</strong>?`;
     }
-
-    const parametros = new URLSearchParams(window.location.search);
-    const idFornecedor = parametros.get("id");
-
-    if (!idFornecedor) {
-        alert("Fornecedor não encontrado.");
-        window.location.href = "fornecedores.html";
-        return;
-    }
-
-    const fornecedor = fornecedoresGuardados[idFornecedor];
-
-    if (!fornecedor) {
-        alert("Fornecedor não encontrado.");
-        window.location.href = "fornecedores.html";
-        return;
-    }
-
-    campoNome.textContent = fornecedor.nomeEmpresa;
-
-    document.getElementById("eliminar-codigo-fornecedor").textContent = fornecedor.codigo;
-    document.getElementById("eliminar-nif-fornecedor").textContent = fornecedor.nif;
 }
 
-function inicializarConfirmacaoEliminarFornecedor() {
-    const botaoConfirmar = document.getElementById("botao-confirmar-eliminar-fornecedor");
+function confirmarEliminacaoFornecedor() {
 
-    if (!botaoConfirmar) {
+    if (!codigoFornecedorEliminar) {
         return;
     }
 
-    botaoConfirmar.addEventListener("click", function () {
-        const parametros = new URLSearchParams(window.location.search);
-        const idFornecedor = parametros.get("id");
+    delete fornecedoresGuardados[codigoFornecedorEliminar];
 
-        if (!idFornecedor) {
-            alert("Fornecedor não encontrado.");
-            window.location.href = "fornecedores.html";
-            return;
-        }
+    localStorage.setItem(
+        "fornecedoresGuardados",
+        JSON.stringify(fornecedoresGuardados)
+    );
 
-        const fornecedor = fornecedoresGuardados[idFornecedor];
+    preencherListagemFornecedores();
 
-        if (!fornecedor) {
-            alert("Fornecedor não encontrado.");
-            window.location.href = "fornecedores.html";
-            return;
-        }
+    const modalElement =
+        document.getElementById("modalEliminarFornecedor");
 
-        const equipamentosAfetados = obterEquipamentosPorFornecedor(idFornecedor);
-        const documentacoesAfetadas = obterDocumentacoesPorFornecedor(idFornecedor);
+    const modalBootstrap =
+        bootstrap.Modal.getInstance(modalElement);
 
-        delete fornecedoresGuardados[idFornecedor];
+    if (modalBootstrap) {
+        modalBootstrap.hide();
+    }
 
-        documentacoesAfetadas.forEach(function (documentacao) {
-            documentacaoGuardada[documentacao.codigo].fornecedor = "";
-        });
-
-        equipamentosAfetados.forEach(function (equipamento) {
-            equipamentosGuardados[equipamento.codigo].fornecedor = "";
-        });
-
-        localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
-        localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
-        localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
-
-        if (equipamentosAfetados.length > 0) {
-            const filaEquipamentos = equipamentosAfetados.map(function (equipamento) {
-                return equipamento.codigo;
-            });
-
-            localStorage.setItem("filaEdicaoEquipamentos", JSON.stringify(filaEquipamentos));
-
-            alert("O fornecedor foi eliminado. Existem equipamentos associados a esse fornecedor. Vai editar cada equipamento afetado, um de cada vez.");
-
-            window.location.href = `../equipamentos/editar_equipamento.html?id=${filaEquipamentos[0]}&origem=filaFornecedor`;
-            return;
-        }
-
-        window.location.href = "fornecedores.html";
-    });
+    codigoFornecedorEliminar = null;
 }
 
 // ===============================
@@ -3848,10 +3811,8 @@ document.addEventListener("DOMContentLoaded", function () {
     preencherListagemFornecedores();
     inicializarFiltrosFornecedores();
     preencherDetalhesFornecedor();
-    preencherEliminarFornecedor();
     inicializarNovoFornecedor();
     inicializarEditarFornecedor();
-    inicializarConfirmacaoEliminarFornecedor();
 
     preencherListagemDocumentacao();
     preencherDetalhesDocumentacao();

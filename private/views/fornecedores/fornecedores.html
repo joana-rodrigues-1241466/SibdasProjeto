@@ -219,7 +219,7 @@
                                     <option value="Santarém">Santarém, Portugal</option>
                                     <option value="Setúbal">Setúbal, Portugal</option>
                                     <option value="Viana do Castelo">Viana do Castelo, Portugal</option>
-                                    <option value="Vila Real">Vila Real, Portugall</option>
+                                    <option value="Vila Real">Vila Real, Portugal</option>
                                     <option value="Viseu">Viseu, Portugal</option>
                                     <option value="Região Autónoma dos Açores">Região Autónoma dos Açores, Portugal
                                     </option>
@@ -312,10 +312,13 @@
                                     Editar
                                 </a>
 
-                                <a href="#" class="acao-tabela-privada eliminar-fornecedor" data-id="FOR001">
+                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarFornecedor"
+                                    onclick="prepararEliminacaoFornecedor('FOR001')">
+
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
 
@@ -336,10 +339,13 @@
                                     Editar
                                 </a>
 
-                                <a href="#" class="acao-tabela-privada eliminar-fornecedor" data-id="FOR002">
+                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarFornecedor"
+                                    onclick="prepararEliminacaoFornecedor('FOR002')">
+
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
 
@@ -360,10 +366,13 @@
                                     Editar
                                 </a>
 
-                                <a href="#" class="acao-tabela-privada eliminar-fornecedor" data-id="FOR003">
+                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarFornecedor"
+                                    onclick="prepararEliminacaoFornecedor('FOR003')">
+
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
 
@@ -384,10 +393,13 @@
                                     Editar
                                 </a>
 
-                                <a href="#" class="acao-tabela-privada eliminar-fornecedor" data-id="FOR004">
+                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarFornecedor"
+                                    onclick="prepararEliminacaoFornecedor('FOR004')">
+
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
 
@@ -396,6 +408,58 @@
             </div>
 
         </main>
+
+    </div>
+
+    <!-- Modal eliminar fornecedor -->
+    <div class="modal fade" id="modalEliminarFornecedor" tabindex="-1" aria-labelledby="tituloModalEliminarFornecedor"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="tituloModalEliminarFornecedor">
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        Confirmar eliminação
+
+                    </h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <p id="textoModalEliminarFornecedor">
+                        Tem a certeza que pretende eliminar este fornecedor?
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+
+                        Cancelar
+
+                    </button>
+
+                    <button type="button" class="btn btn-danger" onclick="confirmarEliminacaoFornecedor()">
+
+                        Eliminar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 

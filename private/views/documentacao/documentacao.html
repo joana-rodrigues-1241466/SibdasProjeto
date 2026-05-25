@@ -143,10 +143,13 @@
                                     Editar
                                 </a>
 
-                                <a href="#" class="acao-tabela-privada">
+                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarDocumentacao"
+                                    onclick="prepararEliminacaoDocumentacao('DOC001')">
+
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
 
@@ -167,10 +170,13 @@
                                     Editar
                                 </a>
 
-                                <a href="#" class="acao-tabela-privada">
+                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarDocumentacao"
+                                    onclick="prepararEliminacaoDocumentacao('DOC002')">
+
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
 
@@ -191,10 +197,13 @@
                                     Editar
                                 </a>
 
-                                <a href="#" class="acao-tabela-privada">
+                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarDocumentacao"
+                                    onclick="prepararEliminacaoDocumentacao('DOC003')">
+
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
 
@@ -215,10 +224,13 @@
                                     Editar
                                 </a>
 
-                                <a href="#" class="acao-tabela-privada">
+                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarDocumentacao"
+                                    onclick="prepararEliminacaoDocumentacao('DOC004')">
+
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -226,6 +238,58 @@
             </div>
 
         </main>
+
+    </div>
+
+    <!-- Modal eliminar documentação -->
+    <div class="modal fade" id="modalEliminarDocumentacao" tabindex="-1"
+        aria-labelledby="tituloModalEliminarDocumentacao" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="tituloModalEliminarDocumentacao">
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        Confirmar eliminação
+
+                    </h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <p id="textoModalEliminarDocumentacao">
+                        Tem a certeza que pretende eliminar esta documentação?
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+
+                        Cancelar
+
+                    </button>
+
+                    <button type="button" class="btn btn-danger" onclick="confirmarEliminacaoDocumentacao()">
+
+                        Eliminar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 

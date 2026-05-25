@@ -146,10 +146,12 @@
                                     Editar
                                 </a>
 
-                                <a href="#" class="acao-tabela-privada eliminar-localizacao" data-id="LOC001">
+                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarLocalizacao"
+                                    onclick="prepararEliminacaoLocalizacao('LOC001')">
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
 
@@ -171,10 +173,12 @@
                                     Editar
                                 </a>
 
-                                <a href="#" class="acao-tabela-privada eliminar-localizacao" data-id="LOC002">
+                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarLocalizacao"
+                                    onclick="prepararEliminacaoLocalizacao('LOC002')">
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
 
@@ -196,10 +200,12 @@
                                     Editar
                                 </a>
 
-                                <a href="#" class="acao-tabela-privada eliminar-localizacao" data-id="LOC003">
+                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarLocalizacao"
+                                    onclick="prepararEliminacaoLocalizacao('LOC003')">
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
 
@@ -221,10 +227,12 @@
                                     Editar
                                 </a>
 
-                                <a href="#" class="acao-tabela-privada eliminar-localizacao" data-id="LOC004">
+                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarLocalizacao"
+                                    onclick="prepararEliminacaoLocalizacao('LOC004')">
                                     <i class="fa-regular fa-trash-can"></i>
                                     Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
 
@@ -233,6 +241,58 @@
             </div>
 
         </main>
+
+    </div>
+
+    <!-- Modal eliminar localização -->
+    <div class="modal fade" id="modalEliminarLocalizacao" tabindex="-1" aria-labelledby="tituloModalEliminarLocalizacao"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="tituloModalEliminarLocalizacao">
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        Confirmar eliminação
+
+                    </h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <p id="textoModalEliminarLocalizacao">
+                        Tem a certeza que pretende eliminar esta localização?
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+
+                        Cancelar
+
+                    </button>
+
+                    <button type="button" class="btn btn-danger" onclick="confirmarEliminacaoLocalizacao()">
+
+                        Eliminar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 

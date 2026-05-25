@@ -1314,10 +1314,15 @@ function preencherListagemLocalizacoes() {
                     Editar
                 </a>
 
-                <a href="eliminar_localizacao.html?id=${localizacao.codigo}" class="acao-tabela-privada">
+                <button
+    class="acao-tabela-privada botao-acao-tabela"
+    data-bs-toggle="modal"
+    data-bs-target="#modalEliminarLocalizacao"
+    onclick="prepararEliminacaoLocalizacao('${localizacao.codigo}')">
+
     <i class="fa-regular fa-trash-can"></i>
     Eliminar
-</a>
+</button>
             </td>
         `;
 
@@ -1498,88 +1503,60 @@ function inicializarEditarLocalizacao() {
     });
 }
 
-function preencherEliminarLocalizacao() {
-    const campoNome = document.getElementById("eliminar-nome-localizacao");
+let codigoLocalizacaoEliminar = null;
 
-    if (!campoNome) {
-        return;
+function prepararEliminacaoLocalizacao(codigo) {
+
+    codigoLocalizacaoEliminar = codigo;
+
+    const localizacao =
+        localizacoesGuardadas[codigo];
+
+    const textoModal =
+        document.getElementById(
+            "textoModalEliminarLocalizacao"
+        );
+
+    if (textoModal && localizacao) {
+
+        textoModal.innerHTML =
+            `Tem a certeza que pretende eliminar a localização 
+            <strong>${localizacao.codigo}</strong>?`;
     }
-
-    const parametros = new URLSearchParams(window.location.search);
-    const idLocalizacao = parametros.get("id");
-
-    if (!idLocalizacao) {
-        alert("Localização não encontrada.");
-        window.location.href = "localizacoes.html";
-        return;
-    }
-
-    const localizacao = localizacoesGuardadas[idLocalizacao];
-
-    if (!localizacao) {
-        alert("Localização não encontrada.");
-        window.location.href = "localizacoes.html";
-        return;
-    }
-
-    campoNome.textContent = localizacao.servico + " - " + localizacao.sala;
-
-    document.getElementById("eliminar-codigo-localizacao").textContent = localizacao.codigo;
 }
 
+function confirmarEliminacaoLocalizacao() {
 
-function inicializarConfirmacaoEliminarLocalizacao() {
-    const botaoConfirmar = document.getElementById("botao-confirmar-eliminar-localizacao");
-
-    if (!botaoConfirmar) {
+    if (!codigoLocalizacaoEliminar) {
         return;
     }
 
-    botaoConfirmar.addEventListener("click", function () {
-        const parametros = new URLSearchParams(window.location.search);
-        const idLocalizacao = parametros.get("id");
+    delete localizacoesGuardadas[
+        codigoLocalizacaoEliminar
+    ];
 
-        if (!idLocalizacao) {
-            alert("Localização não encontrada.");
-            window.location.href = "localizacoes.html";
-            return;
-        }
+    localStorage.setItem(
+        "localizacoesGuardadas",
+        JSON.stringify(localizacoesGuardadas)
+    );
 
-        const localizacao = localizacoesGuardadas[idLocalizacao];
+    preencherListagemLocalizacoes();
 
-        if (!localizacao) {
-            alert("Localização não encontrada.");
-            window.location.href = "localizacoes.html";
-            return;
-        }
+    const modalElement =
+        document.getElementById(
+            "modalEliminarLocalizacao"
+        );
 
-        const equipamentosAfetados = obterEquipamentosPorLocalizacao(idLocalizacao);
+    const modalBootstrap =
+        bootstrap.Modal.getInstance(
+            modalElement
+        );
 
-        delete localizacoesGuardadas[idLocalizacao];
+    if (modalBootstrap) {
+        modalBootstrap.hide();
+    }
 
-        localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
-
-        if (equipamentosAfetados.length > 0) {
-            const filaEquipamentos = equipamentosAfetados.map(function (equipamento) {
-                return equipamento.codigo;
-            });
-
-            equipamentosAfetados.forEach(function (equipamento) {
-                equipamentosGuardados[equipamento.codigo].localizacao = "";
-            });
-
-            localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
-
-            localStorage.setItem("filaEdicaoEquipamentos", JSON.stringify(filaEquipamentos));
-
-            alert("A localização foi eliminada. Existem equipamentos associados a esta localização. Vai editar cada equipamento afetado, um de cada vez.");
-
-            window.location.href = `../equipamentos/editar_equipamento.html?id=${filaEquipamentos[0]}&origem=filaLocalizacao`;
-            return;
-        }
-
-        window.location.href = "localizacoes.html";
-    });
+    codigoLocalizacaoEliminar = null;
 }
 
 // ===============================
@@ -2505,10 +2482,15 @@ function preencherListagemDocumentacao() {
                     Editar
                 </a>
 
-                <a href="eliminar_documentacao.html?id=${documentacao.codigo}" class="acao-tabela-privada">
-                    <i class="fa-regular fa-trash-can"></i>
-                    Eliminar
-                </a>
+                <button
+    class="acao-tabela-privada botao-acao-tabela"
+    data-bs-toggle="modal"
+    data-bs-target="#modalEliminarDocumentacao"
+    onclick="prepararEliminacaoDocumentacao('${documentacao.codigo}')">
+
+    <i class="fa-regular fa-trash-can"></i>
+    Eliminar
+</button>
 
             </td>
         `;
@@ -2745,69 +2727,63 @@ function inicializarEditarDocumentacao() {
     });
 }
 
-function preencherEliminarDocumentacao() {
-    const campoNome = document.getElementById("eliminar-nome-documentacao");
+let codigoDocumentacaoEliminar = null;
 
-    if (!campoNome) {
-        return;
+function prepararEliminacaoDocumentacao(codigo) {
+
+    codigoDocumentacaoEliminar = codigo;
+
+    const documentacao =
+        documentacaoGuardada[codigo];
+
+    const textoModal =
+        document.getElementById(
+            "textoModalEliminarDocumentacao"
+        );
+
+    if (textoModal && documentacao) {
+
+        textoModal.innerHTML =
+            `Tem a certeza que pretende eliminar a documentação 
+            <strong>${documentacao.nomeDocumentacao}</strong>?`;
     }
-
-    const parametros = new URLSearchParams(window.location.search);
-    const idDocumentacao = parametros.get("id");
-
-    if (!idDocumentacao) {
-        alert("Documentação não encontrada.");
-        window.location.href = "documentacao.html";
-        return;
-    }
-
-    const documentacao = documentacaoGuardada[idDocumentacao];
-
-    if (!documentacao) {
-        alert("Documentação não encontrada.");
-        window.location.href = "documentacao.html";
-        return;
-    }
-
-    campoNome.textContent = documentacao.nomeDocumentacao;
-
-    document.getElementById("eliminar-codigo-documentacao").textContent = documentacao.codigo;
-    document.getElementById("eliminar-tipo-documentacao").textContent = documentacao.tipoDocumentacao;
 }
 
-function inicializarConfirmacaoEliminarDocumentacao() {
-    const botaoConfirmar = document.getElementById("botao-confirmar-eliminar-documentacao");
+function confirmarEliminacaoDocumentacao() {
 
-    if (!botaoConfirmar) {
+    if (!codigoDocumentacaoEliminar) {
         return;
     }
 
-    botaoConfirmar.addEventListener("click", function () {
-        const parametros = new URLSearchParams(window.location.search);
-        const idDocumentacao = parametros.get("id");
+    delete documentacaoGuardada[
+        codigoDocumentacaoEliminar
+    ];
 
-        if (!idDocumentacao) {
-            alert("Documentação não encontrada.");
-            window.location.href = "documentacao.html";
-            return;
-        }
+    localStorage.setItem(
+        "documentacaoGuardada",
+        JSON.stringify(documentacaoGuardada)
+    );
 
-        const documentacao = documentacaoGuardada[idDocumentacao];
+    preencherListagemDocumentacao();
 
-        if (!documentacao) {
-            alert("Documentação não encontrada.");
-            window.location.href = "documentacao.html";
-            return;
-        }
+    const modalElement =
+        document.getElementById(
+            "modalEliminarDocumentacao"
+        );
 
-        delete documentacaoGuardada[idDocumentacao];
+    const modalBootstrap =
+        bootstrap.Modal.getInstance(
+            modalElement
+        );
 
-        localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
+    if (modalBootstrap) {
+        modalBootstrap.hide();
+    }
 
-        window.location.href = "documentacao.html";
-    });
+    codigoDocumentacaoEliminar = null;
 }
 
+/*DASHBOARD*/
 function inicializarDashboard() {
     const totalEquipamentos = document.getElementById("totalEquipamentosDashboard");
 
@@ -3803,10 +3779,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     preencherListagemLocalizacoes();
     preencherDetalhesLocalizacao();
-    preencherEliminarLocalizacao();
     inicializarNovaLocalizacao();
     inicializarEditarLocalizacao();
-    inicializarConfirmacaoEliminarLocalizacao();
 
     preencherListagemFornecedores();
     inicializarFiltrosFornecedores();
@@ -3816,10 +3790,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     preencherListagemDocumentacao();
     preencherDetalhesDocumentacao();
-    preencherEliminarDocumentacao();
     inicializarNovaDocumentacao();
     inicializarEditarDocumentacao();
-    inicializarConfirmacaoEliminarDocumentacao();
 
     inicializarDropdownUtilizador();
 });

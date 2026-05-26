@@ -110,7 +110,122 @@
             </div>
 
             <p class="mensagem-listagem">
-                Consulte abaixo a documentação associada aos equipamentos e, quando aplicável, aos fornecedores.</p>
+                Consulte, pesquise e filtre a documentação associada aos equipamentos e, quando aplicável, aos
+                fornecedores.</p>
+
+            <!-- PESQUISA E FILTROS -->
+            <section class="area-pesquisa-filtros">
+
+                <div class="caixa-pesquisa-equipamentos">
+                    <h2>Pesquisa</h2>
+
+                    <div class="linha-pesquisa-equipamentos">
+                        <input type="text" id="pesquisaDocumentacoes" class="campo-pesquisa-equipamentos"
+                            placeholder="Pesquisar por código, tipo de documentação, nome, data da documentação, data de validade, equipamento associado, fornecedor associado ou ficheiro...">
+                        <button type="button" id="botaoPesquisarDocumentacoes" class="botao-pesquisar-equipamentos">
+                            Pesquisar
+                        </button>
+
+                        <button type="button" id="botaoLimparApenasPesquisaDocumentacoes"
+                            class="botao-limpar-equipamentos">
+                            Limpar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="caixa-filtros-equipamentos">
+                    <h2>Filtros</h2>
+
+                    <div class="grelha-filtros-equipamentos">
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroTipoDocumentacao">
+                                Tipo de documentação
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroTipoDocumentacao" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todos</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroNomeDocumentacao">
+                                Nome da documentação
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroNomeDocumentacao" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todos</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroEquipamentoDocumentacao">
+                                Equipamento associado
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroEquipamentoDocumentacao" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todos</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroFornecedorDocumentacao">
+                                Fornecedor associado
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroFornecedorDocumentacao" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todos</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos grupo-botao-limpar-filtros">
+
+                            <label>&nbsp;</label>
+
+                            <button type="button" id="botaoLimparApenasFiltrosDocumentacoes"
+                                class="botao-limpar-apenas-filtros" title="Limpar filtros">
+
+                                <i class="fa-solid fa-filter-circle-xmark"></i>
+
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>
 
             <div class="tabela-privada">
                 <table>
@@ -125,7 +240,7 @@
                         </tr>
                     </thead>
 
-                    <tbody id="tabela-documentacao">
+                    <tbody id="tabela-documentacoes">
                         <tr>
                             <td>DOC001</td>
                             <td>Manual técnico</td>

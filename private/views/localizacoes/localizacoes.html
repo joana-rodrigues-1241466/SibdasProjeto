@@ -110,8 +110,140 @@
             </div>
 
             <p class="mensagem-listagem">
-                Consulte abaixo as localizações físicas associadas aos equipamentos médicos.
+                Consulte, pesquise e filtre as localizações físicas associadas aos equipamentos médicos.
             </p>
+
+            <!-- PESQUISA E FILTROS -->
+            <section class="area-pesquisa-filtros">
+
+                <div class="caixa-pesquisa-equipamentos">
+                    <h2>Pesquisa</h2>
+
+                    <div class="linha-pesquisa-equipamentos">
+                        <input type="text" id="pesquisaLocalizacoes" class="campo-pesquisa-equipamentos"
+                            placeholder="Pesquisar por código da localização, edifício, piso, serviço/departamento, sala/gabinete ou equipamento associado...">
+                        <button type="button" id="botaoPesquisarLocalizacoes" class="botao-pesquisar-equipamentos">
+                            Pesquisar
+                        </button>
+
+                        <button type="button" id="botaoLimparApenasPesquisaLocalizacoes"
+                            class="botao-limpar-equipamentos">
+                            Limpar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="caixa-filtros-equipamentos">
+                    <h2>Filtros</h2>
+
+                    <div class="grelha-filtros-equipamentos">
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroEdificioLocalizacao">
+                                Edifício
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroEdificioLocalizacao" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todos</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroServicoLocalizacao">
+                                Serviço/Departamento
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroServicoLocalizacao" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todos</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroEquipamentoLocalizacao">
+                                Equipamento associado
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroEquipamentoLocalizacao" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todos</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroPisoLocalizacao">
+                                Piso
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroPisoLocalizacao" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todos</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos">
+
+                            <label for="filtroSalaLocalizacao">
+                                Sala/Gabinete
+                            </label>
+
+                            <div class="select-filtro-wrapper">
+
+                                <select id="filtroSalaLocalizacao" class="campo-filtro-equipamentos">
+
+                                    <option value="">Todos</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="grupo-filtro-equipamentos grupo-botao-limpar-filtros">
+
+                            <label>&nbsp;</label>
+
+                            <button type="button" id="botaoLimparApenasFiltrosLocalizacoes"
+                                class="botao-limpar-apenas-filtros" title="Limpar filtros">
+
+                                <i class="fa-solid fa-filter-circle-xmark"></i>
+
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>
 
             <div class="tabela-privada">
                 <table>

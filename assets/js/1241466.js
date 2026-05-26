@@ -1281,7 +1281,7 @@ if (!localizacoesGuardadas) {
 }
 
 
-function preencherListagemLocalizacoes() {
+function preencherListagemLocalizacoes(localizacoes = null) {
     const tabelaLocalizacoes = document.getElementById("tabela-localizacoes");
 
     if (!tabelaLocalizacoes) {
@@ -1290,18 +1290,19 @@ function preencherListagemLocalizacoes() {
 
     tabelaLocalizacoes.innerHTML = "";
 
-    Object.values(localizacoesGuardadas).forEach(function (localizacao) {
-        const linha = document.createElement("tr");
+    (localizacoes || Object.values(localizacoesGuardadas))
+        .forEach(function (localizacao) {
+            const linha = document.createElement("tr");
 
-        linha.innerHTML = `
+            linha.innerHTML = `
             <td>${localizacao.codigo}</td>
             <td>${localizacao.edificio}</td>
             <td>${localizacao.piso}</td>
             <td>${localizacao.servico}</td>
             <td>${localizacao.sala}</td>
             <td>${obterEquipamentosPorLocalizacao(localizacao.codigo).map(function (equipamento) {
-            return equipamento.codigo;
-        }).join(", ") || "Sem equipamentos"}</td>
+                return equipamento.codigo;
+            }).join(", ") || "Sem equipamentos"}</td>
 
             <td class="acoes-tabela-privada">
                 <a href="consultar_localizacao.html?id=${localizacao.codigo}" class="acao-tabela-privada">
@@ -1326,10 +1327,360 @@ function preencherListagemLocalizacoes() {
             </td>
         `;
 
-        tabelaLocalizacoes.appendChild(linha);
-    });
+            tabelaLocalizacoes.appendChild(linha);
+        });
 }
 
+function inicializarFiltrosLocalizacoes() {
+
+    const pesquisaLocalizacoes =
+        document.getElementById("pesquisaLocalizacoes");
+
+    const filtroEdificio =
+        document.getElementById("filtroEdificioLocalizacao");
+
+    const filtroServico =
+        document.getElementById("filtroServicoLocalizacao");
+
+    const filtroEquipamento =
+        document.getElementById("filtroEquipamentoLocalizacao");
+
+    const filtroPiso =
+        document.getElementById("filtroPisoLocalizacao");
+
+    const filtroSala =
+        document.getElementById("filtroSalaLocalizacao");
+
+    const botaoLimparPesquisa =
+        document.getElementById("botaoLimparApenasPesquisaLocalizacoes");
+
+    const botaoLimparFiltros =
+        document.getElementById("botaoLimparApenasFiltrosLocalizacoes");
+
+    const botaoPesquisar =
+        document.getElementById("botaoPesquisarLocalizacoes");
+
+    if (
+        !pesquisaLocalizacoes ||
+        !filtroEdificio ||
+        !filtroServico ||
+        !filtroEquipamento ||
+        !filtroPiso ||
+        !filtroSala
+    ) {
+        return;
+    }
+
+    preencherSelectFiltrosLocalizacoes();
+
+    function aplicarFiltrosLocalizacoes() {
+
+        const textoPesquisa =
+            pesquisaLocalizacoes.value.toLowerCase().trim();
+
+        const edificioSelecionado =
+            filtroEdificio.value;
+
+        const servicoSelecionado =
+            filtroServico.value;
+
+        const equipamentoSelecionado =
+            filtroEquipamento.value;
+
+        const pisoSelecionado =
+            filtroPiso.value;
+
+        const salaSelecionada =
+            filtroSala.value;
+
+        const localizacoesFiltradas =
+            Object.values(localizacoesGuardadas).filter(function (localizacao) {
+
+                const equipamentosAssociados =
+                    obterEquipamentosPorLocalizacao(localizacao.codigo);
+
+                const textoEquipamentos =
+                    equipamentosAssociados.map(function (equipamento) {
+
+                        return [
+                            equipamento.codigo,
+                            equipamento.designacao,
+                            equipamento.marca,
+                            equipamento.modelo
+                        ].join(" ");
+
+                    }).join(" ").toLowerCase();
+
+                const correspondePesquisa =
+
+                    (localizacao.codigo || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (localizacao.edificio || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (localizacao.piso || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (localizacao.servico || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (localizacao.sala || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    textoEquipamentos.includes(textoPesquisa);
+
+                const correspondeEdificio =
+                    edificioSelecionado === ""
+                    ||
+                    localizacao.edificio === edificioSelecionado;
+
+                const correspondeServico =
+                    servicoSelecionado === ""
+                    ||
+                    localizacao.servico === servicoSelecionado;
+
+                const correspondeEquipamento =
+                    equipamentoSelecionado === ""
+                    ||
+                    equipamentosAssociados.some(function (equipamento) {
+                        return equipamento.codigo === equipamentoSelecionado;
+                    });
+
+                const correspondePiso =
+                    pisoSelecionado === ""
+                    ||
+                    localizacao.piso === pisoSelecionado;
+
+                const correspondeSala =
+                    salaSelecionada === ""
+                    ||
+                    localizacao.sala === salaSelecionada;
+
+                return (
+                    correspondePesquisa &&
+                    correspondeEdificio &&
+                    correspondeServico &&
+                    correspondeEquipamento &&
+                    correspondePiso &&
+                    correspondeSala
+                );
+            });
+
+        preencherListagemLocalizacoes(localizacoesFiltradas);
+    }
+
+    pesquisaLocalizacoes.addEventListener(
+        "input",
+        aplicarFiltrosLocalizacoes
+    );
+
+    filtroEdificio.addEventListener(
+        "change",
+        aplicarFiltrosLocalizacoes
+    );
+
+    filtroServico.addEventListener(
+        "change",
+        aplicarFiltrosLocalizacoes
+    );
+
+    filtroEquipamento.addEventListener(
+        "change",
+        aplicarFiltrosLocalizacoes
+    );
+
+    filtroPiso.addEventListener(
+        "change",
+        aplicarFiltrosLocalizacoes
+    );
+
+    filtroSala.addEventListener(
+        "change",
+        aplicarFiltrosLocalizacoes
+    );
+
+    if (botaoPesquisar) {
+
+        botaoPesquisar.addEventListener(
+            "click",
+            aplicarFiltrosLocalizacoes
+        );
+    }
+
+    if (botaoLimparPesquisa) {
+
+        botaoLimparPesquisa.addEventListener(
+            "click",
+            function () {
+
+                pesquisaLocalizacoes.value = "";
+
+                aplicarFiltrosLocalizacoes();
+            }
+        );
+    }
+
+    if (botaoLimparFiltros) {
+
+        botaoLimparFiltros.addEventListener(
+            "click",
+            function () {
+
+                filtroEdificio.value = "";
+                filtroServico.value = "";
+                filtroEquipamento.value = "";
+                filtroPiso.value = "";
+                filtroSala.value = "";
+
+                aplicarFiltrosLocalizacoes();
+            }
+        );
+    }
+}
+
+function preencherSelectFiltrosLocalizacoes() {
+
+    const filtroEdificio =
+        document.getElementById("filtroEdificioLocalizacao");
+
+    const filtroServico =
+        document.getElementById("filtroServicoLocalizacao");
+
+    const filtroEquipamento =
+        document.getElementById("filtroEquipamentoLocalizacao");
+
+    const filtroPiso =
+        document.getElementById("filtroPisoLocalizacao");
+
+    const filtroSala =
+        document.getElementById("filtroSalaLocalizacao");
+
+    if (
+        !filtroEdificio ||
+        !filtroServico ||
+        !filtroEquipamento ||
+        !filtroPiso ||
+        !filtroSala
+    ) {
+        return;
+    }
+
+    filtroEdificio.innerHTML =
+        '<option value="">Todos</option>';
+
+    filtroServico.innerHTML =
+        '<option value="">Todos</option>';
+
+    filtroEquipamento.innerHTML =
+        '<option value="">Todos</option>';
+
+    filtroPiso.innerHTML =
+        '<option value="">Todos</option>';
+
+    filtroSala.innerHTML =
+        '<option value="">Todos</option>';
+
+    // EDIFÍCIOS
+    const edificios = [...new Set(
+        Object.values(localizacoesGuardadas)
+            .map(function (localizacao) {
+                return localizacao.edificio;
+            })
+    )];
+
+    edificios.forEach(function (edificio) {
+
+        const option = document.createElement("option");
+
+        option.value = edificio;
+        option.textContent = edificio;
+
+        filtroEdificio.appendChild(option);
+    });
+
+    // SERVIÇOS
+    const servicos = [...new Set(
+        Object.values(localizacoesGuardadas)
+            .map(function (localizacao) {
+                return localizacao.servico;
+            })
+    )];
+
+    servicos.forEach(function (servico) {
+
+        const option = document.createElement("option");
+
+        option.value = servico;
+        option.textContent = servico;
+
+        filtroServico.appendChild(option);
+    });
+
+    // PISOS
+    const pisos = [...new Set(
+        Object.values(localizacoesGuardadas)
+            .map(function (localizacao) {
+                return localizacao.piso;
+            })
+    )];
+
+    pisos.forEach(function (piso) {
+
+        const option = document.createElement("option");
+
+        option.value = piso;
+        option.textContent = piso;
+
+        filtroPiso.appendChild(option);
+    });
+
+    // SALAS
+    const salas = [...new Set(
+        Object.values(localizacoesGuardadas)
+            .map(function (localizacao) {
+                return localizacao.sala;
+            })
+    )];
+
+    salas.forEach(function (sala) {
+
+        const option = document.createElement("option");
+
+        option.value = sala;
+        option.textContent = sala;
+
+        filtroSala.appendChild(option);
+    });
+
+    // EQUIPAMENTOS
+    Object.values(equipamentosGuardados).forEach(function (equipamento) {
+
+        const option = document.createElement("option");
+
+        option.value = equipamento.codigo;
+
+        option.textContent =
+            equipamento.codigo + " - " + equipamento.designacao;
+
+        filtroEquipamento.appendChild(option);
+    });
+}
 
 function inicializarNovaLocalizacao() {
     const formularioNovaLocalizacao = document.getElementById("form-nova-localizacao");
@@ -2451,9 +2802,12 @@ if (!documentacaoGuardada) {
     localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
 }
 
+function preencherListagemDocumentacao(
+    listaDocumentacao = Object.values(documentacaoGuardada)
+) {
 
-function preencherListagemDocumentacao() {
-    const tabelaDocumentacao = document.getElementById("tabela-documentacao");
+    const tabelaDocumentacao =
+        document.getElementById("tabela-documentacoes");
 
     if (!tabelaDocumentacao) {
         return;
@@ -2461,7 +2815,22 @@ function preencherListagemDocumentacao() {
 
     tabelaDocumentacao.innerHTML = "";
 
-    Object.values(documentacaoGuardada).forEach(function (documentacao) {
+    // Caso não existam documentações
+    if (listaDocumentacao.length === 0) {
+
+        tabelaDocumentacao.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center">
+                    Nenhuma documentação encontrada.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    listaDocumentacao.forEach(function (documentacao) {
+
         const linha = document.createElement("tr");
 
         linha.innerHTML = `
@@ -2472,25 +2841,30 @@ function preencherListagemDocumentacao() {
             <td>${documentacao.equipamento}</td>
 
             <td class="acoes-tabela-privada">
-                <a href="consultar_documentacao.html?id=${documentacao.codigo}" class="acao-tabela-privada">
+
+                <a href="consultar_documentacao.html?id=${documentacao.codigo}"
+                    class="acao-tabela-privada">
+
                     <i class="fa-regular fa-eye"></i>
                     Consultar
                 </a>
 
-                <a href="editar_documentacao.html?id=${documentacao.codigo}" class="acao-tabela-privada">
+                <a href="editar_documentacao.html?id=${documentacao.codigo}"
+                    class="acao-tabela-privada">
+
                     <i class="fa-regular fa-pen-to-square"></i>
                     Editar
                 </a>
 
                 <button
-    class="acao-tabela-privada botao-acao-tabela"
-    data-bs-toggle="modal"
-    data-bs-target="#modalEliminarDocumentacao"
-    onclick="prepararEliminacaoDocumentacao('${documentacao.codigo}')">
+                    class="acao-tabela-privada botao-acao-tabela"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalEliminarDocumentacao"
+                    onclick="prepararEliminacaoDocumentacao('${documentacao.codigo}')">
 
-    <i class="fa-regular fa-trash-can"></i>
-    Eliminar
-</button>
+                    <i class="fa-regular fa-trash-can"></i>
+                    Eliminar
+                </button>
 
             </td>
         `;
@@ -2499,6 +2873,310 @@ function preencherListagemDocumentacao() {
     });
 }
 
+function ordenarEquipamentosPorCodigoCrescente(listaEquipamentos) {
+    listaEquipamentos.sort(function (a, b) {
+        return (a.codigo || "").localeCompare(b.codigo || "");
+    });
+}
+
+function inicializarFiltrosDocumentacoes() {
+
+    const pesquisaDocumentacoes =
+        document.getElementById("pesquisaDocumentacoes");
+
+    const filtroTipoDocumentacao =
+        document.getElementById("filtroTipoDocumentacao");
+
+    const filtroNomeDocumentacao =
+        document.getElementById("filtroNomeDocumentacao");
+
+    const filtroEquipamentoDocumentacao =
+        document.getElementById("filtroEquipamentoDocumentacao");
+
+    const filtroFornecedorDocumentacao =
+        document.getElementById("filtroFornecedorDocumentacao");
+
+    const botaoLimparPesquisa =
+        document.getElementById("botaoLimparApenasPesquisaDocumentacoes");
+
+    const botaoLimparFiltros =
+        document.getElementById("botaoLimparApenasFiltrosDocumentacoes");
+
+    const botaoPesquisar =
+        document.getElementById("botaoPesquisarDocumentacoes");
+
+    if (
+        !pesquisaDocumentacoes ||
+        !filtroTipoDocumentacao ||
+        !filtroNomeDocumentacao ||
+        !filtroEquipamentoDocumentacao ||
+        !filtroFornecedorDocumentacao
+    ) {
+        return;
+    }
+
+    preencherSelectFiltrosDocumentacoes();
+
+    function aplicarFiltrosDocumentacoes() {
+
+        const textoPesquisa =
+            pesquisaDocumentacoes.value.toLowerCase().trim();
+
+        const tipoSelecionado =
+            filtroTipoDocumentacao.value;
+
+        const nomeSelecionado =
+            filtroNomeDocumentacao.value;
+
+        const equipamentoSelecionado =
+            filtroEquipamentoDocumentacao.value;
+
+        const fornecedorSelecionado =
+            filtroFornecedorDocumentacao.value;
+
+        const documentacoesFiltradas =
+            Object.values(documentacaoGuardada).filter(function (documentacao) {
+
+                const correspondePesquisa =
+
+                    (documentacao.codigo || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (documentacao.tipoDocumentacao || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (documentacao.nomeDocumentacao || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (documentacao.dataDocumentacao || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (documentacao.dataValidade || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (documentacao.equipamento || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (documentacao.fornecedor || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa)
+
+                    ||
+
+                    (documentacao.ficheiro || "")
+                        .toLowerCase()
+                        .includes(textoPesquisa);
+
+                const correspondeTipo =
+                    tipoSelecionado === ""
+                    ||
+                    documentacao.tipoDocumentacao === tipoSelecionado;
+
+                const correspondeNome =
+                    nomeSelecionado === ""
+                    ||
+                    documentacao.nomeDocumentacao === nomeSelecionado;
+
+                const correspondeEquipamento =
+                    equipamentoSelecionado === ""
+                    ||
+                    documentacao.equipamento === equipamentoSelecionado;
+
+                const correspondeFornecedor =
+                    fornecedorSelecionado === ""
+                    ||
+                    documentacao.fornecedor === fornecedorSelecionado;
+
+                return (
+                    correspondePesquisa &&
+                    correspondeTipo &&
+                    correspondeNome &&
+                    correspondeEquipamento &&
+                    correspondeFornecedor
+                );
+            });
+
+        preencherListagemDocumentacao(documentacoesFiltradas);
+    }
+
+    pesquisaDocumentacoes.addEventListener(
+        "input",
+        aplicarFiltrosDocumentacoes
+    );
+
+    filtroTipoDocumentacao.addEventListener(
+        "change",
+        aplicarFiltrosDocumentacoes
+    );
+
+    filtroNomeDocumentacao.addEventListener(
+        "change",
+        aplicarFiltrosDocumentacoes
+    );
+
+    filtroEquipamentoDocumentacao.addEventListener(
+        "change",
+        aplicarFiltrosDocumentacoes
+    );
+
+    filtroFornecedorDocumentacao.addEventListener(
+        "change",
+        aplicarFiltrosDocumentacoes
+    );
+
+    if (botaoPesquisar) {
+
+        botaoPesquisar.addEventListener(
+            "click",
+            aplicarFiltrosDocumentacoes
+        );
+    }
+
+    if (botaoLimparPesquisa) {
+
+        botaoLimparPesquisa.addEventListener(
+            "click",
+            function () {
+
+                pesquisaDocumentacoes.value = "";
+
+                aplicarFiltrosDocumentacoes();
+            }
+        );
+    }
+
+    if (botaoLimparFiltros) {
+
+        botaoLimparFiltros.addEventListener(
+            "click",
+            function () {
+
+                filtroTipoDocumentacao.value = "";
+                filtroNomeDocumentacao.value = "";
+                filtroEquipamentoDocumentacao.value = "";
+                filtroFornecedorDocumentacao.value = "";
+
+                aplicarFiltrosDocumentacoes();
+            }
+        );
+    }
+}
+
+function preencherSelectFiltrosDocumentacoes() {
+
+    const filtroTipoDocumentacao =
+        document.getElementById("filtroTipoDocumentacao");
+
+    const filtroNomeDocumentacao =
+        document.getElementById("filtroNomeDocumentacao");
+
+    const filtroEquipamentoDocumentacao =
+        document.getElementById("filtroEquipamentoDocumentacao");
+
+    const filtroFornecedorDocumentacao =
+        document.getElementById("filtroFornecedorDocumentacao");
+
+    if (
+        !filtroTipoDocumentacao ||
+        !filtroNomeDocumentacao ||
+        !filtroEquipamentoDocumentacao ||
+        !filtroFornecedorDocumentacao
+    ) {
+        return;
+    }
+
+    filtroTipoDocumentacao.innerHTML =
+        '<option value="">Todos</option>';
+
+    filtroNomeDocumentacao.innerHTML =
+        '<option value="">Todos</option>';
+
+    filtroEquipamentoDocumentacao.innerHTML =
+        '<option value="">Todos</option>';
+
+    filtroFornecedorDocumentacao.innerHTML =
+        '<option value="">Todos</option>';
+
+    // TIPOS DE DOCUMENTAÇÃO
+    const tiposDocumentacao = [
+        "Manual técnico",
+        "Certificado de calibração",
+        "Relatório de manutenção",
+        "Garantia"
+    ];
+
+    tiposDocumentacao.forEach(function (tipo) {
+
+        const option = document.createElement("option");
+
+        option.value = tipo;
+        option.textContent = tipo;
+
+        filtroTipoDocumentacao.appendChild(option);
+    });
+
+    // NOMES DE DOCUMENTAÇÃO
+    const nomesDocumentacao = [...new Set(
+        Object.values(documentacaoGuardada)
+            .map(function (documentacao) {
+                return documentacao.nomeDocumentacao;
+            })
+    )];
+
+    nomesDocumentacao.forEach(function (nome) {
+
+        const option = document.createElement("option");
+
+        option.value = nome;
+        option.textContent = nome;
+
+        filtroNomeDocumentacao.appendChild(option);
+    });
+
+    // EQUIPAMENTOS
+    Object.values(equipamentosGuardados).forEach(function (equipamento) {
+
+        const option = document.createElement("option");
+
+        option.value = equipamento.codigo;
+
+        option.textContent =
+            equipamento.codigo + " - " + equipamento.designacao;
+
+        filtroEquipamentoDocumentacao.appendChild(option);
+    });
+
+    // FORNECEDORES
+    Object.values(fornecedoresGuardados).forEach(function (fornecedor) {
+
+        const option = document.createElement("option");
+
+        option.value = fornecedor.codigo;
+
+        option.textContent =
+            fornecedor.codigo + " - " + fornecedor.nomeEmpresa;
+
+        filtroFornecedorDocumentacao.appendChild(option);
+    });
+}
 
 function inicializarNovaDocumentacao() {
     const formularioNovaDocumentacao = document.getElementById("form-nova-documentacao");
@@ -3778,6 +4456,7 @@ document.addEventListener("DOMContentLoaded", function () {
     controlarCamposContratoManutencao();
 
     preencherListagemLocalizacoes();
+    inicializarFiltrosLocalizacoes();
     preencherDetalhesLocalizacao();
     inicializarNovaLocalizacao();
     inicializarEditarLocalizacao();
@@ -3789,6 +4468,7 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarEditarFornecedor();
 
     preencherListagemDocumentacao();
+    inicializarFiltrosDocumentacoes();
     preencherDetalhesDocumentacao();
     inicializarNovaDocumentacao();
     inicializarEditarDocumentacao();

@@ -262,7 +262,7 @@ const equipamentosConsulta = {
     EQ002: {
         codigo: "EQ002",
         designacao: "Ventilador pulmonar",
-        categoria: "Suporte de vida",
+        categoria: "Suporte de Vida",
         marca: "Dräger",
         modelo: "Evita V600",
         numeroSerie: "DR-EV600-2020-014",
@@ -326,7 +326,7 @@ const equipamentosConsulta = {
     EQ004: {
         codigo: "EQ004",
         designacao: "Desfibrilhador",
-        categoria: "Suporte de vida",
+        categoria: "Suporte de Vida",
         marca: "Zoll",
         modelo: "R Series",
         numeroSerie: "ZL-RS-2022-007",
@@ -3523,7 +3523,7 @@ function inicializarDashboard() {
     preencherGraficoServicosDashboard(equipamentos, localizacoes);
     preencherDistribuicaoCategoriasDashboard(equipamentos);
     preencherTabelaGarantiasDashboard(equipamentos, fornecedores);
-    preencherCriticidadeAltaDashboard(equipamentos);
+    preencherCriticidadeElevadaDashboard(equipamentos);
     preencherSuporteVidaDashboard(equipamentos, localizacoes);
 
     const dataAtual = new Date();
@@ -4156,9 +4156,9 @@ function preencherTabelaGarantiasDashboard(equipamentos, fornecedores) {
     });
 }
 
-function preencherCriticidadeAltaDashboard(equipamentos) {
-    const numero = document.getElementById("criticidadeAltaDashboard");
-    const percentagemTexto = document.getElementById("percentagemCriticidadeAltaDashboard");
+function preencherCriticidadeElevadaDashboard(equipamentos) {
+    const numero = document.getElementById("dashboardCriticidadeElevada");
+    const percentagemTexto = document.getElementById("dashboardPercentagemCriticidade");
 
     if (!numero || !percentagemTexto) {
         return;
@@ -4166,13 +4166,25 @@ function preencherCriticidadeAltaDashboard(equipamentos) {
 
     const total = equipamentos.length || 1;
 
-    const criticidadeAlta = equipamentos.filter(function (equipamento) {
-        return equipamento.criticidade === "Alta";
+    const criticidadeElevada = equipamentos.filter(function (equipamento) {
+        return equipamento.criticidade === "Alta" ||
+            equipamento.criticidade === "Suporte de vida";
     }).length;
 
-    const percentagem = Math.round((criticidadeAlta / total) * 100);
+    console.log(equipamentos);
+    console.log(criticidadeElevada);
 
-    numero.textContent = criticidadeAlta;
+    const percentagem = Math.round((criticidadeElevada / total) * 100);
+
+    equipamentos.forEach(function (equipamento) {
+        console.log(
+            equipamento.codigo,
+            equipamento.categoria,
+            equipamento.criticidade
+        );
+    });
+
+    numero.textContent = criticidadeElevada;
     percentagemTexto.textContent = percentagem + "% do total";
 }
 
@@ -4207,24 +4219,29 @@ function preencherSuporteVidaDashboard(equipamentos, localizacoes) {
 
     const maximo = servicos.length > 0 ? servicos[0][1] : 1;
 
-    container.innerHTML = "";
+container.innerHTML = "";
 
-    if (servicos.length === 0) {
-        container.innerHTML = "<p>Sem equipamentos de suporte de vida registados.</p>";
-        return;
-    }
+if (servicos.length === 0) {
+    container.innerHTML = "<p>Sem equipamentos de suporte de vida registados.</p>";
+    return;
+}
 
-    servicos.forEach(function ([servico, valor]) {
-        const largura = (valor / maximo) * 100;
+servicos.forEach(function ([servico, valor]) {
 
-        container.innerHTML += `
-            <div class="linha-horizontal-dashboard">
-                <span>${servico}</span>
-                <div class="barra-horizontal" style="width: ${largura}%;"></div>
-                <strong>${valor}</strong>
+    const largura = (valor / maximo) * 100;
+
+    container.innerHTML += `
+        <div class="linha-horizontal-dashboard">
+            <span>${servico}</span>
+
+            <div class="barra-horizontal"
+                 style="width: ${largura}%;">
             </div>
-        `;
-    });
+
+            <strong>${valor}</strong>
+        </div>
+    `;
+});
 }
 
 function inicializarTabsEquipamento() {

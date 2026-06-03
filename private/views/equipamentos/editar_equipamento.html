@@ -147,13 +147,13 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="codigo" class="form-label">Código interno de inventário</label>
                                     <input type="text" class="form-control campo-formulario-privado" id="codigo"
-                                        name="codigo" required>
+                                        name="codigo">
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label for="designacao" class="form-label">Designação do equipamento</label>
                                     <input type="text" class="form-control campo-formulario-privado" id="designacao"
-                                        name="designacao" required>
+                                        name="designacao">
                                 </div>
                             </div>
 
@@ -161,8 +161,8 @@
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="categoria" class="form-label">Categoria ou grupo</label>
-                                    <select class="form-select campo-formulario-privado" id="categoria" name="categoria"
-                                        required>
+                                    <select class="form-select campo-formulario-privado" id="categoria"
+                                        name="categoria">
                                         <option value="" selected disabled>Escolha uma opção</option>
                                         <option>Monitorização</option>
                                         <option>Suporte de vida</option>
@@ -177,13 +177,13 @@
                                 <div class="col-md-4 mb-3">
                                     <label for="marca" class="form-label">Marca</label>
                                     <input type="text" class="form-control campo-formulario-privado" id="marca"
-                                        name="marca" required>
+                                        name="marca">
                                 </div>
 
                                 <div class="col-md-4 mb-3">
                                     <label for="modelo" class="form-label">Modelo</label>
                                     <input type="text" class="form-control campo-formulario-privado" id="modelo"
-                                        name="modelo" required>
+                                        name="modelo">
                                 </div>
                             </div>
 
@@ -192,19 +192,19 @@
                                 <div class="col-md-4 mb-3">
                                     <label for="numero_serie" class="form-label">N.º de série</label>
                                     <input type="text" class="form-control campo-formulario-privado" id="numero_serie"
-                                        name="numero_serie" required>
+                                        name="numero_serie">
                                 </div>
 
                                 <div class="col-md-4 mb-3">
                                     <label for="fabricante" class="form-label">Fabricante</label>
                                     <input type="text" class="form-control campo-formulario-privado" id="fabricante"
-                                        name="fabricante" required>
+                                        name="fabricante">
                                 </div>
 
                                 <div class="col-md-4 mb-3">
                                     <label for="ano_fabrico" class="form-label">Ano de fabrico</label>
                                     <input type="number" class="form-control campo-formulario-privado" id="ano_fabrico"
-                                        name="ano_fabrico" min="1900" max="2026" required>
+                                        name="ano_fabrico">
                                 </div>
                             </div>
 
@@ -213,19 +213,19 @@
                                 <div class="col-md-4 mb-3">
                                     <label for="data_aquisicao" class="form-label">Data de aquisição</label>
                                     <input type="date" class="form-control campo-formulario-privado" id="data_aquisicao"
-                                        name="data_aquisicao" required>
+                                        name="data_aquisicao">
                                 </div>
 
                                 <div class="col-md-4 mb-3">
                                     <label for="custo_aquisicao" class="form-label">Custo de aquisição (€)</label>
                                     <input type="number" step="0.01" class="form-control campo-formulario-privado"
-                                        id="custo_aquisicao" name="custo_aquisicao" min="0" required>
+                                        id="custo_aquisicao" name="custo_aquisicao">
                                 </div>
 
                                 <div class="col-md-4 mb-3">
                                     <label for="tipo_entrada" class="form-label">Tipo de entrada</label>
                                     <select class="form-select campo-formulario-privado" id="tipo_entrada"
-                                        name="tipo_entrada" required>
+                                        name="tipo_entrada">
                                         <option value="" selected disabled>Escolha uma opção</option>
                                         <option>Compra</option>
                                         <option>Doação</option>
@@ -239,8 +239,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="estado" class="form-label">Estado atual</label>
-                                    <select class="form-select campo-formulario-privado" id="estado" name="estado"
-                                        required>
+                                    <select class="form-select campo-formulario-privado" id="estado" name="estado">
                                         <option value="" selected disabled>Escolha uma opção</option>
                                         <option>Ativo</option>
                                         <option>Em manutenção</option>
@@ -254,7 +253,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="criticidade" class="form-label">Criticidade</label>
                                     <select class="form-select campo-formulario-privado" id="criticidade"
-                                        name="criticidade" required>
+                                        name="criticidade">
                                         <option value="" selected disabled>Escolha uma opção</option>
                                         <option>Baixa</option>
                                         <option>Média</option>
@@ -320,7 +319,7 @@
 
                                 <div class="grupo-campo-privado">
                                     <label for="emailFornecedor">Email geral</label>
-                                    <input type="email" id="emailFornecedor" name="emailFornecedor"
+                                    <input type="text" id="emailFornecedor" name="emailFornecedor"
                                         class="campo-formulario-privado" readonly>
                                 </div>
 
@@ -396,7 +395,7 @@
                                 <div class="grupo-campo-privado grupo-campo-total">
                                     <label for="localizacao">Localização associada</label>
                                     <select id="localizacao" name="localizacao"
-                                        class="form-select campo-formulario-privado" required>
+                                        class="form-select campo-formulario-privado">
                                         <option value="" selected disabled>Escolha uma localização</option>
                                     </select>
                                     <small>Selecione uma localização previamente registada.</small>
@@ -481,23 +480,22 @@
                                     <label for="dataInicioGarantia" class="form-label">Data de início da
                                         garantia</label>
                                     <input type="date" id="dataInicioGarantia"
-                                        class="form-control campo-formulario-privado" required>
+                                        class="form-control campo-formulario-privado">
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label for="dataFimGarantia" class="form-label">Data de fim da garantia</label>
                                     <input type="date" id="dataFimGarantia"
-                                        class="form-control campo-formulario-privado" required>
+                                        class="form-control campo-formulario-privado">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="contratoManutencao" class="form-label">
-                                        Contrato de manutenção <span class="campo-obrigatorio">*</span>
+                                        Contrato de manutenção
                                     </label>
-                                    <select id="contratoManutencao" class="form-select campo-formulario-privado"
-                                        required>
+                                    <select id="contratoManutencao" class="form-select campo-formulario-privado">
                                         <option value="" selected disabled>Selecione uma opção</option>
                                         <option value="Sim">Sim</option>
                                         <option value="Não">Não</option>
@@ -558,10 +556,6 @@
 
                     </div>
 
-    </div>
-
-    <div id="mensagemSucessoEquipamento" class="mensagem-sucesso-privada">
-        Equipamento editado com sucesso.
     </div>
 
     </form>

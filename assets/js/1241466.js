@@ -4,7 +4,6 @@
 
 function inicializarContactos() {
     const formulario = document.querySelector(".form-contactos");
-    const mensagemContactos = document.getElementById("mensagem-contactos");
 
     if (!formulario) {
         return;
@@ -12,12 +11,6 @@ function inicializarContactos() {
 
     formulario.addEventListener("submit", function (event) {
         event.preventDefault();
-
-        if (mensagemContactos) {
-            mensagemContactos.textContent = "Mensagem enviada com sucesso.";
-            mensagemContactos.className = "mensagem-contactos sucesso";
-        }
-
         formulario.reset();
     });
 }
@@ -29,7 +22,6 @@ function inicializarContactos() {
 
 function inicializarLogin() {
     const formularioLogin = document.querySelector(".form-login");
-    const mensagemLogin = document.getElementById("mensagem-login");
 
     if (!formularioLogin) {
         return;
@@ -38,17 +30,11 @@ function inicializarLogin() {
     formularioLogin.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        if (mensagemLogin) {
-            mensagemLogin.textContent = "Início de sessão efetuado com sucesso.";
-            mensagemLogin.className = "mensagem-login sucesso";
-        }
-
         setTimeout(function () {
             window.location.href = "views/gestao_conteudos/gestao_conteudos.html";
         }, 1000);
     });
 }
-
 
 // ===============================
 // GESTÃO DE CONTEÚDOS DA ÁREA PÚBLICA
@@ -108,7 +94,6 @@ function inicializarGestaoConteudos() {
     };
 
     const formularioGestao = document.querySelector(".form-gestao-conteudos");
-    const mensagemGestao = document.getElementById("mensagem-gestao");
     const botaoRepor = document.getElementById("repor-conteudos");
 
     if (!formularioGestao) {
@@ -190,11 +175,6 @@ function inicializarGestaoConteudos() {
         });
 
         localStorage.setItem("conteudosPublicos", JSON.stringify(conteudosGuardados));
-
-        if (mensagemGestao) {
-            mensagemGestao.textContent = "Conteúdos guardados com sucesso.";
-            mensagemGestao.className = "mensagem-login sucesso mt-4";
-        }
     });
 
     if (botaoRepor) {
@@ -212,11 +192,6 @@ function inicializarGestaoConteudos() {
                     camposGestao[chave].value = conteudosOriginais[chave];
                 }
             });
-
-            if (mensagemGestao) {
-                mensagemGestao.textContent = "Conteúdos originais repostos com sucesso.";
-                mensagemGestao.className = "mensagem-login sucesso mt-4";
-            }
         });
     }
 }
@@ -645,7 +620,6 @@ function preencherSelectFiltrosEquipamentos() {
 
 function inicializarNovoEquipamento() {
     const formularioNovoEquipamento = document.getElementById("form-novo-equipamento");
-    const mensagemSucessoEquipamento = document.getElementById("mensagemSucessoEquipamento");
 
     if (!formularioNovoEquipamento) {
         return;
@@ -661,23 +635,7 @@ function inicializarNovoEquipamento() {
     formularioNovoEquipamento.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        if (!formularioNovoEquipamento.checkValidity()) {
-            formularioNovoEquipamento.reportValidity();
-            return;
-        }
-
         const codigo = document.getElementById("codigo").value.trim();
-
-        if (equipamentosGuardados[codigo]) {
-            if (mensagemSucessoEquipamento) {
-                mensagemSucessoEquipamento.style.display = "block";
-                mensagemSucessoEquipamento.textContent = "Já existe um equipamento com esse código.";
-                mensagemSucessoEquipamento.classList.remove("sucesso");
-                mensagemSucessoEquipamento.classList.add("erro");
-            }
-
-            return;
-        }
 
         const novoEquipamento = {
             codigo: codigo,
@@ -722,28 +680,9 @@ function inicializarNovoEquipamento() {
 
         localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
 
-        if (mensagemSucessoEquipamento) {
-            mensagemSucessoEquipamento.style.display = "block";
-            mensagemSucessoEquipamento.textContent = "Equipamento adicionado com sucesso.";
-            mensagemSucessoEquipamento.classList.remove("erro");
-            mensagemSucessoEquipamento.classList.add("sucesso");
-        }
-
         setTimeout(function () {
             window.location.href = "equipamentos.html";
         }, 800);
-    });
-
-    formularioNovoEquipamento.addEventListener("input", function () {
-        if (mensagemSucessoEquipamento) {
-            mensagemSucessoEquipamento.style.display = "none";
-        }
-    });
-
-    formularioNovoEquipamento.addEventListener("change", function () {
-        if (mensagemSucessoEquipamento) {
-            mensagemSucessoEquipamento.style.display = "none";
-        }
     });
 }
 
@@ -1003,12 +942,6 @@ function preencherDetalhesEquipamento() {
         equipamento.observacoesContrato || "Sem observações";
 }
 
-const botaoEditarEquipamento = document.getElementById("botao-editar-equipamento");
-
-if (botaoEditarEquipamento) {
-    botaoEditarEquipamento.href = `editar_equipamento.html?id=${equipamento.codigo}`;
-}
-
 function inicializarEditarEquipamento() {
     const formEditarEquipamento = document.getElementById("form-editar-equipamento");
 
@@ -1020,14 +953,8 @@ function inicializarEditarEquipamento() {
     const idEquipamento = parametros.get("id");
 
     const equipamento = equipamentosGuardados[idEquipamento];
-    const mensagemEditarEquipamento = document.getElementById("mensagem-editar-equipamento");
 
     if (!equipamento) {
-        if (mensagemEditarEquipamento) {
-            mensagemEditarEquipamento.textContent = "Equipamento não encontrado.";
-            mensagemEditarEquipamento.classList.add("erro");
-        }
-
         return;
     }
 
@@ -1077,12 +1004,6 @@ function inicializarEditarEquipamento() {
     document.getElementById("periodicidadeContrato").value = equipamento.periodicidadeContrato || "Não aplicável";
     document.getElementById("observacoesContrato").value = equipamento.observacoesContrato || "";
 
-    const botaoCancelarEdicao = document.getElementById("botao-cancelar-edicao");
-
-    if (botaoCancelarEdicao) {
-        botaoCancelarEdicao.href = `consultar_equipamento.html?id=${equipamento.codigo}`;
-    }
-
     formEditarEquipamento.addEventListener("submit", function (event) {
         event.preventDefault();
 
@@ -1126,12 +1047,6 @@ function inicializarEditarEquipamento() {
 
         localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
 
-        if (mensagemEditarEquipamento) {
-            mensagemEditarEquipamento.textContent = "Alterações guardadas com sucesso.";
-            mensagemEditarEquipamento.classList.remove("erro");
-            mensagemEditarEquipamento.classList.add("sucesso");
-        }
-
         setTimeout(function () {
             const origem = parametros.get("origem");
 
@@ -1148,8 +1063,6 @@ function inicializarEditarEquipamento() {
                     window.location.href = `editar_equipamento.html?id=${filaEquipamentos[0]}&origem=filaFornecedor`;
                 } else {
                     localStorage.removeItem("filaEdicaoEquipamentos");
-
-                    alert("Todos os equipamentos associados ao fornecedor eliminado foram revistos.");
 
                     window.location.href = "../fornecedores/fornecedores.html";
                 }
@@ -1170,8 +1083,6 @@ function inicializarEditarEquipamento() {
                     window.location.href = `editar_equipamento.html?id=${filaEquipamentos[0]}&origem=filaLocalizacao`;
                 } else {
                     localStorage.removeItem("filaEdicaoEquipamentos");
-
-                    alert("Todos os equipamentos associados à localização eliminada foram revistos.");
 
                     window.location.href = "../localizacoes/localizacoes.html";
                 }
@@ -1300,9 +1211,6 @@ function preencherListagemLocalizacoes(localizacoes = null) {
             <td>${localizacao.piso}</td>
             <td>${localizacao.servico}</td>
             <td>${localizacao.sala}</td>
-            <td>${obterEquipamentosPorLocalizacao(localizacao.codigo).map(function (equipamento) {
-                return equipamento.codigo;
-            }).join(", ") || "Sem equipamentos"}</td>
 
             <td class="acoes-tabela-privada">
                 <a href="consultar_localizacao.html?id=${localizacao.codigo}" class="acao-tabela-privada">
@@ -1342,9 +1250,6 @@ function inicializarFiltrosLocalizacoes() {
     const filtroServico =
         document.getElementById("filtroServicoLocalizacao");
 
-    const filtroEquipamento =
-        document.getElementById("filtroEquipamentoLocalizacao");
-
     const filtroPiso =
         document.getElementById("filtroPisoLocalizacao");
 
@@ -1364,7 +1269,6 @@ function inicializarFiltrosLocalizacoes() {
         !pesquisaLocalizacoes ||
         !filtroEdificio ||
         !filtroServico ||
-        !filtroEquipamento ||
         !filtroPiso ||
         !filtroSala
     ) {
@@ -1384,9 +1288,6 @@ function inicializarFiltrosLocalizacoes() {
         const servicoSelecionado =
             filtroServico.value;
 
-        const equipamentoSelecionado =
-            filtroEquipamento.value;
-
         const pisoSelecionado =
             filtroPiso.value;
 
@@ -1395,21 +1296,6 @@ function inicializarFiltrosLocalizacoes() {
 
         const localizacoesFiltradas =
             Object.values(localizacoesGuardadas).filter(function (localizacao) {
-
-                const equipamentosAssociados =
-                    obterEquipamentosPorLocalizacao(localizacao.codigo);
-
-                const textoEquipamentos =
-                    equipamentosAssociados.map(function (equipamento) {
-
-                        return [
-                            equipamento.codigo,
-                            equipamento.designacao,
-                            equipamento.marca,
-                            equipamento.modelo
-                        ].join(" ");
-
-                    }).join(" ").toLowerCase();
 
                 const correspondePesquisa =
 
@@ -1441,10 +1327,6 @@ function inicializarFiltrosLocalizacoes() {
                         .toLowerCase()
                         .includes(textoPesquisa)
 
-                    ||
-
-                    textoEquipamentos.includes(textoPesquisa);
-
                 const correspondeEdificio =
                     edificioSelecionado === ""
                     ||
@@ -1454,13 +1336,6 @@ function inicializarFiltrosLocalizacoes() {
                     servicoSelecionado === ""
                     ||
                     localizacao.servico === servicoSelecionado;
-
-                const correspondeEquipamento =
-                    equipamentoSelecionado === ""
-                    ||
-                    equipamentosAssociados.some(function (equipamento) {
-                        return equipamento.codigo === equipamentoSelecionado;
-                    });
 
                 const correspondePiso =
                     pisoSelecionado === ""
@@ -1476,7 +1351,6 @@ function inicializarFiltrosLocalizacoes() {
                     correspondePesquisa &&
                     correspondeEdificio &&
                     correspondeServico &&
-                    correspondeEquipamento &&
                     correspondePiso &&
                     correspondeSala
                 );
@@ -1496,11 +1370,6 @@ function inicializarFiltrosLocalizacoes() {
     );
 
     filtroServico.addEventListener(
-        "change",
-        aplicarFiltrosLocalizacoes
-    );
-
-    filtroEquipamento.addEventListener(
         "change",
         aplicarFiltrosLocalizacoes
     );
@@ -1544,7 +1413,6 @@ function inicializarFiltrosLocalizacoes() {
 
                 filtroEdificio.value = "";
                 filtroServico.value = "";
-                filtroEquipamento.value = "";
                 filtroPiso.value = "";
                 filtroSala.value = "";
 
@@ -1562,9 +1430,6 @@ function preencherSelectFiltrosLocalizacoes() {
     const filtroServico =
         document.getElementById("filtroServicoLocalizacao");
 
-    const filtroEquipamento =
-        document.getElementById("filtroEquipamentoLocalizacao");
-
     const filtroPiso =
         document.getElementById("filtroPisoLocalizacao");
 
@@ -1574,7 +1439,6 @@ function preencherSelectFiltrosLocalizacoes() {
     if (
         !filtroEdificio ||
         !filtroServico ||
-        !filtroEquipamento ||
         !filtroPiso ||
         !filtroSala
     ) {
@@ -1585,9 +1449,6 @@ function preencherSelectFiltrosLocalizacoes() {
         '<option value="">Todos</option>';
 
     filtroServico.innerHTML =
-        '<option value="">Todos</option>';
-
-    filtroEquipamento.innerHTML =
         '<option value="">Todos</option>';
 
     filtroPiso.innerHTML =
@@ -1667,24 +1528,10 @@ function preencherSelectFiltrosLocalizacoes() {
 
         filtroSala.appendChild(option);
     });
-
-    // EQUIPAMENTOS
-    Object.values(equipamentosGuardados).forEach(function (equipamento) {
-
-        const option = document.createElement("option");
-
-        option.value = equipamento.codigo;
-
-        option.textContent =
-            equipamento.codigo + " - " + equipamento.designacao;
-
-        filtroEquipamento.appendChild(option);
-    });
 }
 
 function inicializarNovaLocalizacao() {
     const formularioNovaLocalizacao = document.getElementById("form-nova-localizacao");
-    const mensagemSucessoLocalizacao = document.getElementById("mensagemSucessoLocalizacao");
 
     if (!formularioNovaLocalizacao) {
         return;
@@ -1693,23 +1540,7 @@ function inicializarNovaLocalizacao() {
     formularioNovaLocalizacao.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        if (!formularioNovaLocalizacao.checkValidity()) {
-            formularioNovaLocalizacao.reportValidity();
-            return;
-        }
-
         const codigo = document.getElementById("codigo").value.trim();
-
-        if (localizacoesGuardadas[codigo]) {
-            if (mensagemSucessoLocalizacao) {
-                mensagemSucessoLocalizacao.style.display = "block";
-                mensagemSucessoLocalizacao.textContent = "Já existe uma localização com esse código.";
-                mensagemSucessoLocalizacao.classList.remove("sucesso");
-                mensagemSucessoLocalizacao.classList.add("erro");
-            }
-
-            return;
-        }
 
         const novaLocalizacao = {
             codigo: codigo,
@@ -1724,31 +1555,11 @@ function inicializarNovaLocalizacao() {
 
         localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
 
-        if (mensagemSucessoLocalizacao) {
-            mensagemSucessoLocalizacao.style.display = "block";
-            mensagemSucessoLocalizacao.textContent = "Localização adicionada com sucesso.";
-            mensagemSucessoLocalizacao.classList.remove("erro");
-            mensagemSucessoLocalizacao.classList.add("sucesso");
-        }
-
         setTimeout(function () {
             window.location.href = "localizacoes.html";
         }, 800);
     });
-
-    formularioNovaLocalizacao.addEventListener("input", function () {
-        if (mensagemSucessoLocalizacao) {
-            mensagemSucessoLocalizacao.style.display = "none";
-        }
-    });
-
-    formularioNovaLocalizacao.addEventListener("change", function () {
-        if (mensagemSucessoLocalizacao) {
-            mensagemSucessoLocalizacao.style.display = "none";
-        }
-    });
 }
-
 
 function preencherDetalhesLocalizacao() {
     const campoCodigoLocalizacao = document.getElementById("detalhe-codigo-localizacao");
@@ -1772,29 +1583,8 @@ function preencherDetalhesLocalizacao() {
     document.getElementById("detalhe-piso").textContent = localizacao.piso;
     document.getElementById("detalhe-servico").textContent = localizacao.servico;
     document.getElementById("detalhe-sala").textContent = localizacao.sala;
-    const equipamentosDaLocalizacao = obterEquipamentosPorLocalizacao(idLocalizacao);
-    const campoEquipamentos = document.getElementById("detalhe-equipamentos-localizacao");
-
-    if (campoEquipamentos) {
-        if (equipamentosDaLocalizacao.length === 0) {
-            campoEquipamentos.textContent = "Sem equipamentos associados";
-        } else {
-            campoEquipamentos.innerHTML = equipamentosDaLocalizacao.map(function (equipamento) {
-                return `<a href="../equipamentos/consultar_equipamento.html?id=${equipamento.codigo}" class="link-detalhe">
-                        ${equipamento.codigo}
-                    </a>`;
-            }).join(" ");
-        }
-    }
     document.getElementById("detalhe-observacoes-localizacao").textContent = localizacao.observacoes;
-
-    const botaoEditarLocalizacao = document.getElementById("botao-editar-localizacao");
-
-    if (botaoEditarLocalizacao) {
-        botaoEditarLocalizacao.href = `editar_localizacao.html?id=${localizacao.codigo}`;
-    }
 }
-
 
 function inicializarEditarLocalizacao() {
     const formEditarLocalizacao = document.getElementById("form-editar-localizacao");
@@ -1807,14 +1597,8 @@ function inicializarEditarLocalizacao() {
     const idLocalizacao = parametros.get("id");
 
     const localizacao = localizacoesGuardadas[idLocalizacao];
-    const mensagemEditarLocalizacao = document.getElementById("mensagem-editar-localizacao");
 
     if (!localizacao) {
-        if (mensagemEditarLocalizacao) {
-            mensagemEditarLocalizacao.textContent = "Localização não encontrada.";
-            mensagemEditarLocalizacao.classList.add("erro");
-        }
-
         return;
     }
 
@@ -1841,12 +1625,6 @@ function inicializarEditarLocalizacao() {
         localizacoesGuardadas[idLocalizacao].observacoes = document.getElementById("observacoes").value.trim();
 
         localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
-
-        if (mensagemEditarLocalizacao) {
-            mensagemEditarLocalizacao.textContent = "Alterações guardadas com sucesso.";
-            mensagemEditarLocalizacao.classList.remove("erro");
-            mensagemEditarLocalizacao.classList.add("sucesso");
-        }
 
         setTimeout(function () {
             window.location.href = `consultar_localizacao.html?id=${idLocalizacao}`;
@@ -2060,9 +1838,6 @@ function inicializarFiltrosFornecedores() {
     const filtroPessoaContacto =
         document.getElementById("filtroPessoaContacto");
 
-    const filtroEquipamentoAssociado =
-        document.getElementById("filtroEquipamentoAssociado");
-
     const botaoLimparPesquisa =
         document.getElementById("botaoLimparApenasPesquisaFornecedores");
 
@@ -2099,14 +1874,8 @@ function inicializarFiltrosFornecedores() {
         const pessoaContactoSelecionada =
             filtroPessoaContacto.value;
 
-        const equipamentoSelecionado =
-            filtroEquipamentoAssociado.value;
-
         const fornecedoresFiltrados =
             Object.values(fornecedoresGuardados).filter(function (fornecedor) {
-
-                const equipamentosAssociados =
-                    obterEquipamentosPorFornecedor(fornecedor.codigo);
 
                 const textoEquipamentos =
                     equipamentosAssociados.map(function (equipamento) {
@@ -2213,20 +1982,12 @@ function inicializarFiltrosFornecedores() {
                     ||
                     fornecedor.pessoaContacto === pessoaContactoSelecionada;
 
-                const correspondeEquipamento =
-                    equipamentoSelecionado === ""
-                    ||
-                    equipamentosAssociados.some(function (equipamento) {
-                        return equipamento.codigo === equipamentoSelecionado;
-                    });
-
                 return (
                     correspondePesquisa &&
                     correspondeTipo &&
                     correspondeNomeEmpresa &&
                     correspondeMorada &&
-                    correspondePessoaContacto &&
-                    correspondeEquipamento
+                    correspondePessoaContacto
                 );
             });
 
@@ -2254,11 +2015,6 @@ function inicializarFiltrosFornecedores() {
     );
 
     filtroPessoaContacto.addEventListener(
-        "change",
-        aplicarFiltrosFornecedores
-    );
-
-    filtroEquipamentoAssociado.addEventListener(
         "change",
         aplicarFiltrosFornecedores
     );
@@ -2294,7 +2050,6 @@ function inicializarFiltrosFornecedores() {
                 filtroNomeEmpresa.value = "";
                 filtroMoradaFornecedor.value = "";
                 filtroPessoaContacto.value = "";
-                filtroEquipamentoAssociado.value = "";
 
                 aplicarFiltrosFornecedores();
             }
@@ -2313,14 +2068,10 @@ function preencherSelectFiltrosFornecedores() {
     const filtroPessoaContacto =
         document.getElementById("filtroPessoaContacto");
 
-    const filtroEquipamentoAssociado =
-        document.getElementById("filtroEquipamentoAssociado");
-
     if (
         !filtroTipoFornecedor ||
         !filtroNomeEmpresa ||
-        !filtroPessoaContacto ||
-        !filtroEquipamentoAssociado
+        !filtroPessoaContacto
     ) {
         return;
     }
@@ -2334,15 +2085,12 @@ function preencherSelectFiltrosFornecedores() {
     filtroPessoaContacto.innerHTML =
         '<option value="">Todos</option>';
 
-    filtroEquipamentoAssociado.innerHTML =
-        '<option value="">Todos</option>';
-
     // TIPOS DE FORNECEDOR
     const tiposFornecedor = [
         "Fabricante",
         "Distribuidor ou Fornecedor comercial",
         "Empresa de assistência técnica",
-        "Prestador de serviços"
+        "Fornecedor de consumíveis ou acessórios"
     ];
 
     tiposFornecedor.forEach(function (tipo) {
@@ -2376,18 +2124,6 @@ function preencherSelectFiltrosFornecedores() {
 
         filtroPessoaContacto.appendChild(option);
     });
-
-    // EQUIPAMENTOS ASSOCIADOS
-    Object.values(equipamentosGuardados).forEach(function (equipamento) {
-
-        const option = document.createElement("option");
-
-        option.value = equipamento.codigo;
-        option.textContent =
-            equipamento.codigo + " - " + equipamento.designacao;
-
-        filtroEquipamentoAssociado.appendChild(option);
-    });
 }
 
 function ordenarFornecedoresPorCodigoCrescente(listaFornecedores) {
@@ -2403,7 +2139,6 @@ function ordenarFornecedoresPorCodigoCrescente(listaFornecedores) {
 // Adicionar novo fornecedor e guardar no localStorage
 function inicializarNovoFornecedor() {
     const formularioNovoFornecedor = document.getElementById("form-novo-fornecedor");
-    const mensagemSucessoFornecedor = document.getElementById("mensagemSucessoFornecedor");
 
     if (!formularioNovoFornecedor) {
         return;
@@ -2411,11 +2146,6 @@ function inicializarNovoFornecedor() {
 
     formularioNovoFornecedor.addEventListener("submit", function (event) {
         event.preventDefault();
-
-        if (!formularioNovoFornecedor.checkValidity()) {
-            formularioNovoFornecedor.reportValidity();
-            return;
-        }
 
         const codigo = document.getElementById("codigo").value.trim();
         const nomeEmpresa = document.getElementById("nome_empresa").value.trim();
@@ -2428,105 +2158,6 @@ function inicializarNovoFornecedor() {
         const telefonePessoaContactoNovo = document.getElementById("telefone_pessoa_contacto").value.trim();
         const tipoFornecedorNovo = document.getElementById("tipo_fornecedor").value.trim();
         const observacoesNovas = document.getElementById("observacoes").value.trim();
-
-        const fornecedorComMesmoCodigo = Object.values(fornecedoresGuardados).find(function (fornecedor) {
-            return fornecedor.codigo.toLowerCase() === codigo.toLowerCase();
-        });
-
-        const fornecedorComMesmoNome = Object.values(fornecedoresGuardados).find(function (fornecedor) {
-            return fornecedor.nomeEmpresa.toLowerCase() === nomeEmpresa.toLowerCase();
-        });
-
-        const fornecedorComMesmoNif = Object.values(fornecedoresGuardados).find(function (fornecedor) {
-            return fornecedor.nif.toLowerCase() === nif.toLowerCase();
-        });
-
-        const fornecedorExistente = Object.values(fornecedoresGuardados).find(function (fornecedor) {
-            return fornecedor.codigo.toLowerCase() === codigo.toLowerCase()
-                && fornecedor.nomeEmpresa.toLowerCase() === nomeEmpresa.toLowerCase()
-                && fornecedor.nif.toLowerCase() === nif.toLowerCase();
-        });
-
-        if (fornecedorComMesmoCodigo && !fornecedorExistente) {
-            if (mensagemSucessoFornecedor) {
-                mensagemSucessoFornecedor.style.display = "block";
-                mensagemSucessoFornecedor.textContent = "Este código já existe. Para usar este código, o nome da empresa e o NIF têm de ser iguais aos já registados.";
-                mensagemSucessoFornecedor.classList.remove("sucesso");
-                mensagemSucessoFornecedor.classList.add("erro");
-            }
-
-            return;
-        }
-
-        if (fornecedorComMesmoNome && !fornecedorExistente) {
-            if (mensagemSucessoFornecedor) {
-                mensagemSucessoFornecedor.style.display = "block";
-                mensagemSucessoFornecedor.textContent = "Este nome da empresa já existe. Para usar este nome, o código e o NIF têm de ser iguais aos já registados.";
-                mensagemSucessoFornecedor.classList.remove("sucesso");
-                mensagemSucessoFornecedor.classList.add("erro");
-            }
-
-            return;
-        }
-
-        if (fornecedorComMesmoNif && !fornecedorExistente) {
-            if (mensagemSucessoFornecedor) {
-                mensagemSucessoFornecedor.style.display = "block";
-                mensagemSucessoFornecedor.textContent = "Este NIF já existe. Para usar este NIF, o código e o nome da empresa têm de ser iguais aos já registados.";
-                mensagemSucessoFornecedor.classList.remove("sucesso");
-                mensagemSucessoFornecedor.classList.add("erro");
-            }
-
-            return;
-        }
-
-        function acrescentarValor(valorAtual, valorNovo, separador = ", ") {
-            if (valorNovo === "") {
-                return valorAtual || "";
-            }
-
-            if (!valorAtual || valorAtual === "") {
-                return valorNovo;
-            }
-
-            const listaValores = valorAtual.split(separador).map(function (valor) {
-                return valor.trim().toLowerCase();
-            });
-
-            if (!listaValores.includes(valorNovo.toLowerCase())) {
-                return valorAtual + separador + valorNovo;
-            }
-
-            return valorAtual;
-        }
-
-        if (fornecedorExistente) {
-            fornecedorExistente.telefone = acrescentarValor(fornecedorExistente.telefone, telefoneNovo);
-            fornecedorExistente.email = acrescentarValor(fornecedorExistente.email, emailNovo);
-            fornecedorExistente.morada = acrescentarValor(fornecedorExistente.morada, moradaNova);
-            fornecedorExistente.website = acrescentarValor(fornecedorExistente.website, websiteNovo);
-            fornecedorExistente.pessoaContacto = acrescentarValor(fornecedorExistente.pessoaContacto, pessoaContactoNova);
-            fornecedorExistente.telefonePessoaContacto = acrescentarValor(fornecedorExistente.telefonePessoaContacto, telefonePessoaContactoNovo);
-            fornecedorExistente.tipoFornecedor = acrescentarValor(fornecedorExistente.tipoFornecedor, tipoFornecedorNovo);
-            fornecedorExistente.observacoes = acrescentarValor(fornecedorExistente.observacoes, observacoesNovas, " | ");
-
-            fornecedoresGuardados[fornecedorExistente.codigo] = fornecedorExistente;
-
-            localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
-
-            if (mensagemSucessoFornecedor) {
-                mensagemSucessoFornecedor.style.display = "block";
-                mensagemSucessoFornecedor.textContent = "Fornecedor já existente. Novas informações acrescentadas com sucesso.";
-                mensagemSucessoFornecedor.classList.remove("erro");
-                mensagemSucessoFornecedor.classList.add("sucesso");
-            }
-
-            setTimeout(function () {
-                window.location.href = `consultar_fornecedor.html?id=${fornecedorExistente.codigo}`;
-            }, 800);
-
-            return;
-        }
 
         const novoFornecedor = {
             codigo: codigo,
@@ -2546,28 +2177,9 @@ function inicializarNovoFornecedor() {
 
         localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
 
-        if (mensagemSucessoFornecedor) {
-            mensagemSucessoFornecedor.style.display = "block";
-            mensagemSucessoFornecedor.textContent = "Fornecedor adicionado com sucesso.";
-            mensagemSucessoFornecedor.classList.remove("erro");
-            mensagemSucessoFornecedor.classList.add("sucesso");
-        }
-
         setTimeout(function () {
             window.location.href = "fornecedores.html";
         }, 800);
-    });
-
-    formularioNovoFornecedor.addEventListener("input", function () {
-        if (mensagemSucessoFornecedor) {
-            mensagemSucessoFornecedor.style.display = "none";
-        }
-    });
-
-    formularioNovoFornecedor.addEventListener("change", function () {
-        if (mensagemSucessoFornecedor) {
-            mensagemSucessoFornecedor.style.display = "none";
-        }
     });
 }
 
@@ -2599,33 +2211,12 @@ function preencherDetalhesFornecedor() {
     document.getElementById("detalhe-pessoa-contacto").textContent = fornecedor.pessoaContacto;
     document.getElementById("detalhe-telefone-pessoa-contacto").textContent = fornecedor.telefonePessoaContacto;
     document.getElementById("detalhe-tipo-fornecedor").textContent = fornecedor.tipoFornecedor;
-    const equipamentosDoFornecedor = obterEquipamentosPorFornecedor(idFornecedor);
-    const campoEquipamentosFornecedor = document.getElementById("detalhe-equipamentos-fornecedor");
-
-    if (campoEquipamentosFornecedor) {
-        if (equipamentosDoFornecedor.length === 0) {
-            campoEquipamentosFornecedor.textContent = "Sem equipamentos associados";
-        } else {
-            campoEquipamentosFornecedor.innerHTML = equipamentosDoFornecedor.map(function (equipamento) {
-                return `<a href="../equipamentos/consultar_equipamento.html?id=${equipamento.codigo}" class="link-detalhe">
-                    ${equipamento.codigo}
-                </a>`;
-            }).join(" ");
-        }
-    }
     document.getElementById("detalhe-observacoes-fornecedor").textContent = fornecedor.observacoes;
-
-    const botaoEditarFornecedor = document.getElementById("botao-editar-fornecedor");
-
-    if (botaoEditarFornecedor) {
-        botaoEditarFornecedor.href = `editar_fornecedor.html?id=${fornecedor.codigo}`;
-    }
 }
 
 // Editar fornecedor
 function inicializarEditarFornecedor() {
     const formEditarFornecedor = document.getElementById("form-editar-fornecedor");
-    const mensagemEditarFornecedor = document.getElementById("mensagem-editar-fornecedor");
 
     if (!formEditarFornecedor) {
         return;
@@ -2637,11 +2228,6 @@ function inicializarEditarFornecedor() {
     const fornecedor = fornecedoresGuardados[idFornecedor];
 
     if (!fornecedor) {
-        if (mensagemEditarFornecedor) {
-            mensagemEditarFornecedor.textContent = "Fornecedor não encontrado.";
-            mensagemEditarFornecedor.classList.add("erro");
-        }
-
         return;
     }
 
@@ -2666,11 +2252,14 @@ function inicializarEditarFornecedor() {
     formEditarFornecedor.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        if (!formEditarFornecedor.checkValidity()) {
-            formEditarFornecedor.reportValidity();
-            return;
-        }
+        fornecedoresGuardados[idFornecedor].codigo =
+            document.getElementById("codigo").value.trim();
 
+        fornecedoresGuardados[idFornecedor].nomeEmpresa =
+            document.getElementById("nome_empresa").value.trim();
+
+        fornecedoresGuardados[idFornecedor].nif =
+            document.getElementById("nif").value.trim();
         fornecedoresGuardados[idFornecedor].telefone = document.getElementById("telefone").value.trim();
         fornecedoresGuardados[idFornecedor].email = document.getElementById("email").value.trim();
         fornecedoresGuardados[idFornecedor].morada = document.getElementById("morada").value.trim();
@@ -2681,12 +2270,6 @@ function inicializarEditarFornecedor() {
         fornecedoresGuardados[idFornecedor].observacoes = document.getElementById("observacoes").value.trim();
 
         localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
-
-        if (mensagemEditarFornecedor) {
-            mensagemEditarFornecedor.textContent = "Alterações guardadas com sucesso.";
-            mensagemEditarFornecedor.classList.remove("erro");
-            mensagemEditarFornecedor.classList.add("sucesso");
-        }
 
         setTimeout(function () {
             window.location.href = `consultar_fornecedor.html?id=${idFornecedor}`;
@@ -2752,8 +2335,6 @@ const documentacaoConsulta = {
         nomeDocumentacao: "Manual do monitor multiparamétrico",
         dataDocumentacao: "10/01/2022",
         dataValidade: "",
-        equipamento: "EQ001",
-        fornecedor: "FOR001",
         ficheiro: "manual_monitor_multiparametrico.pdf",
         observacoes: "Manual técnico fornecido pelo fabricante."
     },
@@ -2764,8 +2345,6 @@ const documentacaoConsulta = {
         nomeDocumentacao: "Certificado de calibração da bomba de infusão",
         dataDocumentacao: "15/03/2024",
         dataValidade: "15/03/2025",
-        equipamento: "EQ002",
-        fornecedor: "",
         ficheiro: "certificado_calibracao_bomba_infusao.pdf",
         observacoes: "Documento válido por um ano."
     },
@@ -2776,8 +2355,6 @@ const documentacaoConsulta = {
         nomeDocumentacao: "Relatório de manutenção do ventilador pulmonar",
         dataDocumentacao: "20/09/2024",
         dataValidade: "",
-        equipamento: "EQ003",
-        fornecedor: "FOR003",
         ficheiro: "relatorio_manutencao_ventilador.pdf",
         observacoes: "Relatório associado à intervenção técnica realizada."
     },
@@ -2788,8 +2365,6 @@ const documentacaoConsulta = {
         nomeDocumentacao: "Garantia do desfibrilhador",
         dataDocumentacao: "05/06/2022",
         dataValidade: "05/06/2025",
-        equipamento: "EQ004",
-        fornecedor: "FOR004",
         ficheiro: "garantia_desfibrilhador.pdf",
         observacoes: "Garantia comercial do equipamento."
     }
@@ -2838,7 +2413,6 @@ function preencherListagemDocumentacao(
             <td>${documentacao.tipoDocumentacao}</td>
             <td>${documentacao.nomeDocumentacao}</td>
             <td>${documentacao.dataDocumentacao}</td>
-            <td>${documentacao.equipamento}</td>
 
             <td class="acoes-tabela-privada">
 
@@ -2890,11 +2464,8 @@ function inicializarFiltrosDocumentacoes() {
     const filtroNomeDocumentacao =
         document.getElementById("filtroNomeDocumentacao");
 
-    const filtroEquipamentoDocumentacao =
-        document.getElementById("filtroEquipamentoDocumentacao");
-
-    const filtroFornecedorDocumentacao =
-        document.getElementById("filtroFornecedorDocumentacao");
+    const filtroDataDocumentacao =
+        document.getElementById("filtroDataDocumentacao");
 
     const botaoLimparPesquisa =
         document.getElementById("botaoLimparApenasPesquisaDocumentacoes");
@@ -2909,8 +2480,7 @@ function inicializarFiltrosDocumentacoes() {
         !pesquisaDocumentacoes ||
         !filtroTipoDocumentacao ||
         !filtroNomeDocumentacao ||
-        !filtroEquipamentoDocumentacao ||
-        !filtroFornecedorDocumentacao
+        !filtroDataDocumentacao
     ) {
         return;
     }
@@ -2928,11 +2498,8 @@ function inicializarFiltrosDocumentacoes() {
         const nomeSelecionado =
             filtroNomeDocumentacao.value;
 
-        const equipamentoSelecionado =
-            filtroEquipamentoDocumentacao.value;
-
-        const fornecedorSelecionado =
-            filtroFornecedorDocumentacao.value;
+        const dataSelecionada =
+            filtroDataDocumentacao.value;
 
         const documentacoesFiltradas =
             Object.values(documentacaoGuardada).filter(function (documentacao) {
@@ -2969,18 +2536,6 @@ function inicializarFiltrosDocumentacoes() {
 
                     ||
 
-                    (documentacao.equipamento || "")
-                        .toLowerCase()
-                        .includes(textoPesquisa)
-
-                    ||
-
-                    (documentacao.fornecedor || "")
-                        .toLowerCase()
-                        .includes(textoPesquisa)
-
-                    ||
-
                     (documentacao.ficheiro || "")
                         .toLowerCase()
                         .includes(textoPesquisa);
@@ -2995,22 +2550,16 @@ function inicializarFiltrosDocumentacoes() {
                     ||
                     documentacao.nomeDocumentacao === nomeSelecionado;
 
-                const correspondeEquipamento =
-                    equipamentoSelecionado === ""
+                const correspondeData =
+                    dataSelecionada === ""
                     ||
-                    documentacao.equipamento === equipamentoSelecionado;
-
-                const correspondeFornecedor =
-                    fornecedorSelecionado === ""
-                    ||
-                    documentacao.fornecedor === fornecedorSelecionado;
+                    documentacao.dataDocumentacao === dataSelecionada;
 
                 return (
                     correspondePesquisa &&
                     correspondeTipo &&
                     correspondeNome &&
-                    correspondeEquipamento &&
-                    correspondeFornecedor
+                    correspondeData
                 );
             });
 
@@ -3032,12 +2581,7 @@ function inicializarFiltrosDocumentacoes() {
         aplicarFiltrosDocumentacoes
     );
 
-    filtroEquipamentoDocumentacao.addEventListener(
-        "change",
-        aplicarFiltrosDocumentacoes
-    );
-
-    filtroFornecedorDocumentacao.addEventListener(
+    filtroDataDocumentacao.addEventListener(
         "change",
         aplicarFiltrosDocumentacoes
     );
@@ -3071,8 +2615,7 @@ function inicializarFiltrosDocumentacoes() {
 
                 filtroTipoDocumentacao.value = "";
                 filtroNomeDocumentacao.value = "";
-                filtroEquipamentoDocumentacao.value = "";
-                filtroFornecedorDocumentacao.value = "";
+                filtroDataDocumentacao.value = "";
 
                 aplicarFiltrosDocumentacoes();
             }
@@ -3088,17 +2631,14 @@ function preencherSelectFiltrosDocumentacoes() {
     const filtroNomeDocumentacao =
         document.getElementById("filtroNomeDocumentacao");
 
-    const filtroEquipamentoDocumentacao =
-        document.getElementById("filtroEquipamentoDocumentacao");
+    const filtroDataDocumentacao =
+        document.getElementById("filtroDataDocumentacao");
 
-    const filtroFornecedorDocumentacao =
-        document.getElementById("filtroFornecedorDocumentacao");
 
     if (
         !filtroTipoDocumentacao ||
         !filtroNomeDocumentacao ||
-        !filtroEquipamentoDocumentacao ||
-        !filtroFornecedorDocumentacao
+        !filtroDataDocumentacao
     ) {
         return;
     }
@@ -3109,11 +2649,8 @@ function preencherSelectFiltrosDocumentacoes() {
     filtroNomeDocumentacao.innerHTML =
         '<option value="">Todos</option>';
 
-    filtroEquipamentoDocumentacao.innerHTML =
-        '<option value="">Todos</option>';
-
-    filtroFornecedorDocumentacao.innerHTML =
-        '<option value="">Todos</option>';
+    filtroDataDocumentacao.innerHTML =
+        '<option value="">Todas</option>';
 
     // TIPOS DE DOCUMENTAÇÃO
     const tiposDocumentacao = [
@@ -3151,64 +2688,36 @@ function preencherSelectFiltrosDocumentacoes() {
         filtroNomeDocumentacao.appendChild(option);
     });
 
-    // EQUIPAMENTOS
-    Object.values(equipamentosGuardados).forEach(function (equipamento) {
+    //DATA DOCUMENTAÇÃO
+    const datasDocumentacao = [...new Set(
+        Object.values(documentacaoGuardada)
+            .map(function (documentacao) {
+                return documentacao.dataDocumentacao;
+            })
+    )].sort();
+
+    datasDocumentacao.forEach(function (data) {
 
         const option = document.createElement("option");
 
-        option.value = equipamento.codigo;
+        option.value = data;
+        option.textContent = data;
 
-        option.textContent =
-            equipamento.codigo + " - " + equipamento.designacao;
-
-        filtroEquipamentoDocumentacao.appendChild(option);
-    });
-
-    // FORNECEDORES
-    Object.values(fornecedoresGuardados).forEach(function (fornecedor) {
-
-        const option = document.createElement("option");
-
-        option.value = fornecedor.codigo;
-
-        option.textContent =
-            fornecedor.codigo + " - " + fornecedor.nomeEmpresa;
-
-        filtroFornecedorDocumentacao.appendChild(option);
+        filtroDataDocumentacao.appendChild(option);
     });
 }
 
 function inicializarNovaDocumentacao() {
     const formularioNovaDocumentacao = document.getElementById("form-nova-documentacao");
-    const mensagemSucessoDocumentacao = document.getElementById("mensagemSucessoDocumentacao");
 
     if (!formularioNovaDocumentacao) {
         return;
     }
 
-    preencherSelectEquipamentos("equipamento");
-    preencherSelectFornecedores("fornecedor", "", true);
-
     formularioNovaDocumentacao.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        if (!formularioNovaDocumentacao.checkValidity()) {
-            formularioNovaDocumentacao.reportValidity();
-            return;
-        }
-
         const codigo = document.getElementById("codigo").value.trim();
-
-        if (documentacaoGuardada[codigo]) {
-            if (mensagemSucessoDocumentacao) {
-                mensagemSucessoDocumentacao.style.display = "block";
-                mensagemSucessoDocumentacao.textContent = "Já existe documentação com esse código.";
-                mensagemSucessoDocumentacao.classList.remove("sucesso");
-                mensagemSucessoDocumentacao.classList.add("erro");
-            }
-
-            return;
-        }
 
         const novaDocumentacao = {
             codigo: codigo,
@@ -3216,8 +2725,6 @@ function inicializarNovaDocumentacao() {
             nomeDocumentacao: document.getElementById("nome_documento").value.trim(),
             dataDocumentacao: converterDataParaTexto(document.getElementById("data_documento").value),
             dataValidade: converterDataParaTexto(document.getElementById("data_validade").value),
-            equipamento: document.getElementById("equipamento").value,
-            fornecedor: document.getElementById("fornecedor").value,
             ficheiro: document.getElementById("ficheiro").value.trim(),
             observacoes: document.getElementById("observacoes").value.trim()
         };
@@ -3226,28 +2733,9 @@ function inicializarNovaDocumentacao() {
 
         localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
 
-        if (mensagemSucessoDocumentacao) {
-            mensagemSucessoDocumentacao.style.display = "block";
-            mensagemSucessoDocumentacao.textContent = "Documentação adicionada com sucesso.";
-            mensagemSucessoDocumentacao.classList.remove("erro");
-            mensagemSucessoDocumentacao.classList.add("sucesso");
-        }
-
         setTimeout(function () {
             window.location.href = "documentacao.html";
         }, 800);
-    });
-
-    formularioNovaDocumentacao.addEventListener("input", function () {
-        if (mensagemSucessoDocumentacao) {
-            mensagemSucessoDocumentacao.style.display = "none";
-        }
-    });
-
-    formularioNovaDocumentacao.addEventListener("change", function () {
-        if (mensagemSucessoDocumentacao) {
-            mensagemSucessoDocumentacao.style.display = "none";
-        }
     });
 }
 
@@ -3273,45 +2761,12 @@ function preencherDetalhesDocumentacao() {
     document.getElementById("detalhe-nome-documentacao").textContent = documentacao.nomeDocumentacao;
     document.getElementById("detalhe-data-documentacao").textContent = documentacao.dataDocumentacao;
     document.getElementById("detalhe-data-validade-documentacao").textContent = documentacao.dataValidade || "Sem data de validade";
-    const campoEquipamentoDocumentacao = document.getElementById("detalhe-equipamento-documentacao");
-
-    if (campoEquipamentoDocumentacao) {
-        if (documentacao.equipamento) {
-            campoEquipamentoDocumentacao.innerHTML = `
-            <a href="../equipamentos/consultar_equipamento.html?id=${documentacao.equipamento}" class="link-detalhe">
-                ${documentacao.equipamento}
-            </a>
-        `;
-        } else {
-            campoEquipamentoDocumentacao.textContent = "Sem equipamento associado";
-        }
-    }
-    const campoFornecedorDocumentacao = document.getElementById("detalhe-fornecedor-documentacao");
-
-    if (campoFornecedorDocumentacao) {
-        if (documentacao.fornecedor) {
-            campoFornecedorDocumentacao.innerHTML = `
-            <a href="../fornecedores/consultar_fornecedor.html?id=${documentacao.fornecedor}" class="link-detalhe">
-                ${documentacao.fornecedor}
-            </a>
-        `;
-        } else {
-            campoFornecedorDocumentacao.textContent = "Sem fornecedor associado";
-        }
-    }
     document.getElementById("detalhe-ficheiro-documentacao").textContent = documentacao.ficheiro;
     document.getElementById("detalhe-observacoes-documentacao").textContent = documentacao.observacoes || "Sem observações";
-
-    const botaoEditarDocumentacao = document.getElementById("botao-editar-documentacao");
-
-    if (botaoEditarDocumentacao) {
-        botaoEditarDocumentacao.href = `editar_documentacao.html?id=${documentacao.codigo}`;
-    }
 }
 
 function inicializarEditarDocumentacao() {
     const formularioEditarDocumentacao = document.getElementById("form-editar-documentacao");
-    const mensagemEditarDocumentacao = document.getElementById("mensagem-editar-documentacao");
 
     if (!formularioEditarDocumentacao) {
         return;
@@ -3323,24 +2778,14 @@ function inicializarEditarDocumentacao() {
     const documentacao = documentacaoGuardada[idDocumentacao];
 
     if (!documentacao) {
-        if (mensagemEditarDocumentacao) {
-            mensagemEditarDocumentacao.textContent = "Documentação não encontrada.";
-            mensagemEditarDocumentacao.classList.add("erro");
-        }
-
         return;
     }
-
-    preencherSelectEquipamentos("equipamento", documentacao.equipamento);
-    preencherSelectFornecedores("fornecedor", documentacao.fornecedor, true);
 
     document.getElementById("codigo").value = documentacao.codigo;
     document.getElementById("tipo_documento").value = documentacao.tipoDocumentacao;
     document.getElementById("nome_documento").value = documentacao.nomeDocumentacao;
     document.getElementById("data_documento").value = converterDataParaInput(documentacao.dataDocumentacao);
     document.getElementById("data_validade").value = converterDataParaInput(documentacao.dataValidade);
-    document.getElementById("equipamento").value = documentacao.equipamento;
-    document.getElementById("fornecedor").value = documentacao.fornecedor;
     document.getElementById("ficheiro").value = documentacao.ficheiro;
     document.getElementById("observacoes").value = documentacao.observacoes;
 
@@ -3353,27 +2798,14 @@ function inicializarEditarDocumentacao() {
     formularioEditarDocumentacao.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        if (!formularioEditarDocumentacao.checkValidity()) {
-            formularioEditarDocumentacao.reportValidity();
-            return;
-        }
-
         documentacaoGuardada[idDocumentacao].tipoDocumentacao = document.getElementById("tipo_documento").value.trim();
         documentacaoGuardada[idDocumentacao].nomeDocumentacao = document.getElementById("nome_documento").value.trim();
         documentacaoGuardada[idDocumentacao].dataDocumentacao = converterDataParaTexto(document.getElementById("data_documento").value);
         documentacaoGuardada[idDocumentacao].dataValidade = converterDataParaTexto(document.getElementById("data_validade").value);
-        documentacaoGuardada[idDocumentacao].equipamento = document.getElementById("equipamento").value;
-        documentacaoGuardada[idDocumentacao].fornecedor = document.getElementById("fornecedor").value;
         documentacaoGuardada[idDocumentacao].ficheiro = document.getElementById("ficheiro").value.trim();
         documentacaoGuardada[idDocumentacao].observacoes = document.getElementById("observacoes").value.trim();
 
         localStorage.setItem("documentacaoGuardada", JSON.stringify(documentacaoGuardada));
-
-        if (mensagemEditarDocumentacao) {
-            mensagemEditarDocumentacao.textContent = "Alterações guardadas com sucesso.";
-            mensagemEditarDocumentacao.classList.remove("erro");
-            mensagemEditarDocumentacao.classList.add("sucesso");
-        }
 
         setTimeout(function () {
             const origem = parametros.get("origem");
@@ -3391,8 +2823,6 @@ function inicializarEditarDocumentacao() {
                     window.location.href = `editar_documentacao.html?id=${filaDocumentacao[0]}&origem=filaEquipamento`;
                 } else {
                     localStorage.removeItem("filaEdicaoDocumentacao");
-
-                    alert("Todas as documentações associadas ao equipamento eliminado foram revistas.");
 
                     window.location.href = "../equipamentos/equipamentos.html";
                 }
@@ -3733,20 +3163,6 @@ function preencherDadosDocumentacaoAssociada() {
     atualizarObservacoesDocumentacao();
 }
 
-function obterDocumentacoesPorFornecedor(codigoFornecedor) {
-    return Object.values(documentacaoGuardada).filter(function (documentacao) {
-        return documentacao.fornecedor === codigoFornecedor;
-    });
-}
-
-
-function obterDocumentacoesPorEquipamento(codigoEquipamento) {
-    return Object.values(documentacaoGuardada).filter(function (documentacao) {
-        return documentacao.equipamento === codigoEquipamento;
-    });
-}
-
-
 function obterEquipamentosPorFornecedor(codigoFornecedor) {
     return Object.values(equipamentosGuardados).filter(function (equipamento) {
         return equipamento.fornecedor === codigoFornecedor;
@@ -3947,10 +3363,6 @@ function controlarCamposContratoManutencao() {
             entidadeResponsavelContrato.disabled = true;
             periodicidadeContrato.disabled = true;
 
-            tipoContrato.required = false;
-            entidadeResponsavelContrato.required = false;
-            periodicidadeContrato.required = false;
-
             if (opcaoNaoAplicavel) {
                 opcaoNaoAplicavel.hidden = false;
             }
@@ -3972,10 +3384,6 @@ function controlarCamposContratoManutencao() {
             entidadeResponsavelContrato.disabled = false;
             periodicidadeContrato.disabled = false;
 
-            tipoContrato.required = true;
-            entidadeResponsavelContrato.required = true;
-            periodicidadeContrato.required = true;
-
             if (opcaoNaoAplicavel) {
                 opcaoNaoAplicavel.hidden = true;
             }
@@ -3988,10 +3396,6 @@ function controlarCamposContratoManutencao() {
             tipoContrato.disabled = false;
             entidadeResponsavelContrato.disabled = false;
             periodicidadeContrato.disabled = false;
-
-            tipoContrato.required = false;
-            entidadeResponsavelContrato.required = false;
-            periodicidadeContrato.required = false;
 
             if (opcaoNaoAplicavel) {
                 opcaoNaoAplicavel.hidden = true;
@@ -4219,18 +3623,18 @@ function preencherSuporteVidaDashboard(equipamentos, localizacoes) {
 
     const maximo = servicos.length > 0 ? servicos[0][1] : 1;
 
-container.innerHTML = "";
+    container.innerHTML = "";
 
-if (servicos.length === 0) {
-    container.innerHTML = "<p>Sem equipamentos de suporte de vida registados.</p>";
-    return;
-}
+    if (servicos.length === 0) {
+        container.innerHTML = "<p>Sem equipamentos de suporte de vida registados.</p>";
+        return;
+    }
 
-servicos.forEach(function ([servico, valor]) {
+    servicos.forEach(function ([servico, valor]) {
 
-    const largura = (valor / maximo) * 100;
+        const largura = (valor / maximo) * 100;
 
-    container.innerHTML += `
+        container.innerHTML += `
         <div class="linha-horizontal-dashboard">
             <span>${servico}</span>
 
@@ -4241,7 +3645,7 @@ servicos.forEach(function ([servico, valor]) {
             <strong>${valor}</strong>
         </div>
     `;
-});
+    });
 }
 
 function inicializarTabsEquipamento() {

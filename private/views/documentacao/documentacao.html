@@ -121,7 +121,7 @@
 
                     <div class="linha-pesquisa-equipamentos">
                         <input type="text" id="pesquisaDocumentacoes" class="campo-pesquisa-equipamentos"
-                            placeholder="Pesquisar por código, tipo de documentação, nome, data da documentação, data de validade, equipamento associado, fornecedor associado ou ficheiro...">
+                            placeholder="Pesquisar por código, tipo de documentação, nome, data da documentação, data de validade ou ficheiro...">
                         <button type="button" id="botaoPesquisarDocumentacoes" class="botao-pesquisar-equipamentos">
                             Pesquisar
                         </button>
@@ -176,33 +176,15 @@
 
                         <div class="grupo-filtro-equipamentos">
 
-                            <label for="filtroEquipamentoDocumentacao">
-                                Equipamento associado
+                            <label for="filtroDataDocumentacao">
+                                Data da documentação
                             </label>
 
                             <div class="select-filtro-wrapper">
 
-                                <select id="filtroEquipamentoDocumentacao" class="campo-filtro-equipamentos">
+                                <select id="filtroDataDocumentacao" class="campo-filtro-equipamentos">
 
-                                    <option value="">Todos</option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                        <div class="grupo-filtro-equipamentos">
-
-                            <label for="filtroFornecedorDocumentacao">
-                                Fornecedor associado
-                            </label>
-
-                            <div class="select-filtro-wrapper">
-
-                                <select id="filtroFornecedorDocumentacao" class="campo-filtro-equipamentos">
-
-                                    <option value="">Todos</option>
+                                    <option value="">Todas</option>
 
                                 </select>
 
@@ -235,7 +217,6 @@
                             <th>Tipo de documentação</th>
                             <th>Nome da documentação</th>
                             <th>Data da documentação</th>
-                            <th>Equipamento associado</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -246,7 +227,6 @@
                             <td>Manual técnico</td>
                             <td>Manual do monitor multiparamétrico</td>
                             <td>10/01/2022</td>
-                            <td>EQ001</td>
                             <td class="acoes-tabela-privada">
                                 <a href="consultar_documentacao.html" class="acao-tabela-privada">
                                     <i class="fa-regular fa-eye"></i>
@@ -273,7 +253,6 @@
                             <td>Certificado de calibração</td>
                             <td>Certificado de calibração da bomba de infusão</td>
                             <td>15/03/2024</td>
-                            <td>EQ003</td>
                             <td class="acoes-tabela-privada">
                                 <a href="consultar_documentacao.html" class="acao-tabela-privada">
                                     <i class="fa-regular fa-eye"></i>
@@ -300,7 +279,6 @@
                             <td>Relatório de manutenção</td>
                             <td>Relatório de manutenção do ventilador pulmonar</td>
                             <td>20/09/2024</td>
-                            <td>EQ002</td>
                             <td class="acoes-tabela-privada">
                                 <a href="consultar_documentacao.html" class="acao-tabela-privada">
                                     <i class="fa-regular fa-eye"></i>
@@ -327,7 +305,6 @@
                             <td>Garantia</td>
                             <td>Garantia do desfibrilhador</td>
                             <td>05/06/2022</td>
-                            <td>EQ004</td>
                             <td class="acoes-tabela-privada">
                                 <a href="consultar_documentacao.html" class="acao-tabela-privada">
                                     <i class="fa-regular fa-eye"></i>

@@ -1877,19 +1877,6 @@ function inicializarFiltrosFornecedores() {
         const fornecedoresFiltrados =
             Object.values(fornecedoresGuardados).filter(function (fornecedor) {
 
-                const textoEquipamentos =
-                    equipamentosAssociados.map(function (equipamento) {
-
-                        return [
-                            equipamento.codigo,
-                            equipamento.designacao,
-                            equipamento.marca,
-                            equipamento.modelo,
-                            equipamento.categoria
-                        ].join(" ");
-
-                    }).join(" ").toLowerCase();
-
                 const correspondePesquisa =
 
                     (fornecedor.codigo || "")
@@ -1955,10 +1942,6 @@ function inicializarFiltrosFornecedores() {
                     (fornecedor.observacoes || "")
                         .toLowerCase()
                         .includes(textoPesquisa)
-
-                    ||
-
-                    textoEquipamentos.includes(textoPesquisa);
 
                 const correspondeTipo =
                     tipoSelecionado === ""

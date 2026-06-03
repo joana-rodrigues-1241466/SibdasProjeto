@@ -2000,26 +2000,6 @@ body {
     text-decoration: none;
 }
 
-.grafico-horizontal-dashboard {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-}
-
-.linha-horizontal-dashboard {
-    display: grid;
-    grid-template-columns: 1fr 90px 28px;
-    align-items: center;
-    gap: 0.8rem;
-    font-size: 0.9rem;
-}
-
-.linha-horizontal-dashboard .barra-horizontal {
-    height: 12px;
-    background: linear-gradient(90deg, #7b5fc9, #a78bfa);
-    border-radius: 999px;
-}
-
 .rodape-dashboard {
     margin-top: 1.8rem;
     display: flex;

@@ -1,92 +1,54 @@
-<!DOCTYPE html> <!-- informa que este é um documento HTML5  -->
-<html lang="pt"> <!-- define o início do documento HTML, indicando que o idioma principal da página é português -->
+<!DOCTYPE html>
+<html lang="pt">
 
-<head> <!-- informações sobre a página (título, metadados, links) -->
-    <meta charset="UTF-8"> <!-- define a codificação de caracteres para UTF-8 (acentos e caracteres especiais) -->
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- torna a página responsiva (ajuste a diferentes tamanhos de ecrã) -->
-
     <title>Editar Equipamento</title>
-
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap.min.css">
-
-    <!-- Font Awesome: biblioteca usada para apresentar ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- CSS próprio -->
     <link rel="stylesheet" href="../../../assets/css/1241466.css">
 </head>
 
 <body class="pagina-privada">
 
-    <!-- Navbar da área privada -->
     <header class="navbar-privada">
-
         <div class="logo-privada">
             <img src="../../../assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
             <span class="nome-navbar-privada">MediVault</span>
         </div>
-
-        <div class="dropdown-utilizador-privado">
-            <button class="utilizador-privado" type="button">
-                <i class="fa-regular fa-user"></i>
-                <span>Profissional de saúde</span>
-                <i class="fa-solid fa-caret-down"></i>
-            </button>
-
-            <div class="menu-utilizador-privado">
-                <a href="alterar_password.html">
-                    <i class="fa-solid fa-key"></i>
-                    Alterar password
-                </a>
-
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-            </div>
+        <div class="utilizador-privado">
+            <i class="fa-regular fa-user"></i>
+            <span>Profissional de saúde</span>
+            <i class="fa-solid fa-caret-down"></i>
         </div>
-
     </header>
 
     <div class="layout-privado">
 
-        <!-- Menu lateral da área privada -->
         <aside class="menu-lateral-privada">
             <h2>Menu</h2>
-
             <nav>
                 <a href="../equipamentos/equipamentos.html" class="ativo">
                     <i class="fa-solid fa-stethoscope"></i>
                     Equipamentos
                 </a>
-
                 <a href="../fornecedores/fornecedores.html">
                     <i class="fa-solid fa-truck-medical"></i>
                     Fornecedores
                 </a>
-
                 <a href="../localizacoes/localizacoes.html">
                     <i class="fa-solid fa-location-dot"></i>
                     Localizações
                 </a>
-
-                <a href="../documentacao/documentacao.html">
-                    <i class="fa-solid fa-file-medical"></i>
-                    Documentação
-                </a>
-
                 <a href="../gestao_conteudos/gestao_conteudos.html">
                     <i class="fa-solid fa-pen-to-square"></i>
                     Gestão de Conteúdos
                 </a>
-
                 <a href="../dashboard/dashboard.html">
                     <i class="fa-solid fa-chart-line"></i>
                     Dashboard
                 </a>
-
                 <a href="../../../public/index.html">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     Sair
@@ -94,7 +56,6 @@
             </nav>
         </aside>
 
-        <!-- Conteúdo principal -->
         <main class="conteudo-privado">
 
             <section class="formulario-privado">
@@ -113,43 +74,50 @@
                     <div class="tabs-consulta-equipamento">
 
                         <div class="botoes-tabs-equipamento">
-                            <button type="button" class="botao-tab-equipamento ativo" data-tab="tab-novo-equipamento">
+                            <button type="button" class="botao-tab-equipamento ativo" data-tab="tab-identificacao">
                                 <i class="fa-solid fa-stethoscope"></i>
-                                Equipamento
+                                Identificação
                             </button>
-
+                            <button type="button" class="botao-tab-equipamento" data-tab="tab-acessorios-consumiveis">
+                                <i class="fa-solid fa-toolbox"></i>
+                                Acessórios e Consumíveis
+                            </button>
+                            <button type="button" class="botao-tab-equipamento" data-tab="tab-aquisicao">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                Aquisição
+                            </button>
                             <button type="button" class="botao-tab-equipamento" data-tab="tab-novo-fornecedor">
                                 <i class="fa-solid fa-truck-medical"></i>
-                                Fornecedor associado
+                                Fornecedor
                             </button>
-
                             <button type="button" class="botao-tab-equipamento" data-tab="tab-nova-localizacao">
                                 <i class="fa-solid fa-location-dot"></i>
-                                Localização associada
+                                Localização
                             </button>
-
-                            <button type="button" class="botao-tab-equipamento" data-tab="tab-nova-documentacao">
-                                <i class="fa-solid fa-file-medical"></i>
-                                Documentação associada
-                            </button>
-
-                            <button type="button" class="botao-tab-equipamento" data-tab="tab-nova-garantia">
+                            <button type="button" class="botao-tab-equipamento" data-tab="tab-garantia">
                                 <i class="fa-solid fa-shield-halved"></i>
-                                Garantia e contrato
+                                Garantia
+                            </button>
+                            <button type="button" class="botao-tab-equipamento" data-tab="tab-contrato">
+                                <i class="fa-solid fa-screwdriver-wrench"></i>
+                                Contrato
                             </button>
                         </div>
 
-                        <!-- Separador Equipamento -->
-                        <div id="tab-novo-equipamento" class="conteudo-tab-equipamento ativo">
+                        <!-- Separador Identificação -->
+                        <div id="tab-identificacao" class="conteudo-tab-equipamento ativo">
 
-                            <!-- Linha 1: Identificação -->
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-circle-info"></i>
+                                Dados do Equipamento
+                            </h5>
+
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="codigo" class="form-label">Código interno de inventário</label>
                                     <input type="text" class="form-control campo-formulario-privado" id="codigo"
-                                        name="codigo">
+                                        name="codigo" readonly>
                                 </div>
-
                                 <div class="col-md-6 mb-3">
                                     <label for="designacao" class="form-label">Designação do equipamento</label>
                                     <input type="text" class="form-control campo-formulario-privado" id="designacao"
@@ -157,10 +125,25 @@
                                 </div>
                             </div>
 
-                            <!-- Linha 2: Categoria / Marca / Modelo -->
                             <div class="row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="categoria" class="form-label">Categoria ou grupo</label>
+                                    <label for="categoria" class="form-label">Categoria ou grupo
+                                        <i class="fa-solid fa-circle-info"
+        data-bs-toggle="popover"
+        data-bs-trigger="hover focus"
+        data-bs-placement="right"
+        data-bs-html="true"
+        data-bs-content="
+        <strong>Monitorização</strong> - Equipamentos utilizados para monitorizar parâmetros fisiológicos e o estado clínico do paciente.<br><br>
+        <strong>Suporte de vida</strong> - Equipamentos essenciais para manter ou substituir funções vitais do organismo.<br><br>
+        <strong>Terapia</strong> - Equipamentos utilizados na administração de tratamentos e intervenções terapêuticas.<br><br>
+        <strong>Diagnóstico</strong> - Equipamentos destinados à deteção, avaliação e diagnóstico de condições clínicas.<br><br>
+        <strong>Laboratório</strong> - Equipamentos utilizados na análise e processamento de amostras laboratoriais.<br><br>
+        <strong>Esterilização</strong> - Equipamentos destinados à limpeza, desinfeção e esterilização de materiais e dispositivos médicos.<br><br>
+        <strong>Reabilitação</strong> - Equipamentos utilizados na recuperação funcional e reabilitação dos pacientes.
+        ">
+    </i>
+                                    </label>
                                     <select class="form-select campo-formulario-privado" id="categoria"
                                         name="categoria">
                                         <option value="" selected disabled>Escolha uma opção</option>
@@ -173,13 +156,11 @@
                                         <option>Reabilitação</option>
                                     </select>
                                 </div>
-
                                 <div class="col-md-4 mb-3">
                                     <label for="marca" class="form-label">Marca</label>
                                     <input type="text" class="form-control campo-formulario-privado" id="marca"
                                         name="marca">
                                 </div>
-
                                 <div class="col-md-4 mb-3">
                                     <label for="modelo" class="form-label">Modelo</label>
                                     <input type="text" class="form-control campo-formulario-privado" id="modelo"
@@ -187,20 +168,17 @@
                                 </div>
                             </div>
 
-                            <!-- Linha 3: Série / Fabricante / Ano -->
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="numero_serie" class="form-label">N.º de série</label>
                                     <input type="text" class="form-control campo-formulario-privado" id="numero_serie"
                                         name="numero_serie">
                                 </div>
-
                                 <div class="col-md-4 mb-3">
                                     <label for="fabricante" class="form-label">Fabricante</label>
                                     <input type="text" class="form-control campo-formulario-privado" id="fabricante"
                                         name="fabricante">
                                 </div>
-
                                 <div class="col-md-4 mb-3">
                                     <label for="ano_fabrico" class="form-label">Ano de fabrico</label>
                                     <input type="number" class="form-control campo-formulario-privado" id="ano_fabrico"
@@ -208,37 +186,22 @@
                                 </div>
                             </div>
 
-                            <!-- Linha 4: Aquisição -->
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="data_aquisicao" class="form-label">Data de aquisição</label>
-                                    <input type="date" class="form-control campo-formulario-privado" id="data_aquisicao"
-                                        name="data_aquisicao">
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label for="custo_aquisicao" class="form-label">Custo de aquisição (€)</label>
-                                    <input type="number" step="0.01" class="form-control campo-formulario-privado"
-                                        id="custo_aquisicao" name="custo_aquisicao">
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label for="tipo_entrada" class="form-label">Tipo de entrada</label>
-                                    <select class="form-select campo-formulario-privado" id="tipo_entrada"
-                                        name="tipo_entrada">
-                                        <option value="" selected disabled>Escolha uma opção</option>
-                                        <option>Compra</option>
-                                        <option>Doação</option>
-                                        <option>Aluguer</option>
-                                        <option>Empréstimo</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Linha 5: Estado / Criticidade -->
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="estado" class="form-label">Estado atual</label>
+                                    <label for="estado" class="form-label">
+                                        Estado atual
+                                        <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                            data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                            data-bs-content="
+       <strong>Ativo</strong> - Equipamento operacional e disponível para utilização.<br><br>
+       <strong>Em manutenção</strong> - Equipamento temporariamente indisponível devido a manutenção preventiva ou corretiva.<br><br>
+       <strong>Inativo</strong> - Equipamento sem utilização atual, mas disponível para voltar ao serviço.<br><br>
+       <strong>Em calibração</strong> - Equipamento em processo de calibração ou verificação metrológica.<br><br>
+       <strong>Em quarentena</strong> - Equipamento isolado temporariamente para avaliação, descontaminação ou validação técnica.<br><br>
+       <strong>Abatido</strong> - Equipamento retirado definitivamente de serviço e sem possibilidade de utilização.
+       ">
+                                        </i>
+                                    </label>
                                     <select class="form-select campo-formulario-privado" id="estado" name="estado">
                                         <option value="" selected disabled>Escolha uma opção</option>
                                         <option>Ativo</option>
@@ -249,9 +212,18 @@
                                         <option>Abatido</option>
                                     </select>
                                 </div>
-
                                 <div class="col-md-6 mb-3">
-                                    <label for="criticidade" class="form-label">Criticidade</label>
+                                    <label for="criticidade" class="form-label">Criticidade
+                                        <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                            data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                            data-bs-content="
+        <strong>Suporte de vida</strong> - Equipamento essencial para manter ou monitorizar funções vitais do paciente.<br><br>
+        <strong>Alta</strong> - Equipamento cuja indisponibilidade afeta significativamente a prestação de cuidados de saúde.<br><br>
+        <strong>Média</strong> - Equipamento importante, mas cuja indisponibilidade pode ser temporariamente compensada por alternativas.<br><br>
+        <strong>Baixa</strong> - Equipamento de apoio com impacto reduzido na prestação de cuidados.
+        ">
+                                        </i>
+                                    </label>
                                     <select class="form-select campo-formulario-privado" id="criticidade"
                                         name="criticidade">
                                         <option value="" selected disabled>Escolha uma opção</option>
@@ -263,15 +235,203 @@
                                 </div>
                             </div>
 
-                            <!-- Linha 6: Observações -->
-                            <div class="mb-3">
-                                <label for="observacoes" class="form-label">Observações do equipamento</label>
-                                <textarea class="form-control campo-formulario-privado" id="observacoes"
-                                    name="observacoes" rows="4"></textarea>
+                            <hr>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-file-medical"></i>
+                                Documentação Técnica
+                            </h5>
+
+                            <div class="grupo-campo-privado grupo-campo-total">
+                                <label for="tem_documentacao_tecnica">Existe documentação técnica associada?</label>
+                                <select id="tem_documentacao_tecnica" class="campo-formulario-privado">
+                                    <option value="">Escolha uma opção</option>
+                                    <option value="sim">Sim</option>
+                                    <option value="nao">Não</option>
+                                </select>
+                            </div>
+
+                            <div id="bloco-documentacao-tecnica" style="display:none">
+                                <div class="card-documentacao">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Tipo de documento</label>
+                                            <input type="text" class="form-control campo-formulario-privado"
+                                                value="Manual Técnico" readonly>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <label class="form-label">Nome do documento</label>
+                                            <input type="text" id="nomeManualTecnico" name="nomeManualTecnico"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data da documentação</label>
+                                            <input type="date" id="dataManualTecnico" name="dataManualTecnico"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data de validade</label>
+                                            <input type="date" id="validadeManualTecnico" name="validadeManualTecnico"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Ficheiro PDF</label>
+                                            <input type="file" id="ficheiroManualTecnico" name="ficheiroManualTecnico"
+                                                accept=".pdf" class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-book-open"></i>
+                                Documentação de Utilização
+                            </h5>
+
+                            <div class="grupo-campo-privado grupo-campo-total">
+                                <label for="tem_documentacao_utilizacao">Existe documentação de utilização
+                                    associada?</label>
+                                <select id="tem_documentacao_utilizacao" class="campo-formulario-privado">
+                                    <option value="">Escolha uma opção</option>
+                                    <option value="sim">Sim</option>
+                                    <option value="nao">Não</option>
+                                </select>
+                            </div>
+
+                            <div id="bloco-documentacao-utilizacao" style="display:none">
+                                <div class="card-documentacao">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Tipo de documento</label>
+                                            <input type="text" class="form-control campo-formulario-privado"
+                                                value="Manual de Utilização" readonly>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <label class="form-label">Nome do documento</label>
+                                            <input type="text" id="nomeManualUtilizacao" name="nomeManualUtilizacao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data da documentação</label>
+                                            <input type="date" id="dataManualUtilizacao" name="dataManualUtilizacao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data de validade</label>
+                                            <input type="date" id="validadeManualUtilizacao"
+                                                name="validadeManualUtilizacao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Ficheiro PDF</label>
+                                            <input type="file" id="ficheiroManualUtilizacao"
+                                                name="ficheiroManualUtilizacao" accept=".pdf"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-comment-medical"></i>
+                                Observações do Equipamento
+                            </h5>
+
+                            <div class="mb-4">
+                                <textarea id="observacoes" name="observacoes" rows="6"
+                                    class="form-control campo-formulario-privado"
+                                    placeholder="Informações adicionais relevantes sobre o equipamento..."></textarea>
                             </div>
 
                             <div class="botoes-formulario-privado">
+                                <a id="botao-cancelar-edicao" href="equipamentos.html" class="botao-cancelar-privado">
+                                    <i class="fa-solid fa-xmark"></i>
+                                    Cancelar
+                                </a>
+                                <button type="submit" class="botao-guardar-privado">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    Guardar alterações
+                                </button>
+                            </div>
 
+                        </div>
+
+                        <!-- Separador Acessórios e Consumíveis -->
+                        <div id="tab-acessorios-consumiveis" class="conteudo-tab-equipamento">
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-toolbox"></i> Acessórios
+                            </h5>
+
+                            <div class="mb-4">
+                                <table class="tabela-itens w-100 mb-2" id="tabela-acessorios">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Referência</th>
+                                            <th>Qtd.</th>
+                                            <th>Unidade</th>
+                                            <th>Estado</th>
+                                            <th>Observações</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-acessorios"></tbody>
+                                </table>
+
+                                <button type="button" class="botao-adicionar-item"
+                                    onclick="adicionarItem('acessorios')">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Adicionar acessório
+                                </button>
+
+                                <div class="resumo-itens mt-2" id="resumo-acessorios"></div>
+                            </div>
+
+                            <hr>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-box-open"></i> Consumíveis
+                            </h5>
+
+                            <div class="mb-4">
+                                <table class="tabela-itens w-100 mb-2" id="tabela-consumiveis">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Referência</th>
+                                            <th>Qtd.</th>
+                                            <th>Unidade</th>
+                                            <th>Estado</th>
+                                            <th>Observações</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-consumiveis"></tbody>
+                                </table>
+
+                                <button type="button" class="botao-adicionar-item"
+                                    onclick="adicionarItem('consumiveis')">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Adicionar consumível
+                                </button>
+
+                                <div class="resumo-itens mt-2" id="resumo-consumiveis"></div>
+                            </div>
+
+                            <hr>
+
+                            <div class="acoes-formulario-privado">
                                 <a href="equipamentos.html" class="botao-cancelar-privado">
                                     <i class="fa-solid fa-xmark"></i>
                                     Cancelar
@@ -281,117 +441,241 @@
                                     <i class="fa-solid fa-floppy-disk"></i>
                                     Guardar alterações
                                 </button>
-
                             </div>
 
                         </div>
 
+                        <!-- Separador Aquisição -->
+                        <div id="tab-aquisicao" class="conteudo-tab-equipamento">
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                Dados de Aquisição do equipamento
+                            </h5>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="data_aquisicao" class="form-label">Data de aquisição</label>
+                                    <input type="date" class="form-control campo-formulario-privado" id="data_aquisicao"
+                                        name="data_aquisicao">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="custo_aquisicao" class="form-label">Custo de aquisição (€)</label>
+                                    <input type="number" step="0.01" class="form-control campo-formulario-privado"
+                                        id="custo_aquisicao" name="custo_aquisicao">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="tipo_entrada" class="form-label">Tipo de entrada
+                                        <i class="fa-solid fa-circle-info"
+        data-bs-toggle="popover"
+        data-bs-trigger="hover focus"
+        data-bs-placement="right"
+        data-bs-html="true"
+        data-bs-content="
+        <strong>Compra</strong> - Equipamento adquirido pela instituição através de compra direta.<br><br>
+        <strong>Doação</strong> - Equipamento recebido sem custos por oferta de uma entidade ou particular.<br><br>
+        <strong>Aluguer</strong> - Equipamento utilizado mediante pagamento periódico durante um período definido.<br><br>
+        <strong>Empréstimo</strong> - Equipamento cedido temporariamente por outra entidade para utilização durante um período acordado.
+        ">
+    </i>
+                                    </label>
+                                    <select class="form-select campo-formulario-privado" id="tipo_entrada"
+                                        name="tipo_entrada">
+                                        <option value="" selected disabled>Escolha uma opção</option>
+                                        <option>Compra</option>
+                                        <option>Doação</option>
+                                        <option>Aluguer</option>
+                                        <option>Empréstimo</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-file-invoice"></i>
+                                Documentação de Aquisição do equipamento
+                            </h5>
+
+                            <div class="grupo-campo-privado">
+                                <label for="tem_contrato_aquisicao">Existe contrato de aquisição associado?</label>
+                                <select id="tem_contrato_aquisicao" class="campo-formulario-privado">
+                                    <option value="">Escolha uma opção</option>
+                                    <option value="sim">Sim</option>
+                                    <option value="nao">Não</option>
+                                </select>
+                            </div>
+
+                            <div id="bloco-contrato-aquisicao" style="display:none">
+                                <div class="card-documentacao">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Tipo de documento</label>
+                                            <input type="text" class="form-control campo-formulario-privado"
+                                                value="Contrato de Aquisição" readonly>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <label class="form-label">Nome do documento</label>
+                                            <input type="text" id="nomeContratoAquisicao" name="nomeContratoAquisicao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data do documento</label>
+                                            <input type="date" id="dataContratoAquisicao" name="dataContratoAquisicao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data de validade</label>
+                                            <input type="date" id="validadeContratoAquisicao"
+                                                name="validadeContratoAquisicao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Ficheiro PDF</label>
+                                            <input type="file" id="ficheiroContratoAquisicao"
+                                                name="ficheiroContratoAquisicao" accept=".pdf"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-receipt"></i>
+                                Fatura da aquisição
+                            </h5>
+
+                            <div class="grupo-campo-privado">
+                                <label for="tem_fatura">Existe fatura associada?</label>
+                                <select id="tem_fatura" class="campo-formulario-privado">
+                                    <option value="">Escolha uma opção</option>
+                                    <option value="sim">Sim</option>
+                                    <option value="nao">Não</option>
+                                </select>
+                            </div>
+
+                            <div id="bloco-fatura" style="display:none">
+                                <div class="card-documentacao">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Tipo de documento</label>
+                                            <input type="text" class="form-control campo-formulario-privado"
+                                                value="Fatura" readonly>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <label class="form-label">Nome do documento</label>
+                                            <input type="text" id="nomeFatura" name="nomeFatura"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data do documento</label>
+                                            <input type="date" id="dataFatura" name="dataFatura"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Ficheiro PDF</label>
+                                            <input type="file" id="ficheiroFatura" name="ficheiroFatura" accept=".pdf"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-comment-medical"></i>
+                                Observações da aquisição do equipamento
+                            </h5>
+
+                            <div class="mb-4">
+                                <textarea id="observacoesAquisicao" name="observacoesAquisicao" rows="6"
+                                    class="form-control campo-formulario-privado"
+                                    placeholder="Informações adicionais relevantes sobre a aquisição do equipamento..."></textarea>
+                            </div>
+
+                            <div class="acoes-formulario-privado">
+                                <a href="equipamentos.html" class="botao-cancelar-privado">
+                                    <i class="fa-solid fa-xmark"></i> Cancelar
+                                </a>
+                                <button type="submit" class="botao-guardar-privado">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    Guardar alterações
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <!-- Separador Fornecedor -->
                         <div id="tab-novo-fornecedor" class="conteudo-tab-equipamento">
 
-                            <div class="form-grid-privado">
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-truck-medical"></i>
+                                Fornecedores Associados
+                            </h5>
 
-                                <div class="grupo-campo-privado">
-                                    <label for="fornecedor">Código do fornecedor associado</label>
-                                    <select id="fornecedor" name="fornecedor"
-                                        class="form-select campo-formulario-privado">
-                                        <option value="" selected disabled>Escolha um fornecedor</option>
-                                    </select>
-                                    <small>Selecione um fornecedor previamente registado.</small>
-                                </div>
+                            <table class="tabela-itens w-100 mb-2" id="tabela-fornecedores-equipamento">
+                                <thead>
+                                    <tr>
+                                        <th>Fornecedor</th>
+                                        <th>Tipo de fornecedor</th>
+                                        <th>Morada</th>
+                                        <th>Pessoa de contacto</th>
+                                        <th>Telefone da pessoa de contacto</th>
+                                        <th>Observações</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-fornecedores-equipamento"></tbody>
+                            </table>
 
-                                <div class="grupo-campo-privado">
-                                    <label for="nomeFornecedor">Nome da empresa</label>
-                                    <input type="text" id="nomeFornecedor" name="nomeFornecedor"
-                                        class="campo-formulario-privado" readonly>
-                                </div>
+                            <button type="button" class="botao-adicionar-item"
+                                onclick="adicionarFornecedorEquipamento()">
+                                <i class="fa-solid fa-plus"></i> Adicionar fornecedor
+                            </button>
+                            <div class="resumo-itens mt-2" id="resumo-fornecedores"></div>
 
-                                <div class="grupo-campo-privado">
-                                    <label for="nifFornecedor">NIF</label>
-                                    <input type="text" id="nifFornecedor" name="nifFornecedor"
-                                        class="campo-formulario-privado" readonly>
-                                </div>
+                            <input type="hidden" id="fornecedor" name="fornecedor">
+                            <input type="hidden" id="nomeFornecedor" name="nomeFornecedor">
+                            <input type="hidden" id="nifFornecedor" name="nifFornecedor">
+                            <input type="hidden" id="telefoneFornecedor" name="telefoneFornecedor">
+                            <input type="hidden" id="emailFornecedor" name="emailFornecedor">
+                            <input type="hidden" id="websiteFornecedor" name="websiteFornecedor">
+                            <input type="hidden" id="moradaFornecedorEquipamento" name="moradaFornecedorEquipamento">
+                            <input type="hidden" id="pessoaContactoFornecedor" name="pessoaContactoFornecedor">
+                            <input type="hidden" id="telefonePessoaContactoFornecedor"
+                                name="telefonePessoaContactoFornecedor">
+                            <input type="hidden" id="tipoFornecedorEquipamento" name="tipoFornecedorEquipamento">
 
-                                <div class="grupo-campo-privado">
-                                    <label for="telefoneFornecedor">Contacto telefónico geral</label>
-                                    <input type="text" id="telefoneFornecedor" name="telefoneFornecedor"
-                                        class="campo-formulario-privado" readonly>
-                                </div>
-
-                                <div class="grupo-campo-privado">
-                                    <label for="emailFornecedor">Email geral</label>
-                                    <input type="text" id="emailFornecedor" name="emailFornecedor"
-                                        class="campo-formulario-privado" readonly>
-                                </div>
-
-                                <div class="grupo-campo-privado">
-                                    <label for="websiteFornecedor">Website</label>
-                                    <input type="text" id="websiteFornecedor" name="websiteFornecedor"
-                                        class="campo-formulario-privado" readonly>
-                                </div>
-
-                                <div class="grupo-campo-privado">
-                                    <label for="moradaFornecedorEquipamento">Morada associada a este equipamento</label>
-                                    <input type="text" id="moradaFornecedorEquipamento"
-                                        name="moradaFornecedorEquipamento" class="campo-formulario-privado">
-                                </div>
-
-                                <div class="grupo-campo-privado">
-                                    <label for="pessoaContactoFornecedor">Pessoa de contacto</label>
-                                    <input type="text" id="pessoaContactoFornecedor" name="pessoaContactoFornecedor"
-                                        class="campo-formulario-privado">
-                                </div>
-
-                                <div class="grupo-campo-privado">
-                                    <label for="telefonePessoaContactoFornecedor">Telefone da pessoa de contacto</label>
-                                    <input type="text" id="telefonePessoaContactoFornecedor"
-                                        name="telefonePessoaContactoFornecedor" class="campo-formulario-privado">
-                                </div>
-
-                                <div class="grupo-campo-privado">
-                                    <label for="tipoFornecedorEquipamento">Tipo de fornecedor</label>
-                                    <select id="tipoFornecedorEquipamento" name="tipoFornecedorEquipamento"
-                                        class="form-select campo-formulario-privado">
-                                        <option value="" selected disabled>Escolha uma opção</option>
-                                        <option value="Fabricante">Fabricante</option>
-                                        <option value="Distribuidor ou Fornecedor comercial">Distribuidor ou Fornecedor
-                                            comercial</option>
-                                        <option value="Empresa de assistência técnica">Empresa de assistência técnica
-                                        </option>
-                                        <option value="Fornecedor de consumíveis ou acessórios">Fornecedor de
-                                            consumíveis ou acessórios</option>
-                                    </select>
-                                </div>
-
-                                <div class="grupo-campo-privado grupo-campo-total">
-                                    <label for="observacoesFornecedorEquipamento">Observações do fornecedor</label>
-                                    <textarea id="observacoesFornecedorEquipamento"
-                                        name="observacoesFornecedorEquipamento" class="campo-formulario-privado"
-                                        rows="4"></textarea>
-                                </div>
-
-                            </div>
-
-                            <div class="botoes-formulario-privado">
-
+                            <div class="acoes-formulario-privado">
                                 <a href="equipamentos.html" class="botao-cancelar-privado">
-                                    <i class="fa-solid fa-xmark"></i>
-                                    Cancelar
+                                    <i class="fa-solid fa-xmark"></i> Cancelar
                                 </a>
-
                                 <button type="submit" class="botao-guardar-privado">
                                     <i class="fa-solid fa-floppy-disk"></i>
                                     Guardar alterações
                                 </button>
-
                             </div>
 
                         </div>
 
-                        <!-- Separador Localização associada -->
+                        <!-- Separador Localização -->
                         <div id="tab-nova-localizacao" class="conteudo-tab-equipamento">
 
-                            <div class="form-grid-privado">
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-location-dot"></i>
+                                Localização Associada
+                            </h5>
 
+                            <div class="row">
                                 <div class="grupo-campo-privado grupo-campo-total">
                                     <label for="localizacao">Localização associada</label>
                                     <select id="localizacao" name="localizacao"
@@ -401,79 +685,39 @@
                                     <small>Selecione uma localização previamente registada.</small>
                                 </div>
 
-                                <div class="grupo-campo-privado grupo-campo-total">
-                                    <label for="observacoesLocalizacao">Observações da localização</label>
+                                <hr>
+
+                                <h5 class="subtitulo-separador titulo-azul-separador">
+                                    <i class="fa-solid fa-comment-medical"></i>
+                                    Observações da localização associada
+                                </h5>
+
+                                <div class="mb-4">
                                     <textarea id="observacoesLocalizacao" name="observacoesLocalizacao"
-                                        class="campo-formulario-privado" rows="4"
+                                        class="form-control campo-formulario-privado" rows="6"
                                         placeholder="Escreva observações específicas sobre a localização deste equipamento"></textarea>
                                 </div>
-
                             </div>
 
-                            <div class="botoes-formulario-privado">
-
+                            <div class="acoes-formulario-privado">
                                 <a href="equipamentos.html" class="botao-cancelar-privado">
-                                    <i class="fa-solid fa-xmark"></i>
-                                    Cancelar
+                                    <i class="fa-solid fa-xmark"></i> Cancelar
                                 </a>
-
                                 <button type="submit" class="botao-guardar-privado">
                                     <i class="fa-solid fa-floppy-disk"></i>
                                     Guardar alterações
                                 </button>
-
                             </div>
 
                         </div>
 
-                        <!-- Separador Documentação associada -->
-                        <div id="tab-nova-documentacao" class="conteudo-tab-equipamento">
+                        <!-- Separador Garantia -->
+                        <div id="tab-garantia" class="conteudo-tab-equipamento">
 
-                            <div class="form-grid-privado">
-
-                                <div class="grupo-campo-privado grupo-campo-total">
-                                    <label for="documentacaoAssociada">Documentações associadas</label>
-
-                                    <select id="documentacaoAssociada" name="documentacaoAssociada" class="form-control"
-                                        multiple size="4">
-                                    </select>
-
-                                    <p class="texto-ajuda">
-                                        Selecione uma ou mais documentações previamente registadas. Para selecionar
-                                        várias,
-                                        mantenha pressionada a tecla Ctrl, ou Cmd no Mac.
-                                    </p>
-                                </div>
-
-                                <div class="grupo-campo-privado grupo-campo-total">
-                                    <label for="observacoesDocumentacaoEquipamento">Observações da
-                                        documentação</label>
-                                    <textarea id="observacoesDocumentacaoEquipamento"
-                                        name="observacoesDocumentacaoEquipamento" class="campo-formulario-privado"
-                                        rows="4"
-                                        placeholder="Observações sobre a documentação associada a este equipamento"></textarea>
-                                </div>
-
-                            </div>
-
-                            <div class="botoes-formulario-privado">
-
-                                <a href="equipamentos.html" class="botao-cancelar-privado">
-                                    <i class="fa-solid fa-xmark"></i>
-                                    Cancelar
-                                </a>
-
-                                <button type="submit" class="botao-guardar-privado">
-                                    <i class="fa-solid fa-floppy-disk"></i>
-                                    Guardar alterações
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                        <!-- Separador Garantia e contrato -->
-                        <div id="tab-nova-garantia" class="conteudo-tab-equipamento">
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                Dados da Garantia
+                            </h5>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -482,7 +726,6 @@
                                     <input type="date" id="dataInicioGarantia"
                                         class="form-control campo-formulario-privado">
                                 </div>
-
                                 <div class="col-md-6 mb-3">
                                     <label for="dataFimGarantia" class="form-label">Data de fim da garantia</label>
                                     <input type="date" id="dataFimGarantia"
@@ -490,18 +733,104 @@
                                 </div>
                             </div>
 
+                            <hr>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-file-medical"></i>
+                                Documentação de garantia
+                            </h5>
+
+                            <div class="grupo-campo-privado grupo-campo-total">
+                                <label for="tem_documentacao_garantia">Existe certificado de garantia associado?</label>
+                                <select id="tem_documentacao_garantia" class="campo-formulario-privado">
+                                    <option value="">Escolha uma opção</option>
+                                    <option value="sim">Sim</option>
+                                    <option value="nao">Não</option>
+                                </select>
+                            </div>
+
+                            <div id="bloco-documentacao-garantia" style="display:none">
+                                <div class="card-documentacao">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Tipo de documento</label>
+                                            <input type="text" class="form-control campo-formulario-privado"
+                                                value="Certificado de garantia" readonly>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <label class="form-label">Nome do documento</label>
+                                            <input type="text" id="nomeCertificadoGarantia"
+                                                name="nomeCertificadoGarantia"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data da documentação</label>
+                                            <input type="date" id="dataCertificadoGarantia"
+                                                name="dataCertificadoGarantia"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data de validade</label>
+                                            <input type="date" id="validadeCertificadoGarantia"
+                                                name="validadeCertificadoGarantia"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Ficheiro PDF</label>
+                                            <input type="file" id="ficheiroCertificadoGarantia"
+                                                name="ficheiroCertificadoGarantia" accept=".pdf"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-comment-medical"></i>
+                                Observações da garantia
+                            </h5>
+
+                            <div class="grupo-campo-privado">
+                                <textarea id="observacoesGarantia" name="observacoesGarantia"
+                                    class="campo-formulario-privado" rows="4"
+                                    placeholder="Escreva observações específicas sobre a garantia deste equipamento"></textarea>
+                            </div>
+
+                            <div class="acoes-formulario-privado">
+                                <a href="equipamentos.html" class="botao-cancelar-privado">
+                                    <i class="fa-solid fa-xmark"></i> Cancelar
+                                </a>
+                                <button type="submit" class="botao-guardar-privado">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    Guardar alterações
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <!-- Separador Contrato -->
+                        <div id="tab-contrato" class="conteudo-tab-equipamento">
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-screwdriver-wrench"></i>
+                                Contrato de Manutenção
+                            </h5>
+
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="contratoManutencao" class="form-label">
-                                        Contrato de manutenção
-                                    </label>
+                                    <label for="contratoManutencao" class="form-label">Contrato de manutenção</label>
                                     <select id="contratoManutencao" class="form-select campo-formulario-privado">
                                         <option value="" selected disabled>Selecione uma opção</option>
                                         <option value="Sim">Sim</option>
                                         <option value="Não">Não</option>
                                     </select>
                                 </div>
-
                                 <div class="col-md-6 mb-3">
                                     <label for="tipoContrato" class="form-label">Tipo de contrato</label>
                                     <input type="text" id="tipoContrato" class="form-control campo-formulario-privado"
@@ -517,7 +846,6 @@
                                         class="form-control campo-formulario-privado"
                                         placeholder="Ex.: Philips Healthcare">
                                 </div>
-
                                 <div class="col-md-6 mb-3">
                                     <label for="periodicidadeContrato" class="form-label">Periodicidade</label>
                                     <select id="periodicidadeContrato" class="form-select campo-formulario-privado">
@@ -530,46 +858,250 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="observacoesContrato" class="form-label">Observações da
-                                    garantia/contrato</label>
-                                <textarea id="observacoesContrato" class="form-control campo-formulario-privado"
-                                    rows="3"
-                                    placeholder="Observações sobre a garantia ou contrato de manutenção"></textarea>
+                            <hr>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-file-medical"></i>
+                                Documentação do contrato
+                            </h5>
+
+                            <div class="grupo-campo-privado">
+                                <label for="tem_documentacao_contrato">Existe contrato de manutenção associado?</label>
+                                <select id="tem_documentacao_contrato" class="campo-formulario-privado">
+                                    <option value="">Escolha uma opção</option>
+                                    <option value="sim">Sim</option>
+                                    <option value="nao">Não</option>
+                                </select>
                             </div>
 
-                            <div class="botoes-formulario-privado">
+                            <div id="bloco-documentacao-contrato" style="display:none">
+                                <div class="card-documentacao">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Tipo de documento</label>
+                                            <input type="text" class="form-control campo-formulario-privado"
+                                                value="Contrato de manutenção" readonly>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <label class="form-label">Nome do documento</label>
+                                            <input type="text" id="nomeContratoManutencao" name="nomeContratoManutencao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data da documentação</label>
+                                            <input type="date" id="dataContratoManutencao" name="dataContratoManutencao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data de validade</label>
+                                            <input type="date" id="validadeContratoManutencao"
+                                                name="validadeContratoManutencao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Ficheiro PDF</label>
+                                            <input type="file" id="ficheiroContratoManutencao"
+                                                name="ficheiroContratoManutencao" accept=".pdf"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="grupo-campo-privado" style="margin-top: 1.2rem;">
+                                <label for="tem_relatorio_contrato">Existe relatório de manutenção associado?</label>
+                                <select id="tem_relatorio_contrato" class="campo-formulario-privado">
+                                    <option value="">Escolha uma opção</option>
+                                    <option value="sim">Sim</option>
+                                    <option value="nao">Não</option>
+                                </select>
+                            </div>
+
+                            <div id="bloco-relatorio-contrato" style="display:none">
+                                <div class="card-documentacao">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Tipo de documento</label>
+                                            <input type="text" class="form-control campo-formulario-privado"
+                                                value="Relatório de manutenção" readonly>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <label class="form-label">Nome do documento</label>
+                                            <input type="text" id="nomeRelatorioManutencao"
+                                                name="nomeRelatorioManutencao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data da documentação</label>
+                                            <input type="date" id="dataRelatorioManutencao"
+                                                name="dataRelatorioManutencao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data de validade</label>
+                                            <input type="date" id="validadeRelatorioManutencao"
+                                                name="validadeRelatorioManutencao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Ficheiro PDF</label>
+                                            <input type="file" id="ficheiroRelatorioManutencao"
+                                                name="ficheiroRelatorioManutencao" accept=".pdf"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-book-open"></i>
+                                Documentação de calibração
+                            </h5>
+
+                            <div class="grupo-campo-privado">
+                                <label for="tem_documentacao_calibracao">Existe certificado de calibração
+                                    associado?</label>
+                                <select id="tem_documentacao_calibracao" class="campo-formulario-privado">
+                                    <option value="">Escolha uma opção</option>
+                                    <option value="sim">Sim</option>
+                                    <option value="nao">Não</option>
+                                </select>
+                            </div>
+
+                            <div id="bloco-documentacao-calibracao" style="display:none">
+                                <div class="card-documentacao">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Tipo de documento</label>
+                                            <input type="text" class="form-control campo-formulario-privado"
+                                                value="Certificado de calibração" readonly>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <label class="form-label">Nome do documento</label>
+                                            <input type="text" id="nomeCertificadoCalibracao"
+                                                name="nomeCertificadoCalibracao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data da documentação</label>
+                                            <input type="date" id="dataCertificadoCalibracao"
+                                                name="dataCertificadoCalibracao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data de validade</label>
+                                            <input type="date" id="validadeCertificadoCalibracao"
+                                                name="validadeCertificadoCalibracao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Ficheiro PDF</label>
+                                            <input type="file" id="ficheiroCertificadoCalibracao"
+                                                name="ficheiroCertificadoCalibracao" accept=".pdf"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grupo-campo-privado" style="margin-top: 1.2rem;">
+                                <label for="tem_relatorio_calibracao">Existe relatório de calibração associado?</label>
+                                <select id="tem_relatorio_calibracao" class="campo-formulario-privado">
+                                    <option value="">Escolha uma opção</option>
+                                    <option value="sim">Sim</option>
+                                    <option value="nao">Não</option>
+                                </select>
+                            </div>
+
+                            <div id="bloco-relatorio-calibracao" style="display:none">
+                                <div class="card-documentacao">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Tipo de documento</label>
+                                            <input type="text" class="form-control campo-formulario-privado"
+                                                value="Relatório de calibração" readonly>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <label class="form-label">Nome do documento</label>
+                                            <input type="text" id="nomeRelatorioCalibracao"
+                                                name="nomeRelatorioCalibracao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data da documentação</label>
+                                            <input type="date" id="dataRelatorioCalibracao"
+                                                name="dataRelatorioCalibracao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data de validade</label>
+                                            <input type="date" id="validadeRelatorioCalibracao"
+                                                name="validadeRelatorioCalibracao"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Ficheiro PDF</label>
+                                            <input type="file" id="ficheiroRelatorioCalibracao"
+                                                name="ficheiroRelatorioCalibracao" accept=".pdf"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+                                <i class="fa-solid fa-comment-medical"></i>
+                                Observações do contrato
+                            </h5>
+
+                            <div class="mb-4">
+                                <textarea id="observacoesContrato" name="observacoesContrato" rows="6"
+                                    class="form-control campo-formulario-privado"
+                                    placeholder="Informações adicionais relevantes sobre o contrato do equipamento..."></textarea>
+                            </div>
+
+                            <div class="acoes-formulario-privado">
                                 <a href="equipamentos.html" class="botao-cancelar-privado">
                                     <i class="fa-solid fa-xmark"></i>
                                     Cancelar
                                 </a>
-
                                 <button type="submit" class="botao-guardar-privado">
                                     <i class="fa-solid fa-floppy-disk"></i>
                                     Guardar alterações
                                 </button>
-
                             </div>
 
                         </div>
 
                     </div>
 
-    </div>
+                </form>
 
-    </form>
+            </section>
 
-    </section>
-
-    </main>
+        </main>
 
     </div>
 
-    <!-- JavaScript do Bootstrap -->
     <script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
-
-    <!-- JavaScript próprio -->
     <script src="../../../assets/js/1241466.js"></script>
 
 </body>

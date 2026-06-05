@@ -72,11 +72,6 @@
                     Localizações
                 </a>
 
-                <a href="../documentacao/documentacao.html">
-                    <i class="fa-solid fa-file-medical"></i>
-                    Documentação
-                </a>
-
                 <a href="../gestao_conteudos/gestao_conteudos.html">
                     <i class="fa-solid fa-pen-to-square"></i>
                     Gestão de Conteúdos
@@ -140,7 +135,20 @@
                     <div class="grelha-filtros-equipamentos">
 
                         <div class="grupo-filtro-equipamentos">
-                            <label for="filtroEstadoEquipamento">Estado</label>
+                            <label for="filtroEstadoEquipamento">
+                                Estado atual
+                                <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                    data-bs-content="
+       <strong>Ativo</strong> - Equipamento operacional e disponível para utilização.<br><br>
+       <strong>Em manutenção</strong> - Equipamento temporariamente indisponível devido a manutenção preventiva ou corretiva.<br><br>
+       <strong>Inativo</strong> - Equipamento sem utilização atual, mas disponível para voltar ao serviço.<br><br>
+       <strong>Em calibração</strong> - Equipamento em processo de calibração ou verificação metrológica.<br><br>
+       <strong>Em quarentena</strong> - Equipamento isolado temporariamente para avaliação, descontaminação ou validação técnica.<br><br>
+       <strong>Abatido</strong> - Equipamento retirado definitivamente de serviço e sem possibilidade de utilização.
+       ">
+                                </i>
+                            </label>
 
                             <div class="select-filtro-wrapper">
                                 <select id="filtroEstadoEquipamento" class="campo-filtro-equipamentos">
@@ -174,7 +182,23 @@
                         </div>
 
                         <div class="grupo-filtro-equipamentos">
-                            <label for="filtroCategoriaEquipamento">Categoria</label>
+                            <label for="filtroCategoriaEquipamento">Categoria
+                                <i class="fa-solid fa-circle-info"
+        data-bs-toggle="popover"
+        data-bs-trigger="hover focus"
+        data-bs-placement="right"
+        data-bs-html="true"
+        data-bs-content="
+        <strong>Monitorização</strong> - Equipamentos utilizados para monitorizar parâmetros fisiológicos e o estado clínico do paciente.<br><br>
+        <strong>Suporte de vida</strong> - Equipamentos essenciais para manter ou substituir funções vitais do organismo.<br><br>
+        <strong>Terapia</strong> - Equipamentos utilizados na administração de tratamentos e intervenções terapêuticas.<br><br>
+        <strong>Diagnóstico</strong> - Equipamentos destinados à deteção, avaliação e diagnóstico de condições clínicas.<br><br>
+        <strong>Laboratório</strong> - Equipamentos utilizados na análise e processamento de amostras laboratoriais.<br><br>
+        <strong>Esterilização</strong> - Equipamentos destinados à limpeza, desinfeção e esterilização de materiais e dispositivos médicos.<br><br>
+        <strong>Reabilitação</strong> - Equipamentos utilizados na recuperação funcional e reabilitação dos pacientes.
+        ">
+    </i>
+                            </label>
                             <div class="select-filtro-wrapper">
                                 <select id="filtroCategoriaEquipamento" class="campo-filtro-equipamentos">
                                     <option value="">Todas</option>
@@ -190,7 +214,18 @@
                         </div>
 
                         <div class="grupo-filtro-equipamentos">
-                            <label for="filtroCriticidadeEquipamento">Criticidade</label>
+                            <label for="filtroCriticidadeEquipamento">Criticidade
+                                <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                    data-bs-content="
+        <strong>Suporte de vida</strong> - Equipamento essencial para manter ou monitorizar funções vitais do paciente.<br><br>
+        <strong>Alta</strong> - Equipamento cuja indisponibilidade afeta significativamente a prestação de cuidados de saúde.<br><br>
+        <strong>Média</strong> - Equipamento importante, mas cuja indisponibilidade pode ser temporariamente compensada por alternativas.<br><br>
+        <strong>Baixa</strong> - Equipamento de apoio com impacto reduzido na prestação de cuidados.
+        ">
+                                </i>
+                            </label>
+
                             <div class="select-filtro-wrapper">
                                 <select id="filtroCriticidadeEquipamento" class="campo-filtro-equipamentos">
                                     <option value="">Todas</option>
@@ -218,16 +253,15 @@
             <div class="tabela-privada">
                 <table>
                     <thead>
-                        <tr>
-                            <th>Designação do equipamento</th>
-                            <th>Marca</th>
-                            <th>Pessoa de contacto</th>
-                            <th>Telefone da pessoa de contacto</th>
-                            <th>Estado atual</th>
-                            <th>Criticidade</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
+    <tr>
+        <th>Código</th>
+        <th>Designação</th>
+        <th>Localização</th>
+        <th>Estado atual</th>
+        <th>Criticidade</th>
+        <th>Ações</th>
+    </tr>
+</thead>
 
                     <tbody id="tabela-equipamentos">
 
@@ -284,13 +318,13 @@
 
         </div>
 
-     </div>
+    </div>
 
-        <!-- Bootstrap JS -->
+    <!-- Bootstrap JS -->
     <script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
 
-        <!-- JavaScript próprio -->
-        <script src="../../../assets/js/1241466.js"></script>
+    <!-- JavaScript próprio -->
+    <script src="../../../assets/js/1241466.js"></script>
 
 </body>
 

@@ -91,46 +91,53 @@
 
                 <hr>
 
-                <!-- Identificação da localização -->
-                <div class="linha-detalhes">
-                    <div class="campo-detalhes campo-largo">
-                        <h3>Código da localização</h3>
+                <h5 class="subtitulo-separador titulo-azul-separador mt-0">
+                    <i class="fa-solid fa-building"></i>
+                    Dados Gerais
+                </h5>
+
+                <div class="grelha-detalhes-equipamento">
+                    <div class="campo-detalhes">
+                        <h3>Código</h3>
                         <p id="detalhe-codigo-localizacao"></p>
                     </div>
-
-                    <div class="campo-detalhes campo-largo">
+                    <div class="campo-detalhes" style="grid-column: span 2;">
+                        <h3>Serviço / Departamento</h3>
+                        <p id="detalhe-servico"></p>
+                    </div>
+                    <div class="campo-detalhes">
                         <h3>Edifício</h3>
                         <p id="detalhe-edificio"></p>
                     </div>
-                </div>
-
-                <!-- Piso, serviço e sala -->
-                <div class="linha-detalhes">
                     <div class="campo-detalhes">
                         <h3>Piso</h3>
                         <p id="detalhe-piso"></p>
                     </div>
-
                     <div class="campo-detalhes">
-                        <h3>Serviço/Departamento</h3>
-                        <p id="detalhe-servico"></p>
-                    </div>
-
-                    <div class="campo-detalhes">
-                        <h3>Sala/Gabinete</h3>
+                        <h3>Sala / Gabinete</h3>
                         <p id="detalhe-sala"></p>
                     </div>
                 </div>
 
-                <!-- Observações -->
-                <div class="linha-detalhes">
-                    <div class="campo-detalhes campo-largo">
+                <h5 class="subtitulo-separador titulo-azul-separador">
+                    <i class="fa-solid fa-stethoscope"></i>
+                    Equipamentos Associados
+                </h5>
+
+                <div id="equipamentos-da-localizacao"></div>
+
+                <hr>
+
+                <h5 class="subtitulo-separador titulo-azul-separador">
+                    <i class="fa-solid fa-comment-medical"></i>
+                    Observações da localização
+                </h5>
+
+                <div class="campo-detalhes campo-detalhes-largo">
                         <h3>Observações</h3>
                         <p id="detalhe-observacoes-localizacao"></p>
                     </div>
-                </div>
 
-                <!-- Botões -->
                 <div class="botoes-detalhes-equipamento">
                     <a href="localizacoes.html" class="botao-voltar-detalhes">
                         <i class="fa-solid fa-arrow-left"></i>

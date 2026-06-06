@@ -3027,6 +3027,9 @@ function inicializarFiltrosLocalizacoes() {
     const filtroSala =
         document.getElementById("filtroSalaLocalizacao");
 
+    const filtroEquipamentoLocalizacao =
+        document.getElementById("filtroEquipamentoLocalizacao");
+
     const botaoLimparPesquisa =
         document.getElementById("botaoLimparApenasPesquisaLocalizacoes");
 
@@ -3065,6 +3068,9 @@ function inicializarFiltrosLocalizacoes() {
         const salaSelecionada =
             filtroSala.value;
 
+        const equipamentoSelecionado =
+            filtroEquipamentoLocalizacao ? filtroEquipamentoLocalizacao.value : "";
+
         const localizacoesFiltradas =
             Object.values(localizacoesGuardadas).filter(function (localizacao) {
 
@@ -3098,6 +3104,18 @@ function inicializarFiltrosLocalizacoes() {
                         .toLowerCase()
                         .includes(textoPesquisa)
 
+                    ||
+
+                    Object.values(equipamentosGuardados).some(function (eq) {
+                        return eq.localizacao === localizacao.codigo &&
+                            (
+                                (eq.codigo || "").toLowerCase().includes(textoPesquisa) ||
+                                (eq.designacao || "").toLowerCase().includes(textoPesquisa) ||
+                                (eq.categoria || "").toLowerCase().includes(textoPesquisa) ||
+                                (eq.estado || "").toLowerCase().includes(textoPesquisa)
+                            );
+                    })
+
                 const correspondeEdificio =
                     edificioSelecionado === ""
                     ||
@@ -3118,12 +3136,19 @@ function inicializarFiltrosLocalizacoes() {
                     ||
                     localizacao.sala === salaSelecionada;
 
+                const correspondeEquipamento =
+                    equipamentoSelecionado === "" ||
+                    Object.values(equipamentosGuardados).some(function (eq) {
+                        return eq.codigo === equipamentoSelecionado && eq.localizacao === localizacao.codigo;
+                    });
+
                 return (
                     correspondePesquisa &&
                     correspondeEdificio &&
                     correspondeServico &&
                     correspondePiso &&
-                    correspondeSala
+                    correspondeSala &&
+                    correspondeEquipamento
                 );
             });
 
@@ -3154,6 +3179,10 @@ function inicializarFiltrosLocalizacoes() {
         "change",
         aplicarFiltrosLocalizacoes
     );
+
+    if (filtroEquipamentoLocalizacao) {
+        filtroEquipamentoLocalizacao.addEventListener("change", aplicarFiltrosLocalizacoes);
+    }
 
     if (botaoPesquisar) {
 
@@ -3186,6 +3215,7 @@ function inicializarFiltrosLocalizacoes() {
                 filtroServico.value = "";
                 filtroPiso.value = "";
                 filtroSala.value = "";
+                if (filtroEquipamentoLocalizacao) filtroEquipamentoLocalizacao.value = "";
 
                 aplicarFiltrosLocalizacoes();
             }
@@ -3299,6 +3329,18 @@ function preencherSelectFiltrosLocalizacoes() {
 
         filtroSala.appendChild(option);
     });
+
+    //equipamento associado
+    const filtroEquipamentoLocalizacao = document.getElementById("filtroEquipamentoLocalizacao");
+    if (filtroEquipamentoLocalizacao) {
+        filtroEquipamentoLocalizacao.innerHTML = '<option value="">Todos</option>';
+        Object.values(equipamentosGuardados).forEach(function (equipamento) {
+            const option = document.createElement("option");
+            option.value = equipamento.codigo;
+            option.textContent = equipamento.codigo + " — " + equipamento.designacao;
+            filtroEquipamentoLocalizacao.appendChild(option);
+        });
+    }
 }
 
 function inicializarNovaLocalizacao() {
@@ -3355,6 +3397,50 @@ function preencherDetalhesLocalizacao() {
     document.getElementById("detalhe-servico").textContent = localizacao.servico;
     document.getElementById("detalhe-sala").textContent = localizacao.sala;
     document.getElementById("detalhe-observacoes-localizacao").textContent = localizacao.observacoes;
+
+    const containerEquipamentosLocalizacao = document.getElementById("equipamentos-da-localizacao");
+    if (containerEquipamentosLocalizacao) {
+        const equipamentosAssociados = Object.values(equipamentosGuardados).filter(function (eq) {
+            return eq.localizacao === idLocalizacao;
+        });
+
+        if (equipamentosAssociados.length === 0) {
+            containerEquipamentosLocalizacao.innerHTML = `<p style="color:#6b7280; font-style:italic;">Sem equipamentos associados.</p>`;
+        } else {
+            let html = `
+            <table class="tabela-detalhe-itens w-100 mb-2">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Designação</th>
+                        <th>Categoria</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+            equipamentosAssociados.forEach(function (eq, index) {
+                const par = index % 2 === 0 ? 'linha-par' : 'linha-impar';
+                html += `
+                <tr class="${par}">
+                    <td class="celula-ref">${eq.codigo || "-"}</td>
+                    <td class="celula-nome">${eq.designacao || "-"}</td>
+                    <td>${eq.categoria || "-"}</td>
+                    <td>${eq.estado || "-"}</td>
+                    <td>
+                        <a href="../equipamentos/consultar_equipamento.html?id=${eq.codigo}" class="botao-ver-fornecedor">
+                            <i class="fa-regular fa-eye"></i>
+                            Ver
+                        </a>
+                    </td>
+                </tr>
+            `;
+            });
+            html += `</tbody></table>`;
+            containerEquipamentosLocalizacao.innerHTML = html;
+        }
+    }
 }
 
 function inicializarEditarLocalizacao() {
@@ -3383,7 +3469,7 @@ function inicializarEditarLocalizacao() {
     const botaoCancelarEdicaoLocalizacao = document.getElementById("botao-cancelar-edicao-localizacao");
 
     if (botaoCancelarEdicaoLocalizacao) {
-        botaoCancelarEdicaoLocalizacao.href = `consultar_localizacao.html?id=${localizacao.codigo}`;
+        botaoCancelarEdicaoLocalizacao.href = `localizacoes.html?id=${localizacao.codigo}`;
     }
 
     formEditarLocalizacao.addEventListener("submit", function (event) {

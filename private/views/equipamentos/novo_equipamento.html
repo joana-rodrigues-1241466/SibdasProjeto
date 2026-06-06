@@ -321,7 +321,7 @@
                                         <div class="col-md-4 mb-3">
                                             <label class="form-label">Tipo de documento</label>
                                             <input type="text" class="form-control campo-formulario-privado"
-                                                value="Manual Técnico" readonly>
+    value="Manual de Serviço" readonly>
                                         </div>
 
                                         <div class="col-md-8 mb-3">
@@ -434,6 +434,58 @@
                                 </div>
 
                             </div>
+
+                            <h5 class="subtitulo-separador titulo-azul-separador">
+    <i class="fa-solid fa-certificate"></i>
+    Documentação de Conformidade
+</h5>
+
+<div class="grupo-campo-privado grupo-campo-total">
+    <label for="tem_declaracao_conformidade">
+        Existe declaração de conformidade associada?
+    </label>
+    <select id="tem_declaracao_conformidade" class="campo-formulario-privado">
+        <option value="">Escolha uma opção</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+    </select>
+</div>
+
+<div id="bloco-declaracao-conformidade" style="display:none">
+    <div class="card-documentacao">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Tipo de documento</label>
+                <input type="text" class="form-control campo-formulario-privado"
+                    value="Declaração de Conformidade" readonly>
+            </div>
+            <div class="col-md-8 mb-3">
+                <label class="form-label">Nome do documento</label>
+                <input type="text" id="nomeDeclaracaoConformidade" name="nomeDeclaracaoConformidade"
+                    class="form-control campo-formulario-privado">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Data da documentação</label>
+                <input type="date" id="dataDeclaracaoConformidade" name="dataDeclaracaoConformidade"
+                    class="form-control campo-formulario-privado">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Data de validade</label>
+                <input type="date" id="validadeDeclaracaoConformidade" name="validadeDeclaracaoConformidade"
+                    class="form-control campo-formulario-privado">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Ficheiro PDF</label>
+                <input type="file" id="ficheiroDeclaracaoConformidade" name="ficheiroDeclaracaoConformidade"
+                    accept=".pdf" class="form-control campo-formulario-privado">
+            </div>
+        </div>
+    </div>
+</div>
 
                             <hr>
 

@@ -216,11 +216,11 @@ const equipamentosConsulta = {
         criticidade: "Alta",
 
         temDocumentacaoTecnica: "sim",
-        tipoManualTecnico: "Manual Técnico",
+        tipoManualTecnico: "Manual de Serviço",
         nomeManualTecnico: "Manual IntelliVue MX450",
         dataManualTecnico: "10/03/2025",
         validadeManualTecnico: "10/03/2030",
-        ficheiroManualTecnico: "manual_tecnico_EQ001.pdf",
+        ficheiroManualTecnico: "manual_servico_EQ001.pdf",
 
         temDocumentacaoUtilizacao: "sim",
         tipoManualUtilizacao: "Manual de Utilização",
@@ -228,6 +228,12 @@ const equipamentosConsulta = {
         dataManualUtilizacao: "10/03/2025",
         validadeManualUtilizacao: "10/03/2030",
         ficheiroManualUtilizacao: "manual_utilizacao_EQ001.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade MX450",
+        dataDeclaracaoConformidade: "10/03/2025",
+        validadeDeclaracaoConformidade: "10/03/2030",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ001.pdf",
 
         observacoes: "Equipamento utilizado para monitorização contínua de sinais vitais em doentes críticos.",
 
@@ -333,11 +339,11 @@ const equipamentosConsulta = {
         criticidade: "Suporte de vida",
 
         temDocumentacaoTecnica: "sim",
-        tipoManualTecnico: "Manual Técnico",
+        tipoManualTecnico: "Manual de Serviço",
         nomeManualTecnico: "Manual Evita V600",
         dataManualTecnico: "08/09/2021",
         validadeManualTecnico: "08/09/2031",
-        ficheiroManualTecnico: "manual_tecnico_EQ002.pdf",
+        ficheiroManualTecnico: "manual_servico_EQ002.pdf",
 
         temDocumentacaoUtilizacao: "sim",
         tipoManualUtilizacao: "Manual de Utilização",
@@ -345,6 +351,12 @@ const equipamentosConsulta = {
         dataManualUtilizacao: "08/09/2021",
         validadeManualUtilizacao: "08/09/2031",
         ficheiroManualUtilizacao: "manual_utilizacao_EQ002.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Evita V600",
+        dataDeclaracaoConformidade: "08/09/2021",
+        validadeDeclaracaoConformidade: "08/09/2031",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ002.pdf",
 
         observacoes: "Equipamento em manutenção preventiva programada. Utilizado em UCI para suporte ventilatório invasivo.",
 
@@ -472,6 +484,12 @@ const equipamentosConsulta = {
         validadeManualUtilizacao: "21/01/2030",
         ficheiroManualUtilizacao: "manual_utilizacao_EQ003.pdf",
 
+        temDeclaracaoConformidade: "nao",
+        nomeDeclaracaoConformidade: "",
+        dataDeclaracaoConformidade: "",
+        validadeDeclaracaoConformidade: "",
+        ficheiroDeclaracaoConformidade: "",
+
         observacoes: "Utilizada para administração controlada de terapêutica intravenosa. Em processo de calibração anual.",
 
         acessorios: [
@@ -571,14 +589,14 @@ const equipamentosConsulta = {
         fabricante: "Zoll Medical",
         anoFabrico: "2022",
         estado: "Ativo",
-        criticidade: "Baixa",
+        criticidade: "Suporte de vida",
 
         temDocumentacaoTecnica: "sim",
-        tipoManualTecnico: "Manual Técnico",
+        tipoManualTecnico: "Manual de Serviço",
         nomeManualTecnico: "Manual Técnico Zoll R Series",
         dataManualTecnico: "15/06/2022",
         validadeManualTecnico: "15/06/2032",
-        ficheiroManualTecnico: "manual_tecnico_EQ004.pdf",
+        ficheiroManualTecnico: "manual_servico_EQ004.pdf",
 
         temDocumentacaoUtilizacao: "sim",
         tipoManualUtilizacao: "Manual de Utilização",
@@ -586,6 +604,12 @@ const equipamentosConsulta = {
         dataManualUtilizacao: "15/06/2022",
         validadeManualUtilizacao: "15/06/2032",
         ficheiroManualUtilizacao: "manual_utilizacao_EQ004.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Zoll R Series",
+        dataDeclaracaoConformidade: "15/06/2022",
+        validadeDeclaracaoConformidade: "15/06/2032",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ004.pdf",
 
         observacoes: "Equipamento essencial para resposta rápida em situações de paragem cardiorrespiratória. Localizado na Urgência.",
 
@@ -624,7 +648,7 @@ const equipamentosConsulta = {
                 codigo: "FOR004",
                 morada: "Coimbra, Portugal",
                 pessoaContacto: "João Almeida",
-                telefone: "+351 940 000 000",
+                telefone: "+351 931 000 000",
                 tipo: "Empresa de assistência técnica",
                 observacoes: "Responsável pela manutenção corretiva."
             },
@@ -686,7 +710,3835 @@ const equipamentosConsulta = {
         ficheiroRelatorioCalibracao: "",
 
         observacoesContrato: "Contrato de manutenção corretiva anual ativo com TecnoMed Assistência.",
-    }
+    },
+
+    EQ005: {
+        codigo: "EQ005",
+        designacao: "Ecógrafo",
+        categoria: "Diagnóstico",
+        marca: "Siemens",
+        modelo: "Acuson Redwood",
+        numeroSerie: "SM-RDW-2023-021",
+        fabricante: "Siemens Healthineers",
+        anoFabrico: "2023",
+        estado: "Ativo",
+        criticidade: "Alta",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Siemens Acuson Redwood",
+        dataManualTecnico: "10/04/2024",
+        validadeManualTecnico: "10/04/2033",
+        ficheiroManualTecnico: "manual_servico_EQ005.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Acuson Redwood",
+        dataManualUtilizacao: "10/04/2024",
+        validadeManualUtilizacao: "10/04/2034",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ005.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Siemens Acuson Redwood",
+        dataDeclaracaoConformidade: "10/04/2024",
+        validadeDeclaracaoConformidade: "10/04/2034",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ005.pdf",
+
+        observacoes: "Equipamento utilizado para realização de exames ecográficos em diferentes especialidades clínicas.",
+
+        acessorios: [
+            {
+                nome: "Sonda convexa",
+                referencia: "ACC-SON-001",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Sonda linear",
+                referencia: "ACC-SON-002",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Pedal multifunções",
+                referencia: "ACC-PED-001",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Gel de ultrassom",
+                referencia: "CON-GEL-001",
+                quantidade: "20",
+                unidade: "frasco",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Papel térmico",
+                referencia: "CON-PAP-003",
+                quantidade: "5",
+                unidade: "rolo",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "10/04/2024",
+        custoAquisicao: "28500 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Siemens 2024",
+        dataContratoAquisicao: "10/04/2024",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ005.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Siemens 2024",
+        dataFatura: "10/04/2024",
+        ficheiroFatura: "fatura_EQ005.pdf",
+
+        observacoesAquisicao: "Aquisição realizada para reforço da capacidade de diagnóstico por imagem.",
+
+        fornecedores: [
+            {
+                codigo: "FOR005",
+                morada: "Coimbra, Portugal",
+                pessoaContacto: "Ricardo Moreira",
+                telefone: "+351 910 111 222",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor principal do equipamento."
+            },
+            {
+                codigo: "FOR004",
+                morada: "Coimbra, Portugal",
+                pessoaContacto: "João Almeida",
+                telefone: "+351 960 000 000",
+                tipo: "Empresa de assistência técnica",
+                observacoes: "Responsável pela manutenção preventiva."
+            }
+        ],
+
+        localizacao: "LOC005",
+        observacoesLocalizacao: "Equipamento instalado na sala de imagiologia para realização de exames ecográficos.",
+
+        dataInicioGarantia: "10/04/2024",
+        dataFimGarantia: "10/04/2027",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Siemens Acuson Redwood",
+        dataCertificadoGarantia: "10/04/2024",
+        validadeCertificadoGarantia: "10/04/2027",
+        ficheiroGarantia: "certificado_garantia_EQ005.pdf",
+
+        observacoesGarantia: "Garantia comercial de 3 anos fornecida pelo fabricante.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "TecnoMed Assistência",
+        periodicidadeContrato: "Anual",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção Siemens 2025",
+        dataContratoManutencao: "01/01/2025",
+        validadeContratoManutencao: "31/12/2025",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ005.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo 2025",
+        dataRelatorioManutencao: "15/02/2025",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ005.pdf",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração Ecógrafo 2025",
+        dataCertificadoCalibracao: "15/02/2025",
+        validadeCertificadoCalibracao: "15/02/2026",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ005.pdf",
+
+        temRelatorioCalibracao: "sim",
+        nomeRelatorioCalibracao: "Relatório Calibração Ecógrafo 2025",
+        dataRelatorioCalibracao: "15/02/2025",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "relatorio_calibracao_EQ005.pdf",
+
+        observacoesContrato: "Contrato de manutenção preventiva anual ativo com a TecnoMed Assistência."
+    },
+
+    EQ006: {
+        codigo: "EQ006",
+        designacao: "Analisador Bioquímico",
+        categoria: "Laboratório",
+        marca: "Roche",
+        modelo: "Cobas Pure",
+        numeroSerie: "RC-CBP-2024-014",
+        fabricante: "Roche Diagnostics",
+        anoFabrico: "2024",
+        estado: "Ativo",
+        criticidade: "Alta",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Roche Cobas Pure",
+        dataManualTecnico: "20/02/2024",
+        validadeManualTecnico: "20/02/2034",
+        ficheiroManualTecnico: "manual_servico_EQ006.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Cobas Pure",
+        dataManualUtilizacao: "20/02/2024",
+        validadeManualUtilizacao: "20/02/2034",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ006.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Cobas Pure",
+        dataDeclaracaoConformidade: "20/02/2024",
+        validadeDeclaracaoConformidade: "20/02/2034",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ006.pdf",
+
+        observacoes: "Equipamento destinado à realização de análises bioquímicas laboratoriais.",
+
+        acessorios: [
+            {
+                nome: "Leitor de código de barras",
+                referencia: "ACC-LCB-001",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Módulo de amostras",
+                referencia: "ACC-MOD-001",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Reagente Bioquímico",
+                referencia: "CON-REB-001",
+                quantidade: "12",
+                unidade: "frasco",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Cuvetes descartáveis",
+                referencia: "CON-CUV-001",
+                quantidade: "500",
+                unidade: "unid",
+                estado: "novo",
+                observacoes: ""
+            },
+            {
+                nome: "Solução de limpeza",
+                referencia: "CON-LIM-001",
+                quantidade: "4",
+                unidade: "frasco",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "20/02/2024",
+        custoAquisicao: "36500 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Roche 2024",
+        dataContratoAquisicao: "20/02/2024",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ006.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Roche 2024",
+        dataFatura: "20/02/2024",
+        ficheiroFatura: "fatura_EQ006.pdf",
+
+        observacoesAquisicao: "Equipamento adquirido para modernização do laboratório clínico.",
+
+        fornecedores: [
+            {
+                codigo: "FOR009",
+                morada: "Lisboa, Portugal",
+                pessoaContacto: "Tiago Oliveira",
+                telefone: "+351 910 555 666",
+                tipo: "Fornecedor de consumáveis ou acessórios",
+                observacoes: "Fornecedor principal do equipamento e reagentes."
+            },
+            {
+                codigo: "FOR004",
+                morada: "Coimbra, Portugal",
+                pessoaContacto: "João Almeida",
+                telefone: "+351 930 000 400",
+                tipo: "Empresa de assistência técnica",
+                observacoes: "Responsável pela manutenção preventiva."
+            }
+        ],
+
+        localizacao: "LOC011",
+        observacoesLocalizacao: "Instalado na área principal do laboratório clínico.",
+
+        dataInicioGarantia: "20/02/2024",
+        dataFimGarantia: "20/02/2027",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Roche Cobas Pure",
+        dataCertificadoGarantia: "20/02/2024",
+        validadeCertificadoGarantia: "20/02/2027",
+        ficheiroGarantia: "certificado_garantia_EQ006.pdf",
+
+        observacoesGarantia: "Garantia comercial de 3 anos.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "TecnoMed Assistência",
+        periodicidadeContrato: "Semestral",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção Roche 2025",
+        dataContratoManutencao: "01/01/2025",
+        validadeContratoManutencao: "31/12/2025",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ006.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo 1º Semestre 2025",
+        dataRelatorioManutencao: "15/03/2025",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ006.pdf",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração Cobas Pure 2025",
+        dataCertificadoCalibracao: "15/03/2025",
+        validadeCertificadoCalibracao: "15/03/2026",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ006.pdf",
+
+        temRelatorioCalibracao: "sim",
+        nomeRelatorioCalibracao: "Relatório Calibração Cobas Pure 2025",
+        dataRelatorioCalibracao: "15/03/2025",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "relatorio_calibracao_EQ006.pdf",
+
+        observacoesContrato: "Contrato de manutenção preventiva semestral ativo."
+    },
+
+    EQ007: {
+        codigo: "EQ007",
+        designacao: "Autoclave",
+        categoria: "Esterilização",
+        marca: "Getinge",
+        modelo: "HS66",
+        numeroSerie: "GT-HS66-2021-009",
+        fabricante: "Getinge",
+        anoFabrico: "2021",
+        estado: "Em manutenção",
+        criticidade: "Alta",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Getinge HS66",
+        dataManualTecnico: "12/05/2021",
+        validadeManualTecnico: "12/05/2031",
+        ficheiroManualTecnico: "manual_servico_EQ007.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Getinge HS66",
+        dataManualUtilizacao: "12/05/2021",
+        validadeManualUtilizacao: "12/05/2031",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ007.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Getinge HS66",
+        dataDeclaracaoConformidade: "12/05/2021",
+        validadeDeclaracaoConformidade: "12/05/2031",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ007.pdf",
+
+        observacoes: "Equipamento utilizado para esterilização de instrumentos cirúrgicos e material clínico.",
+
+        acessorios: [
+            {
+                nome: "Carro de carga",
+                referencia: "ACC-CAR-001",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Cestos inox",
+                referencia: "ACC-CES-001",
+                quantidade: "8",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Indicadores químicos",
+                referencia: "CON-IND-001",
+                quantidade: "150",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Fita de esterilização",
+                referencia: "CON-FIT-001",
+                quantidade: "25",
+                unidade: "rolo",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "12/05/2021",
+        custoAquisicao: "32000 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Getinge 2021",
+        dataContratoAquisicao: "12/05/2021",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ007.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Getinge 2021",
+        dataFatura: "12/05/2021",
+        ficheiroFatura: "fatura_EQ007.pdf",
+
+        observacoesAquisicao: "Aquisição realizada para reforço da capacidade de esterilização hospitalar.",
+
+        fornecedores: [
+            {
+                codigo: "FOR003",
+                morada: "Aveiro, Portugal",
+                pessoaContacto: "Carla Ferreira",
+                telefone: "+351 930 000 000",
+                tipo: "Distribuidor ou Fornecedor comercial",
+                observacoes: "Fornecedor responsável pela entrega do equipamento."
+            },
+            {
+                codigo: "FOR004",
+                morada: "Coimbra, Portugal",
+                pessoaContacto: "João Almeida",
+                telefone: "+351 930 000 400",
+                tipo: "Empresa de assistência técnica",
+                observacoes: "Responsável pela manutenção preventiva e corretiva."
+            }
+        ],
+
+        localizacao: "LOC008",
+        observacoesLocalizacao: "Equipamento instalado na Central de Esterilização.",
+
+        dataInicioGarantia: "12/05/2021",
+        dataFimGarantia: "12/05/2024",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Getinge HS66",
+        dataCertificadoGarantia: "12/05/2021",
+        validadeCertificadoGarantia: "12/05/2024",
+        ficheiroGarantia: "certificado_garantia_EQ007.pdf",
+
+        observacoesGarantia: "Garantia comercial expirada.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "TecnoMed Assistência",
+        periodicidadeContrato: "Trimestral",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção Getinge 2025",
+        dataContratoManutencao: "01/01/2025",
+        validadeContratoManutencao: "31/12/2025",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ007.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo 1º Trimestre 2025",
+        dataRelatorioManutencao: "05/03/2025",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ007.pdf",
+
+        temDocumentacaoCalibracao: "nao",
+        nomeCertificadoCalibracao: "",
+        dataCertificadoCalibracao: "",
+        validadeCertificadoCalibracao: "",
+        ficheiroCertificadoCalibracao: "",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento temporariamente em manutenção preventiva programada."
+    },
+
+    EQ008: {
+        codigo: "EQ008",
+        designacao: "Ultrassom Terapêutico",
+        categoria: "Reabilitação",
+        marca: "BTL",
+        modelo: "BTL-5820S",
+        numeroSerie: "BTL-US-2023-011",
+        fabricante: "BTL Industries",
+        anoFabrico: "2023",
+        estado: "Ativo",
+        criticidade: "Média",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico BTL-5820S",
+        dataManualTecnico: "10/01/2023",
+        validadeManualTecnico: "10/01/2033",
+        ficheiroManualTecnico: "manual_servico_EQ008.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização BTL-5820S",
+        dataManualUtilizacao: "10/01/2023",
+        validadeManualUtilizacao: "10/01/2033",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ008.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade BTL-5820S",
+        dataDeclaracaoConformidade: "10/01/2023",
+        validadeDeclaracaoConformidade: "10/01/2033",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ008.pdf",
+
+        observacoes: "Equipamento utilizado em tratamentos de fisioterapia e reabilitação músculo-esquelética.",
+
+        acessorios: [
+            {
+                nome: "Cabeça de tratamento 1 MHz",
+                referencia: "ACC-US-001",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Cabeça de tratamento 3 MHz",
+                referencia: "ACC-US-002",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Gel condutor",
+                referencia: "CON-GEL-002",
+                quantidade: "10",
+                unidade: "frasco",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "15/02/2023",
+        custoAquisicao: "4200 €",
+        tipoEntrada: "Doação",
+
+        temContratoAquisicao: "nao",
+        nomeContratoAquisicao: "",
+        dataContratoAquisicao: "",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "",
+
+        temFatura: "nao",
+        nomeFatura: "",
+        dataFatura: "",
+        ficheiroFatura: "",
+
+        observacoesAquisicao: "Equipamento recebido através de doação para reforço do serviço de reabilitação.",
+
+        fornecedores: [
+            {
+                codigo: "FOR008",
+                morada: "Braga, Portugal",
+                pessoaContacto: "Sofia Martins",
+                telefone: "+351 910 444 555",
+                tipo: "Distribuidor ou Fornecedor comercial",
+                observacoes: "Fornecedor responsável pela entrega do equipamento."
+            }
+        ],
+
+        localizacao: "LOC012",
+        observacoesLocalizacao: "Equipamento utilizado no serviço de Medicina Física e Reabilitação.",
+
+        dataInicioGarantia: "15/02/2023",
+        dataFimGarantia: "15/02/2026",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia BTL-5820S",
+        dataCertificadoGarantia: "15/02/2023",
+        validadeCertificadoGarantia: "15/02/2026",
+        ficheiroGarantia: "certificado_garantia_EQ008.pdf",
+
+        observacoesGarantia: "Garantia de 3 anos fornecida pelo distribuidor.",
+
+        contratoManutencao: "Não",
+        tipoContrato: "Não existe",
+        entidadeResponsavelContrato: "Não existe",
+        periodicidadeContrato: "Não aplicável",
+
+        temDocumentacaoContrato: "nao",
+        nomeContratoManutencao: "",
+        dataContratoManutencao: "",
+        validadeContratoManutencao: "",
+        ficheiroContratoManutencao: "",
+
+        temRelatorioContrato: "nao",
+        nomeRelatorioManutencao: "",
+        dataRelatorioManutencao: "",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "",
+
+        temDocumentacaoCalibracao: "nao",
+        nomeCertificadoCalibracao: "",
+        dataCertificadoCalibracao: "",
+        validadeCertificadoCalibracao: "",
+        ficheiroCertificadoCalibracao: "",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento sem contrato de manutenção ativo."
+    },
+
+    EQ009: {
+        codigo: "EQ009",
+        designacao: "Monitor Multiparamétrico",
+        categoria: "Monitorização",
+        marca: "GE HealthCare",
+        modelo: "CARESCAPE B450",
+        numeroSerie: "GE-B450-2022-019",
+        fabricante: "GE HealthCare",
+        anoFabrico: "2022",
+        estado: "Em calibração",
+        criticidade: "Alta",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico CARESCAPE B450",
+        dataManualTecnico: "08/09/2022",
+        validadeManualTecnico: "08/09/2032",
+        ficheiroManualTecnico: "manual_servico_EQ009.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização CARESCAPE B450",
+        dataManualUtilizacao: "08/09/2022",
+        validadeManualUtilizacao: "08/09/2032",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ009.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade CARESCAPE B450",
+        dataDeclaracaoConformidade: "08/09/2022",
+        validadeDeclaracaoConformidade: "08/09/2032",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ009.pdf",
+
+        observacoes: "Equipamento temporariamente retirado de serviço para calibração anual.",
+
+        acessorios: [
+            {
+                nome: "Sensor SpO2",
+                referencia: "ACC-SPO2-009",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Braçadeira NIBP adulto",
+                referencia: "ACC-NIBP-009",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Cabo ECG 5 derivações",
+                referencia: "ACC-ECG-009",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Elétrodos ECG descartáveis",
+                referencia: "CON-ECG-009",
+                quantidade: "100",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "08/09/2022",
+        custoAquisicao: "5200 €",
+        tipoEntrada: "Aluguer",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aluguer",
+        nomeContratoAquisicao: "Contrato Aluguer GE 2022",
+        dataContratoAquisicao: "08/09/2022",
+        validadeContratoAquisicao: "08/09/2027",
+        ficheiroContratoAquisicao: "contrato_aluguer_EQ009.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura GE 2022",
+        dataFatura: "08/09/2022",
+        ficheiroFatura: "fatura_EQ009.pdf",
+
+        observacoesAquisicao: "Equipamento obtido através de contrato de aluguer operacional.",
+
+        fornecedores: [
+            {
+                codigo: "FOR006",
+                morada: "Região Autónoma da Madeira, Portugal",
+                pessoaContacto: "Ana Ribeiro",
+                telefone: "+351 910 222 333",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor principal do equipamento."
+            }
+        ],
+
+        localizacao: "LOC001",
+        observacoesLocalizacao: "Monitor instalado na Unidade de Cuidados Intensivos.",
+
+        dataInicioGarantia: "08/09/2022",
+        dataFimGarantia: "08/09/2025",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia GE CARESCAPE B450",
+        dataCertificadoGarantia: "08/09/2022",
+        validadeCertificadoGarantia: "08/09/2025",
+        ficheiroGarantia: "certificado_garantia_EQ009.pdf",
+
+        observacoesGarantia: "Garantia associada ao contrato de aluguer.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "GE HealthCare",
+        periodicidadeContrato: "Anual",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção GE 2025",
+        dataContratoManutencao: "01/01/2025",
+        validadeContratoManutencao: "31/12/2025",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ009.pdf",
+
+        temRelatorioContrato: "nao",
+        nomeRelatorioManutencao: "",
+        dataRelatorioManutencao: "",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração B450 2025",
+        dataCertificadoCalibracao: "10/05/2025",
+        validadeCertificadoCalibracao: "10/05/2026",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ009.pdf",
+
+        temRelatorioCalibracao: "sim",
+        nomeRelatorioCalibracao: "Relatório Calibração B450 2025",
+        dataRelatorioCalibracao: "10/05/2025",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "relatorio_calibracao_EQ009.pdf",
+
+        observacoesContrato: "Equipamento em processo de calibração periódica obrigatória."
+    },
+
+    EQ010: {
+        codigo: "EQ010",
+        designacao: "Bomba Infusora",
+        categoria: "Terapia",
+        marca: "B. Braun",
+        modelo: "Perfusor Space",
+        numeroSerie: "BB-PS-2021-028",
+        fabricante: "B. Braun Medical",
+        anoFabrico: "2021",
+        estado: "Em quarentena",
+        criticidade: "Média",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Perfusor Space",
+        dataManualTecnico: "15/03/2021",
+        validadeManualTecnico: "15/03/2031",
+        ficheiroManualTecnico: "manual_servico_EQ010.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Perfusor Space",
+        dataManualUtilizacao: "15/03/2021",
+        validadeManualUtilizacao: "15/03/2031",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ010.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Perfusor Space",
+        dataDeclaracaoConformidade: "15/03/2021",
+        validadeDeclaracaoConformidade: "15/03/2031",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ010.pdf",
+
+        observacoes: "Equipamento temporariamente em quarentena para avaliação técnica após reporte de funcionamento irregular.",
+
+        acessorios: [
+            {
+                nome: "Suporte de fixação",
+                referencia: "ACC-SUP-010",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Cabo de alimentação",
+                referencia: "ACC-CAB-010",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Equipos de infusão",
+                referencia: "CON-EQP-010",
+                quantidade: "50",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Seringas 50 ml",
+                referencia: "CON-SER-010",
+                quantidade: "100",
+                unidade: "unid",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "22/07/2021",
+        custoAquisicao: "2800 €",
+        tipoEntrada: "Empréstimo",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de empréstimo",
+        nomeContratoAquisicao: "Contrato Empréstimo Bomba Infusora 2021",
+        dataContratoAquisicao: "22/07/2021",
+        validadeContratoAquisicao: "22/07/2026",
+        ficheiroContratoAquisicao: "contrato_emprestimo_EQ010.pdf",
+
+        temFatura: "nao",
+        nomeFatura: "",
+        dataFatura: "",
+        ficheiroFatura: "",
+
+        observacoesAquisicao: "Equipamento cedido temporariamente por parceiro institucional.",
+
+        fornecedores: [
+            {
+                codigo: "FOR007",
+                morada: "Faro, Portugal",
+                pessoaContacto: "Pedro Costa",
+                telefone: "+351 910 333 444",
+                tipo: "Fornecedor de consumáveis ou acessórios",
+                observacoes: "Fornecedor responsável pelos consumíveis associados."
+            },
+            {
+                codigo: "FOR004",
+                morada: "Coimbra, Portugal",
+                pessoaContacto: "João Almeida",
+                telefone: "+351 930 000 400",
+                tipo: "Empresa de assistência técnica",
+                observacoes: "Responsável pela avaliação técnica."
+            }
+        ],
+
+        localizacao: "LOC003",
+        observacoesLocalizacao: "Equipamento afeto ao Serviço de Medicina.",
+
+        dataInicioGarantia: "22/07/2021",
+        dataFimGarantia: "22/07/2024",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Perfusor Space",
+        dataCertificadoGarantia: "22/07/2021",
+        validadeCertificadoGarantia: "22/07/2024",
+        ficheiroGarantia: "certificado_garantia_EQ010.pdf",
+
+        observacoesGarantia: "Garantia expirada.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção corretiva",
+        entidadeResponsavelContrato: "TecnoMed Assistência",
+        periodicidadeContrato: "Mensal",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção Perfusor 2025",
+        dataContratoManutencao: "01/01/2025",
+        validadeContratoManutencao: "31/12/2025",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ010.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Avaliação Técnica 2025",
+        dataRelatorioManutencao: "18/04/2025",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ010.pdf",
+
+        temDocumentacaoCalibracao: "nao",
+        nomeCertificadoCalibracao: "",
+        dataCertificadoCalibracao: "",
+        validadeCertificadoCalibracao: "",
+        ficheiroCertificadoCalibracao: "",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento em avaliação técnica antes de regressar ao serviço."
+    },
+
+    EQ011: {
+        codigo: "EQ011",
+        designacao: "Eletrocardiógrafo",
+        categoria: "Diagnóstico",
+        marca: "Philips",
+        modelo: "PageWriter TC35",
+        numeroSerie: "PH-TC35-2020-017",
+        fabricante: "Philips Healthcare",
+        anoFabrico: "2020",
+        estado: "Inativo",
+        criticidade: "Média",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Philips TC35",
+        dataManualTecnico: "10/02/2020",
+        validadeManualTecnico: "10/02/2030",
+        ficheiroManualTecnico: "manual_servico_EQ011.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Philips TC35",
+        dataManualUtilizacao: "10/02/2020",
+        validadeManualUtilizacao: "10/02/2030",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ011.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Philips TC35",
+        dataDeclaracaoConformidade: "10/02/2020",
+        validadeDeclaracaoConformidade: "10/02/2030",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ011.pdf",
+
+        observacoes: "Equipamento atualmente sem utilização devido à aquisição de modelos mais recentes.",
+
+        acessorios: [
+            {
+                nome: "Cabo ECG 12 derivações",
+                referencia: "ACC-ECG-011",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Carrinho de transporte",
+                referencia: "ACC-CAR-011",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Papel térmico ECG",
+                referencia: "CON-PAP-011",
+                quantidade: "8",
+                unidade: "rolo",
+                estado: "novo",
+                observacoes: ""
+            },
+            {
+                nome: "Elétrodos descartáveis",
+                referencia: "CON-ELE-011",
+                quantidade: "200",
+                unidade: "unid",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "10/02/2020",
+        custoAquisicao: "3900 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Philips 2020",
+        dataContratoAquisicao: "10/02/2020",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ011.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Philips 2020",
+        dataFatura: "10/02/2020",
+        ficheiroFatura: "fatura_EQ011.pdf",
+
+        observacoesAquisicao: "Aquisição para reforço da capacidade diagnóstica do serviço.",
+
+        fornecedores: [
+            {
+                codigo: "FOR001",
+                morada: "Lisboa, Portugal",
+                pessoaContacto: "Catarina Silva",
+                telefone: "+351 910 000 000",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor original do equipamento."
+            }
+        ],
+
+        localizacao: "LOC007",
+        observacoesLocalizacao: "Equipamento armazenado na Cardiologia como reserva.",
+
+        dataInicioGarantia: "10/02/2020",
+        dataFimGarantia: "10/02/2023",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Philips TC35",
+        dataCertificadoGarantia: "10/02/2020",
+        validadeCertificadoGarantia: "10/02/2023",
+        ficheiroGarantia: "certificado_garantia_EQ011.pdf",
+
+        observacoesGarantia: "Garantia expirada.",
+
+        contratoManutencao: "Não",
+        tipoContrato: "Não existe",
+        entidadeResponsavelContrato: "Não existe",
+        periodicidadeContrato: "Não aplicável",
+
+        temDocumentacaoContrato: "nao",
+        nomeContratoManutencao: "",
+        dataContratoManutencao: "",
+        validadeContratoManutencao: "",
+        ficheiroContratoManutencao: "",
+
+        temRelatorioContrato: "nao",
+        nomeRelatorioManutencao: "",
+        dataRelatorioManutencao: "",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "",
+
+        temDocumentacaoCalibracao: "nao",
+        nomeCertificadoCalibracao: "",
+        dataCertificadoCalibracao: "",
+        validadeCertificadoCalibracao: "",
+        ficheiroCertificadoCalibracao: "",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento inativo e sem contrato de manutenção."
+    },
+
+    EQ012: {
+        codigo: "EQ012",
+        designacao: "Ventilador Mecânico",
+        categoria: "Suporte de vida",
+        marca: "Dräger",
+        modelo: "Evita V600",
+        numeroSerie: "DR-EV600-2023-012",
+        fabricante: "Dräger",
+        anoFabrico: "2023",
+        estado: "Ativo",
+        criticidade: "Suporte de vida",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Dräger Evita V600",
+        dataManualTecnico: "12/01/2023",
+        validadeManualTecnico: "12/01/2033",
+        ficheiroManualTecnico: "manual_servico_EQ012.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Evita V600",
+        dataManualUtilizacao: "12/01/2023",
+        validadeManualUtilizacao: "12/01/2033",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ012.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Evita V600",
+        dataDeclaracaoConformidade: "12/01/2023",
+        validadeDeclaracaoConformidade: "12/01/2033",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ012.pdf",
+
+        observacoes: "Ventilador mecânico utilizado para suporte respiratório invasivo e não invasivo em doentes críticos.",
+
+        acessorios: [
+            {
+                nome: "Braço articulado",
+                referencia: "ACC-BRA-012",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Humidificador aquecido",
+                referencia: "ACC-HUM-012",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Circuito respiratório",
+                referencia: "CON-CIR-012",
+                quantidade: "20",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Filtro bacteriano",
+                referencia: "CON-FIL-012",
+                quantidade: "30",
+                unidade: "unid",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "12/01/2023",
+        custoAquisicao: "36500 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Dräger 2023",
+        dataContratoAquisicao: "12/01/2023",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ012.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Dräger 2023",
+        dataFatura: "12/01/2023",
+        ficheiroFatura: "fatura_EQ012.pdf",
+
+        observacoesAquisicao: "Aquisição para reforço da capacidade da Unidade de Cuidados Intensivos.",
+
+        fornecedores: [
+            {
+                codigo: "FOR002",
+                morada: "Porto, Portugal",
+                pessoaContacto: "Miguel Santos",
+                telefone: "+351 920 000 000",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor principal do equipamento."
+            },
+            {
+                codigo: "FOR004",
+                morada: "Coimbra, Portugal",
+                pessoaContacto: "João Almeida",
+                telefone: "+351 930 000 400",
+                tipo: "Empresa de assistência técnica",
+                observacoes: "Responsável pela manutenção preventiva."
+            }
+        ],
+
+        localizacao: "LOC002",
+        observacoesLocalizacao: "Equipamento instalado na Unidade de Cuidados Intensivos.",
+
+        dataInicioGarantia: "12/01/2023",
+        dataFimGarantia: "12/01/2026",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Dräger Evita V600",
+        dataCertificadoGarantia: "12/01/2023",
+        validadeCertificadoGarantia: "12/01/2026",
+        ficheiroGarantia: "certificado_garantia_EQ012.pdf",
+
+        observacoesGarantia: "Garantia comercial de 3 anos.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "TecnoMed Assistência",
+        periodicidadeContrato: "Semestral",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção Dräger 2025",
+        dataContratoManutencao: "01/01/2025",
+        validadeContratoManutencao: "31/12/2025",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ012.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo 1º Semestre 2025",
+        dataRelatorioManutencao: "15/04/2025",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ012.pdf",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração Evita V600",
+        dataCertificadoCalibracao: "15/04/2025",
+        validadeCertificadoCalibracao: "15/04/2026",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ012.pdf",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Contrato de manutenção preventiva semestral ativo."
+    },
+
+    EQ013: {
+        codigo: "EQ013",
+        designacao: "Centrífuga Laboratorial",
+        categoria: "Laboratório",
+        marca: "Eppendorf",
+        modelo: "5702",
+        numeroSerie: "EP-5702-2016-013",
+        fabricante: "Eppendorf",
+        anoFabrico: "2016",
+        estado: "Abatido",
+        criticidade: "Baixa",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Eppendorf 5702",
+        dataManualTecnico: "05/04/2016",
+        validadeManualTecnico: "05/04/2026",
+        ficheiroManualTecnico: "manual_servico_EQ013.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Eppendorf 5702",
+        dataManualUtilizacao: "05/04/2016",
+        validadeManualUtilizacao: "05/04/2026",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ013.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Eppendorf 5702",
+        dataDeclaracaoConformidade: "05/04/2016",
+        validadeDeclaracaoConformidade: "05/04/2026",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ013.pdf",
+
+        observacoes: "Equipamento abatido devido ao desgaste e à aquisição de equipamento mais recente.",
+
+        acessorios: [
+            {
+                nome: "Rotor de 24 posições",
+                referencia: "ACC-ROT-013",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "fora-de-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Tubos de centrifugação",
+                referencia: "CON-TUB-013",
+                quantidade: "0",
+                unidade: "unid",
+                estado: "esgotado",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "05/04/2016",
+        custoAquisicao: "2800 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Centrífuga 2016",
+        dataContratoAquisicao: "05/04/2016",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ013.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Centrífuga 2016",
+        dataFatura: "05/04/2016",
+        ficheiroFatura: "fatura_EQ013.pdf",
+
+        observacoesAquisicao: "Equipamento adquirido para o laboratório clínico.",
+
+        fornecedores: [
+            {
+                codigo: "FOR003",
+                morada: "Aveiro, Portugal",
+                pessoaContacto: "Carla Ferreira",
+                telefone: "+351 930 000 000",
+                tipo: "Distribuidor ou Fornecedor comercial",
+                observacoes: "Fornecedor original do equipamento."
+            }
+        ],
+
+        localizacao: "LOC011",
+        observacoesLocalizacao: "Equipamento armazenado em área de equipamentos abatidos.",
+
+        dataInicioGarantia: "05/04/2016",
+        dataFimGarantia: "05/04/2019",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Eppendorf 5702",
+        dataCertificadoGarantia: "05/04/2016",
+        validadeCertificadoGarantia: "05/04/2019",
+        ficheiroGarantia: "certificado_garantia_EQ013.pdf",
+
+        observacoesGarantia: "Garantia expirada.",
+
+        contratoManutencao: "Não",
+        tipoContrato: "Não existe",
+        entidadeResponsavelContrato: "Não existe",
+        periodicidadeContrato: "Não aplicável",
+
+        temDocumentacaoContrato: "nao",
+        nomeContratoManutencao: "",
+        dataContratoManutencao: "",
+        validadeContratoManutencao: "",
+        ficheiroContratoManutencao: "",
+
+        temRelatorioContrato: "nao",
+        nomeRelatorioManutencao: "",
+        dataRelatorioManutencao: "",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "",
+
+        temDocumentacaoCalibracao: "nao",
+        nomeCertificadoCalibracao: "",
+        dataCertificadoCalibracao: "",
+        validadeCertificadoCalibracao: "",
+        ficheiroCertificadoCalibracao: "",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento retirado definitivamente de serviço."
+    },
+
+    EQ014: {
+        codigo: "EQ014",
+        designacao: "Monitor de Sinais Vitais",
+        categoria: "Monitorização",
+        marca: "Philips",
+        modelo: "IntelliVue MX550",
+        numeroSerie: "PH-MX550-2022-014",
+        fabricante: "Philips Healthcare",
+        anoFabrico: "2022",
+        estado: "Ativo",
+        criticidade: "Alta",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico IntelliVue MX550",
+        dataManualTecnico: "20/06/2022",
+        validadeManualTecnico: "20/06/2032",
+        ficheiroManualTecnico: "manual_servico_EQ014.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização IntelliVue MX550",
+        dataManualUtilizacao: "20/06/2022",
+        validadeManualUtilizacao: "20/06/2032",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ014.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade IntelliVue MX550",
+        dataDeclaracaoConformidade: "20/06/2022",
+        validadeDeclaracaoConformidade: "20/06/2032",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ014.pdf",
+
+        observacoes: "Monitor utilizado para monitorização contínua de parâmetros vitais.",
+
+        acessorios: [
+            {
+                nome: "Sensor SpO2",
+                referencia: "ACC-SPO2-014",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Cabo ECG",
+                referencia: "ACC-ECG-014",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Elétrodos ECG",
+                referencia: "CON-ECG-014",
+                quantidade: "150",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "20/06/2022",
+        custoAquisicao: "6800 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Philips 2022",
+        dataContratoAquisicao: "20/06/2022",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ014.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Philips MX550",
+        dataFatura: "20/06/2022",
+        ficheiroFatura: "fatura_EQ014.pdf",
+
+        observacoesAquisicao: "Equipamento adquirido para reforço da monitorização clínica.",
+
+        fornecedores: [
+            {
+                codigo: "FOR001",
+                morada: "Lisboa, Portugal",
+                pessoaContacto: "Catarina Silva",
+                telefone: "+351 910 000 000",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor principal do equipamento."
+            }
+        ],
+
+        localizacao: "LOC009",
+        observacoesLocalizacao: "Equipamento afeto ao serviço de Pediatria.",
+
+        dataInicioGarantia: "20/06/2023",
+        dataFimGarantia: "25/06/2026",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia IntelliVue MX550",
+        dataCertificadoGarantia: "20/06/2023",
+        validadeCertificadoGarantia: "25/06/2026",
+        ficheiroGarantia: "certificado_garantia_EQ014.pdf",
+
+        observacoesGarantia: "Garantia a expirar nos próximos dias.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "Philips Healthcare",
+        periodicidadeContrato: "Anual",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção Philips 2026",
+        dataContratoManutencao: "01/01/2026",
+        validadeContratoManutencao: "31/12/2026",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ014.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo 2026",
+        dataRelatorioManutencao: "15/01/2026",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ014.pdf",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração MX550",
+        dataCertificadoCalibracao: "15/01/2026",
+        validadeCertificadoCalibracao: "15/01/2027",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ014.pdf",
+
+        temRelatorioCalibracao: "sim",
+        nomeRelatorioCalibracao: "Relatório Calibração MX550",
+        dataRelatorioCalibracao: "15/01/2026",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "relatorio_calibracao_EQ014.pdf",
+
+        observacoesContrato: "Equipamento com garantia prestes a expirar."
+    },
+
+    EQ015: {
+        codigo: "EQ015",
+        designacao: "Passadeira de Reabilitação",
+        categoria: "Reabilitação",
+        marca: "Biodex",
+        modelo: "Gait Trainer 3",
+        numeroSerie: "BD-GT3-2022-015",
+        fabricante: "Biodex Medical Systems",
+        anoFabrico: "2022",
+        estado: "Ativo",
+        criticidade: "Baixa",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Biodex Gait Trainer 3",
+        dataManualTecnico: "15/09/2022",
+        validadeManualTecnico: "15/09/2032",
+        ficheiroManualTecnico: "manual_servico_EQ015.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Gait Trainer 3",
+        dataManualUtilizacao: "15/09/2022",
+        validadeManualUtilizacao: "15/09/2032",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ015.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Gait Trainer 3",
+        dataDeclaracaoConformidade: "15/09/2022",
+        validadeDeclaracaoConformidade: "15/09/2032",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ015.pdf",
+
+        observacoes: "Equipamento utilizado em programas de reeducação da marcha e fisioterapia.",
+
+        acessorios: [
+            {
+                nome: "Arnês de segurança",
+                referencia: "ACC-ARN-015",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Barra de apoio lateral",
+                referencia: "ACC-BAR-015",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [],
+
+        dataAquisicao: "10/10/2022",
+        custoAquisicao: "18500 €",
+        tipoEntrada: "Aluguer",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aluguer",
+        nomeContratoAquisicao: "Contrato Aluguer Biodex 2022",
+        dataContratoAquisicao: "10/10/2022",
+        validadeContratoAquisicao: "10/10/2027",
+        ficheiroContratoAquisicao: "contrato_aluguer_EQ015.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Biodex 2022",
+        dataFatura: "10/10/2022",
+        ficheiroFatura: "fatura_EQ015.pdf",
+
+        observacoesAquisicao: "Equipamento obtido através de contrato de aluguer operacional.",
+
+        fornecedores: [
+            {
+                codigo: "FOR008",
+                morada: "Braga, Portugal",
+                pessoaContacto: "Sofia Martins",
+                telefone: "+351 910 444 555",
+                tipo: "Distribuidor ou Fornecedor comercial",
+                observacoes: "Fornecedor principal do equipamento."
+            }
+        ],
+
+        localizacao: "LOC012",
+        observacoesLocalizacao: "Equipamento instalado na área principal de fisioterapia.",
+
+        dataInicioGarantia: "10/10/2022",
+        dataFimGarantia: "28/06/2026",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Biodex Gait Trainer 3",
+        dataCertificadoGarantia: "10/10/2022",
+        validadeCertificadoGarantia: "28/06/2026",
+        ficheiroGarantia: "certificado_garantia_EQ015.pdf",
+
+        observacoesGarantia: "Garantia a expirar nos próximos 30 dias.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "Biodex Medical Systems",
+        periodicidadeContrato: "Anual",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção Biodex 2026",
+        dataContratoManutencao: "01/01/2026",
+        validadeContratoManutencao: "31/12/2026",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ015.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo 2026",
+        dataRelatorioManutencao: "15/02/2026",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ015.pdf",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração Gait Trainer 2026",
+        dataCertificadoCalibracao: "20/05/2026",
+        validadeCertificadoCalibracao: "20/06/2026",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ015.pdf",
+
+        temRelatorioCalibracao: "sim",
+        nomeRelatorioCalibracao: "Relatório Calibração Gait Trainer 2026",
+        dataRelatorioCalibracao: "20/05/2026",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "relatorio_calibracao_EQ015.pdf",
+
+        observacoesContrato: "Equipamento com calibração a expirar nos próximos 30 dias."
+    },
+
+    EQ016: {
+        codigo: "EQ016",
+        designacao: "Ecógrafo",
+        categoria: "Diagnóstico",
+        marca: "Siemens",
+        modelo: "ACUSON Redwood",
+        numeroSerie: "SM-RW-2024-016",
+        fabricante: "Siemens Healthineers",
+        anoFabrico: "2024",
+        estado: "Ativo",
+        criticidade: "Alta",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico ACUSON Redwood",
+        dataManualTecnico: "15/01/2024",
+        validadeManualTecnico: "15/01/2034",
+        ficheiroManualTecnico: "manual_servico_EQ016.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização ACUSON Redwood",
+        dataManualUtilizacao: "15/01/2024",
+        validadeManualUtilizacao: "15/01/2034",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ016.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade ACUSON Redwood",
+        dataDeclaracaoConformidade: "15/01/2024",
+        validadeDeclaracaoConformidade: "15/01/2034",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ016.pdf",
+
+        observacoes: "Ecógrafo utilizado para exames de diagnóstico em diversas especialidades clínicas.",
+
+        acessorios: [
+            {
+                nome: "Sonda Convexa",
+                referencia: "ACC-SON-016",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Sonda Linear",
+                referencia: "ACC-SON-017",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Gel para ultrassons",
+                referencia: "CON-GEL-016",
+                quantidade: "20",
+                unidade: "frasco",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "20/02/2024",
+        custoAquisicao: "48500 €",
+        tipoEntrada: "Doação",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Termo de doação",
+        nomeContratoAquisicao: "Termo de Doação Ecógrafo 2024",
+        dataContratoAquisicao: "20/02/2024",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "termo_doacao_EQ016.pdf",
+
+        temFatura: "nao",
+        nomeFatura: "",
+        dataFatura: "",
+        ficheiroFatura: "",
+
+        observacoesAquisicao: "Equipamento recebido através de doação institucional.",
+
+        fornecedores: [
+            {
+                codigo: "FOR005",
+                morada: "Coimbra, Portugal",
+                pessoaContacto: "Ricardo Moreira",
+                telefone: "+351 910 111 222",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor do equipamento."
+            }
+        ],
+
+        localizacao: "LOC005",
+        observacoesLocalizacao: "Equipamento afeto ao serviço de Radiologia.",
+
+        dataInicioGarantia: "20/02/2024",
+        dataFimGarantia: "20/02/2028",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia ACUSON Redwood",
+        dataCertificadoGarantia: "20/02/2024",
+        validadeCertificadoGarantia: "20/02/2028",
+        ficheiroGarantia: "certificado_garantia_EQ016.pdf",
+
+        observacoesGarantia: "Garantia válida.",
+
+        contratoManutencao: "Não",
+        tipoContrato: "Não existe",
+        entidadeResponsavelContrato: "Não existe",
+        periodicidadeContrato: "Não aplicável",
+
+        temDocumentacaoContrato: "nao",
+        nomeContratoManutencao: "",
+        dataContratoManutencao: "",
+        validadeContratoManutencao: "",
+        ficheiroContratoManutencao: "",
+
+        temRelatorioContrato: "nao",
+        nomeRelatorioManutencao: "",
+        dataRelatorioManutencao: "",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração Redwood 2026",
+        dataCertificadoCalibracao: "15/01/2026",
+        validadeCertificadoCalibracao: "15/01/2027",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ016.pdf",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento sem contrato de manutenção ativo."
+    },
+
+    EQ017: {
+        codigo: "EQ017",
+        designacao: "Analisador Hematológico",
+        categoria: "Laboratório",
+        marca: "Sysmex",
+        modelo: "XN-550",
+        numeroSerie: "SY-XN550-2024-017",
+        fabricante: "Sysmex Corporation",
+        anoFabrico: "2024",
+        estado: "Ativo",
+        criticidade: "Alta",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Sysmex XN-550",
+        dataManualTecnico: "12/03/2024",
+        validadeManualTecnico: "12/03/2034",
+        ficheiroManualTecnico: "manual_servico_EQ017.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Sysmex XN-550",
+        dataManualUtilizacao: "12/03/2024",
+        validadeManualUtilizacao: "12/03/2034",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ017.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Sysmex XN-550",
+        dataDeclaracaoConformidade: "12/03/2024",
+        validadeDeclaracaoConformidade: "12/03/2034",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ017.pdf",
+
+        observacoes: "Equipamento utilizado para análises hematológicas de rotina e urgência.",
+
+        acessorios: [
+            {
+                nome: "Leitor de códigos de barras",
+                referencia: "ACC-COD-017",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "UPS",
+                referencia: "ACC-UPS-017",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Reagente diluente",
+                referencia: "CON-DIL-017",
+                quantidade: "8",
+                unidade: "frasco",
+                estado: "novo",
+                observacoes: ""
+            },
+            {
+                nome: "Controlo hematológico",
+                referencia: "CON-CTL-017",
+                quantidade: "4",
+                unidade: "kit",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "18/03/2024",
+        custoAquisicao: "29500 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Sysmex 2024",
+        dataContratoAquisicao: "18/03/2024",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ017.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Sysmex XN-550",
+        dataFatura: "18/03/2024",
+        ficheiroFatura: "fatura_EQ017.pdf",
+
+        observacoesAquisicao: "Aquisição destinada à modernização do laboratório clínico.",
+
+        fornecedores: [
+            {
+                codigo: "FOR009",
+                morada: "Lisboa, Portugal",
+                pessoaContacto: "Tiago Oliveira",
+                telefone: "+351 910 555 666",
+                tipo: "Fornecedor de consumíveis ou acessórios",
+                observacoes: "Fornecedor dos reagentes laboratoriais."
+            },
+            {
+                codigo: "FOR003",
+                morada: "Aveiro, Portugal",
+                pessoaContacto: "Carla Ferreira",
+                telefone: "+351 930 000 000",
+                tipo: "Distribuidor ou Fornecedor comercial",
+                observacoes: "Fornecedor responsável pela entrega e instalação."
+            }
+        ],
+
+        localizacao: "LOC011",
+        observacoesLocalizacao: "Equipamento instalado no Laboratório Clínico.",
+
+        dataInicioGarantia: "18/03/2024",
+        dataFimGarantia: "18/03/2027",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Sysmex XN-550",
+        dataCertificadoGarantia: "18/03/2024",
+        validadeCertificadoGarantia: "18/03/2027",
+        ficheiroGarantia: "certificado_garantia_EQ017.pdf",
+
+        observacoesGarantia: "Garantia válida.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "MedSupply Portugal",
+        periodicidadeContrato: "Semestral",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção Sysmex 2026",
+        dataContratoManutencao: "01/01/2026",
+        validadeContratoManutencao: "31/12/2026",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ017.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo Laboratório 2026",
+        dataRelatorioManutencao: "10/01/2026",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ017.pdf",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração XN-550",
+        dataCertificadoCalibracao: "10/01/2026",
+        validadeCertificadoCalibracao: "10/01/2027",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ017.pdf",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Contrato de manutenção preventiva semestral ativo."
+    },
+
+    EQ018: {
+        codigo: "EQ018",
+        designacao: "Bomba de Seringa",
+        categoria: "Terapia",
+        marca: "B. Braun",
+        modelo: "Perfusor Compact Plus",
+        numeroSerie: "BB-PCP-2023-018",
+        fabricante: "B. Braun Medical",
+        anoFabrico: "2023",
+        estado: "Ativo",
+        criticidade: "Alta",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Perfusor Compact Plus",
+        dataManualTecnico: "18/07/2023",
+        validadeManualTecnico: "18/07/2033",
+        ficheiroManualTecnico: "manual_servico_EQ018.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Perfusor Compact Plus",
+        dataManualUtilizacao: "18/07/2023",
+        validadeManualUtilizacao: "18/07/2033",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ018.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Perfusor Compact Plus",
+        dataDeclaracaoConformidade: "18/07/2023",
+        validadeDeclaracaoConformidade: "18/07/2033",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ018.pdf",
+
+        observacoes: "Equipamento utilizado na administração precisa de medicamentos e terapêuticas intravenosas.",
+
+        acessorios: [
+            {
+                nome: "Suporte de fixação",
+                referencia: "ACC-SUP-018",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Seringas 50 ml",
+                referencia: "CON-SER-018",
+                quantidade: "120",
+                unidade: "unid",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "18/07/2023",
+        custoAquisicao: "2450 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Bomba Seringa 2023",
+        dataContratoAquisicao: "18/07/2023",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ018.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Bomba Seringa 2023",
+        dataFatura: "18/07/2023",
+        ficheiroFatura: "fatura_EQ018.pdf",
+
+        observacoesAquisicao: "Aquisição destinada ao Serviço de Medicina.",
+
+        fornecedores: [
+            {
+                codigo: "FOR007",
+                morada: "Faro, Portugal",
+                pessoaContacto: "Pedro Costa",
+                telefone: "+351 910 333 444",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor principal."
+            }
+        ],
+
+        localizacao: "LOC003",
+        observacoesLocalizacao: "Equipamento disponível para terapêutica intravenosa.",
+
+        dataInicioGarantia: "18/07/2023",
+        dataFimGarantia: "30/06/2026",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Perfusor Compact Plus",
+        dataCertificadoGarantia: "18/07/2023",
+        validadeCertificadoGarantia: "30/06/2026",
+        ficheiroGarantia: "certificado_garantia_EQ018.pdf",
+
+        observacoesGarantia: "Garantia a expirar nos próximos 30 dias.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "B. Braun Medical",
+        periodicidadeContrato: "Anual",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção B. Braun 2026",
+        dataContratoManutencao: "01/01/2026",
+        validadeContratoManutencao: "31/12/2026",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ018.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo 2026",
+        dataRelatorioManutencao: "15/02/2026",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ018.pdf",
+
+        temDocumentacaoCalibracao: "nao",
+        nomeCertificadoCalibracao: "",
+        dataCertificadoCalibracao: "",
+        validadeCertificadoCalibracao: "",
+        ficheiroCertificadoCalibracao: "",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Contrato de manutenção preventiva ativo."
+    },
+
+    EQ019: {
+        codigo: "EQ019",
+        designacao: "Termodesinfetadora",
+        categoria: "Esterilização",
+        marca: "Getinge",
+        modelo: "WD15 Claro",
+        numeroSerie: "GT-WD15-2019-019",
+        fabricante: "Getinge",
+        anoFabrico: "2019",
+        estado: "Ativo",
+        criticidade: "Média",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Getinge WD15 Claro",
+        dataManualTecnico: "15/04/2019",
+        validadeManualTecnico: "15/04/2029",
+        ficheiroManualTecnico: "manual_servico_EQ019.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Getinge WD15 Claro",
+        dataManualUtilizacao: "15/04/2019",
+        validadeManualUtilizacao: "15/04/2029",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ019.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade WD15 Claro",
+        dataDeclaracaoConformidade: "15/04/2019",
+        validadeDeclaracaoConformidade: "15/04/2029",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ019.pdf",
+
+        observacoes: "Equipamento destinado à lavagem e desinfeção de instrumentos clínicos.",
+
+        acessorios: [
+            {
+                nome: "Cesto para instrumentos",
+                referencia: "ACC-CES-019",
+                quantidade: "6",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Detergente enzimático",
+                referencia: "CON-DET-019",
+                quantidade: "10",
+                unidade: "frasco",
+                estado: "novo",
+                observacoes: ""
+            },
+            {
+                nome: "Neutralizante",
+                referencia: "CON-NEU-019",
+                quantidade: "6",
+                unidade: "frasco",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "20/05/2019",
+        custoAquisicao: "18500 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição WD15 2019",
+        dataContratoAquisicao: "20/05/2019",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ019.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura WD15 2019",
+        dataFatura: "20/05/2019",
+        ficheiroFatura: "fatura_EQ019.pdf",
+
+        observacoesAquisicao: "Aquisição para a Central de Esterilização.",
+
+        fornecedores: [
+            {
+                codigo: "FOR003",
+                morada: "Aveiro, Portugal",
+                pessoaContacto: "Carla Ferreira",
+                telefone: "+351 930 000 000",
+                tipo: "Distribuidor ou Fornecedor comercial",
+                observacoes: "Fornecedor responsável pela instalação."
+            },
+            {
+                codigo: "FOR004",
+                morada: "Coimbra, Portugal",
+                pessoaContacto: "João Almeida",
+                telefone: "+351 930 000 400",
+                tipo: "Empresa de assistência técnica",
+                observacoes: "Responsável pela manutenção."
+            }
+        ],
+
+        localizacao: "LOC008",
+        observacoesLocalizacao: "Equipamento instalado na Central de Esterilização.",
+
+        dataInicioGarantia: "20/05/2019",
+        dataFimGarantia: "20/05/2022",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Getinge WD15",
+        dataCertificadoGarantia: "20/05/2019",
+        validadeCertificadoGarantia: "20/05/2022",
+        ficheiroGarantia: "certificado_garantia_EQ019.pdf",
+
+        observacoesGarantia: "Garantia expirada.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "TecnoMed Assistência",
+        periodicidadeContrato: "Semestral",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção WD15 2026",
+        dataContratoManutencao: "01/01/2026",
+        validadeContratoManutencao: "31/12/2026",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ019.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo WD15 2026",
+        dataRelatorioManutencao: "10/01/2026",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ019.pdf",
+
+        temDocumentacaoCalibracao: "nao",
+        nomeCertificadoCalibracao: "",
+        dataCertificadoCalibracao: "",
+        validadeCertificadoCalibracao: "",
+        ficheiroCertificadoCalibracao: "",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Contrato de manutenção preventiva ativo."
+    },
+
+    EQ020: {
+        codigo: "EQ020",
+        designacao: "Incubadora Neonatal",
+        categoria: "Suporte de vida",
+        marca: "Dräger",
+        modelo: "Isolette 8000 Plus",
+        numeroSerie: "DR-ISO-2023-020",
+        fabricante: "Dräger",
+        anoFabrico: "2023",
+        estado: "Ativo",
+        criticidade: "Suporte de vida",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Isolette 8000 Plus",
+        dataManualTecnico: "05/05/2023",
+        validadeManualTecnico: "05/05/2033",
+        ficheiroManualTecnico: "manual_servico_EQ020.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Isolette 8000 Plus",
+        dataManualUtilizacao: "05/05/2023",
+        validadeManualUtilizacao: "05/05/2033",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ020.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Isolette 8000 Plus",
+        dataDeclaracaoConformidade: "05/05/2023",
+        validadeDeclaracaoConformidade: "05/05/2033",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ020.pdf",
+
+        observacoes: "Equipamento utilizado para cuidados intensivos neonatais.",
+
+        acessorios: [
+            {
+                nome: "Sensor de temperatura",
+                referencia: "ACC-TMP-020",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Colchão neonatal",
+                referencia: "ACC-COL-020",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Filtro de ar",
+                referencia: "CON-FIL-020",
+                quantidade: "10",
+                unidade: "unid",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "05/05/2023",
+        custoAquisicao: "28750 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Incubadora 2023",
+        dataContratoAquisicao: "05/05/2023",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ020.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Incubadora 2023",
+        dataFatura: "05/05/2023",
+        ficheiroFatura: "fatura_EQ020.pdf",
+
+        observacoesAquisicao: "Aquisição para a unidade neonatal.",
+
+        fornecedores: [
+            {
+                codigo: "FOR002",
+                morada: "Porto, Portugal",
+                pessoaContacto: "Miguel Santos",
+                telefone: "+351 920 000 000",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor principal."
+            }
+        ],
+
+        localizacao: "LOC009",
+        observacoesLocalizacao: "Equipamento afeto à área pediátrica e neonatal.",
+
+        dataInicioGarantia: "05/05/2023",
+        dataFimGarantia: "05/07/2026",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Isolette 8000 Plus",
+        dataCertificadoGarantia: "05/05/2023",
+        validadeCertificadoGarantia: "05/07/2026",
+        ficheiroGarantia: "certificado_garantia_EQ020.pdf",
+
+        observacoesGarantia: "Garantia a expirar nos próximos 30 dias.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "Dräger",
+        periodicidadeContrato: "Semestral",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção Isolette 2026",
+        dataContratoManutencao: "01/01/2026",
+        validadeContratoManutencao: "31/12/2026",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ020.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo Isolette 2026",
+        dataRelatorioManutencao: "20/01/2026",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ020.pdf",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração Isolette",
+        dataCertificadoCalibracao: "20/01/2026",
+        validadeCertificadoCalibracao: "20/01/2027",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ020.pdf",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento crítico da unidade neonatal."
+    },
+
+    EQ021: {
+        codigo: "EQ021",
+        designacao: "Monitor Multiparamétrico",
+        categoria: "Monitorização",
+        marca: "GE HealthCare",
+        modelo: "CARESCAPE B450",
+        numeroSerie: "GE-B450-2021-021",
+        fabricante: "GE HealthCare",
+        anoFabrico: "2021",
+        estado: "Em manutenção",
+        criticidade: "Alta",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico CARESCAPE B450",
+        dataManualTecnico: "10/03/2021",
+        validadeManualTecnico: "10/03/2031",
+        ficheiroManualTecnico: "manual_servico_EQ021.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização CARESCAPE B450",
+        dataManualUtilizacao: "10/03/2021",
+        validadeManualUtilizacao: "10/03/2031",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ021.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade CARESCAPE B450",
+        dataDeclaracaoConformidade: "10/03/2021",
+        validadeDeclaracaoConformidade: "10/03/2031",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ021.pdf",
+
+        observacoes: "Equipamento temporariamente indisponível para manutenção corretiva.",
+
+        acessorios: [
+            {
+                nome: "Sensor SpO2",
+                referencia: "ACC-SPO2-021",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Cabo ECG",
+                referencia: "ACC-ECG-021",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Elétrodos ECG",
+                referencia: "CON-ECG-021",
+                quantidade: "200",
+                unidade: "unid",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "25/03/2021",
+        custoAquisicao: "7200 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Monitor GE 2021",
+        dataContratoAquisicao: "25/03/2021",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ021.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Monitor GE 2021",
+        dataFatura: "25/03/2021",
+        ficheiroFatura: "fatura_EQ021.pdf",
+
+        observacoesAquisicao: "Aquisição destinada à monitorização contínua de doentes.",
+
+        fornecedores: [
+            {
+                codigo: "FOR006",
+                morada: "Região Autónoma da Madeira, Portugal",
+                pessoaContacto: "Ana Ribeiro",
+                telefone: "+351 910 222 333",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor principal."
+            },
+            {
+                codigo: "FOR004",
+                morada: "Coimbra, Portugal",
+                pessoaContacto: "João Almeida",
+                telefone: "+351 930 656 375",
+                tipo: "Empresa de assistência técnica",
+                observacoes: "Responsável pela manutenção corretiva."
+            }
+        ],
+
+        localizacao: "LOC001",
+        observacoesLocalizacao: "Equipamento afeto à Unidade de Cuidados Intensivos.",
+
+        dataInicioGarantia: "25/03/2021",
+        dataFimGarantia: "25/03/2024",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia CARESCAPE B450",
+        dataCertificadoGarantia: "25/03/2021",
+        validadeCertificadoGarantia: "25/03/2024",
+        ficheiroGarantia: "certificado_garantia_EQ021.pdf",
+
+        observacoesGarantia: "Garantia expirada.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção corretiva",
+        entidadeResponsavelContrato: "TecnoMed Assistência",
+        periodicidadeContrato: "Anual",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção GE 2026",
+        dataContratoManutencao: "01/01/2026",
+        validadeContratoManutencao: "31/12/2026",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ021.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Corretivo B450",
+        dataRelatorioManutencao: "05/06/2026",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ021.pdf",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração B450",
+        dataCertificadoCalibracao: "15/02/2026",
+        validadeCertificadoCalibracao: "15/02/2027",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ021.pdf",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento em manutenção corretiva devido a falha no módulo de ECG."
+    },
+
+    EQ022: {
+        codigo: "EQ022",
+        designacao: "Eletrocardiógrafo",
+        categoria: "Diagnóstico",
+        marca: "Philips",
+        modelo: "PageWriter TC35",
+        numeroSerie: "PH-TC35-2022-022",
+        fabricante: "Philips Healthcare",
+        anoFabrico: "2022",
+        estado: "Em calibração",
+        criticidade: "Média",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico PageWriter TC35",
+        dataManualTecnico: "12/05/2022",
+        validadeManualTecnico: "12/05/2032",
+        ficheiroManualTecnico: "manual_servico_EQ022.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização PageWriter TC35",
+        dataManualUtilizacao: "12/05/2022",
+        validadeManualUtilizacao: "12/05/2032",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ022.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade PageWriter TC35",
+        dataDeclaracaoConformidade: "12/05/2022",
+        validadeDeclaracaoConformidade: "12/05/2032",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ022.pdf",
+
+        observacoes: "Equipamento temporariamente indisponível por se encontrar em processo de calibração.",
+
+        acessorios: [
+            {
+                nome: "Cabo ECG 10 derivações",
+                referencia: "ACC-ECG-022",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Carro de transporte",
+                referencia: "ACC-CAR-022",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Papel térmico ECG",
+                referencia: "CON-PAP-022",
+                quantidade: "15",
+                unidade: "rolo",
+                estado: "novo",
+                observacoes: ""
+            },
+            {
+                nome: "Elétrodos descartáveis",
+                referencia: "CON-ELE-022",
+                quantidade: "300",
+                unidade: "unid",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "20/06/2022",
+        custoAquisicao: "4200 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição ECG 2022",
+        dataContratoAquisicao: "20/06/2022",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ022.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura ECG Philips 2022",
+        dataFatura: "20/06/2022",
+        ficheiroFatura: "fatura_EQ022.pdf",
+
+        observacoesAquisicao: "Equipamento destinado à realização de eletrocardiogramas.",
+
+        fornecedores: [
+            {
+                codigo: "FOR001",
+                morada: "Lisboa, Portugal",
+                pessoaContacto: "Catarina Silva",
+                telefone: "+351 910 000 000",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor principal."
+            },
+            {
+                codigo: "FOR004",
+                morada: "Coimbra, Portugal",
+                pessoaContacto: "João Almeida",
+                telefone: "+351 930 656 375",
+                tipo: "Empresa de assistência técnica",
+                observacoes: "Responsável pela calibração."
+            }
+        ],
+
+        localizacao: "LOC010",
+        observacoesLocalizacao: "Equipamento afeto ao serviço de Cardiologia.",
+
+        dataInicioGarantia: "20/06/2022",
+        dataFimGarantia: "20/06/2025",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia PageWriter TC35",
+        dataCertificadoGarantia: "20/06/2022",
+        validadeCertificadoGarantia: "20/06/2025",
+        ficheiroGarantia: "certificado_garantia_EQ022.pdf",
+
+        observacoesGarantia: "Garantia expirada.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "TecnoMed Assistência",
+        periodicidadeContrato: "Anual",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção ECG 2026",
+        dataContratoManutencao: "01/01/2026",
+        validadeContratoManutencao: "31/12/2026",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ022.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo ECG 2026",
+        dataRelatorioManutencao: "15/01/2026",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ022.pdf",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração TC35",
+        dataCertificadoCalibracao: "10/06/2026",
+        validadeCertificadoCalibracao: "10/06/2027",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ022.pdf",
+
+        temRelatorioCalibracao: "sim",
+        nomeRelatorioCalibracao: "Relatório Calibração TC35",
+        dataRelatorioCalibracao: "10/06/2026",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "relatorio_calibracao_EQ022.pdf",
+
+        observacoesContrato: "Equipamento atualmente em processo de calibração anual obrigatória."
+    },
+
+    EQ023: {
+        codigo: "EQ023",
+        designacao: "Cicloergómetro de Reabilitação",
+        categoria: "Reabilitação",
+        marca: "Ergoline",
+        modelo: "Ergoselect 200",
+        numeroSerie: "ER-200-2018-023",
+        fabricante: "Ergoline GmbH",
+        anoFabrico: "2018",
+        estado: "Inativo",
+        criticidade: "Baixa",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Ergoselect 200",
+        dataManualTecnico: "15/03/2018",
+        validadeManualTecnico: "15/03/2028",
+        ficheiroManualTecnico: "manual_servico_EQ023.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Ergoselect 200",
+        dataManualUtilizacao: "15/03/2018",
+        validadeManualUtilizacao: "15/03/2028",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ023.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Ergoselect 200",
+        dataDeclaracaoConformidade: "15/03/2018",
+        validadeDeclaracaoConformidade: "15/03/2028",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ023.pdf",
+
+        observacoes: "Equipamento temporariamente sem utilização devido à renovação da área de reabilitação.",
+
+        acessorios: [
+            {
+                nome: "Sensor de frequência cardíaca",
+                referencia: "ACC-FC-023",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [],
+
+        dataAquisicao: "20/04/2018",
+        custoAquisicao: "6200 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Ergoselect 2018",
+        dataContratoAquisicao: "20/04/2018",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ023.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Ergoselect 2018",
+        dataFatura: "20/04/2018",
+        ficheiroFatura: "fatura_EQ023.pdf",
+
+        observacoesAquisicao: "Equipamento adquirido para programas de reabilitação cardiovascular.",
+
+        fornecedores: [
+            {
+                codigo: "FOR008",
+                morada: "Braga, Portugal",
+                pessoaContacto: "Sofia Martins",
+                telefone: "+351 910 444 555",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor principal."
+            }
+        ],
+
+        localizacao: "LOC012",
+        observacoesLocalizacao: "Equipamento armazenado temporariamente durante remodelação da sala.",
+
+        dataInicioGarantia: "20/04/2018",
+        dataFimGarantia: "20/04/2021",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Ergoselect 200",
+        dataCertificadoGarantia: "20/04/2018",
+        validadeCertificadoGarantia: "20/04/2021",
+        ficheiroGarantia: "certificado_garantia_EQ023.pdf",
+
+        observacoesGarantia: "Garantia expirada.",
+
+        contratoManutencao: "Não",
+        tipoContrato: "Não existe",
+        entidadeResponsavelContrato: "Não existe",
+        periodicidadeContrato: "Não aplicável",
+
+        temDocumentacaoContrato: "nao",
+        nomeContratoManutencao: "",
+        dataContratoManutencao: "",
+        validadeContratoManutencao: "",
+        ficheiroContratoManutencao: "",
+
+        temRelatorioContrato: "nao",
+        nomeRelatorioManutencao: "",
+        dataRelatorioManutencao: "",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "",
+
+        temDocumentacaoCalibracao: "nao",
+        nomeCertificadoCalibracao: "",
+        dataCertificadoCalibracao: "",
+        validadeCertificadoCalibracao: "",
+        ficheiroCertificadoCalibracao: "",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento inativo devido à reorganização da área de reabilitação."
+    },
+
+    EQ024: {
+        codigo: "EQ024",
+        designacao: "Bomba Volumétrica",
+        categoria: "Terapia",
+        marca: "B. Braun",
+        modelo: "Infusomat Space",
+        numeroSerie: "BB-INF-2020-024",
+        fabricante: "B. Braun Medical",
+        anoFabrico: "2020",
+        estado: "Em quarentena",
+        criticidade: "Alta",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Infusomat Space",
+        dataManualTecnico: "15/01/2020",
+        validadeManualTecnico: "15/01/2030",
+        ficheiroManualTecnico: "manual_servico_EQ024.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Infusomat Space",
+        dataManualUtilizacao: "15/01/2020",
+        validadeManualUtilizacao: "15/01/2030",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ024.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Infusomat Space",
+        dataDeclaracaoConformidade: "15/01/2020",
+        validadeDeclaracaoConformidade: "15/01/2030",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ024.pdf",
+
+        observacoes: "Equipamento temporariamente isolado para avaliação técnica após ocorrência de alarme recorrente.",
+
+        acessorios: [
+            {
+                nome: "Suporte de fixação",
+                referencia: "ACC-SUP-024",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Equipos de infusão",
+                referencia: "CON-INF-024",
+                quantidade: "100",
+                unidade: "unid",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "20/02/2020",
+        custoAquisicao: "3900 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Infusomat 2020",
+        dataContratoAquisicao: "20/02/2020",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ024.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Infusomat 2020",
+        dataFatura: "20/02/2020",
+        ficheiroFatura: "fatura_EQ024.pdf",
+
+        observacoesAquisicao: "Equipamento destinado à administração controlada de terapêutica intravenosa.",
+
+        fornecedores: [
+            {
+                codigo: "FOR007",
+                morada: "Faro, Portugal",
+                pessoaContacto: "Pedro Costa",
+                telefone: "+351 910 333 444",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor principal."
+            },
+            {
+                codigo: "FOR004",
+                morada: "Coimbra, Portugal",
+                pessoaContacto: "João Almeida",
+                telefone: "+351 930 656 375",
+                tipo: "Empresa de assistência técnica",
+                observacoes: "Responsável pela avaliação técnica."
+            }
+        ],
+
+        localizacao: "LOC003",
+        observacoesLocalizacao: "Equipamento removido temporariamente do serviço para avaliação.",
+
+        dataInicioGarantia: "20/02/2020",
+        dataFimGarantia: "20/02/2023",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Infusomat Space",
+        dataCertificadoGarantia: "20/02/2020",
+        validadeCertificadoGarantia: "20/02/2023",
+        ficheiroGarantia: "certificado_garantia_EQ024.pdf",
+
+        observacoesGarantia: "Garantia expirada.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção corretiva",
+        entidadeResponsavelContrato: "TecnoMed Assistência",
+        periodicidadeContrato: "Anual",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção Infusomat 2026",
+        dataContratoManutencao: "01/01/2026",
+        validadeContratoManutencao: "15/07/2026",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ024.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Avaliação Técnica 2026",
+        dataRelatorioManutencao: "08/06/2026",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ024.pdf",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração Infusomat",
+        dataCertificadoCalibracao: "10/02/2026",
+        validadeCertificadoCalibracao: "10/02/2027",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ024.pdf",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Contrato ativo. Equipamento em quarentena para análise de ocorrência técnica."
+    },
+
+    EQ025: {
+        codigo: "EQ025",
+        designacao: "Analisador Bioquímico",
+        categoria: "Laboratório",
+        marca: "Roche",
+        modelo: "cobas c 311",
+        numeroSerie: "RC-C311-2024-025",
+        fabricante: "Roche Diagnostics",
+        anoFabrico: "2024",
+        estado: "Ativo",
+        criticidade: "Média",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Cobas c 311",
+        dataManualTecnico: "10/02/2024",
+        validadeManualTecnico: "10/02/2034",
+        ficheiroManualTecnico: "manual_servico_EQ025.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Cobas c 311",
+        dataManualUtilizacao: "10/02/2024",
+        validadeManualUtilizacao: "10/02/2034",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ025.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Cobas c 311",
+        dataDeclaracaoConformidade: "10/02/2024",
+        validadeDeclaracaoConformidade: "10/02/2034",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ025.pdf",
+
+        observacoes: "Equipamento utilizado para análises bioquímicas de rotina.",
+
+        acessorios: [
+            {
+                nome: "Leitor de código de barras",
+                referencia: "ACC-COD-025",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Reagente bioquímico",
+                referencia: "CON-REA-025",
+                quantidade: "12",
+                unidade: "kit",
+                estado: "novo",
+                observacoes: ""
+            },
+            {
+                nome: "Calibrador",
+                referencia: "CON-CAL-025",
+                quantidade: "4",
+                unidade: "kit",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "01/08/2024",
+        custoAquisicao: "0 €",
+        tipoEntrada: "Empréstimo",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de empréstimo",
+        nomeContratoAquisicao: "Contrato Empréstimo Cobas c311",
+        dataContratoAquisicao: "01/08/2024",
+        validadeContratoAquisicao: "01/08/2027",
+        ficheiroContratoAquisicao: "contrato_emprestimo_EQ025.pdf",
+
+        temFatura: "nao",
+        nomeFatura: "",
+        dataFatura: "",
+        ficheiroFatura: "",
+
+        observacoesAquisicao: "Equipamento cedido temporariamente ao hospital.",
+
+        fornecedores: [
+            {
+                codigo: "FOR009",
+                morada: "Lisboa, Portugal",
+                pessoaContacto: "Tiago Oliveira",
+                telefone: "+351 910 555 666",
+                tipo: "Fornecedor de consumíveis ou acessórios",
+                observacoes: "Fornecedor principal."
+            }
+        ],
+
+        localizacao: "LOC011",
+        observacoesLocalizacao: "Equipamento instalado no Laboratório Clínico.",
+
+        dataInicioGarantia: "01/08/2024",
+        dataFimGarantia: "12/07/2026",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Cobas c311",
+        dataCertificadoGarantia: "01/08/2024",
+        validadeCertificadoGarantia: "12/07/2026",
+        ficheiroGarantia: "certificado_garantia_EQ025.pdf",
+
+        observacoesGarantia: "Garantia a expirar nos próximos 30 dias.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "Roche Diagnostics",
+        periodicidadeContrato: "Trimestral",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção Roche 2026",
+        dataContratoManutencao: "01/01/2026",
+        validadeContratoManutencao: "31/12/2026",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ025.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Trimestral 2026",
+        dataRelatorioManutencao: "01/04/2026",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ025.pdf",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração Cobas c311",
+        dataCertificadoCalibracao: "01/04/2026",
+        validadeCertificadoCalibracao: "01/04/2027",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ025.pdf",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento cedido através de contrato de empréstimo com manutenção incluída."
+    },
+
+    EQ026: {
+        codigo: "EQ026",
+        designacao: "Holter Cardíaco",
+        categoria: "Monitorização",
+        marca: "GE HealthCare",
+        modelo: "SEER 1000",
+        numeroSerie: "GE-SEER-2015-026",
+        fabricante: "GE HealthCare",
+        anoFabrico: "2015",
+        estado: "Abatido",
+        criticidade: "Baixa",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico SEER 1000",
+        dataManualTecnico: "10/02/2015",
+        validadeManualTecnico: "10/02/2025",
+        ficheiroManualTecnico: "manual_servico_EQ026.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização SEER 1000",
+        dataManualUtilizacao: "10/02/2015",
+        validadeManualUtilizacao: "10/02/2025",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ026.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade SEER 1000",
+        dataDeclaracaoConformidade: "10/02/2015",
+        validadeDeclaracaoConformidade: "10/02/2025",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ026.pdf",
+
+        observacoes: "Equipamento retirado definitivamente de serviço devido à obsolescência tecnológica.",
+
+        acessorios: [
+            {
+                nome: "Bolsa de transporte",
+                referencia: "ACC-BOL-026",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "fora-de-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Elétrodos descartáveis",
+                referencia: "CON-ELE-026",
+                quantidade: "0",
+                unidade: "unid",
+                estado: "esgotado",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "20/03/2015",
+        custoAquisicao: "2800 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Holter 2015",
+        dataContratoAquisicao: "20/03/2015",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ026.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Holter 2015",
+        dataFatura: "20/03/2015",
+        ficheiroFatura: "fatura_EQ026.pdf",
+
+        observacoesAquisicao: "Equipamento destinado ao serviço de Cardiologia.",
+
+        fornecedores: [
+            {
+                codigo: "FOR006",
+                morada: "Região Autónoma da Madeira, Portugal",
+                pessoaContacto: "Ana Ribeiro",
+                telefone: "+351 910 222 333",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor principal."
+            }
+        ],
+
+        localizacao: "LOC007",
+        observacoesLocalizacao: "Equipamento armazenado em área de equipamentos abatidos.",
+
+        dataInicioGarantia: "20/03/2015",
+        dataFimGarantia: "20/03/2018",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia SEER 1000",
+        dataCertificadoGarantia: "20/03/2015",
+        validadeCertificadoGarantia: "20/03/2018",
+        ficheiroGarantia: "certificado_garantia_EQ026.pdf",
+
+        observacoesGarantia: "Garantia expirada.",
+
+        contratoManutencao: "Não",
+        tipoContrato: "Não existe",
+        entidadeResponsavelContrato: "Não existe",
+        periodicidadeContrato: "Não aplicável",
+
+        temDocumentacaoContrato: "nao",
+        nomeContratoManutencao: "",
+        dataContratoManutencao: "",
+        validadeContratoManutencao: "",
+        ficheiroContratoManutencao: "",
+
+        temRelatorioContrato: "nao",
+        nomeRelatorioManutencao: "",
+        dataRelatorioManutencao: "",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "",
+
+        temDocumentacaoCalibracao: "nao",
+        nomeCertificadoCalibracao: "",
+        dataCertificadoCalibracao: "",
+        validadeCertificadoCalibracao: "",
+        ficheiroCertificadoCalibracao: "",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento abatido após substituição por modelo mais recente."
+    },
+
+    EQ027: {
+        codigo: "EQ027",
+        designacao: "Ecógrafo Portátil",
+        categoria: "Diagnóstico",
+        marca: "Philips",
+        modelo: "Lumify",
+        numeroSerie: "PH-LUM-2025-027",
+        fabricante: "Philips Healthcare",
+        anoFabrico: "2025",
+        estado: "Ativo",
+        criticidade: "Média",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Philips Lumify",
+        dataManualTecnico: "15/01/2025",
+        validadeManualTecnico: "15/01/2035",
+        ficheiroManualTecnico: "manual_servico_EQ027.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Philips Lumify",
+        dataManualUtilizacao: "15/01/2025",
+        validadeManualUtilizacao: "15/01/2035",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ027.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Philips Lumify",
+        dataDeclaracaoConformidade: "15/01/2025",
+        validadeDeclaracaoConformidade: "15/01/2035",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ027.pdf",
+
+        observacoes: "Ecógrafo portátil utilizado para avaliações rápidas à cabeceira do doente.",
+
+        acessorios: [
+            {
+                nome: "Sonda convexa",
+                referencia: "ACC-SON-027",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Tablet clínico",
+                referencia: "ACC-TAB-027",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Gel de ultrassom",
+                referencia: "CON-GEL-027",
+                quantidade: "20",
+                unidade: "frasco",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "01/02/2025",
+        custoAquisicao: "450 € / mês",
+        tipoEntrada: "Aluguer",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aluguer",
+        nomeContratoAquisicao: "Contrato Aluguer Lumify",
+        dataContratoAquisicao: "01/02/2025",
+        validadeContratoAquisicao: "31/01/2027",
+        ficheiroContratoAquisicao: "contrato_aluguer_EQ027.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Aluguer Fevereiro 2025",
+        dataFatura: "01/02/2025",
+        ficheiroFatura: "fatura_EQ027.pdf",
+
+        observacoesAquisicao: "Equipamento alugado para reforço da capacidade de diagnóstico.",
+
+        fornecedores: [
+            {
+                codigo: "FOR001",
+                morada: "Lisboa, Portugal",
+                pessoaContacto: "Catarina Silva",
+                telefone: "+351 910 000 000",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor do equipamento."
+            }
+        ],
+
+        localizacao: "LOC004",
+        observacoesLocalizacao: "Equipamento móvel utilizado em vários serviços.",
+
+        dataInicioGarantia: "01/02/2025",
+        dataFimGarantia: "01/02/2028",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Philips Lumify",
+        dataCertificadoGarantia: "01/02/2025",
+        validadeCertificadoGarantia: "01/02/2028",
+        ficheiroGarantia: "certificado_garantia_EQ027.pdf",
+
+        observacoesGarantia: "Garantia ativa.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "Philips Healthcare",
+        periodicidadeContrato: "Anual",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção Lumify",
+        dataContratoManutencao: "01/01/2026",
+        validadeContratoManutencao: "31/12/2026",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ027.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo Lumify",
+        dataRelatorioManutencao: "12/02/2026",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ027.pdf",
+
+        temDocumentacaoCalibracao: "nao",
+        nomeCertificadoCalibracao: "",
+        dataCertificadoCalibracao: "",
+        validadeCertificadoCalibracao: "",
+        ficheiroCertificadoCalibracao: "",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento alugado com manutenção incluída no contrato."
+    },
+
+    EQ028: {
+        codigo: "EQ028",
+        designacao: "Ventilador de Transporte",
+        categoria: "Suporte de vida",
+        marca: "Dräger",
+        modelo: "Oxylog 3000 Plus",
+        numeroSerie: "DR-OXY-2019-028",
+        fabricante: "Dräger",
+        anoFabrico: "2019",
+        estado: "Inativo",
+        criticidade: "Suporte de vida",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Oxylog 3000 Plus",
+        dataManualTecnico: "12/04/2019",
+        validadeManualTecnico: "12/04/2029",
+        ficheiroManualTecnico: "manual_servico_EQ028.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Oxylog 3000 Plus",
+        dataManualUtilizacao: "12/04/2019",
+        validadeManualUtilizacao: "12/04/2029",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ028.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Oxylog 3000 Plus",
+        dataDeclaracaoConformidade: "12/04/2019",
+        validadeDeclaracaoConformidade: "12/04/2029",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ028.pdf",
+
+        observacoes: "Equipamento de reserva atualmente fora de utilização por falta de necessidade operacional.",
+
+        acessorios: [
+            {
+                nome: "Circuito respiratório reutilizável",
+                referencia: "ACC-CIR-028",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Mala de transporte",
+                referencia: "ACC-MAL-028",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Filtro respiratório",
+                referencia: "CON-FIL-028",
+                quantidade: "15",
+                unidade: "unid",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "10/05/2019",
+        custoAquisicao: "9800 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Oxylog 2019",
+        dataContratoAquisicao: "10/05/2019",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ028.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Oxylog 2019",
+        dataFatura: "10/05/2019",
+        ficheiroFatura: "fatura_EQ028.pdf",
+
+        observacoesAquisicao: "Aquisição para utilização em transporte intra-hospitalar e ambulâncias.",
+
+        fornecedores: [
+            {
+                codigo: "FOR002",
+                morada: "Porto, Portugal",
+                pessoaContacto: "Miguel Santos",
+                telefone: "+351 920 000 000",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor original do equipamento."
+            }
+        ],
+
+        localizacao: "LOC006",
+        observacoesLocalizacao: "Equipamento armazenado como unidade de reserva.",
+
+        dataInicioGarantia: "10/05/2019",
+        dataFimGarantia: "10/05/2022",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Oxylog 3000 Plus",
+        dataCertificadoGarantia: "10/05/2019",
+        validadeCertificadoGarantia: "10/05/2022",
+        ficheiroGarantia: "certificado_garantia_EQ028.pdf",
+
+        observacoesGarantia: "Garantia expirada.",
+
+        contratoManutencao: "Não",
+        tipoContrato: "Não existe",
+        entidadeResponsavelContrato: "Não existe",
+        periodicidadeContrato: "Não aplicável",
+
+        temDocumentacaoContrato: "nao",
+        nomeContratoManutencao: "",
+        dataContratoManutencao: "",
+        validadeContratoManutencao: "",
+        ficheiroContratoManutencao: "",
+
+        temRelatorioContrato: "nao",
+        nomeRelatorioManutencao: "",
+        dataRelatorioManutencao: "",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração Oxylog",
+        dataCertificadoCalibracao: "15/01/2026",
+        validadeCertificadoCalibracao: "15/01/2027",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ028.pdf",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento mantido como reserva estratégica."
+    },
+
+    EQ029: {
+        codigo: "EQ029",
+        designacao: "Passadeira de Reabilitação",
+        categoria: "Reabilitação",
+        marca: "Biodex",
+        modelo: "Gait Trainer 3",
+        numeroSerie: "BD-GT3-2022-029",
+        fabricante: "Biodex Medical Systems",
+        anoFabrico: "2022",
+        estado: "Ativo",
+        criticidade: "Baixa",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico Gait Trainer 3",
+        dataManualTecnico: "15/03/2022",
+        validadeManualTecnico: "15/03/2032",
+        ficheiroManualTecnico: "manual_servico_EQ029.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização Gait Trainer 3",
+        dataManualUtilizacao: "15/03/2022",
+        validadeManualUtilizacao: "15/03/2032",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ029.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade Gait Trainer 3",
+        dataDeclaracaoConformidade: "15/03/2022",
+        validadeDeclaracaoConformidade: "15/03/2032",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ029.pdf",
+
+        observacoes: "Equipamento utilizado em programas de reabilitação motora e treino de marcha.",
+
+        acessorios: [
+            {
+                nome: "Arnês de segurança",
+                referencia: "ACC-ARN-029",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Barra de apoio lateral",
+                referencia: "ACC-BAR-029",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [],
+
+        dataAquisicao: "20/04/2022",
+        custoAquisicao: "18500 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição Gait Trainer 2022",
+        dataContratoAquisicao: "20/04/2022",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ029.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura Gait Trainer 2022",
+        dataFatura: "20/04/2022",
+        ficheiroFatura: "fatura_EQ029.pdf",
+
+        observacoesAquisicao: "Aquisição destinada ao serviço de Medicina Física e Reabilitação.",
+
+        fornecedores: [
+            {
+                codigo: "FOR008",
+                morada: "Braga, Portugal",
+                pessoaContacto: "Sofia Martins",
+                telefone: "+351 910 444 555",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor do equipamento."
+            }
+        ],
+
+        localizacao: "LOC012",
+        observacoesLocalizacao: "Equipamento utilizado diariamente em sessões de fisioterapia.",
+
+        dataInicioGarantia: "20/04/2022",
+        dataFimGarantia: "20/04/2025",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia Gait Trainer 3",
+        dataCertificadoGarantia: "20/04/2022",
+        validadeCertificadoGarantia: "20/04/2025",
+        ficheiroGarantia: "certificado_garantia_EQ029.pdf",
+
+        observacoesGarantia: "Garantia expirada.",
+
+        contratoManutencao: "Não",
+        tipoContrato: "Não existe",
+        entidadeResponsavelContrato: "Não existe",
+        periodicidadeContrato: "Não aplicável",
+
+        temDocumentacaoContrato: "nao",
+        nomeContratoManutencao: "",
+        dataContratoManutencao: "",
+        validadeContratoManutencao: "",
+        ficheiroContratoManutencao: "",
+
+        temRelatorioContrato: "nao",
+        nomeRelatorioManutencao: "",
+        dataRelatorioManutencao: "",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "",
+
+        temDocumentacaoCalibracao: "nao",
+        nomeCertificadoCalibracao: "",
+        dataCertificadoCalibracao: "",
+        validadeCertificadoCalibracao: "",
+        ficheiroCertificadoCalibracao: "",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento sem necessidade de contrato de manutenção dedicado."
+    },
+
+    EQ030: {
+        codigo: "EQ030",
+        designacao: "Monitor de Sinais Vitais",
+        categoria: "Monitorização",
+        marca: "Philips",
+        modelo: "IntelliVue MX550",
+        numeroSerie: "PH-MX550-2025-030",
+        fabricante: "Philips Healthcare",
+        anoFabrico: "2025",
+        estado: "Ativo",
+        criticidade: "Alta",
+
+        temDocumentacaoTecnica: "sim",
+        tipoManualTecnico: "Manual de Serviço",
+        nomeManualTecnico: "Manual Técnico IntelliVue MX550",
+        dataManualTecnico: "15/02/2025",
+        validadeManualTecnico: "15/02/2035",
+        ficheiroManualTecnico: "manual_servico_EQ030.pdf",
+
+        temDocumentacaoUtilizacao: "sim",
+        tipoManualUtilizacao: "Manual de Utilização",
+        nomeManualUtilizacao: "Manual de Utilização IntelliVue MX550",
+        dataManualUtilizacao: "15/02/2025",
+        validadeManualUtilizacao: "15/02/2035",
+        ficheiroManualUtilizacao: "manual_utilizacao_EQ030.pdf",
+
+        temDeclaracaoConformidade: "sim",
+        nomeDeclaracaoConformidade: "Declaração de Conformidade IntelliVue MX550",
+        dataDeclaracaoConformidade: "15/02/2025",
+        validadeDeclaracaoConformidade: "15/02/2035",
+        ficheiroDeclaracaoConformidade: "declaracao_conformidade_EQ030.pdf",
+
+        observacoes: "Monitor multiparamétrico destinado à monitorização contínua de sinais vitais.",
+
+        acessorios: [
+            {
+                nome: "Sensor SpO2",
+                referencia: "ACC-SPO2-030",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Cabo ECG 5 derivações",
+                referencia: "ACC-ECG-030",
+                quantidade: "1",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            },
+            {
+                nome: "Braçadeira NIBP",
+                referencia: "ACC-NIBP-030",
+                quantidade: "2",
+                unidade: "unid",
+                estado: "em-uso",
+                observacoes: ""
+            }
+        ],
+
+        consumiveis: [
+            {
+                nome: "Elétrodos ECG",
+                referencia: "CON-ECG-030",
+                quantidade: "300",
+                unidade: "unid",
+                estado: "novo",
+                observacoes: ""
+            }
+        ],
+
+        dataAquisicao: "01/03/2025",
+        custoAquisicao: "8450 €",
+        tipoEntrada: "Compra",
+
+        temContratoAquisicao: "sim",
+        tipoContratoAquisicao: "Contrato de aquisição",
+        nomeContratoAquisicao: "Contrato Aquisição IntelliVue MX550",
+        dataContratoAquisicao: "01/03/2025",
+        validadeContratoAquisicao: "",
+        ficheiroContratoAquisicao: "contrato_aquisicao_EQ030.pdf",
+
+        temFatura: "sim",
+        tipoFatura: "Fatura",
+        nomeFatura: "Fatura IntelliVue MX550",
+        dataFatura: "01/03/2025",
+        ficheiroFatura: "fatura_EQ030.pdf",
+
+        observacoesAquisicao: "Aquisição para renovação tecnológica da Unidade de Cuidados Intensivos.",
+
+        fornecedores: [
+            {
+                codigo: "FOR001",
+                morada: "Lisboa, Portugal",
+                pessoaContacto: "Catarina Silva",
+                telefone: "+351 910 000 000",
+                tipo: "Fabricante",
+                observacoes: "Fornecedor principal."
+            },
+            {
+                codigo: "FOR004",
+                morada: "Coimbra, Portugal",
+                pessoaContacto: "João Almeida",
+                telefone: "+351 930 656 375",
+                tipo: "Empresa de assistência técnica",
+                observacoes: "Responsável pelo suporte técnico."
+            }
+        ],
+
+        localizacao: "LOC001",
+        observacoesLocalizacao: "Equipamento instalado na Unidade de Cuidados Intensivos.",
+
+        dataInicioGarantia: "01/03/2025",
+        dataFimGarantia: "01/03/2029",
+
+        temDocumentacaoGarantia: "sim",
+        tipoCertificadoGarantia: "Certificado de garantia",
+        nomeCertificadoGarantia: "Garantia IntelliVue MX550",
+        dataCertificadoGarantia: "01/03/2025",
+        validadeCertificadoGarantia: "01/03/2029",
+        ficheiroGarantia: "certificado_garantia_EQ030.pdf",
+
+        observacoesGarantia: "Garantia válida.",
+
+        contratoManutencao: "Sim",
+        tipoContrato: "Manutenção preventiva",
+        entidadeResponsavelContrato: "Philips Healthcare",
+        periodicidadeContrato: "Anual",
+
+        temDocumentacaoContrato: "sim",
+        tipoContratoManutencao: "Contrato de manutenção",
+        nomeContratoManutencao: "Contrato Manutenção IntelliVue 2026",
+        dataContratoManutencao: "01/01/2026",
+        validadeContratoManutencao: "31/12/2026",
+        ficheiroContratoManutencao: "contrato_manutencao_EQ030.pdf",
+
+        temRelatorioContrato: "sim",
+        tipoRelatorioManutencao: "Relatório de manutenção",
+        nomeRelatorioManutencao: "Relatório Preventivo IntelliVue 2026",
+        dataRelatorioManutencao: "15/03/2026",
+        validadeRelatorioManutencao: "",
+        ficheiroRelatorioManutencao: "relatorio_manutencao_EQ030.pdf",
+
+        temDocumentacaoCalibracao: "sim",
+        tipoCertificadoCalibracao: "Certificado de calibração",
+        nomeCertificadoCalibracao: "Certificado Calibração MX550",
+        dataCertificadoCalibracao: "15/03/2026",
+        validadeCertificadoCalibracao: "15/03/2027",
+        ficheiroCertificadoCalibracao: "certificado_calibracao_EQ030.pdf",
+
+        temRelatorioCalibracao: "nao",
+        nomeRelatorioCalibracao: "",
+        dataRelatorioCalibracao: "",
+        validadeRelatorioCalibracao: "",
+        ficheiroRelatorioCalibracao: "",
+
+        observacoesContrato: "Equipamento novo com manutenção preventiva anual ativa."
+    },
 };
 
 let equipamentosGuardados = JSON.parse(localStorage.getItem("equipamentosGuardados"));
@@ -695,6 +4547,21 @@ if (!equipamentosGuardados) {
     equipamentosGuardados = equipamentosConsulta;
     localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
 }
+
+function formatarEstadoEquipamento(estado) {
+        const classes = {
+            "Ativo": "estado-ativo",
+            "Em manutenção": "estado-manutencao",
+            "Em calibração": "estado-calibracao",
+            "Inativo": "estado-inativo",
+            "Em quarentena": "estado-quarentena",
+            "Abatido": "estado-abatido"
+        };
+        const classe = classes[estado] || "";
+        return classe
+            ? `<span class="${classe}">${estado}</span>`
+            : (estado || "-");
+    }
 
 function preencherListagemEquipamentos(listaEquipamentos = Object.values(equipamentosGuardados)) {
     const tabelaEquipamentos = document.getElementById("tabela-equipamentos");
@@ -743,7 +4610,7 @@ function preencherListagemEquipamentos(listaEquipamentos = Object.values(equipam
     <td>${equipamento.codigo || "-"}</td>
     <td>${equipamento.designacao || "-"}</td>
     <td>${textoLocalizacao}</td>
-    <td>${equipamento.estado || "-"}</td>
+    <td>${formatarEstadoEquipamento(equipamento.estado)}</td>
     <td>${criticidadeHTML}</td>
 
     <td class="acoes-tabela-privada">
@@ -1136,6 +5003,17 @@ function inicializarNovoEquipamento() {
 
     }
 
+    const seletorDeclaracaoConformidade = document.getElementById('tem_declaracao_conformidade');
+    const blocoDeclaracaoConformidade = document.getElementById('bloco-declaracao-conformidade');
+
+    if (blocoDeclaracaoConformidade) blocoDeclaracaoConformidade.style.display = 'none';
+
+    if (seletorDeclaracaoConformidade) {
+        seletorDeclaracaoConformidade.addEventListener('change', function () {
+            blocoDeclaracaoConformidade.style.display = this.value === 'sim' ? 'block' : 'none';
+        });
+    }
+
     const seletorContratoAquisicao = document.getElementById('tem_contrato_aquisicao');
     const blocoContratoAquisicao = document.getElementById('bloco-contrato-aquisicao');
     const seletorFatura = document.getElementById('tem_fatura');
@@ -1157,36 +5035,36 @@ function inicializarNovoEquipamento() {
 
     const selectTipoEntrada = document.getElementById("tipo_entrada");
 
-function atualizarFaturaPorTipoEntrada() {
-    if (!selectTipoEntrada || !seletorFatura || !blocoFatura) return;
-    const tipo = selectTipoEntrada.value;
+    function atualizarFaturaPorTipoEntrada() {
+        if (!selectTipoEntrada || !seletorFatura || !blocoFatura) return;
+        const tipo = selectTipoEntrada.value;
 
-    if (tipo === "Compra") {
-        seletorFatura.value = "sim";
-        blocoFatura.style.display = "block";
-        seletorFatura.style.pointerEvents = "none";
-        seletorFatura.style.opacity = "0.75";
-    } else if (tipo === "Doação" || tipo === "Empréstimo") {
-        seletorFatura.value = "nao";
-        blocoFatura.style.display = "none";
-        seletorFatura.style.pointerEvents = "none";
-        seletorFatura.style.opacity = "0.75";
-    } else if (tipo === "Aluguer") {
-        seletorFatura.style.pointerEvents = "";
-        seletorFatura.style.opacity = "";
-        if (seletorFatura.value !== "sim") blocoFatura.style.display = "none";
-    } else {
-        seletorFatura.value = "";
-        blocoFatura.style.display = "none";
-        seletorFatura.style.pointerEvents = "none";
-        seletorFatura.style.opacity = "0.75";
+        if (tipo === "Compra") {
+            seletorFatura.value = "sim";
+            blocoFatura.style.display = "block";
+            seletorFatura.style.pointerEvents = "none";
+            seletorFatura.style.opacity = "0.75";
+        } else if (tipo === "Doação" || tipo === "Empréstimo") {
+            seletorFatura.value = "nao";
+            blocoFatura.style.display = "none";
+            seletorFatura.style.pointerEvents = "none";
+            seletorFatura.style.opacity = "0.75";
+        } else if (tipo === "Aluguer") {
+            seletorFatura.style.pointerEvents = "";
+            seletorFatura.style.opacity = "";
+            if (seletorFatura.value !== "sim") blocoFatura.style.display = "none";
+        } else {
+            seletorFatura.value = "";
+            blocoFatura.style.display = "none";
+            seletorFatura.style.pointerEvents = "none";
+            seletorFatura.style.opacity = "0.75";
+        }
     }
-}
 
-if (selectTipoEntrada) {
-    selectTipoEntrada.addEventListener("change", atualizarFaturaPorTipoEntrada);
-    atualizarFaturaPorTipoEntrada();
-}
+    if (selectTipoEntrada) {
+        selectTipoEntrada.addEventListener("change", atualizarFaturaPorTipoEntrada);
+        atualizarFaturaPorTipoEntrada();
+    }
 
     // Garantia
     const seletorDocGarantia = document.getElementById('tem_documentacao_garantia');
@@ -1314,6 +5192,12 @@ if (selectTipoEntrada) {
 
             ficheiroManualUtilizacao:
                 document.getElementById("ficheiroManualUtilizacao").value,
+
+            temDeclaracaoConformidade: document.getElementById("tem_declaracao_conformidade").value,
+            nomeDeclaracaoConformidade: document.getElementById("nomeDeclaracaoConformidade").value.trim(),
+            dataDeclaracaoConformidade: converterDataParaTexto(document.getElementById("dataDeclaracaoConformidade").value),
+            validadeDeclaracaoConformidade: converterDataParaTexto(document.getElementById("validadeDeclaracaoConformidade").value),
+            ficheiroDeclaracaoConformidade: document.getElementById("ficheiroDeclaracaoConformidade").value,
 
             dataAquisicao: converterDataParaTexto(document.getElementById("data_aquisicao").value),
             custoAquisicao: document.getElementById("custo_aquisicao").value.trim() + " €",
@@ -1899,7 +5783,11 @@ function preencherDetalhesEquipamento() {
     document.getElementById("detalhe-numero-serie").textContent = equipamento.numeroSerie || "Não definido";
     document.getElementById("detalhe-fabricante").textContent = equipamento.fabricante || "Não definido";
     document.getElementById("detalhe-ano-fabrico").textContent = equipamento.anoFabrico || "Não definido";
+    // Antes:
     document.getElementById("detalhe-estado").textContent = equipamento.estado || "Não definido";
+
+    // Depois:
+    document.getElementById("detalhe-estado").innerHTML = formatarEstadoEquipamento(equipamento.estado || "Não definido");
     document.getElementById("detalhe-observacoes").textContent = equipamento.observacoes || "Sem observações";
 
     const campoCriticidade = document.getElementById("detalhe-criticidade");
@@ -1933,11 +5821,18 @@ function preencherDetalhesEquipamento() {
         badgeUtilizacao.textContent = tem ? "Sim" : "Não";
     }
 
+    const badgeConformidade = document.getElementById("badge-accordion-conformidade");
+    if (badgeConformidade) {
+        const tem = equipamento.temDeclaracaoConformidade === "sim";
+        badgeConformidade.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
+        badgeConformidade.textContent = tem ? "Sim" : "Não";
+    }
+
     // Doc técnica
     if (equipamento.temDocumentacaoTecnica === "sim") {
 
         document.getElementById("detalhe-tem-doc-tecnica").textContent =
-            equipamento.tipoManualTecnico || "Manual Técnico";
+            equipamento.tipoManualTecnico || "Manual de Serviço";
 
         document.getElementById("detalhe-nome-manual-tecnico").textContent =
             equipamento.nomeManualTecnico || "";
@@ -2010,6 +5905,32 @@ function preencherDetalhesEquipamento() {
         `;
         } else {
             campoFicheiroUtilizacao.textContent = "Sem ficheiro associado";
+        }
+    }
+
+    // Declaração de Conformidade
+    if (equipamento.temDeclaracaoConformidade === "sim") {
+        document.getElementById("detalhe-tem-declaracao-conformidade").textContent = "Declaração de Conformidade";
+        document.getElementById("detalhe-nome-declaracao-conformidade").textContent = equipamento.nomeDeclaracaoConformidade || "";
+        document.getElementById("detalhe-data-declaracao-conformidade").textContent = equipamento.dataDeclaracaoConformidade || "";
+        document.getElementById("detalhe-validade-declaracao-conformidade").textContent = equipamento.validadeDeclaracaoConformidade || "";
+    } else {
+        document.getElementById("detalhe-tem-declaracao-conformidade").textContent = "Não";
+        document.getElementById("detalhe-nome-declaracao-conformidade").textContent = "-";
+        document.getElementById("detalhe-data-declaracao-conformidade").textContent = "-";
+        document.getElementById("detalhe-validade-declaracao-conformidade").textContent = "-";
+    }
+
+    const campoFicheiroConformidade = document.getElementById("detalhe-ficheiro-declaracao-conformidade");
+    if (campoFicheiroConformidade) {
+        if (equipamento.ficheiroDeclaracaoConformidade && equipamento.ficheiroDeclaracaoConformidade !== "") {
+            campoFicheiroConformidade.innerHTML = `
+            <span style="display:inline-flex; align-items:center; gap:0.4rem; color:#003f78; font-weight:600;">
+                <i class="fa-solid fa-file-pdf" style="color:#dc3545;"></i>
+                ${equipamento.ficheiroDeclaracaoConformidade.split('\\').pop().split('/').pop()}
+            </span>`;
+        } else {
+            campoFicheiroConformidade.textContent = "Sem ficheiro associado";
         }
     }
 
@@ -2485,6 +6406,7 @@ function preencherDetalhesEquipamento() {
 
     renderizarResumoDoc("resumo-doc-tecnica", "badge-resumo-tecnica", equipamento.temDocumentacaoTecnica, equipamento.nomeManualTecnico, equipamento.dataManualTecnico, equipamento.validadeManualTecnico, equipamento.ficheiroManualTecnico);
     renderizarResumoDoc("resumo-doc-utilizacao", "badge-resumo-utilizacao", equipamento.temDocumentacaoUtilizacao, equipamento.nomeManualUtilizacao, equipamento.dataManualUtilizacao, equipamento.validadeManualUtilizacao, equipamento.ficheiroManualUtilizacao);
+    renderizarResumoDoc("resumo-doc-conformidade", "badge-resumo-conformidade", equipamento.temDeclaracaoConformidade, equipamento.nomeDeclaracaoConformidade, equipamento.dataDeclaracaoConformidade, equipamento.validadeDeclaracaoConformidade, equipamento.ficheiroDeclaracaoConformidade);
     renderizarResumoDoc("resumo-doc-aquisicao", "badge-resumo-aquisicao", equipamento.temContratoAquisicao, equipamento.nomeContratoAquisicao, equipamento.dataContratoAquisicao, equipamento.validadeContratoAquisicao, equipamento.ficheiroContratoAquisicao);
     renderizarResumoDoc("resumo-doc-fatura", "badge-resumo-fatura", equipamento.temFatura, equipamento.nomeFatura, equipamento.dataFatura, "", equipamento.ficheiroFatura, false);
     renderizarResumoDoc("resumo-doc-garantia", "badge-resumo-garantia", equipamento.temDocumentacaoGarantia, equipamento.nomeCertificadoGarantia, equipamento.dataCertificadoGarantia, equipamento.validadeCertificadoGarantia, equipamento.ficheiroGarantia);
@@ -2538,6 +6460,15 @@ function inicializarEditarEquipamento() {
         document.getElementById("nomeManualUtilizacao").value = equipamento.nomeManualUtilizacao || "";
         document.getElementById("dataManualUtilizacao").value = converterDataParaInput(equipamento.dataManualUtilizacao);
         document.getElementById("validadeManualUtilizacao").value = converterDataParaInput(equipamento.validadeManualUtilizacao);
+    }
+
+    // Documentação de Conformidade
+    document.getElementById("tem_declaracao_conformidade").value = equipamento.temDeclaracaoConformidade || "";
+    if (equipamento.temDeclaracaoConformidade === "sim") {
+        document.getElementById("bloco-declaracao-conformidade").style.display = "block";
+        document.getElementById("nomeDeclaracaoConformidade").value = equipamento.nomeDeclaracaoConformidade || "";
+        document.getElementById("dataDeclaracaoConformidade").value = converterDataParaInput(equipamento.dataDeclaracaoConformidade);
+        document.getElementById("validadeDeclaracaoConformidade").value = converterDataParaInput(equipamento.validadeDeclaracaoConformidade);
     }
 
     // Acessórios
@@ -2700,6 +6631,11 @@ function inicializarEditarEquipamento() {
     );
 
     controlarBloco(
+        "tem_declaracao_conformidade",
+        "bloco-declaracao-conformidade"
+    );
+
+    controlarBloco(
         "tem_contrato_aquisicao",
         "bloco-contrato-aquisicao"
     );
@@ -2710,39 +6646,39 @@ function inicializarEditarEquipamento() {
     );
 
     const selectTipoEntradaEditar = document.getElementById("tipo_entrada");
-const seletorFaturaEditar = document.getElementById('tem_fatura');
-const blocoFaturaEditar = document.getElementById('bloco-fatura');
+    const seletorFaturaEditar = document.getElementById('tem_fatura');
+    const blocoFaturaEditar = document.getElementById('bloco-fatura');
 
-function atualizarFaturaPorTipoEntradaEditar() {
-    if (!selectTipoEntradaEditar || !seletorFaturaEditar || !blocoFaturaEditar) return;
-    const tipo = selectTipoEntradaEditar.value;
+    function atualizarFaturaPorTipoEntradaEditar() {
+        if (!selectTipoEntradaEditar || !seletorFaturaEditar || !blocoFaturaEditar) return;
+        const tipo = selectTipoEntradaEditar.value;
 
-    if (tipo === "Compra") {
-        seletorFaturaEditar.value = "sim";
-        blocoFaturaEditar.style.display = "block";
-        seletorFaturaEditar.style.pointerEvents = "none";
-        seletorFaturaEditar.style.opacity = "0.75";
-    } else if (tipo === "Doação" || tipo === "Empréstimo") {
-        seletorFaturaEditar.value = "nao";
-        blocoFaturaEditar.style.display = "none";
-        seletorFaturaEditar.style.pointerEvents = "none";
-        seletorFaturaEditar.style.opacity = "0.75";
-    } else if (tipo === "Aluguer") {
-        seletorFaturaEditar.style.pointerEvents = "";
-        seletorFaturaEditar.style.opacity = "";
-        if (seletorFaturaEditar.value !== "sim") blocoFaturaEditar.style.display = "none";
-    } else {
-        seletorFaturaEditar.value = "";
-        blocoFaturaEditar.style.display = "none";
-        seletorFaturaEditar.style.pointerEvents = "none";
-        seletorFaturaEditar.style.opacity = "0.75";
+        if (tipo === "Compra") {
+            seletorFaturaEditar.value = "sim";
+            blocoFaturaEditar.style.display = "block";
+            seletorFaturaEditar.style.pointerEvents = "none";
+            seletorFaturaEditar.style.opacity = "0.75";
+        } else if (tipo === "Doação" || tipo === "Empréstimo") {
+            seletorFaturaEditar.value = "nao";
+            blocoFaturaEditar.style.display = "none";
+            seletorFaturaEditar.style.pointerEvents = "none";
+            seletorFaturaEditar.style.opacity = "0.75";
+        } else if (tipo === "Aluguer") {
+            seletorFaturaEditar.style.pointerEvents = "";
+            seletorFaturaEditar.style.opacity = "";
+            if (seletorFaturaEditar.value !== "sim") blocoFaturaEditar.style.display = "none";
+        } else {
+            seletorFaturaEditar.value = "";
+            blocoFaturaEditar.style.display = "none";
+            seletorFaturaEditar.style.pointerEvents = "none";
+            seletorFaturaEditar.style.opacity = "0.75";
+        }
     }
-}
 
-if (selectTipoEntradaEditar) {
-    selectTipoEntradaEditar.addEventListener("change", atualizarFaturaPorTipoEntradaEditar);
-    atualizarFaturaPorTipoEntradaEditar();
-}
+    if (selectTipoEntradaEditar) {
+        selectTipoEntradaEditar.addEventListener("change", atualizarFaturaPorTipoEntradaEditar);
+        atualizarFaturaPorTipoEntradaEditar();
+    }
 
     controlarBloco(
         "tem_documentacao_garantia",
@@ -2837,6 +6773,12 @@ if (selectTipoEntradaEditar) {
         eq.nomeManualUtilizacao = document.getElementById("nomeManualUtilizacao").value.trim();
         eq.dataManualUtilizacao = converterDataParaTexto(document.getElementById("dataManualUtilizacao").value);
         eq.validadeManualUtilizacao = converterDataParaTexto(document.getElementById("validadeManualUtilizacao").value);
+
+        eq.temDeclaracaoConformidade = document.getElementById("tem_declaracao_conformidade").value;
+        eq.nomeDeclaracaoConformidade = document.getElementById("nomeDeclaracaoConformidade").value.trim();
+        eq.dataDeclaracaoConformidade = converterDataParaTexto(document.getElementById("dataDeclaracaoConformidade").value);
+        eq.validadeDeclaracaoConformidade = converterDataParaTexto(document.getElementById("validadeDeclaracaoConformidade").value);
+        eq.ficheiroDeclaracaoConformidade = document.getElementById("ficheiroDeclaracaoConformidade").value;
 
         eq.acessorios = Array.from(document.querySelectorAll('#tbody-acessorios tr')).map(function (tr) {
             return {
@@ -3020,6 +6962,78 @@ const localizacoesConsulta = {
         servico: "Urgência",
         sala: "Sala 1.02",
         observacoes: "Localização destinada a equipamentos de resposta rápida."
+    },
+
+    LOC005: {
+        codigo: "LOC005",
+        edificio: "Edifício Principal",
+        piso: "Piso 1",
+        servico: "Radiologia",
+        sala: "Sala RX-03",
+        observacoes: "Área destinada a equipamentos de diagnóstico por imagem."
+    },
+
+    LOC006: {
+        codigo: "LOC006",
+        edificio: "Edifício Cirúrgico",
+        piso: "Piso 0",
+        servico: "Bloco Operatório Central",
+        sala: "Sala BO-02",
+        observacoes: "Sala equipada para intervenções cirúrgicas programadas."
+    },
+
+    LOC007: {
+        codigo: "LOC007",
+        edificio: "Edifício Principal",
+        piso: "Piso 3",
+        servico: "Cardiologia",
+        sala: "Sala 3.08",
+        observacoes: "Área dedicada a exames e monitorização cardíaca."
+    },
+
+    LOC008: {
+        codigo: "LOC008",
+        edificio: "Edifício Técnico",
+        piso: "Piso 0",
+        servico: "Central de Esterilização e Desinfeção",
+        sala: "Sala EST-01",
+        observacoes: "Zona destinada à esterilização de material clínico."
+    },
+
+    LOC009: {
+        codigo: "LOC009",
+        edificio: "Edifício Principal",
+        piso: "Piso 2",
+        servico: "Pediatria",
+        sala: "Sala PED-04",
+        observacoes: "Área dedicada ao acompanhamento e tratamento pediátrico."
+    },
+
+    LOC010: {
+        codigo: "LOC010",
+        edificio: "Edifício Principal",
+        piso: "Piso 3",
+        servico: "Neurologia",
+        sala: "Sala NRL-02",
+        observacoes: "Serviço especializado em doenças neurológicas."
+    },
+
+    LOC011: {
+        codigo: "LOC011",
+        edificio: "Edifício Técnico",
+        piso: "Piso 1",
+        servico: "Patologia Clínica",
+        sala: "Sala LAB-05",
+        observacoes: "Área destinada à realização de análises clínicas e laboratoriais."
+    },
+
+    LOC012: {
+        codigo: "LOC012",
+        edificio: "Edifício Principal",
+        piso: "Piso 4",
+        servico: "Medicina Física e Reabilitação",
+        sala: "Sala REAB-01",
+        observacoes: "Espaço destinado a equipamentos de fisioterapia e reabilitação."
     }
 };
 
@@ -3672,7 +7686,77 @@ const fornecedoresConsulta = {
         telefonePessoaContacto: "+351 940 000 000",
         tipoFornecedor: "Empresa de assistência técnica",
         observacoes: "Empresa responsável por manutenção preventiva e corretiva."
-    }
+    },
+
+    FOR005: {
+        codigo: "FOR005",
+        nomeEmpresa: "Siemens Healthineers",
+        nif: "505678901",
+        telefone: "+351 930 111 222",
+        email: "contacto@siemenshealthineers.pt",
+        morada: "Coimbra, Portugal",
+        website: "www.siemens-healthineers.com",
+        pessoaContacto: "Ricardo Moreira",
+        telefonePessoaContacto: "+351 910 111 222",
+        tipoFornecedor: "Fabricante",
+        observacoes: "Fornecedor de equipamentos de diagnóstico e imagiologia."
+    },
+
+    FOR006: {
+        codigo: "FOR006",
+        nomeEmpresa: "GE HealthCare",
+        nif: "506789012",
+        telefone: "+351 930 222 333",
+        email: "contacto@gehealthcare.pt",
+        morada: "Região Autónoma da Madeira, Portugal",
+        website: "www.gehealthcare.com",
+        pessoaContacto: "Ana Ribeiro",
+        telefonePessoaContacto: "+351 910 222 333",
+        tipoFornecedor: "Fabricante",
+        observacoes: "Fornecedor de equipamentos de monitorização e diagnóstico."
+    },
+
+    FOR007: {
+        codigo: "FOR007",
+        nomeEmpresa: "B. Braun Medical",
+        nif: "507890123",
+        telefone: "+351 930 333 444",
+        email: "contacto@bbraun.pt",
+        morada: "Faro, Portugal",
+        website: "www.bbraun.pt",
+        pessoaContacto: "Pedro Costa",
+        telefonePessoaContacto: "+351 910 333 444",
+        tipoFornecedor: "Fornecedor de consumáveis ou acessórios",
+        observacoes: "Fornecedor de consumíveis hospitalares e acessórios para equipamentos médicos."
+    },
+
+    FOR008: {
+        codigo: "FOR008",
+        nomeEmpresa: "Medtronic Portugal",
+        nif: "508901234",
+        telefone: "+351 930 444 555",
+        email: "contacto@medtronic.pt",
+        morada: "Braga, Portugal",
+        website: "www.medtronic.com",
+        pessoaContacto: "Sofia Martins",
+        telefonePessoaContacto: "+351 910 444 555",
+        tipoFornecedor: "Distribuidor ou Fornecedor comercial",
+        observacoes: "Distribuidor de equipamentos médicos e dispositivos implantáveis."
+    },
+
+    FOR009: {
+        codigo: "FOR009",
+        nomeEmpresa: "Roche Diagnostics",
+        nif: "509012345",
+        telefone: "+351 930 555 666",
+        email: "contacto@roche.pt",
+        morada: "Lisboa, Portugal",
+        website: "www.roche.pt",
+        pessoaContacto: "Tiago Oliveira",
+        telefonePessoaContacto: "+351 910 555 666",
+        tipoFornecedor: "Fornecedor de consumíveis ou acessórios",
+        observacoes: "Fornecedor de reagentes e consumíveis laboratoriais."
+    },
 };
 
 let fornecedoresGuardados = JSON.parse(localStorage.getItem("fornecedoresGuardados"));

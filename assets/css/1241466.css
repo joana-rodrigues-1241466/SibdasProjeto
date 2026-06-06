@@ -853,6 +853,13 @@ body {
     text-decoration: underline;
 }
 
+.estado-ativo      { color: #16a34a; font-weight: 600; }
+.estado-manutencao { color: #ea580c; font-weight: 600; }
+.estado-calibracao { color: #3b82f6; font-weight: 600; }
+.estado-inativo    { color: #9ca3af; font-weight: 600; }
+.estado-quarentena { color: #9333ea; font-weight: 600; }
+.estado-abatido    { color: #dc2626; font-weight: 600; }
+
 /* Formulário da área privada */
 .formulario-privado {
     background-color: #ffffff;
@@ -1004,18 +1011,6 @@ body {
 .botao-guardar-privado:hover {
     background-color: #0086a8;
     color: #ffffff;
-}
-
-.mensagem-sucesso-privada {
-    display: none;
-    margin-top: 25px;
-    padding: 16px 20px;
-    border-radius: 12px;
-    background-color: #e8f7ef;
-    border: 1px solid #b7e4c7;
-    color: #0f6b3f;
-    font-weight: 600;
-    text-align: center;
 }
 
 /* Card principal dos detalhes do equipamento */
@@ -1197,6 +1192,7 @@ body {
 
 #tem_documentacao_tecnica,
 #tem_documentacao_utilizacao,
+#tem_declaracao_conformidade,
 #tem_contrato_aquisicao,
 #tem_fatura,
 #tem_documentacao_garantia,

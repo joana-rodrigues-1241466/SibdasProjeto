@@ -121,12 +121,9 @@
                             </div>
                             <div class="campo-detalhes">
                                 <h3>Categoria ou grupo
-                                    <i class="fa-solid fa-circle-info"
-        data-bs-toggle="popover"
-        data-bs-trigger="hover focus"
-        data-bs-placement="right"
-        data-bs-html="true"
-        data-bs-content="
+                                    <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                        data-bs-content="
         <strong>Monitorização</strong> - Equipamentos utilizados para monitorizar parâmetros fisiológicos e o estado clínico do paciente.<br><br>
         <strong>Suporte de vida</strong> - Equipamentos essenciais para manter ou substituir funções vitais do organismo.<br><br>
         <strong>Terapia</strong> - Equipamentos utilizados na administração de tratamentos e intervenções terapêuticas.<br><br>
@@ -135,7 +132,7 @@
         <strong>Esterilização</strong> - Equipamentos destinados à limpeza, desinfeção e esterilização de materiais e dispositivos médicos.<br><br>
         <strong>Reabilitação</strong> - Equipamentos utilizados na recuperação funcional e reabilitação dos pacientes.
         ">
-    </i>
+                                    </i>
                                 </h3>
                                 <p id="detalhe-categoria"></p>
                             </div>
@@ -273,6 +270,43 @@
 
                         </div>
 
+                        <div class="accordion-item-doc" style="margin-top: 0.5rem;">
+    <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+        <span>
+            <i class="fa-solid fa-certificate"></i>
+            Documentação de Conformidade
+                                </span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-accordion-conformidade" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
+                                    <div class="campo-detalhes">
+                                        <h3>Tipo de documentação</h3>
+                                        <p id="detalhe-tem-declaracao-conformidade"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Nome do documento</h3>
+                                        <p id="detalhe-nome-declaracao-conformidade"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Data do documento</h3>
+                                        <p id="detalhe-data-declaracao-conformidade"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Validade do documento</h3>
+                                        <p id="detalhe-validade-declaracao-conformidade"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Ficheiro PDF</h3>
+                                        <p id="detalhe-ficheiro-declaracao-conformidade"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <h5 class="subtitulo-separador titulo-azul-separador">
                             <i class="fa-solid fa-comment-medical"></i>
                             Observações do Equipamento
@@ -331,18 +365,15 @@
                             </div>
                             <div class="campo-detalhes">
                                 <h3>Tipo de entrada
-                                    <i class="fa-solid fa-circle-info"
-        data-bs-toggle="popover"
-        data-bs-trigger="hover focus"
-        data-bs-placement="right"
-        data-bs-html="true"
-        data-bs-content="
+                                    <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                        data-bs-content="
         <strong>Compra</strong> - Equipamento adquirido pela instituição através de compra direta.<br><br>
         <strong>Doação</strong> - Equipamento recebido sem custos por oferta de uma entidade ou particular.<br><br>
         <strong>Aluguer</strong> - Equipamento utilizado mediante pagamento periódico durante um período definido.<br><br>
         <strong>Empréstimo</strong> - Equipamento cedido temporariamente por outra entidade para utilização durante um período acordado.
         ">
-    </i>
+                                    </i>
                                 </h3>
                                 <p id="detalhe-tipo-entrada"></p>
                             </div>
@@ -818,6 +849,19 @@
                                 </button>
                                 <div class="accordion-body-doc" style="display:none;">
                                     <div id="resumo-doc-utilizacao"></div>
+                                </div>
+                            </div>
+
+                            <div id="resumo-doc-conformidade-accordion" class="accordion-item-doc">
+                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                    <span><i class="fa-solid fa-certificate"></i> Declaração de Conformidade</span>
+                                    <div class="accordion-btn-doc-direita">
+                                        <span id="badge-resumo-conformidade" class="badge-accordion-doc"></span>
+                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                    </div>
+                                </button>
+                                <div class="accordion-body-doc" style="display:none;">
+                                    <div id="resumo-doc-conformidade"></div>
                                 </div>
                             </div>
 

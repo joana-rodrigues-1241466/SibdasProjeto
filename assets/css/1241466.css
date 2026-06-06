@@ -809,6 +809,10 @@ body {
     word-wrap: break-word;
 }
 
+.tabela-privada td.acoes-tabela-privada {
+    white-space: nowrap;
+}
+
 /* Ações da tabela privada */
 .acoes-tabela-privada {
     align-items: center;

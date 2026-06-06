@@ -245,6 +245,17 @@
 
                         </div>
 
+                        <div class="grupo-filtro-equipamentos">
+    <label for="filtroEquipamentoFornecedor">
+        Equipamento associado
+    </label>
+    <div class="select-filtro-wrapper">
+        <select id="filtroEquipamentoFornecedor" class="campo-filtro-equipamentos">
+            <option value="">Todos</option>
+        </select>
+    </div>
+</div>
+
                         <div class="grupo-filtro-equipamentos grupo-botao-limpar-filtros">
                             <label>&nbsp;</label>
                             <button type="button" id="botaoLimparApenasFiltrosFornecedores"
@@ -261,124 +272,16 @@
             <div class="tabela-privada">
                 <table>
                     <thead>
-                        <tr>
-                            <th>Nome da empresa</th>
-                            <th>Contacto telefónico geral</th>
-                            <th>Email geral</th>
-                            <th>Website geral</th>
-                            <th>Tipo de fornecedor</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
+    <tr>
+        <th>Nome da empresa</th>
+        <th>Tipo de fornecedor</th>
+        <th>Pessoa de contacto</th>
+        <th>Telefone de contacto</th>
+        <th>Ações</th>
+    </tr>
+</thead>
 
                     <tbody id="tabela-fornecedores">
-                        <tr>
-                            <td>Philips Healthcare</td>
-                            <td>+351 930 193 126</td>
-                            <td>contacto@philipshealthcare.pt</td>
-                            <td>www.philips.com</td>
-                            <td>Fabricante</td>
-                            <td class="acoes-tabela-privada">
-                                <a href="consultar_fornecedor.html?id=FOR001" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-eye"></i>
-                                    Consultar
-                                </a>
-
-                                <a href="editar_fornecedor.html?id=FOR001" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                    Editar
-                                </a>
-
-                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
-                                    data-bs-target="#modalEliminarFornecedor"
-                                    onclick="prepararEliminacaoFornecedor('FOR001')">
-
-                                    <i class="fa-regular fa-trash-can"></i>
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Dräger</td>
-                            <td>+351 930 327 344</td>
-                            <td>contacto@draegermedical.pt</td>
-                            <td>www.draeger.com</td>
-                            <td>Fabricante</td>
-                            <td class="acoes-tabela-privada">
-                                <a href="consultar_fornecedor.html?id=FOR002" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-eye"></i>
-                                    Consultar
-                                </a>
-
-                                <a href="editar_fornecedor.html?id=FOR002" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                    Editar
-                                </a>
-
-                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
-                                    data-bs-target="#modalEliminarFornecedor"
-                                    onclick="prepararEliminacaoFornecedor('FOR002')">
-
-                                    <i class="fa-regular fa-trash-can"></i>
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>MedSupply Portugal</td>
-                            <td>+351 930 248 308</td>
-                            <td>contacto@medsupply.pt</td>
-                            <td>www.medsupply.com</td>
-                            <td>Distribuidor ou Fornecedor comercial</td>
-                            <td class="acoes-tabela-privada">
-                                <a href="consultar_fornecedor.html?id=FOR003" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-eye"></i>
-                                    Consultar
-                                </a>
-
-                                <a href="editar_fornecedor.html?id=FOR003" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                    Editar
-                                </a>
-
-                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
-                                    data-bs-target="#modalEliminarFornecedor"
-                                    onclick="prepararEliminacaoFornecedor('FOR003')">
-
-                                    <i class="fa-regular fa-trash-can"></i>
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>TecnoMed Assistência</td>
-                            <td>+351 930 656 375</td>
-                            <td>contacto@tecnomed.pt</td>
-                            <td>www.tecnomed.com</td>
-                            <td>Empresa de assistência técnica</td>
-                            <td class="acoes-tabela-privada">
-                                <a href="consultar_fornecedor.html?id=FOR004" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-eye"></i>
-                                    Consultar
-                                </a>
-
-                                <a href="editar_fornecedor.html?id=FOR004" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                    Editar
-                                </a>
-
-                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
-                                    data-bs-target="#modalEliminarFornecedor"
-                                    onclick="prepararEliminacaoFornecedor('FOR004')">
-
-                                    <i class="fa-regular fa-trash-can"></i>
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
 
                     </tbody>
                 </table>

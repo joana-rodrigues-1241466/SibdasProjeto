@@ -3472,7 +3472,7 @@ const fornecedoresConsulta = {
         email: "contacto@philipshealthcare.pt",
         morada: "Lisboa, Portugal",
         website: "www.philips.com",
-        pessoaContacto: "Ana Martins",
+        pessoaContacto: "Catarina Silva",
         telefonePessoaContacto: "+351 910 000 000",
         tipoFornecedor: "Fabricante",
         observacoes: "Fornecedor associado a equipamentos de monitorização."
@@ -3560,10 +3560,9 @@ function preencherListagemFornecedores(
 
         linha.innerHTML = `
     <td>${fornecedor.nomeEmpresa}</td>
-    <td>${fornecedor.telefone}</td>
-    <td>${fornecedor.email}</td>
-    <td>${fornecedor.website}</td>
     <td>${fornecedor.tipoFornecedor}</td>
+    <td>${fornecedor.pessoaContacto}</td>
+    <td>${fornecedor.telefonePessoaContacto}</td>
 
             <td class="acoes-tabela-privada">
                 <a href="consultar_fornecedor.html?id=${fornecedor.codigo}" class="acao-tabela-privada">
@@ -3609,6 +3608,9 @@ function inicializarFiltrosFornecedores() {
     const filtroPessoaContacto =
         document.getElementById("filtroPessoaContacto");
 
+    const filtroEquipamentoFornecedor =
+        document.getElementById("filtroEquipamentoFornecedor");
+
     const botaoLimparPesquisa =
         document.getElementById("botaoLimparApenasPesquisaFornecedores");
 
@@ -3644,6 +3646,9 @@ function inicializarFiltrosFornecedores() {
 
         const pessoaContactoSelecionada =
             filtroPessoaContacto.value;
+
+        const equipamentoSelecionado =
+            filtroEquipamentoFornecedor ? filtroEquipamentoFornecedor.value : "";
 
         const fornecedoresFiltrados =
             Object.values(fornecedoresGuardados).filter(function (fornecedor) {
@@ -3714,6 +3719,18 @@ function inicializarFiltrosFornecedores() {
                         .toLowerCase()
                         .includes(textoPesquisa)
 
+                    ||
+
+                    Object.values(equipamentosGuardados).some(function (eq) {
+                        return eq.fornecedores &&
+                            eq.fornecedores.some(function (f) { return f.codigo === fornecedor.codigo; }) &&
+                            (
+                                (eq.codigo || "").toLowerCase().includes(textoPesquisa) ||
+                                (eq.designacao || "").toLowerCase().includes(textoPesquisa) ||
+                                (eq.categoria || "").toLowerCase().includes(textoPesquisa)
+                            );
+                    })
+
                 const correspondeTipo =
                     tipoSelecionado === ""
                     ||
@@ -3736,12 +3753,23 @@ function inicializarFiltrosFornecedores() {
                     ||
                     fornecedor.pessoaContacto === pessoaContactoSelecionada;
 
+                const correspondeEquipamento =
+                    equipamentoSelecionado === "" ||
+                    Object.values(equipamentosGuardados).some(function (eq) {
+                        return eq.codigo === equipamentoSelecionado &&
+                            eq.fornecedores &&
+                            eq.fornecedores.some(function (f) {
+                                return f.codigo === fornecedor.codigo;
+                            });
+                    });
+
                 return (
                     correspondePesquisa &&
                     correspondeTipo &&
                     correspondeNomeEmpresa &&
                     correspondeMorada &&
-                    correspondePessoaContacto
+                    correspondePessoaContacto &&
+                    correspondeEquipamento
                 );
             });
 
@@ -3772,6 +3800,10 @@ function inicializarFiltrosFornecedores() {
         "change",
         aplicarFiltrosFornecedores
     );
+
+    if (filtroEquipamentoFornecedor) {
+        filtroEquipamentoFornecedor.addEventListener("change", aplicarFiltrosFornecedores);
+    }
 
     if (botaoPesquisar) {
 
@@ -3804,6 +3836,7 @@ function inicializarFiltrosFornecedores() {
                 filtroNomeEmpresa.value = "";
                 filtroMoradaFornecedor.value = "";
                 filtroPessoaContacto.value = "";
+                if (filtroEquipamentoFornecedor) filtroEquipamentoFornecedor.value = "";
 
                 aplicarFiltrosFornecedores();
             }
@@ -3878,6 +3911,17 @@ function preencherSelectFiltrosFornecedores() {
 
         filtroPessoaContacto.appendChild(option);
     });
+
+    const filtroEquipamento = document.getElementById("filtroEquipamentoFornecedor");
+    if (filtroEquipamento) {
+        filtroEquipamento.innerHTML = '<option value="">Todos</option>';
+        Object.values(equipamentosGuardados).forEach(function (equipamento) {
+            const option = document.createElement("option");
+            option.value = equipamento.codigo;
+            option.textContent = equipamento.codigo + " — " + equipamento.designacao;
+            filtroEquipamento.appendChild(option);
+        });
+    }
 }
 
 function ordenarFornecedoresPorCodigoCrescente(listaFornecedores) {
@@ -3966,6 +4010,53 @@ function preencherDetalhesFornecedor() {
     document.getElementById("detalhe-telefone-pessoa-contacto").textContent = fornecedor.telefonePessoaContacto;
     document.getElementById("detalhe-tipo-fornecedor").textContent = fornecedor.tipoFornecedor;
     document.getElementById("detalhe-observacoes-fornecedor").textContent = fornecedor.observacoes;
+
+    // Equipamentos associados
+    const containerEquipamentos = document.getElementById("equipamentos-do-fornecedor");
+    if (containerEquipamentos) {
+        const equipamentosAssociados = Object.values(equipamentosGuardados).filter(function (eq) {
+            return eq.fornecedores && eq.fornecedores.some(function (f) {
+                return f.codigo === idFornecedor;
+            });
+        });
+
+        if (equipamentosAssociados.length === 0) {
+            containerEquipamentos.innerHTML = `<p style="color:#6b7280; font-style:italic;">Sem equipamentos associados.</p>`;
+        } else {
+            let html = `
+            <table class="tabela-detalhe-itens w-100 mb-2">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Designação</th>
+                        <th>Categoria</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+            equipamentosAssociados.forEach(function (eq, index) {
+                const par = index % 2 === 0 ? 'linha-par' : 'linha-impar';
+                html += `
+                <tr class="${par}">
+                    <td class="celula-ref">${eq.codigo || "-"}</td>
+                    <td class="celula-nome">${eq.designacao || "-"}</td>
+                    <td>${eq.categoria || "-"}</td>
+                    <td>${eq.estado || "-"}</td>
+                    <td>
+                        <a href="../equipamentos/consultar_equipamento.html?id=${eq.codigo}" class="botao-ver-fornecedor">
+                            <i class="fa-regular fa-eye"></i>
+                            Ver
+                        </a>
+                    </td>
+                </tr>
+            `;
+            });
+            html += `</tbody></table>`;
+            containerEquipamentos.innerHTML = html;
+        }
+    }
 }
 
 // Editar fornecedor
@@ -4000,7 +4091,7 @@ function inicializarEditarFornecedor() {
     const botaoCancelarEdicaoFornecedor = document.getElementById("botao-cancelar-edicao-fornecedor");
 
     if (botaoCancelarEdicaoFornecedor) {
-        botaoCancelarEdicaoFornecedor.href = `consultar_fornecedor.html?id=${fornecedor.codigo}`;
+        botaoCancelarEdicaoFornecedor.href = `fornecedores.html?id=${fornecedor.codigo}`;
     }
 
     formEditarFornecedor.addEventListener("submit", function (event) {

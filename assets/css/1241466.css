@@ -2504,7 +2504,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9rem;
-    table-layout: fixed;
+    table-layout: auto;
 }
 
 .tabela-dashboard th,

@@ -1155,6 +1155,39 @@ function inicializarNovoEquipamento() {
         });
     }
 
+    const selectTipoEntrada = document.getElementById("tipo_entrada");
+
+function atualizarFaturaPorTipoEntrada() {
+    if (!selectTipoEntrada || !seletorFatura || !blocoFatura) return;
+    const tipo = selectTipoEntrada.value;
+
+    if (tipo === "Compra") {
+        seletorFatura.value = "sim";
+        blocoFatura.style.display = "block";
+        seletorFatura.style.pointerEvents = "none";
+        seletorFatura.style.opacity = "0.75";
+    } else if (tipo === "Doação" || tipo === "Empréstimo") {
+        seletorFatura.value = "nao";
+        blocoFatura.style.display = "none";
+        seletorFatura.style.pointerEvents = "none";
+        seletorFatura.style.opacity = "0.75";
+    } else if (tipo === "Aluguer") {
+        seletorFatura.style.pointerEvents = "";
+        seletorFatura.style.opacity = "";
+        if (seletorFatura.value !== "sim") blocoFatura.style.display = "none";
+    } else {
+        seletorFatura.value = "";
+        blocoFatura.style.display = "none";
+        seletorFatura.style.pointerEvents = "none";
+        seletorFatura.style.opacity = "0.75";
+    }
+}
+
+if (selectTipoEntrada) {
+    selectTipoEntrada.addEventListener("change", atualizarFaturaPorTipoEntrada);
+    atualizarFaturaPorTipoEntrada();
+}
+
     // Garantia
     const seletorDocGarantia = document.getElementById('tem_documentacao_garantia');
     const blocoDocGarantia = document.getElementById('bloco-documentacao-garantia');
@@ -2675,6 +2708,41 @@ function inicializarEditarEquipamento() {
         "tem_fatura",
         "bloco-fatura"
     );
+
+    const selectTipoEntradaEditar = document.getElementById("tipo_entrada");
+const seletorFaturaEditar = document.getElementById('tem_fatura');
+const blocoFaturaEditar = document.getElementById('bloco-fatura');
+
+function atualizarFaturaPorTipoEntradaEditar() {
+    if (!selectTipoEntradaEditar || !seletorFaturaEditar || !blocoFaturaEditar) return;
+    const tipo = selectTipoEntradaEditar.value;
+
+    if (tipo === "Compra") {
+        seletorFaturaEditar.value = "sim";
+        blocoFaturaEditar.style.display = "block";
+        seletorFaturaEditar.style.pointerEvents = "none";
+        seletorFaturaEditar.style.opacity = "0.75";
+    } else if (tipo === "Doação" || tipo === "Empréstimo") {
+        seletorFaturaEditar.value = "nao";
+        blocoFaturaEditar.style.display = "none";
+        seletorFaturaEditar.style.pointerEvents = "none";
+        seletorFaturaEditar.style.opacity = "0.75";
+    } else if (tipo === "Aluguer") {
+        seletorFaturaEditar.style.pointerEvents = "";
+        seletorFaturaEditar.style.opacity = "";
+        if (seletorFaturaEditar.value !== "sim") blocoFaturaEditar.style.display = "none";
+    } else {
+        seletorFaturaEditar.value = "";
+        blocoFaturaEditar.style.display = "none";
+        seletorFaturaEditar.style.pointerEvents = "none";
+        seletorFaturaEditar.style.opacity = "0.75";
+    }
+}
+
+if (selectTipoEntradaEditar) {
+    selectTipoEntradaEditar.addEventListener("change", atualizarFaturaPorTipoEntradaEditar);
+    atualizarFaturaPorTipoEntradaEditar();
+}
 
     controlarBloco(
         "tem_documentacao_garantia",
@@ -4764,8 +4832,10 @@ function preencherTabelaGarantiasDashboard(equipamentos, fornecedores) {
     }
 
     garantias.forEach(function (equipamento) {
-        const fornecedor = fornecedores[equipamento.fornecedor];
-        const nomeFornecedor = fornecedor ? fornecedor.nomeEmpresa : equipamento.fornecedor;
+        const primeiroFornecedor = equipamento.fornecedores && equipamento.fornecedores.length > 0
+            ? fornecedores[equipamento.fornecedores[0].codigo]
+            : null;
+        const nomeFornecedor = primeiroFornecedor ? primeiroFornecedor.nomeEmpresa : "Não definido";
 
         const dataFim = converterTextoParaData(equipamento.dataFimGarantia);
         const diasRestantes = Math.ceil((dataFim - hoje) / (1000 * 60 * 60 * 24));

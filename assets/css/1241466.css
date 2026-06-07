@@ -1392,6 +1392,32 @@ body {
     color: #5a6480;
 }
 
+.cabecalho-equipamento-detalhe {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1rem;
+    background-color: #f0f4f8;
+    border-left: 4px solid #003f78;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.cabecalho-codigo {
+    font-weight: 700;
+    color: #003f78;
+    font-family: monospace;
+}
+
+.cabecalho-separador {
+    color: #6b7280;
+}
+
+.cabecalho-nome {
+    color: #1f2d3d;
+}
+
 .grelha-detalhes-equipamento {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1922,6 +1948,56 @@ body {
 
 .badge-resumo-pdf:hover {
     background-color: #f5c0bc;
+}
+
+.badge-garantia {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.garantia-ativa {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.garantia-expira-breve {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.garantia-expirada {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.erros-separador {
+    background-color: #fee2e2;
+    border-left: 4px solid #dc3545;
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    color: #991b1b;
+    font-size: 0.875rem;
+}
+
+.erros-separador ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+.erros-separador ul li {
+    margin-bottom: 0.25rem;
+}
+
+.erros-separador::before {
+    content: "ERROS:";
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
 }
 
 @media (max-width: 1100px) {

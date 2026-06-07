@@ -5172,7 +5172,7 @@ function inicializarNovoEquipamento() {
                 ),
 
             ficheiroManualTecnico:
-                document.getElementById("ficheiroManualTecnico").value,
+                document.getElementById("ficheiroManualTecnico").files[0]?.name || "",
 
             temDocumentacaoUtilizacao:
                 document.getElementById("tem_documentacao_utilizacao").value,
@@ -5191,13 +5191,14 @@ function inicializarNovoEquipamento() {
                 ),
 
             ficheiroManualUtilizacao:
-                document.getElementById("ficheiroManualUtilizacao").value,
+                document.getElementById("ficheiroManualUtilizacao").files[0]?.name || "",
 
             temDeclaracaoConformidade: document.getElementById("tem_declaracao_conformidade").value,
             nomeDeclaracaoConformidade: document.getElementById("nomeDeclaracaoConformidade").value.trim(),
             dataDeclaracaoConformidade: converterDataParaTexto(document.getElementById("dataDeclaracaoConformidade").value),
             validadeDeclaracaoConformidade: converterDataParaTexto(document.getElementById("validadeDeclaracaoConformidade").value),
-            ficheiroDeclaracaoConformidade: document.getElementById("ficheiroDeclaracaoConformidade").value,
+            ficheiroDeclaracaoConformidade:
+                document.getElementById("ficheiroDeclaracaoConformidade").files[0]?.name || "",
 
             dataAquisicao: converterDataParaTexto(document.getElementById("data_aquisicao").value),
             custoAquisicao: document.getElementById("custo_aquisicao").value.trim() + " €",
@@ -5232,10 +5233,14 @@ function inicializarNovoEquipamento() {
             nomeContratoAquisicao: document.getElementById("nomeContratoAquisicao").value.trim(),
             dataContratoAquisicao: converterDataParaTexto(document.getElementById("dataContratoAquisicao").value),
             validadeContratoAquisicao: converterDataParaTexto(document.getElementById("validadeContratoAquisicao").value),
+            ficheiroContratoAquisicao:
+                document.getElementById("ficheiroContratoAquisicao").files[0]?.name || "",
 
             temFatura: document.getElementById("tem_fatura").value,
             nomeFatura: document.getElementById("nomeFatura").value.trim(),
             dataFatura: converterDataParaTexto(document.getElementById("dataFatura").value),
+            ficheiroFatura:
+                document.getElementById("ficheiroFatura").files[0]?.name || "",
 
             temDocumentacaoGarantia: document.getElementById("tem_documentacao_garantia").value,
             nomeCertificadoGarantia: document.getElementById("nomeCertificadoGarantia").value.trim(),
@@ -5247,21 +5252,30 @@ function inicializarNovoEquipamento() {
             nomeContratoManutencao: document.getElementById("nomeContratoManutencao").value.trim(),
             dataContratoManutencao: converterDataParaTexto(document.getElementById("dataContratoManutencao").value),
             validadeContratoManutencao: converterDataParaTexto(document.getElementById("validadeContratoManutencao").value),
+            ficheiroContratoManutencao:
+                document.getElementById("ficheiroContratoManutencao").files[0]?.name || "",
 
             temRelatorioContrato: document.getElementById("tem_relatorio_contrato").value,
             nomeRelatorioManutencao: document.getElementById("nomeRelatorioManutencao").value.trim(),
             dataRelatorioManutencao: converterDataParaTexto(document.getElementById("dataRelatorioManutencao").value),
             validadeRelatorioManutencao: converterDataParaTexto(document.getElementById("validadeRelatorioManutencao").value),
+            ficheiroRelatorioManutencao:
+                document.getElementById("ficheiroRelatorioManutencao").files[0]?.name || "",
 
             temDocumentacaoCalibracao: document.getElementById("tem_documentacao_calibracao").value,
             nomeCertificadoCalibracao: document.getElementById("nomeCertificadoCalibracao").value.trim(),
             dataCertificadoCalibracao: converterDataParaTexto(document.getElementById("dataCertificadoCalibracao").value),
             validadeCertificadoCalibracao: converterDataParaTexto(document.getElementById("validadeCertificadoCalibracao").value),
+            ficheiroCertificadoCalibracao:
+                document.getElementById("ficheiroCertificadoCalibracao").files[0]?.name || "",
 
             temRelatorioCalibracao: document.getElementById("tem_relatorio_calibracao").value,
             nomeRelatorioCalibracao: document.getElementById("nomeRelatorioCalibracao").value.trim(),
             dataRelatorioCalibracao: converterDataParaTexto(document.getElementById("dataRelatorioCalibracao").value),
             validadeRelatorioCalibracao: converterDataParaTexto(document.getElementById("validadeRelatorioCalibracao").value),
+            ficheiroRelatorioCalibracao:
+                document.getElementById("ficheiroRelatorioCalibracao").files[0]?.name || "",
+
             acessorios: Array.from(document.querySelectorAll('#tbody-acessorios tr')).map(function (tr) {
                 return {
                     nome: tr.querySelector('input[name="acessorios[nome][]"]')?.value || "",
@@ -5790,6 +5804,31 @@ function renderizarItens(containerId, itens, tipo) {
     container.innerHTML = html;
 }
 
+function calcularEstadoGarantia(dataFimGarantia) {
+    if (!dataFimGarantia) return null;
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    const dataFim = converterTextoParaData(dataFimGarantia);
+    if (!dataFim) return null;
+    dataFim.setHours(0, 0, 0, 0);
+    const diasRestantes = Math.ceil((dataFim - hoje) / (1000 * 60 * 60 * 24));
+    if (diasRestantes < 0) return "expirada";
+    if (diasRestantes <= 30) return "expira-breve";
+    return "ativa";
+}
+
+function badgeGarantia(dataFimGarantia) {
+    const estado = calcularEstadoGarantia(dataFimGarantia);
+    if (!estado) return "";
+    const configs = {
+        "expirada": { classe: "garantia-expirada", texto: "Garantia expirada" },
+        "expira-breve": { classe: "garantia-expira-breve", texto: "Expira em breve" },
+        "ativa": { classe: "garantia-ativa", texto: "Garantia ativa" }
+    };
+    const config = configs[estado];
+    return `<span class="badge-garantia ${config.classe}">${config.texto}</span>`;
+}
+
 function preencherDetalhesEquipamento() {
     const campoCodigo = document.getElementById("detalhe-codigo");
 
@@ -5805,6 +5844,14 @@ function preencherDetalhesEquipamento() {
         campoCodigo.textContent = "Equipamento não encontrado";
         return;
     }
+
+    const cabecalhoCodigo = document.getElementById("cabecalho-codigo-equipamento");
+    const cabecalhoNome = document.getElementById("cabecalho-nome-equipamento");
+    const cabecalhoEstado = document.getElementById("cabecalho-estado-equipamento");
+
+    if (cabecalhoCodigo) cabecalhoCodigo.textContent = equipamento.codigo;
+    if (cabecalhoNome) cabecalhoNome.textContent = equipamento.designacao;
+    if (cabecalhoEstado) cabecalhoEstado.innerHTML = formatarEstadoEquipamento(equipamento.estado);
 
     // Separador 1 — Identificação
     document.getElementById("detalhe-codigo").textContent = equipamento.codigo || "Não definido";
@@ -6131,16 +6178,16 @@ function preencherDetalhesEquipamento() {
                 return d && d.temDocFornecedor === "sim";
             });
 
-           htmlFornecedores += `
+            htmlFornecedores += `
     <h5 class="subtitulo-separador titulo-azul-separador" style="margin-top:1.5rem;">
         <i class="fa-solid fa-file-medical"></i>
         Documentação dos Fornecedores
     </h5>`;
             fornecedores.forEach(function (f) {
 
-                    const d = fornecedoresGuardados[f.codigo];
+                const d = fornecedoresGuardados[f.codigo];
 
-                    htmlFornecedores += `
+                htmlFornecedores += `
         <div class="accordion-item-doc" style="margin-bottom: 0.5rem;">
             <button class="accordion-btn-doc"
                     onclick="toggleAccordionDoc(this)">
@@ -6182,18 +6229,18 @@ function preencherDetalhesEquipamento() {
     <h3>Ficheiro PDF</h3>
     <p>
         ${d.ficheiroDocFornecedor ?
-                            `<span style="display:inline-flex; align-items:center; gap:0.4rem; color:#003f78; font-weight:600;">
+                        `<span style="display:inline-flex; align-items:center; gap:0.4rem; color:#003f78; font-weight:600;">
             <i class="fa-solid fa-file-pdf" style="color:#dc3545;"></i>
             ${d.ficheiroDocFornecedor.split('\\').pop().split('/').pop()}
         </span>`
-                            : "-"}
+                        : "-"}
     </p>
 </div>
 
 </div>
             </div>
         </div>`;
-                });
+            });
 
             containerFornecedores.innerHTML = htmlFornecedores;
         }
@@ -6220,6 +6267,9 @@ function preencherDetalhesEquipamento() {
         document.getElementById("detalhe-data-inicio-garantia").textContent = equipamento.dataInicioGarantia || "Não definida";
         document.getElementById("detalhe-data-fim-garantia").textContent = equipamento.dataFimGarantia || "Não definida";
 
+        const badgeGarantiaEl = document.getElementById("badge-estado-garantia");
+        if (badgeGarantiaEl) badgeGarantiaEl.innerHTML = badgeGarantia(equipamento.dataFimGarantia);
+
         if (equipamento.temDocumentacaoGarantia === "sim") {
 
             document.getElementById("detalhe-tem-doc-garantia").textContent =
@@ -6244,12 +6294,12 @@ function preencherDetalhesEquipamento() {
 
         document.getElementById("detalhe-observacoes-garantia").textContent = equipamento.observacoesGarantia || "Sem observações";
 
-        const badgeGarantia = document.getElementById("badge-accordion-garantia");
-        if (badgeGarantia) {
-            const tem = equipamento.temDocumentacaoGarantia === "sim";
-            badgeGarantia.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
-            badgeGarantia.textContent = tem ? "Sim" : "Não";
-        }
+        const badgeAccordionGarantia = document.getElementById("badge-accordion-garantia");
+if (badgeAccordionGarantia) {
+    const tem = equipamento.temDocumentacaoGarantia === "sim";
+    badgeAccordionGarantia.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
+    badgeAccordionGarantia.textContent = tem ? "Sim" : "Não";
+}
 
         const campoFicheiroGarantia = document.getElementById("detalhe-ficheiro-garantia");
         if (campoFicheiroGarantia) {
@@ -7063,6 +7113,17 @@ function inicializarEditarEquipamento() {
         eq.nomeRelatorioCalibracao = document.getElementById("nomeRelatorioCalibracao").value.trim();
         eq.dataRelatorioCalibracao = converterDataParaTexto(document.getElementById("dataRelatorioCalibracao").value);
         eq.validadeRelatorioCalibracao = converterDataParaTexto(document.getElementById("validadeRelatorioCalibracao").value);
+
+        eq.ficheiroGarantia = document.getElementById("ficheiroCertificadoGarantia").files[0]?.name || eq.ficheiroGarantia || "";
+        eq.ficheiroContratoManutencao = document.getElementById("ficheiroContratoManutencao").files[0]?.name || eq.ficheiroContratoManutencao || "";
+        eq.ficheiroRelatorioManutencao = document.getElementById("ficheiroRelatorioManutencao").files[0]?.name || eq.ficheiroRelatorioManutencao || "";
+        eq.ficheiroCertificadoCalibracao = document.getElementById("ficheiroCertificadoCalibracao").files[0]?.name || eq.ficheiroCertificadoCalibracao || "";
+        eq.ficheiroRelatorioCalibracao = document.getElementById("ficheiroRelatorioCalibracao").files[0]?.name || eq.ficheiroRelatorioCalibracao || "";
+        eq.ficheiroContratoAquisicao = document.getElementById("ficheiroContratoAquisicao").files[0]?.name || eq.ficheiroContratoAquisicao || "";
+        eq.ficheiroFatura = document.getElementById("ficheiroFatura").files[0]?.name || eq.ficheiroFatura || "";
+        eq.ficheiroManualTecnico = document.getElementById("ficheiroManualTecnico").files[0]?.name || eq.ficheiroManualTecnico || "";
+        eq.ficheiroManualUtilizacao = document.getElementById("ficheiroManualUtilizacao").files[0]?.name || eq.ficheiroManualUtilizacao || "";
+        eq.ficheiroDeclaracaoConformidade = document.getElementById("ficheiroDeclaracaoConformidade").files[0]?.name || eq.ficheiroDeclaracaoConformidade || "";
 
         localStorage.setItem(
             "equipamentosGuardados",
@@ -8501,7 +8562,7 @@ function inicializarNovoFornecedor() {
             nomeDocFornecedor: document.getElementById("nomeDocFornecedor").value.trim(),
             dataDocFornecedor: converterDataParaTexto(document.getElementById("dataDocFornecedor").value),
             validadeDocFornecedor: converterDataParaTexto(document.getElementById("validadeDocFornecedor").value),
-            ficheiroDocFornecedor: document.getElementById("ficheiroDocFornecedor").value.trim(),
+            ficheiroDocFornecedor: document.getElementById("ficheiroDocFornecedor").files[0]?.name || "",
             observacoes: observacoesNovas
         };
 
@@ -8702,6 +8763,9 @@ function inicializarEditarFornecedor() {
         fornecedoresGuardados[idFornecedor].nomeDocFornecedor = document.getElementById("nomeDocFornecedor").value.trim();
         fornecedoresGuardados[idFornecedor].dataDocFornecedor = converterDataParaTexto(document.getElementById("dataDocFornecedor").value);
         fornecedoresGuardados[idFornecedor].validadeDocFornecedor = converterDataParaTexto(document.getElementById("validadeDocFornecedor").value);
+        fornecedoresGuardados[idFornecedor].ficheiroDocFornecedor =
+            document.getElementById("ficheiroDocFornecedor").files[0]?.name ||
+            fornecedoresGuardados[idFornecedor].ficheiroDocFornecedor || "";
         fornecedoresGuardados[idFornecedor].observacoes = document.getElementById("observacoes").value.trim();
 
         localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));

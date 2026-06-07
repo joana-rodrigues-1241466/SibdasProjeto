@@ -128,12 +128,9 @@
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="categoria" class="form-label">Categoria ou grupo
-                                        <i class="fa-solid fa-circle-info"
-        data-bs-toggle="popover"
-        data-bs-trigger="hover focus"
-        data-bs-placement="right"
-        data-bs-html="true"
-        data-bs-content="
+                                        <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                            data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                            data-bs-content="
         <strong>Monitorização</strong> - Equipamentos utilizados para monitorizar parâmetros fisiológicos e o estado clínico do paciente.<br><br>
         <strong>Suporte de vida</strong> - Equipamentos essenciais para manter ou substituir funções vitais do organismo.<br><br>
         <strong>Terapia</strong> - Equipamentos utilizados na administração de tratamentos e intervenções terapêuticas.<br><br>
@@ -142,7 +139,7 @@
         <strong>Esterilização</strong> - Equipamentos destinados à limpeza, desinfeção e esterilização de materiais e dispositivos médicos.<br><br>
         <strong>Reabilitação</strong> - Equipamentos utilizados na recuperação funcional e reabilitação dos pacientes.
         ">
-    </i>
+                                        </i>
                                     </label>
                                     <select class="form-select campo-formulario-privado" id="categoria"
                                         name="categoria">
@@ -341,56 +338,60 @@
                             </div>
 
                             <h5 class="subtitulo-separador titulo-azul-separador">
-    <i class="fa-solid fa-certificate"></i>
-    Documentação de Conformidade
-</h5>
+                                <i class="fa-solid fa-certificate"></i>
+                                Documentação de Conformidade
+                            </h5>
 
-<div class="grupo-campo-privado grupo-campo-total">
-    <label for="tem_declaracao_conformidade">
-        Existe documentação de conformidade associada?
-    </label>
-    <select id="tem_declaracao_conformidade" class="campo-formulario-privado">
-        <option value="">Escolha uma opção</option>
-        <option value="sim">Sim</option>
-        <option value="nao">Não</option>
-    </select>
-</div>
+                            <div class="grupo-campo-privado grupo-campo-total">
+                                <label for="tem_declaracao_conformidade">
+                                    Existe documentação de conformidade associada?
+                                </label>
+                                <select id="tem_declaracao_conformidade" class="campo-formulario-privado">
+                                    <option value="">Escolha uma opção</option>
+                                    <option value="sim">Sim</option>
+                                    <option value="nao">Não</option>
+                                </select>
+                            </div>
 
-<div id="bloco-declaracao-conformidade" style="display:none">
-    <div class="card-documentacao">
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label class="form-label">Tipo de documento</label>
-                <input type="text" class="form-control campo-formulario-privado"
-                    value="Documentação de Conformidade" readonly>
-            </div>
-            <div class="col-md-8 mb-3">
-                <label class="form-label">Nome do documento</label>
-                <input type="text" id="nomeDeclaracaoConformidade" name="nomeDeclaracaoConformidade"
-                    class="form-control campo-formulario-privado">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Data da documentação</label>
-                <input type="date" id="dataDeclaracaoConformidade" name="dataDeclaracaoConformidade"
-                    class="form-control campo-formulario-privado">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Data de validade</label>
-                <input type="date" id="validadeDeclaracaoConformidade" name="validadeDeclaracaoConformidade"
-                    class="form-control campo-formulario-privado">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 mb-3">
-                <label class="form-label">Ficheiro PDF</label>
-                <input type="file" id="ficheiroDeclaracaoConformidade" name="ficheiroDeclaracaoConformidade"
-                    accept=".pdf" class="form-control campo-formulario-privado">
-            </div>
-        </div>
-    </div>
-</div>
+                            <div id="bloco-declaracao-conformidade" style="display:none">
+                                <div class="card-documentacao">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Tipo de documento</label>
+                                            <input type="text" class="form-control campo-formulario-privado"
+                                                value="Documentação de Conformidade" readonly>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <label class="form-label">Nome do documento</label>
+                                            <input type="text" id="nomeDeclaracaoConformidade"
+                                                name="nomeDeclaracaoConformidade"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data da documentação</label>
+                                            <input type="date" id="dataDeclaracaoConformidade"
+                                                name="dataDeclaracaoConformidade"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Data de validade</label>
+                                            <input type="date" id="validadeDeclaracaoConformidade"
+                                                name="validadeDeclaracaoConformidade"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Ficheiro PDF</label>
+                                            <input type="file" id="ficheiroDeclaracaoConformidade"
+                                                name="ficheiroDeclaracaoConformidade" accept=".pdf"
+                                                class="form-control campo-formulario-privado">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <hr>
 
@@ -403,6 +404,10 @@
                                 <textarea id="observacoes" name="observacoes" rows="6"
                                     class="form-control campo-formulario-privado"
                                     placeholder="Informações adicionais relevantes sobre o equipamento..."></textarea>
+                            </div>
+
+                            <div id="erros-separador-1" class="erros-separador" style="display:none;">
+                                <ul id="lista-erros-separador-1"></ul>
                             </div>
 
                             <div class="botoes-formulario-privado">
@@ -481,7 +486,9 @@
                                 <div class="resumo-itens mt-2" id="resumo-consumiveis"></div>
                             </div>
 
-                            <hr>
+                            <div id="erros-separador-2" class="erros-separador" style="display:none;">
+                                <ul id="lista-erros-separador-2"></ul>
+                            </div>
 
                             <div class="acoes-formulario-privado">
                                 <a href="equipamentos.html" class="botao-cancelar-privado">
@@ -518,18 +525,15 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="tipo_entrada" class="form-label">Tipo de entrada
-                                        <i class="fa-solid fa-circle-info"
-        data-bs-toggle="popover"
-        data-bs-trigger="hover focus"
-        data-bs-placement="right"
-        data-bs-html="true"
-        data-bs-content="
+                                        <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                            data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                            data-bs-content="
         <strong>Compra</strong> - Equipamento adquirido pela instituição através de compra direta.<br><br>
         <strong>Doação</strong> - Equipamento recebido sem custos por oferta de uma entidade ou particular.<br><br>
         <strong>Aluguer</strong> - Equipamento utilizado mediante pagamento periódico durante um período definido.<br><br>
         <strong>Empréstimo</strong> - Equipamento cedido temporariamente por outra entidade para utilização durante um período acordado.
         ">
-    </i>
+                                        </i>
                                     </label>
                                     <select class="form-select campo-formulario-privado" id="tipo_entrada"
                                         name="tipo_entrada">
@@ -654,6 +658,10 @@
                                     placeholder="Informações adicionais relevantes sobre a aquisição do equipamento..."></textarea>
                             </div>
 
+                            <div id="erros-separador-3" class="erros-separador" style="display:none;">
+                                <ul id="lista-erros-separador-3"></ul>
+                            </div>
+
                             <div class="acoes-formulario-privado">
                                 <a href="equipamentos.html" class="botao-cancelar-privado">
                                     <i class="fa-solid fa-xmark"></i> Cancelar
@@ -707,6 +715,10 @@
                                 name="telefonePessoaContactoFornecedor">
                             <input type="hidden" id="tipoFornecedorEquipamento" name="tipoFornecedorEquipamento">
 
+                            <div id="erros-separador-4" class="erros-separador" style="display:none;">
+                                <ul id="lista-erros-separador-4"></ul>
+                            </div>
+
                             <div class="acoes-formulario-privado">
                                 <a href="equipamentos.html" class="botao-cancelar-privado">
                                     <i class="fa-solid fa-xmark"></i> Cancelar
@@ -749,6 +761,10 @@
                                         class="form-control campo-formulario-privado" rows="6"
                                         placeholder="Escreva observações específicas sobre a localização deste equipamento"></textarea>
                                 </div>
+                            </div>
+
+                            <div id="erros-separador-5" class="erros-separador" style="display:none;">
+                                <ul id="lista-erros-separador-5"></ul>
                             </div>
 
                             <div class="acoes-formulario-privado">
@@ -852,6 +868,10 @@
                                 <textarea id="observacoesGarantia" name="observacoesGarantia"
                                     class="campo-formulario-privado" rows="4"
                                     placeholder="Escreva observações específicas sobre a garantia deste equipamento"></textarea>
+                            </div>
+
+                            <div id="erros-separador-6" class="erros-separador" style="display:none;">
+                                <ul id="lista-erros-separador-6"></ul>
                             </div>
 
                             <div class="acoes-formulario-privado">
@@ -1128,6 +1148,10 @@
                                 <textarea id="observacoesContrato" name="observacoesContrato" rows="6"
                                     class="form-control campo-formulario-privado"
                                     placeholder="Informações adicionais relevantes sobre o contrato do equipamento..."></textarea>
+                            </div>
+
+                            <div id="erros-separador-7" class="erros-separador" style="display:none;">
+                                <ul id="lista-erros-separador-7"></ul>
                             </div>
 
                             <div class="acoes-formulario-privado">

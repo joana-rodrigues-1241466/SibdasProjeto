@@ -183,12 +183,9 @@
 
                         <div class="grupo-filtro-equipamentos">
                             <label for="filtroCategoriaEquipamento">Categoria
-                                <i class="fa-solid fa-circle-info"
-        data-bs-toggle="popover"
-        data-bs-trigger="hover focus"
-        data-bs-placement="right"
-        data-bs-html="true"
-        data-bs-content="
+                                <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                    data-bs-content="
         <strong>Monitorização</strong> - Equipamentos utilizados para monitorizar parâmetros fisiológicos e o estado clínico do paciente.<br><br>
         <strong>Suporte de vida</strong> - Equipamentos essenciais para manter ou substituir funções vitais do organismo.<br><br>
         <strong>Terapia</strong> - Equipamentos utilizados na administração de tratamentos e intervenções terapêuticas.<br><br>
@@ -197,7 +194,7 @@
         <strong>Esterilização</strong> - Equipamentos destinados à limpeza, desinfeção e esterilização de materiais e dispositivos médicos.<br><br>
         <strong>Reabilitação</strong> - Equipamentos utilizados na recuperação funcional e reabilitação dos pacientes.
         ">
-    </i>
+                                </i>
                             </label>
                             <div class="select-filtro-wrapper">
                                 <select id="filtroCategoriaEquipamento" class="campo-filtro-equipamentos">
@@ -250,18 +247,25 @@
 
             </section>
 
+            <div class="acao-exportar-tabela">
+                <a href="#" class="link-exportar-excel">
+                    <i class="fa-solid fa-file-excel"></i>
+                    Exportar Listagem dos Equipamentos
+                </a>
+            </div>
+
             <div class="tabela-privada">
                 <table>
                     <thead>
-    <tr>
-        <th>Código</th>
-        <th>Designação</th>
-        <th>Localização</th>
-        <th>Estado atual</th>
-        <th>Criticidade</th>
-        <th>Ações</th>
-    </tr>
-</thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Designação</th>
+                            <th>Localização</th>
+                            <th>Estado atual</th>
+                            <th>Criticidade</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
 
                     <tbody id="tabela-equipamentos">
 

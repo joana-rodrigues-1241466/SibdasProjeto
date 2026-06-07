@@ -6295,11 +6295,11 @@ function preencherDetalhesEquipamento() {
         document.getElementById("detalhe-observacoes-garantia").textContent = equipamento.observacoesGarantia || "Sem observações";
 
         const badgeAccordionGarantia = document.getElementById("badge-accordion-garantia");
-if (badgeAccordionGarantia) {
-    const tem = equipamento.temDocumentacaoGarantia === "sim";
-    badgeAccordionGarantia.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
-    badgeAccordionGarantia.textContent = tem ? "Sim" : "Não";
-}
+        if (badgeAccordionGarantia) {
+            const tem = equipamento.temDocumentacaoGarantia === "sim";
+            badgeAccordionGarantia.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
+            badgeAccordionGarantia.textContent = tem ? "Sim" : "Não";
+        }
 
         const campoFicheiroGarantia = document.getElementById("detalhe-ficheiro-garantia");
         if (campoFicheiroGarantia) {
@@ -6664,6 +6664,47 @@ if (badgeAccordionGarantia) {
             }
         }
     }
+}
+
+function gerarEtiqueta() {
+
+    document.getElementById("modalEtiqueta").style.display = "flex";
+
+    const codigo =
+        document.getElementById("cabecalho-codigo-equipamento").textContent;
+
+    const nome =
+        document.getElementById("cabecalho-nome-equipamento").textContent;
+
+    document.getElementById("codigoEtiqueta").textContent = codigo;
+    document.getElementById("nomeEtiqueta").textContent = nome;
+
+    const equipamento = equipamentosGuardados[codigo];
+const localizacao = localizacoesGuardadas[equipamento?.localizacao];
+const textoLocalizacao = localizacao
+    ? localizacao.servico + " · " + localizacao.sala
+    : "";
+document.getElementById("textoLocalizacaoEtiqueta").textContent = textoLocalizacao;
+
+    const qr =
+        document.getElementById("qrcode-etiqueta");
+
+    qr.innerHTML = "";
+
+    const url = window.location.origin + window.location.pathname.replace('consultar_equipamento.html', '') + 'consultar_equipamento.html?id=' + codigo;
+
+const qrCode = new QRCode({
+    content: url,
+    width: 180,
+    height: 180
+});
+
+    qr.innerHTML = qrCode.svg();
+}
+
+function fecharEtiqueta() {
+
+    document.getElementById("modalEtiqueta").style.display = "none";
 }
 
 function inicializarEditarEquipamento() {
@@ -8967,7 +9008,9 @@ function preencherDadosLocalizacaoAssociada() {
 
 function obterEquipamentosPorFornecedor(codigoFornecedor) {
     return Object.values(equipamentosGuardados).filter(function (equipamento) {
-        return equipamento.fornecedor === codigoFornecedor;
+        return equipamento.fornecedores && equipamento.fornecedores.some(function (f) {
+            return f.codigo === codigoFornecedor;
+        });
     });
 }
 
@@ -9216,30 +9259,23 @@ function contarPorCampo(lista, campo) {
 function preencherGraficoServicosDashboard(equipamentos, localizacoes) {
     const container = document.getElementById("graficoServicosDashboard");
 
-    if (!container) {
-        return;
-    }
+    if (!container) return;
 
     const contagemServicos = {};
 
     equipamentos.forEach(function (equipamento) {
         const localizacao = localizacoes[equipamento.localizacao];
         const servico = localizacao ? localizacao.servico : "Não definido";
-
-        if (!contagemServicos[servico]) {
-            contagemServicos[servico] = 0;
-        }
-
+        if (!contagemServicos[servico]) contagemServicos[servico] = 0;
         contagemServicos[servico]++;
     });
 
     const servicos = Object.entries(contagemServicos)
-        .sort(function (a, b) {
-            return b[1] - a[1];
-        })
+        .sort(function (a, b) { return b[1] - a[1]; })
         .slice(0, 7);
 
     const maximo = servicos.length > 0 ? servicos[0][1] : 1;
+    const alturaMaxima = 160;
 
     container.innerHTML = "";
 
@@ -9248,17 +9284,37 @@ function preencherGraficoServicosDashboard(equipamentos, localizacoes) {
         return;
     }
 
-    servicos.forEach(function ([servico, valor]) {
-        const altura = (valor / maximo) * 150;
+    // Área das barras
+    const areaBarras = document.createElement("div");
+    areaBarras.style.cssText = "display:flex; align-items:flex-end; gap:1.4rem; height:180px; border-bottom:1px solid #d7e1ec; width:100%;";
 
-        container.innerHTML += `
-            <div class="barra-servico-dashboard">
-                <span class="valor">${valor}</span>
-                <div class="barra" style="height: ${altura}px;"></div>
-                <span class="label">${servico}</span>
-            </div>
+    // Área dos labels
+    const areaLabels = document.createElement("div");
+    areaLabels.style.cssText = "display:flex; gap:1.4rem; width:100%; margin-top:0.5rem;";
+
+    const cores = ["#005fae", "#0086a8", "#2a9d8f", "#f4a261", "#e76f51", "#7b61ff", "#e9c46a"];
+
+    servicos.forEach(function ([servico, valor], index) {
+        const altura = Math.max(Math.round((valor / maximo) * alturaMaxima), 8);
+
+        // Coluna da barra
+        const divBarra = document.createElement("div");
+        divBarra.style.cssText = "flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:0.4rem;";
+        divBarra.innerHTML = `
+            <span style="font-weight:700; color:#0b2f4f; font-size:0.9rem;">${valor}</span>
+            <div style="width:42px; height:${altura}px; background-color:${cores[index] || '#005fae'}; border-radius:8px 8px 0 0;"></div>
         `;
+        areaBarras.appendChild(divBarra);
+
+        // Label por baixo
+        const divLabel = document.createElement("div");
+        divLabel.style.cssText = "flex:1; text-align:center; font-size:0.78rem; color:#1f2d3d; line-height:1.3;";
+        divLabel.textContent = servico;
+        areaLabels.appendChild(divLabel);
     });
+
+    container.appendChild(areaBarras);
+    container.appendChild(areaLabels);
 }
 
 function preencherDistribuicaoCategoriasDashboard(equipamentos) {

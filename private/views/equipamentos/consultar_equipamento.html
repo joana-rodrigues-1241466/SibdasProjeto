@@ -66,11 +66,25 @@
                 </div>
 
                 <div class="cabecalho-equipamento-detalhe">
-    <span id="cabecalho-codigo-equipamento" class="cabecalho-codigo"></span>
-    <span class="cabecalho-separador">·</span>
-    <span id="cabecalho-nome-equipamento" class="cabecalho-nome"></span>
-    <span id="cabecalho-estado-equipamento"></span>
-</div>
+
+                    <div class="cabecalho-info-equipamento">
+                        <span id="cabecalho-codigo-equipamento" class="cabecalho-codigo"></span>
+                        <span class="cabecalho-separador">·</span>
+                        <span id="cabecalho-nome-equipamento" class="cabecalho-nome"></span>
+                        <span id="cabecalho-estado-equipamento"></span>
+                    </div>
+
+                    <a href="#" class="link-gerar-etiqueta" onclick="gerarEtiqueta()">
+                        <i class="fa-solid fa-tag"></i>
+                        Gerar Etiqueta
+                    </a>
+
+                    <a href="#" class="link-exportar-pdf">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        Exportar Ficha do Equipamento
+                    </a>
+
+                </div>
 
                 <div class="tabs-consulta-equipamento">
 
@@ -554,9 +568,9 @@
                                 <p id="detalhe-data-fim-garantia"></p>
                             </div>
                             <div class="campo-detalhes">
-        <h3>Estado da garantia</h3>
-        <p id="badge-estado-garantia"></p>
-    </div>
+                                <h3>Estado da garantia</h3>
+                                <p id="badge-estado-garantia"></p>
+                            </div>
                         </div>
 
                         <h5 class="subtitulo-separador titulo-azul-separador">
@@ -997,7 +1011,35 @@
 
     </div>
 
+    <div id="modalEtiqueta" class="modal-etiqueta">
+
+    <div class="conteudo-modal-etiqueta">
+
+        <h3>MediVault</h3>
+
+        <div id="qrcode-etiqueta"></div>
+
+        <p id="codigoEtiqueta"></p>
+
+        <p id="nomeEtiqueta"></p>
+
+        <p id="localizacaoEtiqueta">
+        <i class="fa-solid fa-location-dot"></i>
+        <span id="textoLocalizacaoEtiqueta"></span>
+    </p>
+
+        <button onclick="fecharEtiqueta()">
+            Fechar
+        </button>
+
+    </div>
+
+</div>
+
     <script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
+
+    <script src="../../../assets/js/qrcode.min.js"></script>
+
     <script src="../../../assets/js/1241466.js"></script>
 
 </body>

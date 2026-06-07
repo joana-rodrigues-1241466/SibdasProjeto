@@ -180,6 +180,53 @@
 
                 <hr>
 
+                <!-- Documentação do Fornecedor -->
+                <h5 class="subtitulo-separador titulo-azul-separador">
+                    <i class="fa-solid fa-file-medical"></i>
+                    Documentação do Fornecedor
+                </h5>
+
+                <div class="accordion-documentacao">
+
+                    <div class="accordion-item-doc">
+                        <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                            <span>
+                                <i class="fa-solid fa-file-medical"></i>
+                                Documentação associada ao fornecedor
+                            </span>
+                            <div class="accordion-btn-doc-direita">
+                                <span id="badge-accordion-doc-fornecedor-detalhe" class="badge-accordion-doc"></span>
+                                <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                            </div>
+                        </button>
+                        <div class="accordion-body-doc" style="display:none;">
+                            <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
+                                <div class="campo-detalhes">
+                                    <h3>Tipo de documento</h3>
+                                    <p id="detalhe-tipo-doc-fornecedor"></p>
+                                </div>
+                                <div class="campo-detalhes">
+                                    <h3>Nome do documento</h3>
+                                    <p id="detalhe-nome-doc-fornecedor"></p>
+                                </div>
+                                <div class="campo-detalhes">
+                                    <h3>Data do documento</h3>
+                                    <p id="detalhe-data-doc-fornecedor"></p>
+                                </div>
+                                <div class="campo-detalhes">
+                                    <h3>Validade</h3>
+                                    <p id="detalhe-validade-doc-fornecedor"></p>
+                                </div>
+                                <div class="campo-detalhes">
+                                    <h3>Ficheiro PDF</h3>
+                                    <p id="detalhe-ficheiro-doc-fornecedor"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
                 <!-- Observações -->
                 <h5 class="subtitulo-separador titulo-azul-separador">
                     <i class="fa-solid fa-comment-medical"></i>

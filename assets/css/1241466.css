@@ -1199,7 +1199,8 @@ body {
 #tem_documentacao_contrato,
 #tem_relatorio_contrato,
 #tem_documentacao_calibracao,
-#tem_relatorio_calibracao{
+#tem_relatorio_calibracao,
+#tem_doc_fornecedor{
     max-width: 300px;
 }
 
@@ -1649,6 +1650,10 @@ body {
     border: 1px solid #d7e3ec;
     border-radius: 10px;
     overflow: hidden;
+}
+
+#tab-fornecedor-detalhe .accordion-item-doc:not(:last-child) {
+    margin-bottom: 0.5rem;
 }
 
 .accordion-btn-doc {

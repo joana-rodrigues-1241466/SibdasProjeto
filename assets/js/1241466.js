@@ -4549,19 +4549,19 @@ if (!equipamentosGuardados) {
 }
 
 function formatarEstadoEquipamento(estado) {
-        const classes = {
-            "Ativo": "estado-ativo",
-            "Em manutenção": "estado-manutencao",
-            "Em calibração": "estado-calibracao",
-            "Inativo": "estado-inativo",
-            "Em quarentena": "estado-quarentena",
-            "Abatido": "estado-abatido"
-        };
-        const classe = classes[estado] || "";
-        return classe
-            ? `<span class="${classe}">${estado}</span>`
-            : (estado || "-");
-    }
+    const classes = {
+        "Ativo": "estado-ativo",
+        "Em manutenção": "estado-manutencao",
+        "Em calibração": "estado-calibracao",
+        "Inativo": "estado-inativo",
+        "Em quarentena": "estado-quarentena",
+        "Abatido": "estado-abatido"
+    };
+    const classe = classes[estado] || "";
+    return classe
+        ? `<span class="${classe}">${estado}</span>`
+        : (estado || "-");
+}
 
 function preencherListagemEquipamentos(listaEquipamentos = Object.values(equipamentosGuardados)) {
     const tabelaEquipamentos = document.getElementById("tabela-equipamentos");
@@ -5586,6 +5586,38 @@ window.abrirOffcanvasFornecedor = function (index, codigoEquipamento) {
 
             <div class="offcanvas-fornecedor-secao">
                 <h6 class="offcanvas-fornecedor-titulo">
+                    <i class="fa-solid fa-file-medical"></i>
+                    Documentação
+                </h6>
+                ${dadosFornecedor && dadosFornecedor.temDocFornecedor === "sim" ? `
+                <div class="offcanvas-fornecedor-campo">
+                    <span class="offcanvas-fornecedor-label">Tipo de documento</span>
+                    <span class="offcanvas-fornecedor-valor">${dadosFornecedor.tipoDocFornecedor || "-"}</span>
+                </div>
+                <div class="offcanvas-fornecedor-campo">
+                    <span class="offcanvas-fornecedor-label">Nome do documento</span>
+                    <span class="offcanvas-fornecedor-valor">${dadosFornecedor.nomeDocFornecedor || "-"}</span>
+                </div>
+                <div class="offcanvas-fornecedor-campo">
+                    <span class="offcanvas-fornecedor-label">Data</span>
+                    <span class="offcanvas-fornecedor-valor">${dadosFornecedor.dataDocFornecedor || "-"}</span>
+                </div>
+                <div class="offcanvas-fornecedor-campo">
+                    <span class="offcanvas-fornecedor-label">Validade</span>
+                    <span class="offcanvas-fornecedor-valor">${dadosFornecedor.validadeDocFornecedor || "Sem validade"}</span>
+                </div>
+                <div class="offcanvas-fornecedor-campo">
+                    <span class="offcanvas-fornecedor-label">Ficheiro</span>
+                    <span class="offcanvas-fornecedor-valor">
+                        <i class="fa-solid fa-file-pdf" style="color:#dc3545;"></i>
+                        ${dadosFornecedor.ficheiroDocFornecedor || "Sem ficheiro"}
+                    </span>
+                </div>` : `
+                <p style="color:#6b7280; font-style:italic;">Sem documentação associada.</p>`}
+            </div>
+
+            <div class="offcanvas-fornecedor-secao">
+                <h6 class="offcanvas-fornecedor-titulo">
                     <i class="fa-solid fa-comment-medical"></i>
                     Observações
                 </h6>
@@ -6092,290 +6124,360 @@ function preencherDetalhesEquipamento() {
             });
 
             htmlFornecedores += `</tbody></table>`;
+
+            // Documentação dos fornecedores associados
+            const fornecedoresComDoc = fornecedores.filter(function (f) {
+                const d = fornecedoresGuardados[f.codigo];
+                return d && d.temDocFornecedor === "sim";
+            });
+
+           htmlFornecedores += `
+    <h5 class="subtitulo-separador titulo-azul-separador" style="margin-top:1.5rem;">
+        <i class="fa-solid fa-file-medical"></i>
+        Documentação dos Fornecedores
+    </h5>`;
+            fornecedores.forEach(function (f) {
+
+                    const d = fornecedoresGuardados[f.codigo];
+
+                    htmlFornecedores += `
+        <div class="accordion-item-doc" style="margin-bottom: 0.5rem;">
+            <button class="accordion-btn-doc"
+                    onclick="toggleAccordionDoc(this)">
+                <span>
+                    <i class="fa-solid fa-file-medical"></i>
+                    ${d.nomeEmpresa}
+                </span>
+                <div class="accordion-btn-doc-direita">
+                    <span class="badge-accordion-doc ${d.temDocFornecedor === 'sim' ? 'badge-accordion-sim' : 'badge-accordion-nao'}">${d.temDocFornecedor === 'sim' ? 'Sim' : 'Não'}</span>
+                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                </div>
+            </button>
+
+            <div class="accordion-body-doc" style="display:none;">
+                <div class="grelha-detalhes-equipamento"
+     style="padding:1.2rem 0 0.5rem;">
+
+    <div class="campo-detalhes">
+        <h3>TIPO DE DOCUMENTO</h3>
+        <p>${d.tipoDocFornecedor || "-"}</p>
+    </div>
+
+    <div class="campo-detalhes">
+        <h3>NOME DO DOCUMENTO</h3>
+        <p>${d.nomeDocFornecedor || "-"}</p>
+    </div>
+
+    <div class="campo-detalhes">
+        <h3>DATA DO DOCUMENTO</h3>
+        <p>${d.dataDocFornecedor || "-"}</p>
+    </div>
+
+    <div class="campo-detalhes">
+        <h3>VALIDADE DO DOCUMENTO</h3>
+        <p>${d.validadeDocFornecedor || "-"}</p>
+    </div>
+
+    <div class="campo-detalhes">
+    <h3>Ficheiro PDF</h3>
+    <p>
+        ${d.ficheiroDocFornecedor ?
+                            `<span style="display:inline-flex; align-items:center; gap:0.4rem; color:#003f78; font-weight:600;">
+            <i class="fa-solid fa-file-pdf" style="color:#dc3545;"></i>
+            ${d.ficheiroDocFornecedor.split('\\').pop().split('/').pop()}
+        </span>`
+                            : "-"}
+    </p>
+</div>
+
+</div>
+            </div>
+        </div>`;
+                });
+
             containerFornecedores.innerHTML = htmlFornecedores;
         }
-    }
 
-    // Separador 5 — Localização
-    const localizacaoAssociada = localizacoesGuardadas[equipamento.localizacao];
-    if (localizacaoAssociada) {
-        document.getElementById("detalhe-localizacao-codigo").textContent = localizacaoAssociada.codigo || "Não definido";
-        document.getElementById("detalhe-localizacao-edificio").textContent = localizacaoAssociada.edificio || "Não definido";
-        document.getElementById("detalhe-localizacao-piso").textContent = localizacaoAssociada.piso || "Não definido";
-        document.getElementById("detalhe-localizacao-servico").textContent = localizacaoAssociada.servico || "Não definido";
-        document.getElementById("detalhe-localizacao-sala").textContent = localizacaoAssociada.sala || "Não definido";
-        document.getElementById("detalhe-localizacao-observacoes").textContent = equipamento.observacoesLocalizacao || localizacaoAssociada.observacoes || "Sem observações";
-    } else {
-        document.getElementById("detalhe-localizacao-codigo").textContent = equipamento.localizacao || "Sem localização";
-        document.getElementById("detalhe-localizacao-edificio").textContent = "Não definido";
-        document.getElementById("detalhe-localizacao-piso").textContent = "Não definido";
-        document.getElementById("detalhe-localizacao-servico").textContent = "Não definido";
-        document.getElementById("detalhe-localizacao-sala").textContent = "Não definido";
-        document.getElementById("detalhe-localizacao-observacoes").textContent = equipamento.observacoesLocalizacao || "Sem observações";
-    }
+        // Separador 5 — Localização
+        const localizacaoAssociada = localizacoesGuardadas[equipamento.localizacao];
+        if (localizacaoAssociada) {
+            document.getElementById("detalhe-localizacao-codigo").textContent = localizacaoAssociada.codigo || "Não definido";
+            document.getElementById("detalhe-localizacao-edificio").textContent = localizacaoAssociada.edificio || "Não definido";
+            document.getElementById("detalhe-localizacao-piso").textContent = localizacaoAssociada.piso || "Não definido";
+            document.getElementById("detalhe-localizacao-servico").textContent = localizacaoAssociada.servico || "Não definido";
+            document.getElementById("detalhe-localizacao-sala").textContent = localizacaoAssociada.sala || "Não definido";
+            document.getElementById("detalhe-localizacao-observacoes").textContent = equipamento.observacoesLocalizacao || localizacaoAssociada.observacoes || "Sem observações";
+        } else {
+            document.getElementById("detalhe-localizacao-codigo").textContent = equipamento.localizacao || "Sem localização";
+            document.getElementById("detalhe-localizacao-edificio").textContent = "Não definido";
+            document.getElementById("detalhe-localizacao-piso").textContent = "Não definido";
+            document.getElementById("detalhe-localizacao-servico").textContent = "Não definido";
+            document.getElementById("detalhe-localizacao-sala").textContent = "Não definido";
+            document.getElementById("detalhe-localizacao-observacoes").textContent = equipamento.observacoesLocalizacao || "Sem observações";
+        }
 
-    // Separador 6 — Garantia
-    document.getElementById("detalhe-data-inicio-garantia").textContent = equipamento.dataInicioGarantia || "Não definida";
-    document.getElementById("detalhe-data-fim-garantia").textContent = equipamento.dataFimGarantia || "Não definida";
+        // Separador 6 — Garantia
+        document.getElementById("detalhe-data-inicio-garantia").textContent = equipamento.dataInicioGarantia || "Não definida";
+        document.getElementById("detalhe-data-fim-garantia").textContent = equipamento.dataFimGarantia || "Não definida";
 
-    if (equipamento.temDocumentacaoGarantia === "sim") {
+        if (equipamento.temDocumentacaoGarantia === "sim") {
 
-        document.getElementById("detalhe-tem-doc-garantia").textContent =
-            equipamento.tipoCertificadoGarantia || "Certificado de garantia";
+            document.getElementById("detalhe-tem-doc-garantia").textContent =
+                equipamento.tipoCertificadoGarantia || "Certificado de garantia";
 
-        document.getElementById("detalhe-nome-certificado-garantia").textContent =
-            equipamento.nomeCertificadoGarantia || "";
+            document.getElementById("detalhe-nome-certificado-garantia").textContent =
+                equipamento.nomeCertificadoGarantia || "";
 
-        document.getElementById("detalhe-data-certificado-garantia").textContent =
-            equipamento.dataCertificadoGarantia || "";
+            document.getElementById("detalhe-data-certificado-garantia").textContent =
+                equipamento.dataCertificadoGarantia || "";
 
-        document.getElementById("detalhe-validade-certificado-garantia").textContent =
-            equipamento.validadeCertificadoGarantia || "";
+            document.getElementById("detalhe-validade-certificado-garantia").textContent =
+                equipamento.validadeCertificadoGarantia || "";
 
-    } else {
+        } else {
 
-        document.getElementById("detalhe-tem-doc-garantia").textContent = "Não";
-        document.getElementById("detalhe-nome-certificado-garantia").textContent = "-";
-        document.getElementById("detalhe-data-certificado-garantia").textContent = "-";
-        document.getElementById("detalhe-validade-certificado-garantia").textContent = "-";
-    }
+            document.getElementById("detalhe-tem-doc-garantia").textContent = "Não";
+            document.getElementById("detalhe-nome-certificado-garantia").textContent = "-";
+            document.getElementById("detalhe-data-certificado-garantia").textContent = "-";
+            document.getElementById("detalhe-validade-certificado-garantia").textContent = "-";
+        }
 
-    document.getElementById("detalhe-observacoes-garantia").textContent = equipamento.observacoesGarantia || "Sem observações";
+        document.getElementById("detalhe-observacoes-garantia").textContent = equipamento.observacoesGarantia || "Sem observações";
 
-    const badgeGarantia = document.getElementById("badge-accordion-garantia");
-    if (badgeGarantia) {
-        const tem = equipamento.temDocumentacaoGarantia === "sim";
-        badgeGarantia.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
-        badgeGarantia.textContent = tem ? "Sim" : "Não";
-    }
+        const badgeGarantia = document.getElementById("badge-accordion-garantia");
+        if (badgeGarantia) {
+            const tem = equipamento.temDocumentacaoGarantia === "sim";
+            badgeGarantia.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
+            badgeGarantia.textContent = tem ? "Sim" : "Não";
+        }
 
-    const campoFicheiroGarantia = document.getElementById("detalhe-ficheiro-garantia");
-    if (campoFicheiroGarantia) {
-        if (equipamento.ficheiroGarantia && equipamento.ficheiroGarantia !== "") {
-            campoFicheiroGarantia.innerHTML = `
+        const campoFicheiroGarantia = document.getElementById("detalhe-ficheiro-garantia");
+        if (campoFicheiroGarantia) {
+            if (equipamento.ficheiroGarantia && equipamento.ficheiroGarantia !== "") {
+                campoFicheiroGarantia.innerHTML = `
             <span style="display:inline-flex; align-items:center; gap:0.4rem; color:#003f78; font-weight:600;">
                 <i class="fa-solid fa-file-pdf" style="color:#dc3545;"></i>
                 ${equipamento.ficheiroGarantia.split('\\').pop().split('/').pop()}
             </span>
         `;
-        } else {
-            campoFicheiroGarantia.textContent = "Sem ficheiro associado";
+            } else {
+                campoFicheiroGarantia.textContent = "Sem ficheiro associado";
+            }
         }
-    }
 
-    // Separador 7 — Contrato
-    document.getElementById("detalhe-contrato-manutencao").textContent = equipamento.contratoManutencao || "Não definido";
-    document.getElementById("detalhe-tipo-contrato").textContent = equipamento.tipoContrato || "Não definido";
-    document.getElementById("detalhe-entidade-responsavel-contrato").textContent = equipamento.entidadeResponsavelContrato || "Não definido";
-    document.getElementById("detalhe-periodicidade-contrato").textContent = equipamento.periodicidadeContrato || "Não definida";
+        // Separador 7 — Contrato
+        document.getElementById("detalhe-contrato-manutencao").textContent = equipamento.contratoManutencao || "Não definido";
+        document.getElementById("detalhe-tipo-contrato").textContent = equipamento.tipoContrato || "Não definido";
+        document.getElementById("detalhe-entidade-responsavel-contrato").textContent = equipamento.entidadeResponsavelContrato || "Não definido";
+        document.getElementById("detalhe-periodicidade-contrato").textContent = equipamento.periodicidadeContrato || "Não definida";
 
-    if (equipamento.temDocumentacaoContrato === "sim") {
+        if (equipamento.temDocumentacaoContrato === "sim") {
 
-        document.getElementById("detalhe-tem-doc-contrato").textContent =
-            equipamento.tipoContratoManutencao || "Contrato de manutenção";
+            document.getElementById("detalhe-tem-doc-contrato").textContent =
+                equipamento.tipoContratoManutencao || "Contrato de manutenção";
 
-        document.getElementById("detalhe-nome-contrato-manutencao").textContent =
-            equipamento.nomeContratoManutencao || "";
+            document.getElementById("detalhe-nome-contrato-manutencao").textContent =
+                equipamento.nomeContratoManutencao || "";
 
-        document.getElementById("detalhe-data-contrato-manutencao").textContent =
-            equipamento.dataContratoManutencao || "";
+            document.getElementById("detalhe-data-contrato-manutencao").textContent =
+                equipamento.dataContratoManutencao || "";
 
-        document.getElementById("detalhe-validade-contrato-manutencao").textContent =
-            equipamento.validadeContratoManutencao || "";
+            document.getElementById("detalhe-validade-contrato-manutencao").textContent =
+                equipamento.validadeContratoManutencao || "";
 
-    } else {
+        } else {
 
-        document.getElementById("detalhe-tem-doc-contrato").textContent = "Não";
-        document.getElementById("detalhe-nome-contrato-manutencao").textContent = "-";
-        document.getElementById("detalhe-data-contrato-manutencao").textContent = "-";
-        document.getElementById("detalhe-validade-contrato-manutencao").textContent = "-";
-    }
+            document.getElementById("detalhe-tem-doc-contrato").textContent = "Não";
+            document.getElementById("detalhe-nome-contrato-manutencao").textContent = "-";
+            document.getElementById("detalhe-data-contrato-manutencao").textContent = "-";
+            document.getElementById("detalhe-validade-contrato-manutencao").textContent = "-";
+        }
 
-    if (equipamento.temRelatorioContrato === "sim") {
+        if (equipamento.temRelatorioContrato === "sim") {
 
-        document.getElementById("detalhe-tem-relatorio-contrato").textContent =
-            equipamento.tipoRelatorioManutencao || "Relatório de manutenção";
+            document.getElementById("detalhe-tem-relatorio-contrato").textContent =
+                equipamento.tipoRelatorioManutencao || "Relatório de manutenção";
 
-        document.getElementById("detalhe-nome-relatorio-manutencao").textContent =
-            equipamento.nomeRelatorioManutencao || "";
+            document.getElementById("detalhe-nome-relatorio-manutencao").textContent =
+                equipamento.nomeRelatorioManutencao || "";
 
-        document.getElementById("detalhe-data-relatorio-manutencao").textContent =
-            equipamento.dataRelatorioManutencao || "";
+            document.getElementById("detalhe-data-relatorio-manutencao").textContent =
+                equipamento.dataRelatorioManutencao || "";
 
-        document.getElementById("detalhe-validade-relatorio-manutencao").textContent =
-            equipamento.validadeRelatorioManutencao || "";
+            document.getElementById("detalhe-validade-relatorio-manutencao").textContent =
+                equipamento.validadeRelatorioManutencao || "";
 
-    } else {
+        } else {
 
-        document.getElementById("detalhe-tem-relatorio-contrato").textContent = "Não";
-        document.getElementById("detalhe-nome-relatorio-manutencao").textContent = "-";
-        document.getElementById("detalhe-data-relatorio-manutencao").textContent = "-";
-        document.getElementById("detalhe-validade-relatorio-manutencao").textContent = "-";
-    }
+            document.getElementById("detalhe-tem-relatorio-contrato").textContent = "Não";
+            document.getElementById("detalhe-nome-relatorio-manutencao").textContent = "-";
+            document.getElementById("detalhe-data-relatorio-manutencao").textContent = "-";
+            document.getElementById("detalhe-validade-relatorio-manutencao").textContent = "-";
+        }
 
-    if (equipamento.temDocumentacaoCalibracao === "sim") {
+        if (equipamento.temDocumentacaoCalibracao === "sim") {
 
-        document.getElementById("detalhe-tem-doc-calibracao").textContent =
-            equipamento.tipoCertificadoCalibracao || "Certificado de calibração";
+            document.getElementById("detalhe-tem-doc-calibracao").textContent =
+                equipamento.tipoCertificadoCalibracao || "Certificado de calibração";
 
-        document.getElementById("detalhe-nome-certificado-calibracao").textContent =
-            equipamento.nomeCertificadoCalibracao || "";
+            document.getElementById("detalhe-nome-certificado-calibracao").textContent =
+                equipamento.nomeCertificadoCalibracao || "";
 
-        document.getElementById("detalhe-data-certificado-calibracao").textContent =
-            equipamento.dataCertificadoCalibracao || "";
+            document.getElementById("detalhe-data-certificado-calibracao").textContent =
+                equipamento.dataCertificadoCalibracao || "";
 
-        document.getElementById("detalhe-validade-certificado-calibracao").textContent =
-            equipamento.validadeCertificadoCalibracao || "";
+            document.getElementById("detalhe-validade-certificado-calibracao").textContent =
+                equipamento.validadeCertificadoCalibracao || "";
 
-    } else {
+        } else {
 
-        document.getElementById("detalhe-tem-doc-calibracao").textContent = "Não";
-        document.getElementById("detalhe-nome-certificado-calibracao").textContent = "-";
-        document.getElementById("detalhe-data-certificado-calibracao").textContent = "-";
-        document.getElementById("detalhe-validade-certificado-calibracao").textContent = "-";
-    }
+            document.getElementById("detalhe-tem-doc-calibracao").textContent = "Não";
+            document.getElementById("detalhe-nome-certificado-calibracao").textContent = "-";
+            document.getElementById("detalhe-data-certificado-calibracao").textContent = "-";
+            document.getElementById("detalhe-validade-certificado-calibracao").textContent = "-";
+        }
 
-    if (equipamento.temRelatorioCalibracao === "sim") {
+        if (equipamento.temRelatorioCalibracao === "sim") {
 
-        document.getElementById("detalhe-tem-relatorio-calibracao").textContent =
-            equipamento.tipoRelatorioCalibracao || "Relatório de calibração";
+            document.getElementById("detalhe-tem-relatorio-calibracao").textContent =
+                equipamento.tipoRelatorioCalibracao || "Relatório de calibração";
 
-        document.getElementById("detalhe-nome-relatorio-calibracao").textContent =
-            equipamento.nomeRelatorioCalibracao || "";
+            document.getElementById("detalhe-nome-relatorio-calibracao").textContent =
+                equipamento.nomeRelatorioCalibracao || "";
 
-        document.getElementById("detalhe-data-relatorio-calibracao").textContent =
-            equipamento.dataRelatorioCalibracao || "";
+            document.getElementById("detalhe-data-relatorio-calibracao").textContent =
+                equipamento.dataRelatorioCalibracao || "";
 
-        document.getElementById("detalhe-validade-relatorio-calibracao").textContent =
-            equipamento.validadeRelatorioCalibracao || "";
+            document.getElementById("detalhe-validade-relatorio-calibracao").textContent =
+                equipamento.validadeRelatorioCalibracao || "";
 
-    } else {
+        } else {
 
-        document.getElementById("detalhe-tem-relatorio-calibracao").textContent = "Não";
-        document.getElementById("detalhe-nome-relatorio-calibracao").textContent = "-";
-        document.getElementById("detalhe-data-relatorio-calibracao").textContent = "-";
-        document.getElementById("detalhe-validade-relatorio-calibracao").textContent = "-";
-    }
+            document.getElementById("detalhe-tem-relatorio-calibracao").textContent = "Não";
+            document.getElementById("detalhe-nome-relatorio-calibracao").textContent = "-";
+            document.getElementById("detalhe-data-relatorio-calibracao").textContent = "-";
+            document.getElementById("detalhe-validade-relatorio-calibracao").textContent = "-";
+        }
 
-    document.getElementById("detalhe-observacoes-contrato").textContent = equipamento.observacoesContrato || "Sem observações";
+        document.getElementById("detalhe-observacoes-contrato").textContent = equipamento.observacoesContrato || "Sem observações";
 
-    // Badges accordion contrato
-    const badgeDocContrato = document.getElementById("badge-accordion-doc-contrato");
-    if (badgeDocContrato) {
-        const tem = equipamento.temDocumentacaoContrato === "sim";
-        badgeDocContrato.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
-        badgeDocContrato.textContent = tem ? "Sim" : "Não";
-    }
+        // Badges accordion contrato
+        const badgeDocContrato = document.getElementById("badge-accordion-doc-contrato");
+        if (badgeDocContrato) {
+            const tem = equipamento.temDocumentacaoContrato === "sim";
+            badgeDocContrato.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
+            badgeDocContrato.textContent = tem ? "Sim" : "Não";
+        }
 
-    const badgeRelatorioManutencao = document.getElementById("badge-accordion-relatorio-manutencao");
-    if (badgeRelatorioManutencao) {
-        const tem = equipamento.temRelatorioContrato === "sim";
-        badgeRelatorioManutencao.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
-        badgeRelatorioManutencao.textContent = tem ? "Sim" : "Não";
-    }
+        const badgeRelatorioManutencao = document.getElementById("badge-accordion-relatorio-manutencao");
+        if (badgeRelatorioManutencao) {
+            const tem = equipamento.temRelatorioContrato === "sim";
+            badgeRelatorioManutencao.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
+            badgeRelatorioManutencao.textContent = tem ? "Sim" : "Não";
+        }
 
-    const badgeCalibracao = document.getElementById("badge-accordion-calibracao");
-    if (badgeCalibracao) {
-        const tem = equipamento.temDocumentacaoCalibracao === "sim";
-        badgeCalibracao.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
-        badgeCalibracao.textContent = tem ? "Sim" : "Não";
-    }
+        const badgeCalibracao = document.getElementById("badge-accordion-calibracao");
+        if (badgeCalibracao) {
+            const tem = equipamento.temDocumentacaoCalibracao === "sim";
+            badgeCalibracao.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
+            badgeCalibracao.textContent = tem ? "Sim" : "Não";
+        }
 
-    const badgeRelatorioCalibracao = document.getElementById("badge-accordion-relatorio-calibracao");
-    if (badgeRelatorioCalibracao) {
-        const tem = equipamento.temRelatorioCalibracao === "sim";
-        badgeRelatorioCalibracao.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
-        badgeRelatorioCalibracao.textContent = tem ? "Sim" : "Não";
-    }
+        const badgeRelatorioCalibracao = document.getElementById("badge-accordion-relatorio-calibracao");
+        if (badgeRelatorioCalibracao) {
+            const tem = equipamento.temRelatorioCalibracao === "sim";
+            badgeRelatorioCalibracao.className = `badge-accordion-doc ${tem ? "badge-accordion-sim" : "badge-accordion-nao"}`;
+            badgeRelatorioCalibracao.textContent = tem ? "Sim" : "Não";
+        }
 
-    // Ficheiros contrato
-    const ficheiroContratoManutencao = document.getElementById("detalhe-ficheiro-contrato-manutencao");
-    if (ficheiroContratoManutencao) {
-        if (equipamento.ficheiroContratoManutencao && equipamento.ficheiroContratoManutencao !== "") {
-            ficheiroContratoManutencao.innerHTML = `
+        // Ficheiros contrato
+        const ficheiroContratoManutencao = document.getElementById("detalhe-ficheiro-contrato-manutencao");
+        if (ficheiroContratoManutencao) {
+            if (equipamento.ficheiroContratoManutencao && equipamento.ficheiroContratoManutencao !== "") {
+                ficheiroContratoManutencao.innerHTML = `
             <span style="display:inline-flex; align-items:center; gap:0.4rem; color:#003f78; font-weight:600;">
                 <i class="fa-solid fa-file-pdf" style="color:#dc3545;"></i>
                 ${equipamento.ficheiroContratoManutencao.split('\\').pop().split('/').pop()}
             </span>`;
-        } else {
-            ficheiroContratoManutencao.textContent = "Sem ficheiro associado";
+            } else {
+                ficheiroContratoManutencao.textContent = "Sem ficheiro associado";
+            }
         }
-    }
 
-    const ficheiroRelatorioManutencao = document.getElementById("detalhe-ficheiro-relatorio-manutencao");
-    if (ficheiroRelatorioManutencao) {
-        if (equipamento.ficheiroRelatorioManutencao && equipamento.ficheiroRelatorioManutencao !== "") {
-            ficheiroRelatorioManutencao.innerHTML = `
+        const ficheiroRelatorioManutencao = document.getElementById("detalhe-ficheiro-relatorio-manutencao");
+        if (ficheiroRelatorioManutencao) {
+            if (equipamento.ficheiroRelatorioManutencao && equipamento.ficheiroRelatorioManutencao !== "") {
+                ficheiroRelatorioManutencao.innerHTML = `
             <span style="display:inline-flex; align-items:center; gap:0.4rem; color:#003f78; font-weight:600;">
                 <i class="fa-solid fa-file-pdf" style="color:#dc3545;"></i>
                 ${equipamento.ficheiroRelatorioManutencao.split('\\').pop().split('/').pop()}
             </span>`;
-        } else {
-            ficheiroRelatorioManutencao.textContent = "Sem ficheiro associado";
+            } else {
+                ficheiroRelatorioManutencao.textContent = "Sem ficheiro associado";
+            }
         }
-    }
 
-    const ficheiroCertificadoCalibracao = document.getElementById("detalhe-ficheiro-certificado-calibracao");
-    if (ficheiroCertificadoCalibracao) {
-        if (equipamento.ficheiroCertificadoCalibracao && equipamento.ficheiroCertificadoCalibracao !== "") {
-            ficheiroCertificadoCalibracao.innerHTML = `
+        const ficheiroCertificadoCalibracao = document.getElementById("detalhe-ficheiro-certificado-calibracao");
+        if (ficheiroCertificadoCalibracao) {
+            if (equipamento.ficheiroCertificadoCalibracao && equipamento.ficheiroCertificadoCalibracao !== "") {
+                ficheiroCertificadoCalibracao.innerHTML = `
             <span style="display:inline-flex; align-items:center; gap:0.4rem; color:#003f78; font-weight:600;">
                 <i class="fa-solid fa-file-pdf" style="color:#dc3545;"></i>
                 ${equipamento.ficheiroCertificadoCalibracao.split('\\').pop().split('/').pop()}
             </span>`;
-        } else {
-            ficheiroCertificadoCalibracao.textContent = "Sem ficheiro associado";
+            } else {
+                ficheiroCertificadoCalibracao.textContent = "Sem ficheiro associado";
+            }
         }
-    }
 
-    const ficheiroRelatorioCalibracao = document.getElementById("detalhe-ficheiro-relatorio-calibracao");
-    if (ficheiroRelatorioCalibracao) {
-        if (equipamento.ficheiroRelatorioCalibracao && equipamento.ficheiroRelatorioCalibracao !== "") {
-            ficheiroRelatorioCalibracao.innerHTML = `
+        const ficheiroRelatorioCalibracao = document.getElementById("detalhe-ficheiro-relatorio-calibracao");
+        if (ficheiroRelatorioCalibracao) {
+            if (equipamento.ficheiroRelatorioCalibracao && equipamento.ficheiroRelatorioCalibracao !== "") {
+                ficheiroRelatorioCalibracao.innerHTML = `
             <span style="display:inline-flex; align-items:center; gap:0.4rem; color:#003f78; font-weight:600;">
                 <i class="fa-solid fa-file-pdf" style="color:#dc3545;"></i>
                 ${equipamento.ficheiroRelatorioCalibracao.split('\\').pop().split('/').pop()}
             </span>`;
-        } else {
-            ficheiroRelatorioCalibracao.textContent = "Sem ficheiro associado";
-        }
-    }
-
-    // Separador 8 — Resumo documentação
-    function renderizarResumoDoc(containerId, badgeId, tem, nome, data, validade, ficheiro, mostrarValidade = true) {
-        const accordionItem = document.getElementById(containerId + "-accordion");
-        const container = document.getElementById(containerId);
-        const badge = document.getElementById(badgeId);
-
-        if (!accordionItem) return;
-
-        if (tem !== "sim" || !nome) {
-            accordionItem.style.display = "none";
-            return;
-        }
-
-        accordionItem.style.display = "block";
-
-        if (badge) {
-            if (ficheiro && ficheiro !== "") {
-                badge.className = "badge-accordion-doc badge-resumo-pdf";
-                badge.innerHTML = `<i class="fa-solid fa-file-pdf" style="margin-right:3px;"></i> Ver PDF`;
-                badge.style.cursor = "pointer";
-                badge.onclick = function (e) {
-                    e.stopPropagation();
-                    alert("Ficheiro: " + ficheiro);
-                };
             } else {
-                badge.className = "badge-accordion-doc badge-accordion-nao";
-                badge.textContent = "Sem PDF";
-                badge.onclick = null;
-                badge.style.cursor = "default";
+                ficheiroRelatorioCalibracao.textContent = "Sem ficheiro associado";
             }
         }
 
-        if (!container) return;
+        // Separador 8 — Resumo documentação
+        function renderizarResumoDoc(containerId, badgeId, tem, nome, data, validade, ficheiro, mostrarValidade = true) {
+            const accordionItem = document.getElementById(containerId + "-accordion");
+            const container = document.getElementById(containerId);
+            const badge = document.getElementById(badgeId);
 
-        container.innerHTML = `
+            if (!accordionItem) return;
+
+            if (tem !== "sim" || !nome) {
+                accordionItem.style.display = "none";
+                return;
+            }
+
+            accordionItem.style.display = "block";
+
+            if (badge) {
+                if (ficheiro && ficheiro !== "") {
+                    badge.className = "badge-accordion-doc badge-resumo-pdf";
+                    badge.innerHTML = `<i class="fa-solid fa-file-pdf" style="margin-right:3px;"></i> Ver PDF`;
+                    badge.style.cursor = "pointer";
+                    badge.onclick = function (e) {
+                        e.stopPropagation();
+                        alert("Ficheiro: " + ficheiro);
+                    };
+                } else {
+                    badge.className = "badge-accordion-doc badge-accordion-nao";
+                    badge.textContent = "Sem PDF";
+                    badge.onclick = null;
+                    badge.style.cursor = "default";
+                }
+            }
+
+            if (!container) return;
+
+            container.innerHTML = `
         <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
             <div class="campo-detalhes">
                 <h3>Nome do documento</h3>
@@ -6402,18 +6504,116 @@ function preencherDetalhesEquipamento() {
             </div>` : ""}
         </div>
     `;
-    }
+        }
 
-    renderizarResumoDoc("resumo-doc-tecnica", "badge-resumo-tecnica", equipamento.temDocumentacaoTecnica, equipamento.nomeManualTecnico, equipamento.dataManualTecnico, equipamento.validadeManualTecnico, equipamento.ficheiroManualTecnico);
-    renderizarResumoDoc("resumo-doc-utilizacao", "badge-resumo-utilizacao", equipamento.temDocumentacaoUtilizacao, equipamento.nomeManualUtilizacao, equipamento.dataManualUtilizacao, equipamento.validadeManualUtilizacao, equipamento.ficheiroManualUtilizacao);
-    renderizarResumoDoc("resumo-doc-conformidade", "badge-resumo-conformidade", equipamento.temDeclaracaoConformidade, equipamento.nomeDeclaracaoConformidade, equipamento.dataDeclaracaoConformidade, equipamento.validadeDeclaracaoConformidade, equipamento.ficheiroDeclaracaoConformidade);
-    renderizarResumoDoc("resumo-doc-aquisicao", "badge-resumo-aquisicao", equipamento.temContratoAquisicao, equipamento.nomeContratoAquisicao, equipamento.dataContratoAquisicao, equipamento.validadeContratoAquisicao, equipamento.ficheiroContratoAquisicao);
-    renderizarResumoDoc("resumo-doc-fatura", "badge-resumo-fatura", equipamento.temFatura, equipamento.nomeFatura, equipamento.dataFatura, "", equipamento.ficheiroFatura, false);
-    renderizarResumoDoc("resumo-doc-garantia", "badge-resumo-garantia", equipamento.temDocumentacaoGarantia, equipamento.nomeCertificadoGarantia, equipamento.dataCertificadoGarantia, equipamento.validadeCertificadoGarantia, equipamento.ficheiroGarantia);
-    renderizarResumoDoc("resumo-doc-manutencao", "badge-resumo-manutencao", equipamento.temDocumentacaoContrato, equipamento.nomeContratoManutencao, equipamento.dataContratoManutencao, equipamento.validadeContratoManutencao, equipamento.ficheiroContratoManutencao);
-    renderizarResumoDoc("resumo-doc-relatorio-manutencao", "badge-resumo-relatorio-manutencao", equipamento.temRelatorioContrato, equipamento.nomeRelatorioManutencao, equipamento.dataRelatorioManutencao, equipamento.validadeRelatorioManutencao, equipamento.ficheiroRelatorioManutencao);
-    renderizarResumoDoc("resumo-doc-calibracao", "badge-resumo-calibracao", equipamento.temDocumentacaoCalibracao, equipamento.nomeCertificadoCalibracao, equipamento.dataCertificadoCalibracao, equipamento.validadeCertificadoCalibracao, equipamento.ficheiroCertificadoCalibracao);
-    renderizarResumoDoc("resumo-doc-relatorio-calibracao", "badge-resumo-relatorio-calibracao", equipamento.temRelatorioCalibracao, equipamento.nomeRelatorioCalibracao, equipamento.dataRelatorioCalibracao, equipamento.validadeRelatorioCalibracao, equipamento.ficheiroRelatorioCalibracao);
+        renderizarResumoDoc("resumo-doc-tecnica", "badge-resumo-tecnica", equipamento.temDocumentacaoTecnica, equipamento.nomeManualTecnico, equipamento.dataManualTecnico, equipamento.validadeManualTecnico, equipamento.ficheiroManualTecnico);
+        renderizarResumoDoc("resumo-doc-utilizacao", "badge-resumo-utilizacao", equipamento.temDocumentacaoUtilizacao, equipamento.nomeManualUtilizacao, equipamento.dataManualUtilizacao, equipamento.validadeManualUtilizacao, equipamento.ficheiroManualUtilizacao);
+        renderizarResumoDoc("resumo-doc-conformidade", "badge-resumo-conformidade", equipamento.temDeclaracaoConformidade, equipamento.nomeDeclaracaoConformidade, equipamento.dataDeclaracaoConformidade, equipamento.validadeDeclaracaoConformidade, equipamento.ficheiroDeclaracaoConformidade);
+        renderizarResumoDoc("resumo-doc-aquisicao", "badge-resumo-aquisicao", equipamento.temContratoAquisicao, equipamento.nomeContratoAquisicao, equipamento.dataContratoAquisicao, equipamento.validadeContratoAquisicao, equipamento.ficheiroContratoAquisicao);
+        renderizarResumoDoc("resumo-doc-fatura", "badge-resumo-fatura", equipamento.temFatura, equipamento.nomeFatura, equipamento.dataFatura, "", equipamento.ficheiroFatura, false);
+        renderizarResumoDoc("resumo-doc-garantia", "badge-resumo-garantia", equipamento.temDocumentacaoGarantia, equipamento.nomeCertificadoGarantia, equipamento.dataCertificadoGarantia, equipamento.validadeCertificadoGarantia, equipamento.ficheiroGarantia);
+        renderizarResumoDoc("resumo-doc-manutencao", "badge-resumo-manutencao", equipamento.temDocumentacaoContrato, equipamento.nomeContratoManutencao, equipamento.dataContratoManutencao, equipamento.validadeContratoManutencao, equipamento.ficheiroContratoManutencao);
+        renderizarResumoDoc("resumo-doc-relatorio-manutencao", "badge-resumo-relatorio-manutencao", equipamento.temRelatorioContrato, equipamento.nomeRelatorioManutencao, equipamento.dataRelatorioManutencao, equipamento.validadeRelatorioManutencao, equipamento.ficheiroRelatorioManutencao);
+        renderizarResumoDoc("resumo-doc-calibracao", "badge-resumo-calibracao", equipamento.temDocumentacaoCalibracao, equipamento.nomeCertificadoCalibracao, equipamento.dataCertificadoCalibracao, equipamento.validadeCertificadoCalibracao, equipamento.ficheiroCertificadoCalibracao);
+        renderizarResumoDoc("resumo-doc-relatorio-calibracao", "badge-resumo-relatorio-calibracao", equipamento.temRelatorioCalibracao, equipamento.nomeRelatorioCalibracao, equipamento.dataRelatorioCalibracao, equipamento.validadeRelatorioCalibracao, equipamento.ficheiroRelatorioCalibracao);
+
+        // Badge e conteúdo — documentação de fornecedores
+        const badgeResumoFornecedores = document.getElementById("badge-resumo-fornecedores");
+        const containerDocFornecedores = document.getElementById("resumo-doc-fornecedores");
+        const accordionFornecedoresDoc = document.getElementById("resumo-doc-fornecedores-accordion");
+
+        if (badgeResumoFornecedores && containerDocFornecedores && accordionFornecedoresDoc) {
+            const fornecedoresComDocResumo = (equipamento.fornecedores || []).filter(function (f) {
+                const d = fornecedoresGuardados[f.codigo];
+                return d && d.temDocFornecedor === "sim";
+            });
+
+            const temAlgum = fornecedoresComDocResumo.length > 0;
+            badgeResumoFornecedores.style.display = "none";
+
+            if (!temAlgum) {
+                accordionFornecedoresDoc.style.display = "none";
+            } else {
+                accordionFornecedoresDoc.style.display = "block";
+                let html = "<div style='margin-top: 1rem;'>";
+
+                fornecedoresComDocResumo.forEach(function (f) {
+
+                    const d = fornecedoresGuardados[f.codigo];
+
+                    html += `
+    <div class="accordion-item-doc" style="margin-bottom: 0.5rem;">
+
+        <button class="accordion-btn-doc"
+                onclick="toggleAccordionDoc(this)">
+
+            <span>
+                <i class="fa-solid fa-file-medical"></i>
+                ${d.nomeEmpresa}
+            </span>
+
+            <div class="accordion-btn-doc-direita">
+
+    <span class="badge-accordion-doc ${d.ficheiroDocFornecedor ? 'badge-resumo-pdf' : 'badge-accordion-nao'}"
+          style="cursor:${d.ficheiroDocFornecedor ? 'pointer' : 'default'};"
+          onclick="event.stopPropagation(); ${d.ficheiroDocFornecedor ? `alert('Ficheiro: ${d.ficheiroDocFornecedor}')` : ''}">
+        ${d.ficheiroDocFornecedor ? `<i class="fa-solid fa-file-pdf" style="margin-right:3px;"></i> Ver PDF` : 'Sem PDF'}
+    </span>
+
+    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+
+</div>
+
+        </button>
+
+        <div class="accordion-body-doc" style="display:none;">
+
+            <div class="grelha-detalhes-equipamento"
+                 style="padding:1.2rem 0 0.5rem;">
+
+                <div class="campo-detalhes">
+                    <h3>Tipo de documento</h3>
+                    <p>${d.tipoDocFornecedor || "-"}</p>
+                </div>
+
+                <div class="campo-detalhes">
+                    <h3>Nome do documento</h3>
+                    <p>${d.nomeDocFornecedor || "-"}</p>
+                </div>
+
+                <div class="campo-detalhes">
+                    <h3>Data do documento</h3>
+                    <p>${d.dataDocFornecedor || "-"}</p>
+                </div>
+
+                <div class="campo-detalhes">
+                    <h3>Validade</h3>
+                    <p>${d.validadeDocFornecedor || "-"}</p>
+                </div>
+
+                <div class="campo-detalhes">
+                    <h3>Ficheiro PDF</h3>
+                    <p>
+                        ${d.ficheiroDocFornecedor ? `
+                        <span style="display:inline-flex; align-items:center; gap:0.4rem; color:#003f78; font-weight:600;">
+                            <i class="fa-solid fa-file-pdf" style="color:#dc3545;"></i>
+                            ${d.ficheiroDocFornecedor.split('\\').pop().split('/').pop()}
+                        </span>` : "-"}
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    `;
+                });
+
+                containerDocFornecedores.innerHTML = html + "</div>";
+            }
+        }
+    }
 }
 
 function inicializarEditarEquipamento() {
@@ -7643,6 +7843,14 @@ const fornecedoresConsulta = {
         pessoaContacto: "Catarina Silva",
         telefonePessoaContacto: "+351 910 000 000",
         tipoFornecedor: "Fabricante",
+
+        temDocFornecedor: "sim",
+        tipoDocFornecedor: "Certificado ISO",
+        nomeDocFornecedor: "Certificado ISO 13485 Philips Healthcare",
+        dataDocFornecedor: "15/01/2024",
+        validadeDocFornecedor: "15/01/2027",
+        ficheiroDocFornecedor: "certificado_iso_FOR001.pdf",
+
         observacoes: "Fornecedor associado a equipamentos de monitorização."
     },
 
@@ -7657,6 +7865,14 @@ const fornecedoresConsulta = {
         pessoaContacto: "Miguel Santos",
         telefonePessoaContacto: "+351 920 000 000",
         tipoFornecedor: "Fabricante",
+
+        temDocFornecedor: "sim",
+        tipoDocFornecedor: "Certificado ISO",
+        nomeDocFornecedor: "Certificado ISO 13485 Dräger",
+        dataDocFornecedor: "10/03/2023",
+        validadeDocFornecedor: "10/03/2026",
+        ficheiroDocFornecedor: "certificado_iso_FOR002.pdf",
+
         observacoes: "Fabricante associado a equipamentos de suporte ventilatório."
     },
 
@@ -7671,6 +7887,14 @@ const fornecedoresConsulta = {
         pessoaContacto: "Carla Ferreira",
         telefonePessoaContacto: "+351 930 000 000",
         tipoFornecedor: "Distribuidor ou Fornecedor comercial",
+
+        temDocFornecedor: "sim",
+        tipoDocFornecedor: "Licença de distribuição",
+        nomeDocFornecedor: "Licença de Distribuição de Dispositivos Médicos MedSupply",
+        dataDocFornecedor: "01/06/2023",
+        validadeDocFornecedor: "01/06/2026",
+        ficheiroDocFornecedor: "licenca_distribuicao_FOR003.pdf",
+
         observacoes: "Distribuidor comercial de equipamentos e consumíveis."
     },
 
@@ -7685,6 +7909,14 @@ const fornecedoresConsulta = {
         pessoaContacto: "João Almeida",
         telefonePessoaContacto: "+351 940 000 000",
         tipoFornecedor: "Empresa de assistência técnica",
+
+        temDocFornecedor: "sim",
+        tipoDocFornecedor: "Certificado de acreditação técnica",
+        nomeDocFornecedor: "Certificado de Acreditação Técnica TecnoMed",
+        dataDocFornecedor: "20/02/2024",
+        validadeDocFornecedor: "20/02/2027",
+        ficheiroDocFornecedor: "certificado_acreditacao_FOR004.pdf",
+
         observacoes: "Empresa responsável por manutenção preventiva e corretiva."
     },
 
@@ -7699,6 +7931,14 @@ const fornecedoresConsulta = {
         pessoaContacto: "Ricardo Moreira",
         telefonePessoaContacto: "+351 910 111 222",
         tipoFornecedor: "Fabricante",
+
+        temDocFornecedor: "sim",
+        tipoDocFornecedor: "Certificado ISO",
+        nomeDocFornecedor: "Certificado ISO 13485 Siemens Healthineers",
+        dataDocFornecedor: "05/04/2024",
+        validadeDocFornecedor: "05/04/2027",
+        ficheiroDocFornecedor: "certificado_iso_FOR005.pdf",
+
         observacoes: "Fornecedor de equipamentos de diagnóstico e imagiologia."
     },
 
@@ -7713,6 +7953,14 @@ const fornecedoresConsulta = {
         pessoaContacto: "Ana Ribeiro",
         telefonePessoaContacto: "+351 910 222 333",
         tipoFornecedor: "Fabricante",
+
+        temDocFornecedor: "sim",
+        tipoDocFornecedor: "Declaração de autorização de representação",
+        nomeDocFornecedor: "Declaração de Autorização de Representação GE HealthCare",
+        dataDocFornecedor: "12/09/2023",
+        validadeDocFornecedor: "12/09/2026",
+        ficheiroDocFornecedor: "declaracao_representacao_FOR006.pdf",
+
         observacoes: "Fornecedor de equipamentos de monitorização e diagnóstico."
     },
 
@@ -7727,6 +7975,14 @@ const fornecedoresConsulta = {
         pessoaContacto: "Pedro Costa",
         telefonePessoaContacto: "+351 910 333 444",
         tipoFornecedor: "Fornecedor de consumáveis ou acessórios",
+
+        temDocFornecedor: "nao",
+        tipoDocFornecedor: "",
+        nomeDocFornecedor: "",
+        dataDocFornecedor: "",
+        validadeDocFornecedor: "",
+        ficheiroDocFornecedor: "",
+
         observacoes: "Fornecedor de consumíveis hospitalares e acessórios para equipamentos médicos."
     },
 
@@ -7741,6 +7997,14 @@ const fornecedoresConsulta = {
         pessoaContacto: "Sofia Martins",
         telefonePessoaContacto: "+351 910 444 555",
         tipoFornecedor: "Distribuidor ou Fornecedor comercial",
+
+        temDocFornecedor: "nao",
+        tipoDocFornecedor: "",
+        nomeDocFornecedor: "",
+        dataDocFornecedor: "",
+        validadeDocFornecedor: "",
+        ficheiroDocFornecedor: "",
+
         observacoes: "Distribuidor de equipamentos médicos e dispositivos implantáveis."
     },
 
@@ -7755,6 +8019,14 @@ const fornecedoresConsulta = {
         pessoaContacto: "Tiago Oliveira",
         telefonePessoaContacto: "+351 910 555 666",
         tipoFornecedor: "Fornecedor de consumíveis ou acessórios",
+
+        temDocFornecedor: "sim",
+        tipoDocFornecedor: "Certificado ISO",
+        nomeDocFornecedor: "Certificado ISO 9001 Roche Diagnostics",
+        dataDocFornecedor: "22/05/2024",
+        validadeDocFornecedor: "22/05/2027",
+        ficheiroDocFornecedor: "certificado_iso_FOR009.pdf",
+
         observacoes: "Fornecedor de reagentes e consumíveis laboratoriais."
     },
 };
@@ -8180,6 +8452,24 @@ function inicializarNovoFornecedor() {
         return;
     }
 
+    const seletorDocFornecedor = document.getElementById("tem_doc_fornecedor");
+    const blocoDocFornecedor = document.getElementById("bloco-doc-fornecedor");
+    const badgeDocFornecedor = document.getElementById("badge-accordion-doc-fornecedor");
+
+    if (seletorDocFornecedor) {
+        seletorDocFornecedor.addEventListener("change", function () {
+            if (this.value === "sim") {
+                blocoDocFornecedor.style.display = "block";
+                badgeDocFornecedor.className = "badge-accordion-doc badge-accordion-sim";
+                badgeDocFornecedor.textContent = "Sim";
+            } else {
+                blocoDocFornecedor.style.display = "none";
+                badgeDocFornecedor.className = "badge-accordion-doc badge-accordion-nao";
+                badgeDocFornecedor.textContent = "Não";
+            }
+        });
+    }
+
     formularioNovoFornecedor.addEventListener("submit", function (event) {
         event.preventDefault();
 
@@ -8206,6 +8496,12 @@ function inicializarNovoFornecedor() {
             pessoaContacto: pessoaContactoNova,
             telefonePessoaContacto: telefonePessoaContactoNovo,
             tipoFornecedor: tipoFornecedorNovo,
+            temDocFornecedor: document.getElementById("tem_doc_fornecedor").value,
+            tipoDocFornecedor: document.getElementById("tipoDocFornecedor").value,
+            nomeDocFornecedor: document.getElementById("nomeDocFornecedor").value.trim(),
+            dataDocFornecedor: converterDataParaTexto(document.getElementById("dataDocFornecedor").value),
+            validadeDocFornecedor: converterDataParaTexto(document.getElementById("validadeDocFornecedor").value),
+            ficheiroDocFornecedor: document.getElementById("ficheiroDocFornecedor").value.trim(),
             observacoes: observacoesNovas
         };
 
@@ -8295,6 +8591,38 @@ function preencherDetalhesFornecedor() {
             containerEquipamentos.innerHTML = html;
         }
     }
+
+    // Documentação do fornecedor — badge e conteúdo
+    const badgeDocFornecedorDetalhe = document.getElementById("badge-accordion-doc-fornecedor-detalhe");
+    if (badgeDocFornecedorDetalhe) {
+        const temDoc = fornecedor.temDocFornecedor === "sim";
+        badgeDocFornecedorDetalhe.className = `badge-accordion-doc ${temDoc ? "badge-accordion-sim" : "badge-accordion-nao"}`;
+        badgeDocFornecedorDetalhe.textContent = temDoc ? "Sim" : "Não";
+
+        if (temDoc) {
+            document.getElementById("detalhe-tipo-doc-fornecedor").textContent = fornecedor.tipoDocFornecedor || "-";
+            document.getElementById("detalhe-nome-doc-fornecedor").textContent = fornecedor.nomeDocFornecedor || "-";
+            document.getElementById("detalhe-data-doc-fornecedor").textContent = fornecedor.dataDocFornecedor || "-";
+            document.getElementById("detalhe-validade-doc-fornecedor").textContent = fornecedor.validadeDocFornecedor || "Sem validade";
+
+            const campoFicheiro = document.getElementById("detalhe-ficheiro-doc-fornecedor");
+            if (fornecedor.ficheiroDocFornecedor && fornecedor.ficheiroDocFornecedor !== "") {
+                campoFicheiro.innerHTML = `
+                <span style="display:inline-flex; align-items:center; gap:0.4rem; color:#003f78; font-weight:600;">
+                    <i class="fa-solid fa-file-pdf" style="color:#dc3545;"></i>
+                    ${fornecedor.ficheiroDocFornecedor}
+                </span>`;
+            } else {
+                campoFicheiro.textContent = "Sem ficheiro associado";
+            }
+        } else {
+            document.getElementById("detalhe-tipo-doc-fornecedor").textContent = "-";
+            document.getElementById("detalhe-nome-doc-fornecedor").textContent = "-";
+            document.getElementById("detalhe-data-doc-fornecedor").textContent = "-";
+            document.getElementById("detalhe-validade-doc-fornecedor").textContent = "-";
+            document.getElementById("detalhe-ficheiro-doc-fornecedor").textContent = "Sem documentação associada";
+        }
+    }
 }
 
 // Editar fornecedor
@@ -8332,6 +8660,25 @@ function inicializarEditarFornecedor() {
         botaoCancelarEdicaoFornecedor.href = `fornecedores.html?id=${fornecedor.codigo}`;
     }
 
+    // Documentação do fornecedor — carregar valores existentes
+    const seletorDocFornecedorEditar = document.getElementById("tem_doc_fornecedor");
+    const blocoDocFornecedorEditar = document.getElementById("bloco-doc-fornecedor");
+
+    if (seletorDocFornecedorEditar) {
+        seletorDocFornecedorEditar.value = fornecedor.temDocFornecedor || "";
+        if (fornecedor.temDocFornecedor === "sim") {
+            blocoDocFornecedorEditar.style.display = "block";
+            document.getElementById("tipoDocFornecedor").value = fornecedor.tipoDocFornecedor || "";
+            document.getElementById("nomeDocFornecedor").value = fornecedor.nomeDocFornecedor || "";
+            document.getElementById("dataDocFornecedor").value = converterDataParaInput(fornecedor.dataDocFornecedor);
+            document.getElementById("validadeDocFornecedor").value = converterDataParaInput(fornecedor.validadeDocFornecedor);
+        }
+
+        seletorDocFornecedorEditar.addEventListener("change", function () {
+            blocoDocFornecedorEditar.style.display = this.value === "sim" ? "block" : "none";
+        });
+    }
+
     formEditarFornecedor.addEventListener("submit", function (event) {
         event.preventDefault();
 
@@ -8350,6 +8697,11 @@ function inicializarEditarFornecedor() {
         fornecedoresGuardados[idFornecedor].pessoaContacto = document.getElementById("pessoa_contacto").value.trim();
         fornecedoresGuardados[idFornecedor].telefonePessoaContacto = document.getElementById("telefone_pessoa_contacto").value.trim();
         fornecedoresGuardados[idFornecedor].tipoFornecedor = document.getElementById("tipo_fornecedor").value.trim();
+        fornecedoresGuardados[idFornecedor].temDocFornecedor = document.getElementById("tem_doc_fornecedor").value;
+        fornecedoresGuardados[idFornecedor].tipoDocFornecedor = document.getElementById("tipoDocFornecedor").value;
+        fornecedoresGuardados[idFornecedor].nomeDocFornecedor = document.getElementById("nomeDocFornecedor").value.trim();
+        fornecedoresGuardados[idFornecedor].dataDocFornecedor = converterDataParaTexto(document.getElementById("dataDocFornecedor").value);
+        fornecedoresGuardados[idFornecedor].validadeDocFornecedor = converterDataParaTexto(document.getElementById("validadeDocFornecedor").value);
         fornecedoresGuardados[idFornecedor].observacoes = document.getElementById("observacoes").value.trim();
 
         localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));

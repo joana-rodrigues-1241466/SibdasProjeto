@@ -223,6 +223,67 @@
 
                     <hr>
 
+                    <!-- DOCUMENTAÇÃO -->
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-file-medical"></i>
+                        Documentação do Fornecedor
+                    </h5>
+
+                    <div class="grupo-campo-privado grupo-campo-total">
+                        <label for="tem_doc_fornecedor">
+                            Existe documentação associada ao fornecedor?
+                        </label>
+                        <select id="tem_doc_fornecedor" class="campo-formulario-privado">
+                            <option value="">Escolha uma opção</option>
+                            <option value="sim">Sim</option>
+                            <option value="nao">Não</option>
+                        </select>
+                    </div>
+
+                    <div id="bloco-doc-fornecedor" style="display:none">
+                        <div class="card-documentacao">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Tipo de documento</label>
+                                    <select class="form-select campo-formulario-privado" id="tipoDocFornecedor"
+                                        name="tipoDocFornecedor">
+                                        <option value="" selected disabled>Escolha uma opção</option>
+                                        <option>Certificado ISO</option>
+                                        <option>Licença de distribuição</option>
+                                        <option>Certificado de acreditação técnica</option>
+                                        <option>Contrato geral de prestação de serviços</option>
+                                        <option>Alvará ou licença de atividade</option>
+                                        <option>Declaração de autorização de representação</option>
+                                        <option>Outro</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <label class="form-label">Nome do documento</label>
+                                    <input type="text" class="form-control campo-formulario-privado"
+                                        id="nomeDocFornecedor" name="nomeDocFornecedor">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Data do documento</label>
+                                    <input type="date" class="form-control campo-formulario-privado"
+                                        id="dataDocFornecedor" name="dataDocFornecedor">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Validade <span
+                                            style="color:#6b7280; font-size:0.85rem;">(se aplicável)</span></label>
+                                    <input type="date" class="form-control campo-formulario-privado"
+                                        id="validadeDocFornecedor" name="validadeDocFornecedor">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Ficheiro PDF</label>
+                                    <input type="file" class="form-control campo-formulario-privado"
+                                        id="ficheiroDocFornecedor" name="ficheiroDocFornecedor" accept=".pdf">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- OBSERVAÇÕES -->
                     <h5 class="subtitulo-separador titulo-azul-separador">
                         <i class="fa-solid fa-comment-medical"></i>

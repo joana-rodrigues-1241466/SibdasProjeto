@@ -22,20 +22,42 @@
     <!-- Barra superior da área privada -->
     <header class="navbar-privada">
 
-        <!-- Logótipo e nome da aplicação -->
         <div class="logo-privada">
             <img src="../../../assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
             <span class="nome-navbar-privada">MediVault</span>
         </div>
 
-        <!-- Identificação do utilizador autenticado -->
-        <div class="utilizador-privado">
-            <i class="fa-regular fa-user"></i>
-            <span>Profissional de saúde</span>
-            <i class="fa-solid fa-caret-down"></i>
+        <div class="dropdown-utilizador-privado">
+            <div style="display:flex; align-items:center; gap:1rem;">
+
+                <button id="botao-historico-navbar" onclick="abrirHistoricoNavbar()" class="botao-historico-navbar">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </button>
+
+                <div class="utilizador-privado">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Profissional de saúde</span>
+                    <i class="fa-solid fa-caret-down"></i>
+                </div>
+
+            </div>
+
+            <div class="menu-utilizador-privado">
+                <a href="alterar_password.html">
+                    <i class="fa-solid fa-key"></i>
+                    Alterar password
+                </a>
+
+                <a href="../../../public/index.html">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Sair
+                </a>
+            </div>
         </div>
 
     </header>
+
+    <div id="aviso-garantias-globais" style="display:none;"></div>
 
     <!-- Layout principal com menu lateral e conteúdo -->
     <div class="layout-privado">
@@ -164,60 +186,57 @@
             <!-- ÁREA PRINCIPAL DA DASHBOARD -->
             <section class="grelha-dashboard">
 
-    <div class="card-dashboard card-dashboard-grande">
-        <div class="cabecalho-card-dashboard">
-            <h3>Equipamentos por serviço</h3>
-            <a href="../equipamentos/equipamentos.html" class="link-card-dashboard">Ver detalhes</a>
-        </div>
-        <div id="graficoServicosDashboard" class="grafico-barras-dashboard"></div>
-    </div>
+                <div class="card-dashboard card-dashboard-grande">
+                    <div class="cabecalho-card-dashboard">
+                        <h3>Equipamentos por serviço</h3>
+                        <a href="../equipamentos/equipamentos.html" class="link-card-dashboard">Ver detalhes</a>
+                    </div>
+                    <div id="graficoServicosDashboard" class="grafico-barras-dashboard"></div>
+                </div>
 
-    <div class="card-dashboard card-criticidade-dashboard">
-        <h3>Equipamentos de criticidade elevada
-            <i class="fa-solid fa-circle-info"
-                data-bs-toggle="popover"
-                data-bs-trigger="hover focus"
-                data-bs-placement="top"
-                data-bs-html="true"
-                data-bs-content="Este indicador inclui todos os equipamentos classificados com criticidade <strong>Suporte de vida</strong> ou <strong>Alta</strong>, por apresentarem maior impacto na prestação de cuidados de saúde em caso de indisponibilidade.">
-            </i>
-        </h3>
-        <div class="numero-destaque-dashboard criticidade-conteudo-dashboard">
-            <div class="icone-criticidade-dashboard">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <h2 id="dashboardCriticidadeElevada">0</h2>
-            <p>equipamentos</p>
-            <span id="dashboardPercentagemCriticidade">0% do total</span>
-        </div>
-        <a href="../equipamentos/equipamentos.html" class="botao-card-dashboard">Ver lista</a>
-    </div>
+                <div class="card-dashboard card-criticidade-dashboard">
+                    <h3>Equipamentos de criticidade elevada
+                        <i class="fa-solid fa-circle-info" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                            data-bs-placement="top" data-bs-html="true"
+                            data-bs-content="Este indicador inclui todos os equipamentos classificados com criticidade <strong>Suporte de vida</strong> ou <strong>Alta</strong>, por apresentarem maior impacto na prestação de cuidados de saúde em caso de indisponibilidade.">
+                        </i>
+                    </h3>
+                    <div class="numero-destaque-dashboard criticidade-conteudo-dashboard">
+                        <div class="icone-criticidade-dashboard">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <h2 id="dashboardCriticidadeElevada">0</h2>
+                        <p>equipamentos</p>
+                        <span id="dashboardPercentagemCriticidade">0% do total</span>
+                    </div>
+                    <a href="../equipamentos/equipamentos.html" class="botao-card-dashboard">Ver lista</a>
+                </div>
 
-    <div class="card-dashboard card-dashboard-grande">
-        <div class="cabecalho-card-dashboard">
-            <h3>Garantias a expirar nos próximos 30 dias</h3>
-            <a href="../equipamentos/equipamentos.html" class="link-card-dashboard">Ver todos</a>
-        </div>
-        <table class="tabela-dashboard">
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Designação</th>
-                    <th>Fornecedor</th>
-                    <th>Fim da garantia</th>
-                    <th>Dias restantes</th>
-                </tr>
-            </thead>
-            <tbody id="tabelaGarantiasDashboard"></tbody>
-        </table>
-    </div>
+                <div class="card-dashboard card-dashboard-grande">
+                    <div class="cabecalho-card-dashboard">
+                        <h3>Garantias a expirar nos próximos 30 dias</h3>
+                        <a href="../equipamentos/equipamentos.html" class="link-card-dashboard">Ver todos</a>
+                    </div>
+                    <table class="tabela-dashboard">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Designação</th>
+                                <th>Fornecedor</th>
+                                <th>Fim da garantia</th>
+                                <th>Dias restantes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaGarantiasDashboard"></tbody>
+                    </table>
+                </div>
 
-    <div class="card-dashboard">
-        <h3>Distribuição por categoria</h3>
-        <div id="categoriasDashboard" class="lista-distribuicao-dashboard"></div>
-    </div>
+                <div class="card-dashboard">
+                    <h3>Distribuição por categoria</h3>
+                    <div id="categoriasDashboard" class="lista-distribuicao-dashboard"></div>
+                </div>
 
-</section>
+            </section>
 
             <div class="rodape-dashboard">
                 <span id="ultimaAtualizacaoDashboard"></span>
@@ -230,6 +249,17 @@
 
         </main>
 
+    </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasHistorico"
+        aria-labelledby="offcanvasHistoricoLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasHistoricoLabel">
+                <i class="fa-solid fa-clock-rotate-left" style="color:#0086a8; margin-right:8px;"></i>
+                Histórico de movimentações de Equipamentos
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+        </div>
     </div>
 
     <!-- Bootstrap JS -->

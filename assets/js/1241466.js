@@ -37,6 +37,16 @@ function inicializarLogin() {
 }
 
 // ===============================
+// HISTÓRICO DE EQUIPAMENTOS
+// ===============================
+
+function abrirHistoricoNavbar() {
+    const offcanvasEl = document.getElementById("offcanvasHistorico");
+    const offcanvas = new bootstrap.Offcanvas(offcanvasEl);
+    offcanvas.show();
+}
+
+// ===============================
 // GESTÃO DE CONTEÚDOS DA ÁREA PÚBLICA
 // ===============================
 
@@ -196,6 +206,33 @@ function inicializarGestaoConteudos() {
     }
 }
 
+function inicializarAvisoGarantias() {
+    const aviso = document.getElementById("aviso-garantias-globais");
+    if (!aviso) return;
+
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    const limite = new Date();
+    limite.setDate(hoje.getDate() + 30);
+    limite.setHours(0, 0, 0, 0);
+
+    const aExpirar = Object.values(equipamentosGuardados).filter(function (eq) {
+        if (!eq.dataFimGarantia) return false;
+        const dataFim = converterTextoParaData(eq.dataFimGarantia);
+        if (!dataFim) return false;
+        dataFim.setHours(0, 0, 0, 0);
+        return dataFim >= hoje && dataFim <= limite;
+    });
+
+    if (aExpirar.length === 0) return;
+
+    aviso.style.display = "flex";
+    aviso.innerHTML = `
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span>${aExpirar.length} equipamento${aExpirar.length !== 1 ? 's' : ''} com garantia a expirar nos próximos 30 dias.</span>
+        <a href="../equipamentos/equipamentos.html">Ver equipamentos</a>
+    `;
+}
 
 // ===============================
 // EQUIPAMENTOS
@@ -9493,6 +9530,8 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarContactos();
     inicializarLogin();
     inicializarGestaoConteudos();
+
+    inicializarAvisoGarantias();
 
     preencherListagemEquipamentos();
     inicializarFiltrosEquipamentos();

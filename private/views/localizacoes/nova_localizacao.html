@@ -28,13 +28,37 @@
             <span class="nome-navbar-privada">MediVault</span>
         </div>
 
-        <div class="utilizador-privado">
-            <i class="fa-regular fa-user"></i>
-            <span>Profissional de saúde</span>
-            <i class="fa-solid fa-caret-down"></i>
+        <div class="dropdown-utilizador-privado">
+            <div style="display:flex; align-items:center; gap:1rem;">
+
+                <button id="botao-historico-navbar" onclick="abrirHistoricoNavbar()" class="botao-historico-navbar">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </button>
+
+                <div class="utilizador-privado">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Profissional de saúde</span>
+                    <i class="fa-solid fa-caret-down"></i>
+                </div>
+
+            </div>
+
+            <div class="menu-utilizador-privado">
+                <a href="alterar_password.html">
+                    <i class="fa-solid fa-key"></i>
+                    Alterar password
+                </a>
+
+                <a href="../../../public/index.html">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Sair
+                </a>
+            </div>
         </div>
 
     </header>
+
+    <div id="aviso-garantias-globais" style="display:none;"></div>
 
     <!-- Layout principal da área privada -->
     <div class="layout-privado">
@@ -92,71 +116,85 @@
 
                 <form id="form-nova-localizacao" class="form-equipamento-privado">
 
-    <!-- DADOS GERAIS -->
-    <h5 class="subtitulo-separador titulo-azul-separador mt-0">
-        <i class="fa-solid fa-location-dot"></i>
-        Dados Gerais
-    </h5>
+                    <!-- DADOS GERAIS -->
+                    <h5 class="subtitulo-separador titulo-azul-separador mt-0">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Dados Gerais
+                    </h5>
 
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label for="codigo" class="form-label">Código da localização</label>
-            <input type="text" class="form-control campo-formulario-privado" id="codigo" name="codigo">
-        </div>
-        <div class="col-md-8">
-            <label for="servico" class="form-label">Serviço / Departamento</label>
-            <input type="text" class="form-control campo-formulario-privado" id="servico" name="servico">
-        </div>
-    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="codigo" class="form-label">Código da localização</label>
+                            <input type="text" class="form-control campo-formulario-privado" id="codigo" name="codigo">
+                        </div>
+                        <div class="col-md-8">
+                            <label for="servico" class="form-label">Serviço / Departamento</label>
+                            <input type="text" class="form-control campo-formulario-privado" id="servico"
+                                name="servico">
+                        </div>
+                    </div>
 
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label for="edificio" class="form-label">Edifício</label>
-            <input type="text" class="form-control campo-formulario-privado" id="edificio" name="edificio">
-        </div>
-        <div class="col-md-4">
-            <label for="piso" class="form-label">Piso</label>
-            <input type="text" class="form-control campo-formulario-privado" id="piso" name="piso">
-        </div>
-        <div class="col-md-4">
-            <label for="sala" class="form-label">Sala / Gabinete</label>
-            <input type="text" class="form-control campo-formulario-privado" id="sala" name="sala">
-        </div>
-    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="edificio" class="form-label">Edifício</label>
+                            <input type="text" class="form-control campo-formulario-privado" id="edificio"
+                                name="edificio">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="piso" class="form-label">Piso</label>
+                            <input type="text" class="form-control campo-formulario-privado" id="piso" name="piso">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="sala" class="form-label">Sala / Gabinete</label>
+                            <input type="text" class="form-control campo-formulario-privado" id="sala" name="sala">
+                        </div>
+                    </div>
 
-    <hr>
+                    <hr>
 
-    <!-- OBSERVAÇÕES -->
-    <h5 class="subtitulo-separador titulo-azul-separador">
-        <i class="fa-solid fa-comment-medical"></i>
-        Observações
-    </h5>
+                    <!-- OBSERVAÇÕES -->
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-comment-medical"></i>
+                        Observações
+                    </h5>
 
-    <div class="mb-3">
-        <textarea class="form-control campo-formulario-privado" id="observacoes" name="observacoes" rows="4"></textarea>
-    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control campo-formulario-privado" id="observacoes" name="observacoes"
+                            rows="4"></textarea>
+                    </div>
 
-    <div id="erros-formulario" class="erros-separador" style="display:none;">
-    <ul id="lista-erros-formulario"></ul>
-</div>
+                    <div id="erros-formulario" class="erros-separador" style="display:none;">
+                        <ul id="lista-erros-formulario"></ul>
+                    </div>
 
-    <div class="botoes-formulario-privado">
-        <a href="localizacoes.html" class="botao-cancelar-privado">
-            <i class="fa-solid fa-xmark"></i>
-            Cancelar
-        </a>
-        <button type="submit" class="botao-guardar-privado">
-            <i class="fa-solid fa-floppy-disk"></i>
-            Guardar
-        </button>
-    </div>
+                    <div class="botoes-formulario-privado">
+                        <a href="localizacoes.html" class="botao-cancelar-privado">
+                            <i class="fa-solid fa-xmark"></i>
+                            Cancelar
+                        </a>
+                        <button type="submit" class="botao-guardar-privado">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Guardar
+                        </button>
+                    </div>
 
-</form>
+                </form>
 
             </section>
 
         </main>
 
+    </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasHistorico"
+        aria-labelledby="offcanvasHistoricoLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasHistoricoLabel">
+                <i class="fa-solid fa-clock-rotate-left" style="color:#0086a8; margin-right:8px;"></i>
+                Histórico de movimentações de Equipamentos
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+        </div>
     </div>
 
     <script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>

@@ -13,16 +13,43 @@
 <body class="pagina-privada">
 
     <header class="navbar-privada">
+
         <div class="logo-privada">
             <img src="../../../assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
             <span class="nome-navbar-privada">MediVault</span>
         </div>
-        <div class="utilizador-privado">
-            <i class="fa-regular fa-user"></i>
-            <span>Profissional de saúde</span>
-            <i class="fa-solid fa-caret-down"></i>
+
+        <div class="dropdown-utilizador-privado">
+            <div style="display:flex; align-items:center; gap:1rem;">
+
+                <button id="botao-historico-navbar" onclick="abrirHistoricoNavbar()" class="botao-historico-navbar">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </button>
+
+                <div class="utilizador-privado">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Profissional de saúde</span>
+                    <i class="fa-solid fa-caret-down"></i>
+                </div>
+
+            </div>
+
+            <div class="menu-utilizador-privado">
+                <a href="alterar_password.html">
+                    <i class="fa-solid fa-key"></i>
+                    Alterar password
+                </a>
+
+                <a href="../../../public/index.html">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Sair
+                </a>
+            </div>
         </div>
+
     </header>
+
+    <div id="aviso-garantias-globais" style="display:none;"></div>
 
     <div class="layout-privado">
 
@@ -1013,28 +1040,39 @@
 
     <div id="modalEtiqueta" class="modal-etiqueta">
 
-    <div class="conteudo-modal-etiqueta">
+        <div class="conteudo-modal-etiqueta">
 
-        <h3>MediVault</h3>
+            <h3>MediVault</h3>
 
-        <div id="qrcode-etiqueta"></div>
+            <div id="qrcode-etiqueta"></div>
 
-        <p id="codigoEtiqueta"></p>
+            <p id="codigoEtiqueta"></p>
 
-        <p id="nomeEtiqueta"></p>
+            <p id="nomeEtiqueta"></p>
 
-        <p id="localizacaoEtiqueta">
-        <i class="fa-solid fa-location-dot"></i>
-        <span id="textoLocalizacaoEtiqueta"></span>
-    </p>
+            <p id="localizacaoEtiqueta">
+                <i class="fa-solid fa-location-dot"></i>
+                <span id="textoLocalizacaoEtiqueta"></span>
+            </p>
 
-        <button onclick="fecharEtiqueta()">
-            Fechar
-        </button>
+            <button onclick="fecharEtiqueta()">
+                Fechar
+            </button>
+
+        </div>
 
     </div>
 
-</div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasHistorico"
+        aria-labelledby="offcanvasHistoricoLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasHistoricoLabel">
+                <i class="fa-solid fa-clock-rotate-left" style="color:#0086a8; margin-right:8px;"></i>
+                Histórico de movimentações de Equipamentos
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+        </div>
+    </div>
 
     <script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
 

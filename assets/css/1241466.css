@@ -395,19 +395,6 @@ body {
     cursor: pointer;
 }
 
-.mensagem-login {
-    font-size: 0.9em;
-    font-weight: 600;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    min-height: 20px;
-    text-align: center;
-}
-
-.mensagem-login.sucesso {
-    color: #198754;
-}
-
 .botao-login-pagina {
     width: 100%;
     background-color: #003f78;
@@ -439,7 +426,46 @@ body {
     color: #0077a3;
 }
 
-/* Apoio de IA (ChatGPT): melhoria visual da página de gestão de conteúdos com Accordion */
+.botao-historico-navbar {
+    background: none;
+    border: none;
+    color: #003f78;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.botao-historico-navbar:hover {
+    background-color: #eef7fb;
+}
+
+#aviso-garantias-globais {
+    background-color: #fff8e1;
+    border-bottom: 2px solid #f59e0b;
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #92400e;
+}
+
+#aviso-garantias-globais i {
+    color: #f59e0b;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+#aviso-garantias-globais a {
+    color: #003f78;
+    text-decoration: underline;
+    margin-left: auto;
+    font-weight: 700;
+    white-space: nowrap;
+}
 
 .gestao-conteudos {
     max-width: 1100px;

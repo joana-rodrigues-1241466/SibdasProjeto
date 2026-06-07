@@ -28,13 +28,37 @@
             <span class="nome-navbar-privada">MediVault</span>
         </div>
 
-        <div class="utilizador-privado">
-            <i class="fa-regular fa-user"></i>
-            <span>Profissional de saúde</span>
-            <i class="fa-solid fa-caret-down"></i>
+        <div class="dropdown-utilizador-privado">
+            <div style="display:flex; align-items:center; gap:1rem;">
+
+                <button id="botao-historico-navbar" onclick="abrirHistoricoNavbar()" class="botao-historico-navbar">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </button>
+
+                <div class="utilizador-privado">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Profissional de saúde</span>
+                    <i class="fa-solid fa-caret-down"></i>
+                </div>
+
+            </div>
+
+            <div class="menu-utilizador-privado">
+                <a href="alterar_password.html">
+                    <i class="fa-solid fa-key"></i>
+                    Alterar password
+                </a>
+
+                <a href="../../../public/index.html">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Sair
+                </a>
+            </div>
         </div>
 
     </header>
+
+    <div id="aviso-garantias-globais" style="display:none;"></div>
 
     <!-- Layout principal da área privada -->
     <div class="layout-privado">
@@ -1378,6 +1402,16 @@
     </main>
 
     </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasHistorico" aria-labelledby="offcanvasHistoricoLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasHistoricoLabel">
+            <i class="fa-solid fa-clock-rotate-left" style="color:#0086a8; margin-right:8px;"></i>
+            Histórico de movimentações de Equipamentos
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+    </div>
+</div>
 
     <script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
 

@@ -9543,6 +9543,7 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarNovoEquipamento();
     inicializarEditarEquipamento();
     controlarCamposContratoManutencao();
+    preencherDadosLocalizacaoAssociada
 
     preencherListagemLocalizacoes();
     inicializarFiltrosLocalizacoes();

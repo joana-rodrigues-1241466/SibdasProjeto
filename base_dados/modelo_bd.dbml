@@ -85,6 +85,8 @@ Table unidades {
 Table estados_acessorio {
   id         int     [pk, increment]
   designacao varchar [not null, unique]
+  valor      varchar [not null, unique]
+  // valor interno usado no código (ex: 'em-uso')
   ordem      int     [not null, default: 0]
 }
 
@@ -94,16 +96,17 @@ Table estados_acessorio {
 // ============================================================
 
 Table utilizadores {
-  id            int      [pk, increment]
-  nome          varchar  [not null]
-  email         varchar  [not null, unique]
-  password_hash varchar  [not null]
-  perfil_id     int      [not null, ref: > perfis_utilizador.id]
-  ativo         boolean  [default: true]
-  token_reset   varchar
-  token_expira  datetime
-  created_at    datetime [default: `CURRENT_TIMESTAMP`]
-  updated_at    datetime [default: `CURRENT_TIMESTAMP`]
+  id              int      [pk, increment]
+  nome            varchar  [not null]
+  email           varchar  [not null, unique]
+  password_hash   varchar  [not null]
+  perfil_id       int      [not null, ref: > perfis_utilizador.id]
+  ativo           boolean  [default: true]
+  token_reset     varchar
+  token_expira    datetime
+  token_remember  varchar
+  created_at      datetime [default: `CURRENT_TIMESTAMP`]
+  updated_at      datetime [default: `CURRENT_TIMESTAMP`]
 }
 
 Table localizacoes {
@@ -164,6 +167,7 @@ Table equipamentos {
   observacoes             text
   localizacao_id          int      [ref: > localizacoes.id]
   observacoes_localizacao text
+  ativo                   boolean  [default: true]
   created_at              datetime [default: `CURRENT_TIMESTAMP`]
   updated_at              datetime [default: `CURRENT_TIMESTAMP`]
 
@@ -211,8 +215,11 @@ Table aquisicao_equipamentos {
   equipamento_id  int          [not null, ref: > equipamentos.id]
   data_aquisicao  date
   custo_aquisicao decimal(10,2)
+  moeda           varchar      [default: 'EUR']
   tipo_entrada_id int          [ref: > tipos_entrada.id]
   observacoes     text
+  created_at      datetime     [default: `CURRENT_TIMESTAMP`]
+  updated_at      datetime     [default: `CURRENT_TIMESTAMP`]
 }
 
 Table equipamento_fornecedor {
@@ -247,12 +254,14 @@ Table contratos_manutencao {
 }
 
 Table historico_equipamentos {
-  id             int      [pk, increment]
-  equipamento_id int      [not null, ref: > equipamentos.id]
-  utilizador_id  int      [ref: > utilizadores.id]
-  tipo_alteracao varchar
-  descricao      text
-  data_alteracao datetime [default: `CURRENT_TIMESTAMP`]
+  id               int      [pk, increment]
+  equipamento_id   int      [not null, ref: > equipamentos.id]
+  utilizador_id    int      [ref: > utilizadores.id]
+  tipo_alteracao   varchar
+  descricao        text
+  dados_anteriores json
+  dados_novos      json
+  data_alteracao   datetime [default: `CURRENT_TIMESTAMP`]
 }
 
 Table conteudos_publicos {

@@ -1,177 +1,99 @@
-<!DOCTYPE html>
-<html lang="pt">
+<?php include '../../includes/header.php'; ?>
+<?php include '../../includes/navbar.php'; ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultar Equipamento</title>
-    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="../../../assets/css/1241466.css">
-</head>
+<div class="layout-privado">
 
-<body class="pagina-privada">
+    <?php include '../../includes/menu.php'; ?>
 
-    <header class="navbar-privada">
+    <main class="conteudo-privado">
 
-        <div class="logo-privada">
-            <img src="../../../assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
-            <span class="nome-navbar-privada">MediVault</span>
-        </div>
+        <section class="detalhes-equipamento-privada">
 
-        <div class="dropdown-utilizador-privado">
-            <div style="display:flex; align-items:center; gap:1rem;">
+            <div class="titulo-detalhes-equipamento">
+                <i class="fa-solid fa-stethoscope"></i>
+                <h1>Detalhes do Equipamento</h1>
+            </div>
 
-                <button id="botao-historico-navbar" onclick="abrirHistoricoNavbar()" class="botao-historico-navbar">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
-                </button>
+            <div class="cabecalho-equipamento-detalhe">
 
-                <div class="utilizador-privado">
-                    <i class="fa-regular fa-user"></i>
-                    <span>Profissional de saúde</span>
-                    <i class="fa-solid fa-caret-down"></i>
+                <div class="cabecalho-info-equipamento">
+                    <span id="cabecalho-codigo-equipamento" class="cabecalho-codigo"></span>
+                    <span class="cabecalho-separador">·</span>
+                    <span id="cabecalho-nome-equipamento" class="cabecalho-nome"></span>
+                    <span id="cabecalho-estado-equipamento"></span>
                 </div>
+
+                <a href="#" class="link-gerar-etiqueta" onclick="gerarEtiqueta()">
+                    <i class="fa-solid fa-tag"></i>
+                    Gerar Etiqueta
+                </a>
+
+                <a href="#" class="link-exportar-pdf">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    Exportar Ficha do Equipamento
+                </a>
 
             </div>
 
-            <div class="menu-utilizador-privado">
-                <a href="alterar_password.html">
-                    <i class="fa-solid fa-key"></i>
-                    Alterar password
-                </a>
+            <div class="tabs-consulta-equipamento">
 
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-            </div>
-        </div>
-
-    </header>
-
-    <div id="aviso-garantias-globais" style="display:none;"></div>
-
-    <div class="layout-privado">
-
-        <aside class="menu-lateral-privada">
-            <h2>Menu</h2>
-            <nav>
-                <a href="../equipamentos/equipamentos.html" class="ativo">
-                    <i class="fa-solid fa-stethoscope"></i>
-                    Equipamentos
-                </a>
-                <a href="../fornecedores/fornecedores.html">
-                    <i class="fa-solid fa-truck-medical"></i>
-                    Fornecedores
-                </a>
-                <a href="../localizacoes/localizacoes.html">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Localizações
-                </a>
-                <a href="../gestao_conteudos/gestao_conteudos.html">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    Gestão de Conteúdos
-                </a>
-                <a href="../dashboard/dashboard.html">
-                    <i class="fa-solid fa-chart-line"></i>
-                    Dashboard
-                </a>
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-            </nav>
-        </aside>
-
-        <main class="conteudo-privado">
-
-            <section class="detalhes-equipamento-privada">
-
-                <div class="titulo-detalhes-equipamento">
-                    <i class="fa-solid fa-stethoscope"></i>
-                    <h1>Detalhes do Equipamento</h1>
+                <div class="botoes-tabs-equipamento">
+                    <button type="button" class="botao-tab-equipamento ativo" data-tab="tab-identificacao-detalhe">
+                        <i class="fa-solid fa-stethoscope"></i>
+                        Identificação
+                    </button>
+                    <button type="button" class="botao-tab-equipamento" data-tab="tab-acessorios-detalhe">
+                        <i class="fa-solid fa-toolbox"></i>
+                        Acessórios e <br> Consumíveis
+                    </button>
+                    <button type="button" class="botao-tab-equipamento" data-tab="tab-aquisicao-detalhe">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Aquisição
+                    </button>
+                    <button type="button" class="botao-tab-equipamento" data-tab="tab-fornecedor-detalhe">
+                        <i class="fa-solid fa-truck-medical"></i>
+                        Fornecedor
+                    </button>
+                    <button type="button" class="botao-tab-equipamento" data-tab="tab-localizacao-detalhe">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Localização
+                    </button>
+                    <button type="button" class="botao-tab-equipamento" data-tab="tab-garantia-detalhe">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Garantia
+                    </button>
+                    <button type="button" class="botao-tab-equipamento" data-tab="tab-contrato-detalhe">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        Contrato
+                    </button>
+                    <button type="button" class="botao-tab-equipamento" data-tab="tab-documentacao-detalhe">
+                        <i class="fa-solid fa-file-medical"></i>
+                        Documentação
+                    </button>
                 </div>
 
-                <div class="cabecalho-equipamento-detalhe">
+                <!-- Separador 1: Identificação -->
+                <div id="tab-identificacao-detalhe" class="conteudo-tab-equipamento ativo">
 
-                    <div class="cabecalho-info-equipamento">
-                        <span id="cabecalho-codigo-equipamento" class="cabecalho-codigo"></span>
-                        <span class="cabecalho-separador">·</span>
-                        <span id="cabecalho-nome-equipamento" class="cabecalho-nome"></span>
-                        <span id="cabecalho-estado-equipamento"></span>
-                    </div>
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-circle-info"></i>
+                        Dados do Equipamento
+                    </h5>
 
-                    <a href="#" class="link-gerar-etiqueta" onclick="gerarEtiqueta()">
-                        <i class="fa-solid fa-tag"></i>
-                        Gerar Etiqueta
-                    </a>
-
-                    <a href="#" class="link-exportar-pdf">
-                        <i class="fa-solid fa-file-pdf"></i>
-                        Exportar Ficha do Equipamento
-                    </a>
-
-                </div>
-
-                <div class="tabs-consulta-equipamento">
-
-                    <div class="botoes-tabs-equipamento">
-                        <button type="button" class="botao-tab-equipamento ativo" data-tab="tab-identificacao-detalhe">
-                            <i class="fa-solid fa-stethoscope"></i>
-                            Identificação
-                        </button>
-                        <button type="button" class="botao-tab-equipamento" data-tab="tab-acessorios-detalhe">
-                            <i class="fa-solid fa-toolbox"></i>
-                            Acessórios e <br> Consumíveis
-                        </button>
-                        <button type="button" class="botao-tab-equipamento" data-tab="tab-aquisicao-detalhe">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            Aquisição
-                        </button>
-                        <button type="button" class="botao-tab-equipamento" data-tab="tab-fornecedor-detalhe">
-                            <i class="fa-solid fa-truck-medical"></i>
-                            Fornecedor
-                        </button>
-                        <button type="button" class="botao-tab-equipamento" data-tab="tab-localizacao-detalhe">
-                            <i class="fa-solid fa-location-dot"></i>
-                            Localização
-                        </button>
-                        <button type="button" class="botao-tab-equipamento" data-tab="tab-garantia-detalhe">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            Garantia
-                        </button>
-                        <button type="button" class="botao-tab-equipamento" data-tab="tab-contrato-detalhe">
-                            <i class="fa-solid fa-screwdriver-wrench"></i>
-                            Contrato
-                        </button>
-                        <button type="button" class="botao-tab-equipamento" data-tab="tab-documentacao-detalhe">
-                            <i class="fa-solid fa-file-medical"></i>
-                            Documentação
-                        </button>
-                    </div>
-
-                    <!-- Separador 1: Identificação -->
-                    <div id="tab-identificacao-detalhe" class="conteudo-tab-equipamento ativo">
-
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-circle-info"></i>
-                            Dados do Equipamento
-                        </h5>
-
-                        <div class="grelha-detalhes-equipamento">
-                            <div class="campo-detalhes">
-                                <h3>Código interno de inventário</h3>
-                                <p id="detalhe-codigo"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Designação do equipamento</h3>
-                                <p id="detalhe-designacao"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Categoria ou grupo
-                                    <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
-                                        data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
-                                        data-bs-content="
+                    <div class="grelha-detalhes-equipamento">
+                        <div class="campo-detalhes">
+                            <h3>Código interno de inventário</h3>
+                            <p id="detalhe-codigo"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Designação do equipamento</h3>
+                            <p id="detalhe-designacao"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Categoria ou grupo
+                                <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                    data-bs-content="
         <strong>Monitorização</strong> - Equipamentos utilizados para monitorizar parâmetros fisiológicos e o estado clínico do paciente.<br><br>
         <strong>Suporte de vida</strong> - Equipamentos essenciais para manter ou substituir funções vitais do organismo.<br><br>
         <strong>Terapia</strong> - Equipamentos utilizados na administração de tratamentos e intervenções terapêuticas.<br><br>
@@ -180,152 +102,76 @@
         <strong>Esterilização</strong> - Equipamentos destinados à limpeza, desinfeção e esterilização de materiais e dispositivos médicos.<br><br>
         <strong>Reabilitação</strong> - Equipamentos utilizados na recuperação funcional e reabilitação dos pacientes.
         ">
-                                    </i>
-                                </h3>
-                                <p id="detalhe-categoria"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Marca</h3>
-                                <p id="detalhe-marca"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Modelo</h3>
-                                <p id="detalhe-modelo"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>N.º de série</h3>
-                                <p id="detalhe-numero-serie"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Fabricante</h3>
-                                <p id="detalhe-fabricante"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Ano de fabrico</h3>
-                                <p id="detalhe-ano-fabrico"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>
-                                    Estado atual
-                                    <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
-                                        data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
-                                        data-bs-content="<strong>Ativo</strong> - Equipamento operacional e disponível para utilização.<br><br>
+                                </i>
+                            </h3>
+                            <p id="detalhe-categoria"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Marca</h3>
+                            <p id="detalhe-marca"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Modelo</h3>
+                            <p id="detalhe-modelo"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>N.º de série</h3>
+                            <p id="detalhe-numero-serie"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Fabricante</h3>
+                            <p id="detalhe-fabricante"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Ano de fabrico</h3>
+                            <p id="detalhe-ano-fabrico"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>
+                                Estado atual
+                                <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                    data-bs-content="<strong>Ativo</strong> - Equipamento operacional e disponível para utilização.<br><br>
             <strong>Em manutenção</strong> - Equipamento temporariamente indisponível devido a manutenção preventiva ou corretiva.<br><br>
             <strong>Inativo</strong> - Equipamento sem utilização atual, mas disponível para voltar ao serviço.<br><br>
             <strong>Em calibração</strong> - Equipamento em processo de calibração ou verificação metrológica.<br><br>
             <strong>Em quarentena</strong> - Equipamento isolado temporariamente para avaliação, descontaminação ou validação técnica.<br><br>
             <strong>Abatido</strong> - Equipamento retirado definitivamente de serviço e sem possibilidade de utilização.">
-                                    </i>
-                                </h3>
-                                <p id="detalhe-estado"></p>
-                            </div>
-                            <div class="campo-detalhes campo-criticidade-destaque">
-                                <h3>Criticidade
-                                    <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
-                                        data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
-                                        data-bs-content="
+                                </i>
+                            </h3>
+                            <p id="detalhe-estado"></p>
+                        </div>
+                        <div class="campo-detalhes campo-criticidade-destaque">
+                            <h3>Criticidade
+                                <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                    data-bs-content="
         <strong>Suporte de vida</strong> - Equipamento essencial para manter ou monitorizar funções vitais do paciente.<br><br>
         <strong>Alta</strong> - Equipamento cuja indisponibilidade afeta significativamente a prestação de cuidados de saúde.<br><br>
         <strong>Média</strong> - Equipamento importante, mas cuja indisponibilidade pode ser temporariamente compensada por alternativas.<br><br>
         <strong>Baixa</strong> - Equipamento de apoio com impacto reduzido na prestação de cuidados.
         ">
-                                    </i>
-                                </h3>
-                                <p id="detalhe-criticidade"></p>
-                            </div>
+                                </i>
+                            </h3>
+                            <p id="detalhe-criticidade"></p>
                         </div>
+                    </div>
 
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-folder-open"></i>
-                            Documentação
-                        </h5>
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-folder-open"></i>
+                        Documentação
+                    </h5>
 
-                        <div class="accordion-documentacao">
+                    <div class="accordion-documentacao">
 
-                            <div class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span>
-                                        <i class="fa-solid fa-file-medical"></i>
-                                        Documentação Técnica
-                                    </span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-accordion-tecnica" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
-                                        <div class="campo-detalhes">
-                                            <h3>Tipo de documentação</h3>
-                                            <p id="detalhe-tem-doc-tecnica"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Nome do manual técnico</h3>
-                                            <p id="detalhe-nome-manual-tecnico"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Data do manual técnico</h3>
-                                            <p id="detalhe-data-manual-tecnico"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Validade do manual técnico</h3>
-                                            <p id="detalhe-validade-manual-tecnico"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Ficheiro PDF</h3>
-                                            <p id="detalhe-ficheiro-manual-tecnico"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span>
-                                        <i class="fa-solid fa-book-open"></i>
-                                        Documentação de Utilização
-                                    </span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-accordion-utilizacao" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
-                                        <div class="campo-detalhes">
-                                            <h3>Tipo de documentação</h3>
-                                            <p id="detalhe-tem-doc-utilizacao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Nome do manual de utilização</h3>
-                                            <p id="detalhe-nome-manual-utilizacao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Data do manual de utilização</h3>
-                                            <p id="detalhe-data-manual-utilizacao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Validade do manual de utilização</h3>
-                                            <p id="detalhe-validade-manual-utilizacao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Ficheiro PDF</h3>
-                                            <p id="detalhe-ficheiro-manual-utilizacao"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="accordion-item-doc" style="margin-top: 0.5rem;">
+                        <div class="accordion-item-doc">
                             <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
                                 <span>
-                                    <i class="fa-solid fa-certificate"></i>
-                                    Documentação de Conformidade
+                                    <i class="fa-solid fa-file-medical"></i>
+                                    Documentação Técnica
                                 </span>
                                 <div class="accordion-btn-doc-direita">
-                                    <span id="badge-accordion-conformidade" class="badge-accordion-doc"></span>
+                                    <span id="badge-accordion-tecnica" class="badge-accordion-doc"></span>
                                     <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
                                 </div>
                             </button>
@@ -333,753 +179,810 @@
                                 <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
                                     <div class="campo-detalhes">
                                         <h3>Tipo de documentação</h3>
-                                        <p id="detalhe-tem-declaracao-conformidade"></p>
+                                        <p id="detalhe-tem-doc-tecnica"></p>
                                     </div>
                                     <div class="campo-detalhes">
-                                        <h3>Nome do documento</h3>
-                                        <p id="detalhe-nome-declaracao-conformidade"></p>
+                                        <h3>Nome do manual técnico</h3>
+                                        <p id="detalhe-nome-manual-tecnico"></p>
                                     </div>
                                     <div class="campo-detalhes">
-                                        <h3>Data do documento</h3>
-                                        <p id="detalhe-data-declaracao-conformidade"></p>
+                                        <h3>Data do manual técnico</h3>
+                                        <p id="detalhe-data-manual-tecnico"></p>
                                     </div>
                                     <div class="campo-detalhes">
-                                        <h3>Validade do documento</h3>
-                                        <p id="detalhe-validade-declaracao-conformidade"></p>
+                                        <h3>Validade do manual técnico</h3>
+                                        <p id="detalhe-validade-manual-tecnico"></p>
                                     </div>
                                     <div class="campo-detalhes">
                                         <h3>Ficheiro PDF</h3>
-                                        <p id="detalhe-ficheiro-declaracao-conformidade"></p>
+                                        <p id="detalhe-ficheiro-manual-tecnico"></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-comment-medical"></i>
-                            Observações do Equipamento
-                        </h5>
-
-                        <div class="grelha-detalhes-equipamento">
-                            <div class="campo-detalhes campo-detalhes-largo">
-                                <h3>Observações</h3>
-                                <p id="detalhe-observacoes"></p>
+                        <div class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span>
+                                    <i class="fa-solid fa-book-open"></i>
+                                    Documentação de Utilização
+                                </span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-accordion-utilizacao" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
+                                    <div class="campo-detalhes">
+                                        <h3>Tipo de documentação</h3>
+                                        <p id="detalhe-tem-doc-utilizacao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Nome do manual de utilização</h3>
+                                        <p id="detalhe-nome-manual-utilizacao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Data do manual de utilização</h3>
+                                        <p id="detalhe-data-manual-utilizacao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Validade do manual de utilização</h3>
+                                        <p id="detalhe-validade-manual-utilizacao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Ficheiro PDF</h3>
+                                        <p id="detalhe-ficheiro-manual-utilizacao"></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                     </div>
 
-                    <!-- Separador 2: Acessórios e Consumíveis -->
-                    <div id="tab-acessorios-detalhe" class="conteudo-tab-equipamento">
-
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-toolbox"></i>
-                            Acessórios
-                        </h5>
-
-                        <div id="resumo-acessorios-detalhe">
-                            <p style="color:#6b7280; font-style:italic;">Sem acessórios registados.</p>
+                    <div class="accordion-item-doc" style="margin-top: 0.5rem;">
+                        <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                            <span>
+                                <i class="fa-solid fa-certificate"></i>
+                                Documentação de Conformidade
+                            </span>
+                            <div class="accordion-btn-doc-direita">
+                                <span id="badge-accordion-conformidade" class="badge-accordion-doc"></span>
+                                <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                            </div>
+                        </button>
+                        <div class="accordion-body-doc" style="display:none;">
+                            <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
+                                <div class="campo-detalhes">
+                                    <h3>Tipo de documentação</h3>
+                                    <p id="detalhe-tem-declaracao-conformidade"></p>
+                                </div>
+                                <div class="campo-detalhes">
+                                    <h3>Nome do documento</h3>
+                                    <p id="detalhe-nome-declaracao-conformidade"></p>
+                                </div>
+                                <div class="campo-detalhes">
+                                    <h3>Data do documento</h3>
+                                    <p id="detalhe-data-declaracao-conformidade"></p>
+                                </div>
+                                <div class="campo-detalhes">
+                                    <h3>Validade do documento</h3>
+                                    <p id="detalhe-validade-declaracao-conformidade"></p>
+                                </div>
+                                <div class="campo-detalhes">
+                                    <h3>Ficheiro PDF</h3>
+                                    <p id="detalhe-ficheiro-declaracao-conformidade"></p>
+                                </div>
+                            </div>
                         </div>
-
-                        <hr>
-
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-box-open"></i>
-                            Consumíveis
-                        </h5>
-
-                        <div id="resumo-consumiveis-detalhe">
-                            <p style="color:#6b7280; font-style:italic;">Sem consumíveis registados.</p>
-                        </div>
-
                     </div>
 
-                    <!-- Separador 3: Aquisição -->
-                    <div id="tab-aquisicao-detalhe" class="conteudo-tab-equipamento">
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-comment-medical"></i>
+                        Observações do Equipamento
+                    </h5>
 
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            Dados de Aquisição
-                        </h5>
+                    <div class="grelha-detalhes-equipamento">
+                        <div class="campo-detalhes campo-detalhes-largo">
+                            <h3>Observações</h3>
+                            <p id="detalhe-observacoes"></p>
+                        </div>
+                    </div>
 
-                        <div class="grelha-detalhes-equipamento">
-                            <div class="campo-detalhes">
-                                <h3>Data de aquisição</h3>
-                                <p id="detalhe-data-aquisicao"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Custo de aquisição</h3>
-                                <p id="detalhe-custo-aquisicao"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Tipo de entrada
-                                    <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
-                                        data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
-                                        data-bs-content="
+                </div>
+
+                <!-- Separador 2: Acessórios e Consumíveis -->
+                <div id="tab-acessorios-detalhe" class="conteudo-tab-equipamento">
+
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-toolbox"></i>
+                        Acessórios
+                    </h5>
+
+                    <div id="resumo-acessorios-detalhe">
+                        <p style="color:#6b7280; font-style:italic;">Sem acessórios registados.</p>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-box-open"></i>
+                        Consumíveis
+                    </h5>
+
+                    <div id="resumo-consumiveis-detalhe">
+                        <p style="color:#6b7280; font-style:italic;">Sem consumíveis registados.</p>
+                    </div>
+
+                </div>
+
+                <!-- Separador 3: Aquisição -->
+                <div id="tab-aquisicao-detalhe" class="conteudo-tab-equipamento">
+
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Dados de Aquisição
+                    </h5>
+
+                    <div class="grelha-detalhes-equipamento">
+                        <div class="campo-detalhes">
+                            <h3>Data de aquisição</h3>
+                            <p id="detalhe-data-aquisicao"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Custo de aquisição</h3>
+                            <p id="detalhe-custo-aquisicao"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Tipo de entrada
+                                <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                    data-bs-content="
         <strong>Compra</strong> - Equipamento adquirido pela instituição através de compra direta.<br><br>
         <strong>Doação</strong> - Equipamento recebido sem custos por oferta de uma entidade ou particular.<br><br>
         <strong>Aluguer</strong> - Equipamento utilizado mediante pagamento periódico durante um período definido.<br><br>
         <strong>Empréstimo</strong> - Equipamento cedido temporariamente por outra entidade para utilização durante um período acordado.
         ">
-                                    </i>
-                                </h3>
-                                <p id="detalhe-tipo-entrada"></p>
-                            </div>
+                                </i>
+                            </h3>
+                            <p id="detalhe-tipo-entrada"></p>
                         </div>
+                    </div>
 
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-folder-open"></i>
-                            Documentação
-                        </h5>
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-folder-open"></i>
+                        Documentação
+                    </h5>
 
-                        <div class="accordion-documentacao">
+                    <div class="accordion-documentacao">
 
-                            <div class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span>
-                                        <i class="fa-solid fa-file-invoice"></i>
-                                        Contrato de Aquisição
-                                    </span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-accordion-contrato-aquisicao"
-                                            class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                        <div class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span>
+                                    <i class="fa-solid fa-file-invoice"></i>
+                                    Contrato de Aquisição
+                                </span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-accordion-contrato-aquisicao"
+                                        class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
+                                    <div class="campo-detalhes">
+                                        <h3>Tipo de documentação</h3>
+                                        <p id="detalhe-tem-contrato-aquisicao"></p>
                                     </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
-                                        <div class="campo-detalhes">
-                                            <h3>Tipo de documentação</h3>
-                                            <p id="detalhe-tem-contrato-aquisicao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Nome do contrato de aquisição</h3>
-                                            <p id="detalhe-nome-contrato-aquisicao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Data do contrato de aquisição</h3>
-                                            <p id="detalhe-data-contrato-aquisicao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Validade do contrato de aquisição</h3>
-                                            <p id="detalhe-validade-contrato-aquisicao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Ficheiro PDF</h3>
-                                            <p id="detalhe-ficheiro-contrato-aquisicao"></p>
-                                        </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Nome do contrato de aquisição</h3>
+                                        <p id="detalhe-nome-contrato-aquisicao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Data do contrato de aquisição</h3>
+                                        <p id="detalhe-data-contrato-aquisicao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Validade do contrato de aquisição</h3>
+                                        <p id="detalhe-validade-contrato-aquisicao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Ficheiro PDF</h3>
+                                        <p id="detalhe-ficheiro-contrato-aquisicao"></p>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span>
-                                        <i class="fa-solid fa-receipt"></i>
-                                        Fatura
-                                    </span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-accordion-fatura" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
-                                        <div class="campo-detalhes">
-                                            <h3>Tipo de documentação</h3>
-                                            <p id="detalhe-tem-fatura"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Nome da fatura</h3>
-                                            <p id="detalhe-nome-fatura"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Data da fatura</h3>
-                                            <p id="detalhe-data-fatura"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Ficheiro PDF</h3>
-                                            <p id="detalhe-ficheiro-fatura"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
 
-                        <hr>
-
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-comment-medical"></i>
-                            Observações da Aquisição
-                        </h5>
-
-                        <div class="grelha-detalhes-equipamento">
-                            <div class="campo-detalhes campo-detalhes-largo">
-                                <h3>Observações</h3>
-                                <p id="detalhe-observacoes-aquisicao"></p>
+                        <div class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span>
+                                    <i class="fa-solid fa-receipt"></i>
+                                    Fatura
+                                </span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-accordion-fatura" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
+                                    <div class="campo-detalhes">
+                                        <h3>Tipo de documentação</h3>
+                                        <p id="detalhe-tem-fatura"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Nome da fatura</h3>
+                                        <p id="detalhe-nome-fatura"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Data da fatura</h3>
+                                        <p id="detalhe-data-fatura"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Ficheiro PDF</h3>
+                                        <p id="detalhe-ficheiro-fatura"></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                     </div>
 
-                    <!-- Separador 4: Fornecedor -->
-                    <div id="tab-fornecedor-detalhe" class="conteudo-tab-equipamento"></div>
+                    <hr>
 
-                    <!-- Offcanvas fornecedor -->
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFornecedor"
-                        aria-labelledby="offcanvasFornecedorLabel">
-                        <div class="offcanvas-header">
-                            <h5 class="offcanvas-title" id="offcanvasFornecedorLabel">
-                                <i class="fa-solid fa-truck-medical" style="color:#0086a8; margin-right:8px;"></i>
-                                Detalhes do Fornecedor
-                            </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
-                                aria-label="Fechar"></button>
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-comment-medical"></i>
+                        Observações da Aquisição
+                    </h5>
+
+                    <div class="grelha-detalhes-equipamento">
+                        <div class="campo-detalhes campo-detalhes-largo">
+                            <h3>Observações</h3>
+                            <p id="detalhe-observacoes-aquisicao"></p>
                         </div>
-                        <div class="offcanvas-body" id="offcanvas-body-fornecedor"></div>
                     </div>
 
-                    <!-- Separador 5: Localização -->
-                    <div id="tab-localizacao-detalhe" class="conteudo-tab-equipamento">
+                </div>
 
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-location-dot"></i>
-                            Localização Associada
+                <!-- Separador 4: Fornecedor -->
+                <div id="tab-fornecedor-detalhe" class="conteudo-tab-equipamento"></div>
+
+                <!-- Offcanvas fornecedor -->
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFornecedor"
+                    aria-labelledby="offcanvasFornecedorLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasFornecedorLabel">
+                            <i class="fa-solid fa-truck-medical" style="color:#0086a8; margin-right:8px;"></i>
+                            Detalhes do Fornecedor
                         </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            aria-label="Fechar"></button>
+                    </div>
+                    <div class="offcanvas-body" id="offcanvas-body-fornecedor"></div>
+                </div>
 
-                        <div class="grelha-detalhes-equipamento">
-                            <div class="campo-detalhes">
-                                <h3>Código da localização</h3>
-                                <p id="detalhe-localizacao-codigo"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Edifício</h3>
-                                <p id="detalhe-localizacao-edificio"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Piso</h3>
-                                <p id="detalhe-localizacao-piso"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Serviço</h3>
-                                <p id="detalhe-localizacao-servico"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Sala</h3>
-                                <p id="detalhe-localizacao-sala"></p>
-                            </div>
-                            <div class="campo-detalhes campo-detalhes-largo">
-                                <h3>Observações da localização</h3>
-                                <p id="detalhe-localizacao-observacoes"></p>
-                            </div>
+                <!-- Separador 5: Localização -->
+                <div id="tab-localizacao-detalhe" class="conteudo-tab-equipamento">
+
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Localização Associada
+                    </h5>
+
+                    <div class="grelha-detalhes-equipamento">
+                        <div class="campo-detalhes">
+                            <h3>Código da localização</h3>
+                            <p id="detalhe-localizacao-codigo"></p>
                         </div>
-
+                        <div class="campo-detalhes">
+                            <h3>Edifício</h3>
+                            <p id="detalhe-localizacao-edificio"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Piso</h3>
+                            <p id="detalhe-localizacao-piso"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Serviço</h3>
+                            <p id="detalhe-localizacao-servico"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Sala</h3>
+                            <p id="detalhe-localizacao-sala"></p>
+                        </div>
+                        <div class="campo-detalhes campo-detalhes-largo">
+                            <h3>Observações da localização</h3>
+                            <p id="detalhe-localizacao-observacoes"></p>
+                        </div>
                     </div>
 
-                    <!-- Separador 6: Garantia -->
-                    <div id="tab-garantia-detalhe" class="conteudo-tab-equipamento">
+                </div>
 
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            Dados da Garantia
-                        </h5>
+                <!-- Separador 6: Garantia -->
+                <div id="tab-garantia-detalhe" class="conteudo-tab-equipamento">
 
-                        <div class="grelha-detalhes-equipamento">
-                            <div class="campo-detalhes">
-                                <h3>Data de início da garantia</h3>
-                                <p id="detalhe-data-inicio-garantia"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Data de fim da garantia</h3>
-                                <p id="detalhe-data-fim-garantia"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Estado da garantia</h3>
-                                <p id="badge-estado-garantia"></p>
-                            </div>
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Dados da Garantia
+                    </h5>
+
+                    <div class="grelha-detalhes-equipamento">
+                        <div class="campo-detalhes">
+                            <h3>Data de início da garantia</h3>
+                            <p id="detalhe-data-inicio-garantia"></p>
                         </div>
-
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-folder-open"></i>
-                            Documentação
-                        </h5>
-
-                        <div class="accordion-documentacao">
-
-                            <div class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span>
-                                        <i class="fa-solid fa-file-medical"></i>
-                                        Certificado de Garantia
-                                    </span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-accordion-garantia" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
-                                        <div class="campo-detalhes">
-                                            <h3>Tipo de documento</h3>
-                                            <p id="detalhe-tem-doc-garantia"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Nome do certificado</h3>
-                                            <p id="detalhe-nome-certificado-garantia"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Data do certificado</h3>
-                                            <p id="detalhe-data-certificado-garantia"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Validade do certificado</h3>
-                                            <p id="detalhe-validade-certificado-garantia"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Ficheiro PDF</h3>
-                                            <p id="detalhe-ficheiro-garantia"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                        <div class="campo-detalhes">
+                            <h3>Data de fim da garantia</h3>
+                            <p id="detalhe-data-fim-garantia"></p>
                         </div>
-
-                        <hr>
-
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-comment-medical"></i>
-                            Observações da Garantia
-                        </h5>
-
-                        <div class="grelha-detalhes-equipamento">
-                            <div class="campo-detalhes campo-detalhes-largo">
-                                <h3>Observações</h3>
-                                <p id="detalhe-observacoes-garantia"></p>
-                            </div>
+                        <div class="campo-detalhes">
+                            <h3>Estado da garantia</h3>
+                            <p id="badge-estado-garantia"></p>
                         </div>
-
                     </div>
 
-                    <!-- Separador 7: Contrato -->
-                    <div id="tab-contrato-detalhe" class="conteudo-tab-equipamento">
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-folder-open"></i>
+                        Documentação
+                    </h5>
 
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-screwdriver-wrench"></i>
-                            Contrato de Manutenção
-                        </h5>
+                    <div class="accordion-documentacao">
 
-                        <div class="grelha-detalhes-equipamento">
-                            <div class="campo-detalhes">
-                                <h3>Contrato de manutenção</h3>
-                                <p id="detalhe-contrato-manutencao"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Tipo de contrato</h3>
-                                <p id="detalhe-tipo-contrato"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Entidade responsável</h3>
-                                <p id="detalhe-entidade-responsavel-contrato"></p>
-                            </div>
-                            <div class="campo-detalhes">
-                                <h3>Periodicidade</h3>
-                                <p id="detalhe-periodicidade-contrato"></p>
-                            </div>
-                        </div>
-
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-folder-open"></i>
-                            Documentação
-                        </h5>
-
-                        <div class="accordion-documentacao">
-
-                            <div class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span>
-                                        <i class="fa-solid fa-file-medical"></i>
-                                        Contrato de Manutenção
-                                    </span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-accordion-doc-contrato" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                        <div class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span>
+                                    <i class="fa-solid fa-file-medical"></i>
+                                    Certificado de Garantia
+                                </span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-accordion-garantia" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
+                                    <div class="campo-detalhes">
+                                        <h3>Tipo de documento</h3>
+                                        <p id="detalhe-tem-doc-garantia"></p>
                                     </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
-                                        <div class="campo-detalhes">
-                                            <h3>Tipo de documento</h3>
-                                            <p id="detalhe-tem-doc-contrato"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Nome do contrato</h3>
-                                            <p id="detalhe-nome-contrato-manutencao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Data do contrato</h3>
-                                            <p id="detalhe-data-contrato-manutencao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Validade do contrato</h3>
-                                            <p id="detalhe-validade-contrato-manutencao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Ficheiro PDF</h3>
-                                            <p id="detalhe-ficheiro-contrato-manutencao"></p>
-                                        </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Nome do certificado</h3>
+                                        <p id="detalhe-nome-certificado-garantia"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Data do certificado</h3>
+                                        <p id="detalhe-data-certificado-garantia"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Validade do certificado</h3>
+                                        <p id="detalhe-validade-certificado-garantia"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Ficheiro PDF</h3>
+                                        <p id="detalhe-ficheiro-garantia"></p>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span>
-                                        <i class="fa-solid fa-clipboard-list"></i>
-                                        Relatório de Manutenção
-                                    </span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-accordion-relatorio-manutencao"
-                                            class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
-                                        <div class="campo-detalhes">
-                                            <h3>Tipo de documento</h3>
-                                            <p id="detalhe-tem-relatorio-contrato"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Nome do relatório</h3>
-                                            <p id="detalhe-nome-relatorio-manutencao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Data do relatório</h3>
-                                            <p id="detalhe-data-relatorio-manutencao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Validade do relatório</h3>
-                                            <p id="detalhe-validade-relatorio-manutencao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Ficheiro PDF</h3>
-                                            <p id="detalhe-ficheiro-relatorio-manutencao"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span>
-                                        <i class="fa-solid fa-book-open"></i>
-                                        Certificado de Calibração
-                                    </span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-accordion-calibracao" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
-                                        <div class="campo-detalhes">
-                                            <h3>Tipo de documento</h3>
-                                            <p id="detalhe-tem-doc-calibracao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Nome do certificado</h3>
-                                            <p id="detalhe-nome-certificado-calibracao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Data do certificado</h3>
-                                            <p id="detalhe-data-certificado-calibracao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Validade do certificado</h3>
-                                            <p id="detalhe-validade-certificado-calibracao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Ficheiro PDF</h3>
-                                            <p id="detalhe-ficheiro-certificado-calibracao"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span>
-                                        <i class="fa-solid fa-file-lines"></i>
-                                        Relatório de Calibração
-                                    </span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-accordion-relatorio-calibracao"
-                                            class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
-                                        <div class="campo-detalhes">
-                                            <h3>Tipo de documento</h3>
-                                            <p id="detalhe-tem-relatorio-calibracao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Nome do relatório</h3>
-                                            <p id="detalhe-nome-relatorio-calibracao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Data do relatório</h3>
-                                            <p id="detalhe-data-relatorio-calibracao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Validade do relatório</h3>
-                                            <p id="detalhe-validade-relatorio-calibracao"></p>
-                                        </div>
-                                        <div class="campo-detalhes">
-                                            <h3>Ficheiro PDF</h3>
-                                            <p id="detalhe-ficheiro-relatorio-calibracao"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <hr>
-
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-comment-medical"></i>
-                            Observações do Contrato
-                        </h5>
-
-                        <div class="grelha-detalhes-equipamento">
-                            <div class="campo-detalhes campo-detalhes-largo">
-                                <h3>Observações</h3>
-                                <p id="detalhe-observacoes-contrato"></p>
                             </div>
                         </div>
 
                     </div>
 
-                    <!-- Separador 8: Documentação (resumo) -->
-                    <div id="tab-documentacao-detalhe" class="conteudo-tab-equipamento">
+                    <hr>
 
-                        <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-file-medical"></i>
-                            Resumo da Documentação Associada
-                        </h5>
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-comment-medical"></i>
+                        Observações da Garantia
+                    </h5>
 
-                        <p style="color:#6b7280; margin-bottom: 1.5rem;">
-                            Toda a documentação registada para este equipamento, organizada por categoria.
-                        </p>
+                    <div class="grelha-detalhes-equipamento">
+                        <div class="campo-detalhes campo-detalhes-largo">
+                            <h3>Observações</h3>
+                            <p id="detalhe-observacoes-garantia"></p>
+                        </div>
+                    </div>
 
-                        <div class="accordion-documentacao">
+                </div>
 
-                            <div id="resumo-doc-tecnica-accordion" class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span><i class="fa-solid fa-file-medical"></i> Documentação Técnica</span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-resumo-tecnica" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                <!-- Separador 7: Contrato -->
+                <div id="tab-contrato-detalhe" class="conteudo-tab-equipamento">
+
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        Contrato de Manutenção
+                    </h5>
+
+                    <div class="grelha-detalhes-equipamento">
+                        <div class="campo-detalhes">
+                            <h3>Contrato de manutenção</h3>
+                            <p id="detalhe-contrato-manutencao"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Tipo de contrato</h3>
+                            <p id="detalhe-tipo-contrato"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Entidade responsável</h3>
+                            <p id="detalhe-entidade-responsavel-contrato"></p>
+                        </div>
+                        <div class="campo-detalhes">
+                            <h3>Periodicidade</h3>
+                            <p id="detalhe-periodicidade-contrato"></p>
+                        </div>
+                    </div>
+
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-folder-open"></i>
+                        Documentação
+                    </h5>
+
+                    <div class="accordion-documentacao">
+
+                        <div class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span>
+                                    <i class="fa-solid fa-file-medical"></i>
+                                    Contrato de Manutenção
+                                </span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-accordion-doc-contrato" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
+                                    <div class="campo-detalhes">
+                                        <h3>Tipo de documento</h3>
+                                        <p id="detalhe-tem-doc-contrato"></p>
                                     </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div id="resumo-doc-tecnica"></div>
+                                    <div class="campo-detalhes">
+                                        <h3>Nome do contrato</h3>
+                                        <p id="detalhe-nome-contrato-manutencao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Data do contrato</h3>
+                                        <p id="detalhe-data-contrato-manutencao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Validade do contrato</h3>
+                                        <p id="detalhe-validade-contrato-manutencao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Ficheiro PDF</h3>
+                                        <p id="detalhe-ficheiro-contrato-manutencao"></p>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div id="resumo-doc-utilizacao-accordion" class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span><i class="fa-solid fa-book-open"></i> Documentação de Utilização</span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-resumo-utilizacao" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                        <div class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span>
+                                    <i class="fa-solid fa-clipboard-list"></i>
+                                    Relatório de Manutenção
+                                </span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-accordion-relatorio-manutencao"
+                                        class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
+                                    <div class="campo-detalhes">
+                                        <h3>Tipo de documento</h3>
+                                        <p id="detalhe-tem-relatorio-contrato"></p>
                                     </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div id="resumo-doc-utilizacao"></div>
+                                    <div class="campo-detalhes">
+                                        <h3>Nome do relatório</h3>
+                                        <p id="detalhe-nome-relatorio-manutencao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Data do relatório</h3>
+                                        <p id="detalhe-data-relatorio-manutencao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Validade do relatório</h3>
+                                        <p id="detalhe-validade-relatorio-manutencao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Ficheiro PDF</h3>
+                                        <p id="detalhe-ficheiro-relatorio-manutencao"></p>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div id="resumo-doc-conformidade-accordion" class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span><i class="fa-solid fa-certificate"></i> Declaração de Conformidade</span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-resumo-conformidade" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                        <div class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span>
+                                    <i class="fa-solid fa-book-open"></i>
+                                    Certificado de Calibração
+                                </span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-accordion-calibracao" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
+                                    <div class="campo-detalhes">
+                                        <h3>Tipo de documento</h3>
+                                        <p id="detalhe-tem-doc-calibracao"></p>
                                     </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div id="resumo-doc-conformidade"></div>
+                                    <div class="campo-detalhes">
+                                        <h3>Nome do certificado</h3>
+                                        <p id="detalhe-nome-certificado-calibracao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Data do certificado</h3>
+                                        <p id="detalhe-data-certificado-calibracao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Validade do certificado</h3>
+                                        <p id="detalhe-validade-certificado-calibracao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Ficheiro PDF</h3>
+                                        <p id="detalhe-ficheiro-certificado-calibracao"></p>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div id="resumo-doc-aquisicao-accordion" class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span><i class="fa-solid fa-file-invoice"></i> Contrato de Aquisição</span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-resumo-aquisicao" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                        <div class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span>
+                                    <i class="fa-solid fa-file-lines"></i>
+                                    Relatório de Calibração
+                                </span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-accordion-relatorio-calibracao"
+                                        class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div class="grelha-detalhes-equipamento" style="padding: 1.2rem 0 0.5rem;">
+                                    <div class="campo-detalhes">
+                                        <h3>Tipo de documento</h3>
+                                        <p id="detalhe-tem-relatorio-calibracao"></p>
                                     </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div id="resumo-doc-aquisicao"></div>
+                                    <div class="campo-detalhes">
+                                        <h3>Nome do relatório</h3>
+                                        <p id="detalhe-nome-relatorio-calibracao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Data do relatório</h3>
+                                        <p id="detalhe-data-relatorio-calibracao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Validade do relatório</h3>
+                                        <p id="detalhe-validade-relatorio-calibracao"></p>
+                                    </div>
+                                    <div class="campo-detalhes">
+                                        <h3>Ficheiro PDF</h3>
+                                        <p id="detalhe-ficheiro-relatorio-calibracao"></p>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div id="resumo-doc-fatura-accordion" class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span><i class="fa-solid fa-receipt"></i> Fatura</span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-resumo-fatura" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div id="resumo-doc-fatura"></div>
-                                </div>
-                            </div>
-
-                            <div id="resumo-doc-fornecedores-accordion" class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span><i class="fa-solid fa-truck-medical"></i> Documentação de Fornecedores</span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-resumo-fornecedores" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div id="resumo-doc-fornecedores"></div>
-                                </div>
-                            </div>
-
-                            <div id="resumo-doc-garantia-accordion" class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span><i class="fa-solid fa-shield-halved"></i> Certificado de Garantia</span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-resumo-garantia" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div id="resumo-doc-garantia"></div>
-                                </div>
-                            </div>
-
-                            <div id="resumo-doc-manutencao-accordion" class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span><i class="fa-solid fa-screwdriver-wrench"></i> Contrato de Manutenção</span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-resumo-manutencao" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div id="resumo-doc-manutencao"></div>
-                                </div>
-                            </div>
-
-                            <div id="resumo-doc-relatorio-manutencao-accordion" class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span><i class="fa-solid fa-clipboard-list"></i> Relatório de Manutenção</span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-resumo-relatorio-manutencao" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div id="resumo-doc-relatorio-manutencao"></div>
-                                </div>
-                            </div>
-
-                            <div id="resumo-doc-calibracao-accordion" class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span><i class="fa-solid fa-book-open"></i> Certificado de Calibração</span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-resumo-calibracao" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div id="resumo-doc-calibracao"></div>
-                                </div>
-                            </div>
-
-                            <div id="resumo-doc-relatorio-calibracao-accordion" class="accordion-item-doc">
-                                <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
-                                    <span><i class="fa-solid fa-file-lines"></i> Relatório de Calibração</span>
-                                    <div class="accordion-btn-doc-direita">
-                                        <span id="badge-resumo-relatorio-calibracao" class="badge-accordion-doc"></span>
-                                        <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
-                                    </div>
-                                </button>
-                                <div class="accordion-body-doc" style="display:none;">
-                                    <div id="resumo-doc-relatorio-calibracao"></div>
-                                </div>
-                            </div>
-
                         </div>
 
                     </div>
 
-                    <div class="botoes-detalhes-equipamento">
-                        <a href="equipamentos.html" class="botao-voltar-detalhes">
-                            <i class="fa-solid fa-arrow-left"></i>
-                            Voltar
-                        </a>
+                    <hr>
+
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-comment-medical"></i>
+                        Observações do Contrato
+                    </h5>
+
+                    <div class="grelha-detalhes-equipamento">
+                        <div class="campo-detalhes campo-detalhes-largo">
+                            <h3>Observações</h3>
+                            <p id="detalhe-observacoes-contrato"></p>
+                        </div>
                     </div>
 
-            </section>
+                </div>
 
-        </main>
+                <!-- Separador 8: Documentação (resumo) -->
+                <div id="tab-documentacao-detalhe" class="conteudo-tab-equipamento">
+
+                    <h5 class="subtitulo-separador titulo-azul-separador">
+                        <i class="fa-solid fa-file-medical"></i>
+                        Resumo da Documentação Associada
+                    </h5>
+
+                    <p style="color:#6b7280; margin-bottom: 1.5rem;">
+                        Toda a documentação registada para este equipamento, organizada por categoria.
+                    </p>
+
+                    <div class="accordion-documentacao">
+
+                        <div id="resumo-doc-tecnica-accordion" class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span><i class="fa-solid fa-file-medical"></i> Documentação Técnica</span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-resumo-tecnica" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div id="resumo-doc-tecnica"></div>
+                            </div>
+                        </div>
+
+                        <div id="resumo-doc-utilizacao-accordion" class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span><i class="fa-solid fa-book-open"></i> Documentação de Utilização</span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-resumo-utilizacao" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div id="resumo-doc-utilizacao"></div>
+                            </div>
+                        </div>
+
+                        <div id="resumo-doc-conformidade-accordion" class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span><i class="fa-solid fa-certificate"></i> Declaração de Conformidade</span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-resumo-conformidade" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div id="resumo-doc-conformidade"></div>
+                            </div>
+                        </div>
+
+                        <div id="resumo-doc-aquisicao-accordion" class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span><i class="fa-solid fa-file-invoice"></i> Contrato de Aquisição</span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-resumo-aquisicao" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div id="resumo-doc-aquisicao"></div>
+                            </div>
+                        </div>
+
+                        <div id="resumo-doc-fatura-accordion" class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span><i class="fa-solid fa-receipt"></i> Fatura</span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-resumo-fatura" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div id="resumo-doc-fatura"></div>
+                            </div>
+                        </div>
+
+                        <div id="resumo-doc-fornecedores-accordion" class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span><i class="fa-solid fa-truck-medical"></i> Documentação de Fornecedores</span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-resumo-fornecedores" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div id="resumo-doc-fornecedores"></div>
+                            </div>
+                        </div>
+
+                        <div id="resumo-doc-garantia-accordion" class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span><i class="fa-solid fa-shield-halved"></i> Certificado de Garantia</span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-resumo-garantia" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div id="resumo-doc-garantia"></div>
+                            </div>
+                        </div>
+
+                        <div id="resumo-doc-manutencao-accordion" class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span><i class="fa-solid fa-screwdriver-wrench"></i> Contrato de Manutenção</span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-resumo-manutencao" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div id="resumo-doc-manutencao"></div>
+                            </div>
+                        </div>
+
+                        <div id="resumo-doc-relatorio-manutencao-accordion" class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span><i class="fa-solid fa-clipboard-list"></i> Relatório de Manutenção</span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-resumo-relatorio-manutencao" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div id="resumo-doc-relatorio-manutencao"></div>
+                            </div>
+                        </div>
+
+                        <div id="resumo-doc-calibracao-accordion" class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span><i class="fa-solid fa-book-open"></i> Certificado de Calibração</span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-resumo-calibracao" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div id="resumo-doc-calibracao"></div>
+                            </div>
+                        </div>
+
+                        <div id="resumo-doc-relatorio-calibracao-accordion" class="accordion-item-doc">
+                            <button class="accordion-btn-doc" onclick="toggleAccordionDoc(this)">
+                                <span><i class="fa-solid fa-file-lines"></i> Relatório de Calibração</span>
+                                <div class="accordion-btn-doc-direita">
+                                    <span id="badge-resumo-relatorio-calibracao" class="badge-accordion-doc"></span>
+                                    <i class="fa-solid fa-chevron-down icone-accordion-doc"></i>
+                                </div>
+                            </button>
+                            <div class="accordion-body-doc" style="display:none;">
+                                <div id="resumo-doc-relatorio-calibracao"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="botoes-detalhes-equipamento">
+                    <a href="equipamentos.php" class="botao-voltar-detalhes">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<div id="modalEtiqueta" class="modal-etiqueta">
+
+    <div class="conteudo-modal-etiqueta">
+
+        <h3>MediVault</h3>
+
+        <div id="qrcode-etiqueta"></div>
+
+        <p id="codigoEtiqueta"></p>
+
+        <p id="nomeEtiqueta"></p>
+
+        <p id="localizacaoEtiqueta">
+            <i class="fa-solid fa-location-dot"></i>
+            <span id="textoLocalizacaoEtiqueta"></span>
+        </p>
+
+        <button onclick="fecharEtiqueta()">
+            Fechar
+        </button>
 
     </div>
 
-    <div id="modalEtiqueta" class="modal-etiqueta">
+</div>
 
-        <div class="conteudo-modal-etiqueta">
-
-            <h3>MediVault</h3>
-
-            <div id="qrcode-etiqueta"></div>
-
-            <p id="codigoEtiqueta"></p>
-
-            <p id="nomeEtiqueta"></p>
-
-            <p id="localizacaoEtiqueta">
-                <i class="fa-solid fa-location-dot"></i>
-                <span id="textoLocalizacaoEtiqueta"></span>
-            </p>
-
-            <button onclick="fecharEtiqueta()">
-                Fechar
-            </button>
-
-        </div>
-
-    </div>
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasHistorico"
-        aria-labelledby="offcanvasHistoricoLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasHistoricoLabel">
-                <i class="fa-solid fa-clock-rotate-left" style="color:#0086a8; margin-right:8px;"></i>
-                Histórico de movimentações de Equipamentos
-            </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
-        </div>
-    </div>
-
-    <script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
-
-    <script src="../../../assets/js/qrcode.min.js"></script>
-
-    <script src="../../../assets/js/1241466.js"></script>
-
-</body>
-
-</html>
+<?php include '../../includes/footer.php'; ?>

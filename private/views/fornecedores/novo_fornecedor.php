@@ -1,348 +1,237 @@
-<!DOCTYPE html> <!-- informa que este é um documento HTML5 -->
-<html lang="pt"> <!-- define o início do documento HTML, indicando que o idioma principal da página é português -->
+<?php include '../../includes/header.php'; ?>
+<?php include '../../includes/navbar.php'; ?>
 
-<head> <!-- informações sobre a página (título, metadados, links) -->
-    <meta charset="UTF-8"> <!-- define a codificação de caracteres para UTF-8 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- torna a página responsiva -->
+<div class="layout-privado">
 
-    <title>Novo Fornecedor</title>
+    <?php include '../../includes/menu.php'; ?>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap.min.css">
+    <!-- Conteúdo principal -->
+    <main class="conteudo-privado">
 
-    <!-- Font Awesome: biblioteca usada para apresentar ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        <section class="formulario-privado">
 
-    <!-- CSS próprio -->
-    <link rel="stylesheet" href="../../../assets/css/1241466.css">
-</head>
+            <div class="cabecalho-formulario-privado">
+                <h1>
+                    <i class="fa-solid fa-plus"></i>
+                    Inserir novo fornecedor
+                </h1>
+            </div>
 
-<body class="pagina-privada">
+            <hr>
 
-    <!-- Navbar da área privada -->
-    <header class="navbar-privada">
+            <form id="form-novo-fornecedor" class="form-equipamento-privado">
 
-        <div class="logo-privada">
-            <img src="../../../assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
-            <span class="nome-navbar-privada">MediVault</span>
-        </div>
+                <!-- DADOS GERAIS -->
+                <h5 class="subtitulo-separador titulo-azul-separador mt-0">
+                    <i class="fa-solid fa-building"></i>
+                    Dados Gerais
+                </h5>
 
-        <div class="dropdown-utilizador-privado">
-            <div style="display:flex; align-items:center; gap:1rem;">
-
-                <button id="botao-historico-navbar" onclick="abrirHistoricoNavbar()" class="botao-historico-navbar">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
-                </button>
-
-                <div class="utilizador-privado">
-                    <i class="fa-regular fa-user"></i>
-                    <span>Profissional de saúde</span>
-                    <i class="fa-solid fa-caret-down"></i>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="codigo" class="form-label">Código do fornecedor</label>
+                        <input type="text" class="form-control campo-formulario-privado" id="codigo" name="codigo"
+                            placeholder="Ex.: FOR001">
+                    </div>
+                    <div class="col-md-8">
+                        <label for="nome_empresa" class="form-label">Nome da empresa</label>
+                        <input type="text" class="form-control campo-formulario-privado" id="nome_empresa"
+                            name="nome_empresa">
+                    </div>
                 </div>
 
-            </div>
-
-            <div class="menu-utilizador-privado">
-                <a href="alterar_password.html">
-                    <i class="fa-solid fa-key"></i>
-                    Alterar password
-                </a>
-
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-            </div>
-        </div>
-
-    </header>
-
-    <div id="aviso-garantias-globais" style="display:none;"></div>
-
-    <!-- Layout principal da área privada -->
-    <div class="layout-privado">
-
-        <!-- Menu lateral -->
-        <aside class="menu-lateral-privada">
-            <h2>Menu</h2>
-
-            <nav>
-                <a href="../equipamentos/equipamentos.html">
-                    <i class="fa-solid fa-stethoscope"></i>
-                    Equipamentos
-                </a>
-
-                <a href="../fornecedores/fornecedores.html" class="ativo">
-                    <i class="fa-solid fa-truck-medical"></i>
-                    Fornecedores
-                </a>
-
-                <a href="../localizacoes/localizacoes.html">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Localizações
-                </a>
-
-                <a href="../gestao_conteudos/gestao_conteudos.html">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    Gestão de Conteúdos
-                </a>
-
-                <a href="../dashboard/dashboard.html">
-                    <i class="fa-solid fa-chart-line"></i>
-                    Dashboard
-                </a>
-
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-            </nav>
-        </aside>
-
-        <!-- Conteúdo principal -->
-        <main class="conteudo-privado">
-
-            <section class="formulario-privado">
-
-                <div class="cabecalho-formulario-privado">
-                    <h1>
-                        <i class="fa-solid fa-plus"></i>
-                        Inserir novo fornecedor
-                    </h1>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="nif" class="form-label">NIF</label>
+                        <input type="text" class="form-control campo-formulario-privado" id="nif" name="nif">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="tipo_fornecedor" class="form-label">Tipo de fornecedor</label>
+                        <select class="form-select campo-formulario-privado" id="tipo_fornecedor"
+                            name="tipo_fornecedor">
+                            <option value="" selected disabled>Escolha uma opção</option>
+                            <option>Fabricante</option>
+                            <option>Distribuidor ou Fornecedor comercial</option>
+                            <option>Empresa de assistência técnica</option>
+                            <option>Fornecedor de consumíveis ou acessórios</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="website" class="form-label">Website geral</label>
+                        <input type="text" class="form-control campo-formulario-privado" id="website" name="website"
+                            placeholder="Ex.: www.empresa.pt">
+                    </div>
                 </div>
 
                 <hr>
 
-                <form id="form-novo-fornecedor" class="form-equipamento-privado">
+                <!-- CONTACTOS -->
+                <h5 class="subtitulo-separador titulo-azul-separador">
+                    <i class="fa-solid fa-phone"></i>
+                    Contactos
+                </h5>
 
-                    <!-- DADOS GERAIS -->
-                    <h5 class="subtitulo-separador titulo-azul-separador mt-0">
-                        <i class="fa-solid fa-building"></i>
-                        Dados Gerais
-                    </h5>
-
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label for="codigo" class="form-label">Código do fornecedor</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="codigo" name="codigo"
-                                placeholder="Ex.: FOR001">
-                        </div>
-                        <div class="col-md-8">
-                            <label for="nome_empresa" class="form-label">Nome da empresa</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="nome_empresa"
-                                name="nome_empresa">
-                        </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="telefone" class="form-label">Contacto telefónico geral</label>
+                        <input type="text" class="form-control campo-formulario-privado" id="telefone"
+                            name="telefone">
                     </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label for="nif" class="form-label">NIF</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="nif" name="nif">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="tipo_fornecedor" class="form-label">Tipo de fornecedor</label>
-                            <select class="form-select campo-formulario-privado" id="tipo_fornecedor"
-                                name="tipo_fornecedor">
-                                <option value="" selected disabled>Escolha uma opção</option>
-                                <option>Fabricante</option>
-                                <option>Distribuidor ou Fornecedor comercial</option>
-                                <option>Empresa de assistência técnica</option>
-                                <option>Fornecedor de consumíveis ou acessórios</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="website" class="form-label">Website geral</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="website" name="website"
-                                placeholder="Ex.: www.empresa.pt">
-                        </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email geral</label>
+                        <input type="text" class="form-control campo-formulario-privado" id="email" name="email"
+                            placeholder="Ex.: contacto@empresa.com">
                     </div>
+                </div>
 
-                    <hr>
-
-                    <!-- CONTACTOS -->
-                    <h5 class="subtitulo-separador titulo-azul-separador">
-                        <i class="fa-solid fa-phone"></i>
-                        Contactos
-                    </h5>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="telefone" class="form-label">Contacto telefónico geral</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="telefone"
-                                name="telefone">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="email" class="form-label">Email geral</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="email" name="email"
-                                placeholder="Ex.: contacto@empresa.com">
-                        </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="pessoa_contacto" class="form-label">Pessoa de contacto</label>
+                        <input type="text" class="form-control campo-formulario-privado" id="pessoa_contacto"
+                            name="pessoa_contacto">
                     </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="pessoa_contacto" class="form-label">Pessoa de contacto</label>
-                            <input type="text" class="form-control campo-formulario-privado" id="pessoa_contacto"
-                                name="pessoa_contacto">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="telefone_pessoa_contacto" class="form-label">Telefone da pessoa de
-                                contacto</label>
-                            <input type="text" class="form-control campo-formulario-privado"
-                                id="telefone_pessoa_contacto" name="telefone_pessoa_contacto">
-                        </div>
+                    <div class="col-md-6">
+                        <label for="telefone_pessoa_contacto" class="form-label">Telefone da pessoa de
+                            contacto</label>
+                        <input type="text" class="form-control campo-formulario-privado"
+                            id="telefone_pessoa_contacto" name="telefone_pessoa_contacto">
                     </div>
+                </div>
 
-                    <hr>
+                <hr>
 
-                    <!-- LOCALIZAÇÃO -->
-                    <h5 class="subtitulo-separador titulo-azul-separador">
-                        <i class="fa-solid fa-location-dot"></i>
-                        Localização
-                    </h5>
+                <!-- LOCALIZAÇÃO -->
+                <h5 class="subtitulo-separador titulo-azul-separador">
+                    <i class="fa-solid fa-location-dot"></i>
+                    Localização
+                </h5>
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="morada" class="form-label">Morada</label>
-                            <select class="form-select campo-formulario-privado" id="morada" name="morada">
-                                <option value="" selected disabled>Escolha uma morada</option>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="morada" class="form-label">Morada</label>
+                        <select class="form-select campo-formulario-privado" id="morada" name="morada">
+                            <option value="" selected disabled>Escolha uma morada</option>
 
-                                <option value="Aveiro, Portugal">Aveiro, Portugal</option>
-                                <option value="Beja, Portugal">Beja, Portugal</option>
-                                <option value="Braga, Portugal">Braga, Portugal</option>
-                                <option value="Bragança, Portugal">Bragança, Portugal</option>
-                                <option value="Castelo Branco, Portugal">Castelo Branco, Portugal</option>
-                                <option value="Coimbra, Portugal">Coimbra, Portugal</option>
-                                <option value="Évora, Portugal">Évora, Portugal</option>
-                                <option value="Faro, Portugal">Faro, Portugal</option>
-                                <option value="Guarda, Portugal">Guarda, Portugal</option>
-                                <option value="Leiria, Portugal">Leiria, Portugal</option>
-                                <option value="Lisboa, Portugal">Lisboa, Portugal</option>
-                                <option value="Portalegre, Portugal">Portalegre, Portugal</option>
-                                <option value="Porto, Portugal">Porto, Portugal</option>
-                                <option value="Santarém, Portugal">Santarém, Portugal</option>
-                                <option value="Setúbal, Portugal">Setúbal, Portugal</option>
-                                <option value="Viana do Castelo, Portugal">Viana do Castelo, Portugal</option>
-                                <option value="Vila Real, Portugal">Vila Real, Portugal</option>
-                                <option value="Viseu, Portugal">Viseu, Portugal</option>
-                                <option value="Região Autónoma dos Açores, Portugal">Região Autónoma dos Açores,
-                                    Portugal</option>
-                                <option value="Região Autónoma da Madeira, Portugal">Região Autónoma da Madeira,
-                                    Portugal</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <!-- DOCUMENTAÇÃO -->
-                    <h5 class="subtitulo-separador titulo-azul-separador">
-                        <i class="fa-solid fa-file-medical"></i>
-                        Documentação do Fornecedor
-                    </h5>
-
-                    <div class="grupo-campo-privado grupo-campo-total">
-                        <label for="tem_doc_fornecedor">
-                            Existe documentação associada ao fornecedor?
-                        </label>
-                        <select id="tem_doc_fornecedor" class="campo-formulario-privado">
-                            <option value="">Escolha uma opção</option>
-                            <option value="sim">Sim</option>
-                            <option value="nao">Não</option>
+                            <option value="Aveiro, Portugal">Aveiro, Portugal</option>
+                            <option value="Beja, Portugal">Beja, Portugal</option>
+                            <option value="Braga, Portugal">Braga, Portugal</option>
+                            <option value="Bragança, Portugal">Bragança, Portugal</option>
+                            <option value="Castelo Branco, Portugal">Castelo Branco, Portugal</option>
+                            <option value="Coimbra, Portugal">Coimbra, Portugal</option>
+                            <option value="Évora, Portugal">Évora, Portugal</option>
+                            <option value="Faro, Portugal">Faro, Portugal</option>
+                            <option value="Guarda, Portugal">Guarda, Portugal</option>
+                            <option value="Leiria, Portugal">Leiria, Portugal</option>
+                            <option value="Lisboa, Portugal">Lisboa, Portugal</option>
+                            <option value="Portalegre, Portugal">Portalegre, Portugal</option>
+                            <option value="Porto, Portugal">Porto, Portugal</option>
+                            <option value="Santarém, Portugal">Santarém, Portugal</option>
+                            <option value="Setúbal, Portugal">Setúbal, Portugal</option>
+                            <option value="Viana do Castelo, Portugal">Viana do Castelo, Portugal</option>
+                            <option value="Vila Real, Portugal">Vila Real, Portugal</option>
+                            <option value="Viseu, Portugal">Viseu, Portugal</option>
+                            <option value="Região Autónoma dos Açores, Portugal">Região Autónoma dos Açores,
+                                Portugal</option>
+                            <option value="Região Autónoma da Madeira, Portugal">Região Autónoma da Madeira,
+                                Portugal</option>
                         </select>
                     </div>
+                </div>
 
-                    <div id="bloco-doc-fornecedor" style="display:none">
-                        <div class="card-documentacao">
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">Tipo de documento</label>
-                                    <select class="form-select campo-formulario-privado" id="tipoDocFornecedor"
-                                        name="tipoDocFornecedor">
-                                        <option value="" selected disabled>Escolha uma opção</option>
-                                        <option>Certificado ISO</option>
-                                        <option>Licença de distribuição</option>
-                                        <option>Certificado de acreditação técnica</option>
-                                        <option>Contrato geral de prestação de serviços</option>
-                                        <option>Alvará ou licença de atividade</option>
-                                        <option>Declaração de autorização de representação</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-8 mb-3">
-                                    <label class="form-label">Nome do documento</label>
-                                    <input type="text" class="form-control campo-formulario-privado"
-                                        id="nomeDocFornecedor" name="nomeDocFornecedor">
-                                </div>
+                <hr>
+
+                <!-- DOCUMENTAÇÃO -->
+                <h5 class="subtitulo-separador titulo-azul-separador">
+                    <i class="fa-solid fa-file-medical"></i>
+                    Documentação do Fornecedor
+                </h5>
+
+                <div class="grupo-campo-privado grupo-campo-total">
+                    <label for="tem_doc_fornecedor">
+                        Existe documentação associada ao fornecedor?
+                    </label>
+                    <select id="tem_doc_fornecedor" class="campo-formulario-privado">
+                        <option value="">Escolha uma opção</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+
+                <div id="bloco-doc-fornecedor" style="display:none">
+                    <div class="card-documentacao">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Tipo de documento</label>
+                                <select class="form-select campo-formulario-privado" id="tipoDocFornecedor"
+                                    name="tipoDocFornecedor">
+                                    <option value="" selected disabled>Escolha uma opção</option>
+                                    <option>Certificado ISO</option>
+                                    <option>Licença de distribuição</option>
+                                    <option>Certificado de acreditação técnica</option>
+                                    <option>Contrato geral de prestação de serviços</option>
+                                    <option>Alvará ou licença de atividade</option>
+                                    <option>Declaração de autorização de representação</option>
+                                </select>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">Data do documento</label>
-                                    <input type="date" class="form-control campo-formulario-privado"
-                                        id="dataDocFornecedor" name="dataDocFornecedor">
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">Validade <span
-                                            style="color:#6b7280; font-size:0.85rem;">(se aplicável)</span></label>
-                                    <input type="date" class="form-control campo-formulario-privado"
-                                        id="validadeDocFornecedor" name="validadeDocFornecedor">
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">Ficheiro PDF</label>
-                                    <input type="file" class="form-control campo-formulario-privado"
-                                        id="ficheiroDocFornecedor" name="ficheiroDocFornecedor" accept=".pdf">
-                                </div>
+                            <div class="col-md-8 mb-3">
+                                <label class="form-label">Nome do documento</label>
+                                <input type="text" class="form-control campo-formulario-privado"
+                                    id="nomeDocFornecedor" name="nomeDocFornecedor">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Data do documento</label>
+                                <input type="date" class="form-control campo-formulario-privado"
+                                    id="dataDocFornecedor" name="dataDocFornecedor">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Validade <span
+                                        style="color:#6b7280; font-size:0.85rem;">(se aplicável)</span></label>
+                                <input type="date" class="form-control campo-formulario-privado"
+                                    id="validadeDocFornecedor" name="validadeDocFornecedor">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Ficheiro PDF</label>
+                                <input type="file" class="form-control campo-formulario-privado"
+                                    id="ficheiroDocFornecedor" name="ficheiroDocFornecedor" accept=".pdf">
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- OBSERVAÇÕES -->
-                    <h5 class="subtitulo-separador titulo-azul-separador">
-                        <i class="fa-solid fa-comment-medical"></i>
-                        Observações
-                    </h5>
+                <!-- OBSERVAÇÕES -->
+                <h5 class="subtitulo-separador titulo-azul-separador">
+                    <i class="fa-solid fa-comment-medical"></i>
+                    Observações
+                </h5>
 
-                    <div class="mb-3">
-                        <textarea class="form-control campo-formulario-privado" id="observacoes" name="observacoes"
-                            rows="4"></textarea>
-                    </div>
+                <div class="mb-3">
+                    <textarea class="form-control campo-formulario-privado" id="observacoes" name="observacoes"
+                        rows="4"></textarea>
+                </div>
 
-                    <div id="erros-formulario" class="erros-separador" style="display:none;">
-                        <ul id="lista-erros-formulario"></ul>
-                    </div>
+                <div id="erros-formulario" class="erros-separador" style="display:none;">
+                    <ul id="lista-erros-formulario"></ul>
+                </div>
 
-                    <div class="botoes-formulario-privado">
-                        <a href="fornecedores.html" class="botao-cancelar-privado">
-                            <i class="fa-solid fa-xmark"></i>
-                            Cancelar
-                        </a>
-                        <button type="submit" class="botao-guardar-privado">
-                            <i class="fa-solid fa-floppy-disk"></i>
-                            Guardar
-                        </button>
-                    </div>
+                <div class="botoes-formulario-privado">
+                    <a href="fornecedores.php" class="botao-cancelar-privado">
+                        <i class="fa-solid fa-xmark"></i>
+                        Cancelar
+                    </a>
+                    <button type="submit" class="botao-guardar-privado">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar
+                    </button>
+                </div>
 
-                </form>
+            </form>
 
-            </section>
+        </section>
 
-        </main>
+    </main>
 
-    </div>
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasHistorico" aria-labelledby="offcanvasHistoricoLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasHistoricoLabel">
-            <i class="fa-solid fa-clock-rotate-left" style="color:#0086a8; margin-right:8px;"></i>
-            Histórico de movimentações de Equipamentos
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
-    </div>
 </div>
 
-    <script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
-
-    <script src="../../../assets/js/1241466.js"></script>
-
-</body>
-
-</html>
+<?php include '../../includes/footer.php'; ?>

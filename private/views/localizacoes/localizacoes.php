@@ -1,428 +1,332 @@
-<!DOCTYPE html> <!-- informa que este é um documento HTML5  -->
-<html lang="pt"> <!-- define o início do documento HTML, indicando que o idioma principal da página é português -->
+<?php include '../../includes/header.php'; ?>
+<?php include '../../includes/navbar.php'; ?>
 
-<head> <!-- informações sobre a página (título, metadados, links) -->
-    <meta charset="UTF-8"> <!-- define a codificação de caracteres para UTF-8 (acentos e caracteres especiais) -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- torna a página responsiva (ajuste a diferentes tamanhos de ecrã) -->
+<div class="layout-privado">
 
-    <title>Listagem de Localizações</title>
+    <?php include '../../includes/menu.php'; ?>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap.min.css">
+    <!-- Conteúdo principal da área privada -->
+    <main class="conteudo-privado">
 
-    <!-- Font Awesome: biblioteca usada para apresentar ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        <div class="titulo-pagina-equipamentos">
+            <div class="bloco-titulo-equipamentos">
+                <h1>Listagem de Localizações</h1>
+                <span class="linha-titulo-equipamentos"></span>
+            </div>
 
-    <!-- CSS próprio -->
-    <link rel="stylesheet" href="../../../assets/css/1241466.css">
-</head>
-
-<body class="pagina-privada">
-
-    <!-- Navbar da área privada -->
-    <header class="navbar-privada">
-
-        <div class="logo-privada">
-            <img src="../../../assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
-            <span class="nome-navbar-privada">MediVault</span>
+            <a href="nova_localizacao.php" class="botao-novo-registo-privada">
+                <i class="fa-solid fa-plus"></i>
+                Nova localização
+            </a>
         </div>
 
-        <div class="dropdown-utilizador-privado">
-            <div style="display:flex; align-items:center; gap:1rem;">
+        <p class="mensagem-listagem">
+            Consulte, pesquise e filtre as localizações físicas associadas aos equipamentos médicos.
+        </p>
 
-                <button id="botao-historico-navbar" onclick="abrirHistoricoNavbar()" class="botao-historico-navbar">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
+        <!-- PESQUISA E FILTROS -->
+        <section class="area-pesquisa-filtros">
+
+            <div class="caixa-pesquisa-equipamentos">
+                <h2>Pesquisa</h2>
+
+                <div class="linha-pesquisa-equipamentos">
+                    <input type="text" id="pesquisaLocalizacoes" class="campo-pesquisa-equipamentos"
+                        placeholder="Pesquisar por código da localização, edifício, piso, serviço/departamento ou sala/gabinete...">
+                    <button type="button" id="botaoPesquisarLocalizacoes" class="botao-pesquisar-equipamentos">
+                        Pesquisar
+                    </button>
+
+                    <button type="button" id="botaoLimparApenasPesquisaLocalizacoes"
+                        class="botao-limpar-equipamentos">
+                        Limpar
+                    </button>
+                </div>
+            </div>
+
+            <div class="caixa-filtros-equipamentos">
+                <h2>Filtros</h2>
+
+                <div class="grelha-filtros-equipamentos">
+
+                    <div class="grupo-filtro-equipamentos">
+
+                        <label for="filtroEdificioLocalizacao">
+                            Edifício
+                        </label>
+
+                        <div class="select-filtro-wrapper">
+
+                            <select id="filtroEdificioLocalizacao" class="campo-filtro-equipamentos">
+
+                                <option value="">Todos</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="grupo-filtro-equipamentos">
+
+                        <label for="filtroServicoLocalizacao">
+                            Serviço/Departamento
+                        </label>
+
+                        <div class="select-filtro-wrapper">
+
+                            <select id="filtroServicoLocalizacao" class="campo-filtro-equipamentos">
+
+                                <option value="">Todos</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="grupo-filtro-equipamentos">
+
+                        <label for="filtroPisoLocalizacao">
+                            Piso
+                        </label>
+
+                        <div class="select-filtro-wrapper">
+
+                            <select id="filtroPisoLocalizacao" class="campo-filtro-equipamentos">
+
+                                <option value="">Todos</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="grupo-filtro-equipamentos">
+
+                        <label for="filtroSalaLocalizacao">
+                            Sala/Gabinete
+                        </label>
+
+                        <div class="select-filtro-wrapper">
+
+                            <select id="filtroSalaLocalizacao" class="campo-filtro-equipamentos">
+
+                                <option value="">Todos</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="grupo-filtro-equipamentos">
+                        <label for="filtroEquipamentoLocalizacao">Equipamento associado</label>
+                        <div class="select-filtro-wrapper">
+                            <select id="filtroEquipamentoLocalizacao" class="campo-filtro-equipamentos">
+                                <option value="">Todos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grupo-filtro-equipamentos grupo-botao-limpar-filtros">
+
+                        <label>&nbsp;</label>
+
+                        <button type="button" id="botaoLimparApenasFiltrosLocalizacoes"
+                            class="botao-limpar-apenas-filtros" title="Limpar filtros">
+
+                            <i class="fa-solid fa-filter-circle-xmark"></i>
+
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="acao-exportar-tabela">
+            <a href="#" class="link-exportar-excel">
+                <i class="fa-solid fa-file-excel"></i>
+                Exportar Listagem das Localizações
+            </a>
+        </div>
+
+        <div class="tabela-privada">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Edifício</th>
+                        <th>Piso</th>
+                        <th>Serviço/Departamento</th>
+                        <th>Sala/Gabinete</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tabela-localizacoes">
+                    <tr>
+                        <td>LOC001</td>
+                        <td>Edifício Principal</td>
+                        <td>Piso 2</td>
+                        <td>Unidade de Cuidados Intensivos</td>
+                        <td>Sala 2.10</td>
+                        <td>Monitor multiparamétrico de sinais vitais</td>
+                        <td class="acoes-tabela-privada">
+                            <a href="consultar_localizacao.php?id=LOC001" class="acao-tabela-privada">
+                                <i class="fa-regular fa-eye"></i>
+                                Consultar
+                            </a>
+
+                            <a href="editar_localizacao.php?id=LOC001" class="acao-tabela-privada">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                                Editar
+                            </a>
+
+                            <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                data-bs-target="#modalEliminarLocalizacao"
+                                onclick="prepararEliminacaoLocalizacao('LOC001')">
+                                <i class="fa-regular fa-trash-can"></i>
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>LOC002</td>
+                        <td>Edifício Principal</td>
+                        <td>Piso 2</td>
+                        <td>Unidade de Cuidados Intensivos</td>
+                        <td>Sala 2.11</td>
+                        <td>Ventilador pulmonar</td>
+                        <td class="acoes-tabela-privada">
+                            <a href="consultar_localizacao.php?id=LOC002" class="acao-tabela-privada">
+                                <i class="fa-regular fa-eye"></i>
+                                Consultar
+                            </a>
+
+                            <a href="editar_localizacao.php?id=LOC002" class="acao-tabela-privada">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                                Editar
+                            </a>
+
+                            <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                data-bs-target="#modalEliminarLocalizacao"
+                                onclick="prepararEliminacaoLocalizacao('LOC002')">
+                                <i class="fa-regular fa-trash-can"></i>
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>LOC003</td>
+                        <td>Edifício B</td>
+                        <td>Piso 0</td>
+                        <td>Serviço de Medicina</td>
+                        <td>Gabinete 0.04</td>
+                        <td>Bomba de infusão</td>
+                        <td class="acoes-tabela-privada">
+                            <a href="consultar_localizacao.php?id=LOC003" class="acao-tabela-privada">
+                                <i class="fa-regular fa-eye"></i>
+                                Consultar
+                            </a>
+
+                            <a href="editar_localizacao.php?id=LOC003" class="acao-tabela-privada">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                                Editar
+                            </a>
+
+                            <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                data-bs-target="#modalEliminarLocalizacao"
+                                onclick="prepararEliminacaoLocalizacao('LOC003')">
+                                <i class="fa-regular fa-trash-can"></i>
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>LOC004</td>
+                        <td>Edifício Principal</td>
+                        <td>Piso 1</td>
+                        <td>Urgência</td>
+                        <td>Sala 1.02</td>
+                        <td>Desfibrilhador</td>
+                        <td class="acoes-tabela-privada">
+                            <a href="consultar_localizacao.php?id=LOC004" class="acao-tabela-privada">
+                                <i class="fa-regular fa-eye"></i>
+                                Consultar
+                            </a>
+
+                            <a href="editar_localizacao.php?id=LOC004" class="acao-tabela-privada">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                                Editar
+                            </a>
+
+                            <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
+                                data-bs-target="#modalEliminarLocalizacao"
+                                onclick="prepararEliminacaoLocalizacao('LOC004')">
+                                <i class="fa-regular fa-trash-can"></i>
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</div>
+
+<!-- Modal eliminar localização -->
+<div class="modal fade" id="modalEliminarLocalizacao" tabindex="-1" aria-labelledby="tituloModalEliminarLocalizacao"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="tituloModalEliminarLocalizacao">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Confirmar eliminação
+
+                </h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
 
-                <div class="utilizador-privado">
-                    <i class="fa-regular fa-user"></i>
-                    <span>Profissional de saúde</span>
-                    <i class="fa-solid fa-caret-down"></i>
-                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <p id="textoModalEliminarLocalizacao">
+                    Tem a certeza que pretende eliminar esta localização?
+                </p>
 
             </div>
 
-            <div class="menu-utilizador-privado">
-                <a href="alterar_password.html">
-                    <i class="fa-solid fa-key"></i>
-                    Alterar password
-                </a>
+            <div class="modal-footer">
 
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-            </div>
-        </div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 
-    </header>
+                    Cancelar
 
-    <div id="aviso-garantias-globais" style="display:none;"></div>
+                </button>
 
-    <div class="layout-privado">
+                <button type="button" class="btn btn-danger" onclick="confirmarEliminacaoLocalizacao()">
 
-        <!-- Menu lateral da área privada -->
-        <aside class="menu-lateral-privada">
-            <h2>Menu</h2>
+                    Eliminar
 
-            <nav>
-                <a href="../equipamentos/equipamentos.html">
-                    <i class="fa-solid fa-stethoscope"></i>
-                    Equipamentos
-                </a>
-
-                <a href="../fornecedores/fornecedores.html">
-                    <i class="fa-solid fa-truck-medical"></i>
-                    Fornecedores
-                </a>
-
-                <a href="../localizacoes/localizacoes.html" class="ativo">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Localizações
-                </a>
-
-                <a href="../gestao_conteudos/gestao_conteudos.html">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    Gestão de Conteúdos
-                </a>
-
-                <a href="../dashboard/dashboard.html">
-                    <i class="fa-solid fa-chart-line"></i>
-                    Dashboard
-                </a>
-
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-            </nav>
-        </aside>
-
-        <!-- Conteúdo principal da área privada -->
-        <main class="conteudo-privado">
-
-            <div class="titulo-pagina-equipamentos">
-                <div class="bloco-titulo-equipamentos">
-                    <h1>Listagem de Localizações</h1>
-                    <span class="linha-titulo-equipamentos"></span>
-                </div>
-
-                <a href="nova_localizacao.html" class="botao-novo-registo-privada">
-                    <i class="fa-solid fa-plus"></i>
-                    Nova localização
-                </a>
-            </div>
-
-            <p class="mensagem-listagem">
-                Consulte, pesquise e filtre as localizações físicas associadas aos equipamentos médicos.
-            </p>
-
-            <!-- PESQUISA E FILTROS -->
-            <section class="area-pesquisa-filtros">
-
-                <div class="caixa-pesquisa-equipamentos">
-                    <h2>Pesquisa</h2>
-
-                    <div class="linha-pesquisa-equipamentos">
-                        <input type="text" id="pesquisaLocalizacoes" class="campo-pesquisa-equipamentos"
-                            placeholder="Pesquisar por código da localização, edifício, piso, serviço/departamento ou sala/gabinete...">
-                        <button type="button" id="botaoPesquisarLocalizacoes" class="botao-pesquisar-equipamentos">
-                            Pesquisar
-                        </button>
-
-                        <button type="button" id="botaoLimparApenasPesquisaLocalizacoes"
-                            class="botao-limpar-equipamentos">
-                            Limpar
-                        </button>
-                    </div>
-                </div>
-
-                <div class="caixa-filtros-equipamentos">
-                    <h2>Filtros</h2>
-
-                    <div class="grelha-filtros-equipamentos">
-
-                        <div class="grupo-filtro-equipamentos">
-
-                            <label for="filtroEdificioLocalizacao">
-                                Edifício
-                            </label>
-
-                            <div class="select-filtro-wrapper">
-
-                                <select id="filtroEdificioLocalizacao" class="campo-filtro-equipamentos">
-
-                                    <option value="">Todos</option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                        <div class="grupo-filtro-equipamentos">
-
-                            <label for="filtroServicoLocalizacao">
-                                Serviço/Departamento
-                            </label>
-
-                            <div class="select-filtro-wrapper">
-
-                                <select id="filtroServicoLocalizacao" class="campo-filtro-equipamentos">
-
-                                    <option value="">Todos</option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                        <div class="grupo-filtro-equipamentos">
-
-                            <label for="filtroPisoLocalizacao">
-                                Piso
-                            </label>
-
-                            <div class="select-filtro-wrapper">
-
-                                <select id="filtroPisoLocalizacao" class="campo-filtro-equipamentos">
-
-                                    <option value="">Todos</option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                        <div class="grupo-filtro-equipamentos">
-
-                            <label for="filtroSalaLocalizacao">
-                                Sala/Gabinete
-                            </label>
-
-                            <div class="select-filtro-wrapper">
-
-                                <select id="filtroSalaLocalizacao" class="campo-filtro-equipamentos">
-
-                                    <option value="">Todos</option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                        <div class="grupo-filtro-equipamentos">
-    <label for="filtroEquipamentoLocalizacao">Equipamento associado</label>
-    <div class="select-filtro-wrapper">
-        <select id="filtroEquipamentoLocalizacao" class="campo-filtro-equipamentos">
-            <option value="">Todos</option>
-        </select>
-    </div>
-</div>
-
-                        <div class="grupo-filtro-equipamentos grupo-botao-limpar-filtros">
-
-                            <label>&nbsp;</label>
-
-                            <button type="button" id="botaoLimparApenasFiltrosLocalizacoes"
-                                class="botao-limpar-apenas-filtros" title="Limpar filtros">
-
-                                <i class="fa-solid fa-filter-circle-xmark"></i>
-
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
-
-            </section>
-
-            <div class="acao-exportar-tabela">
-    <a href="#" class="link-exportar-excel">
-        <i class="fa-solid fa-file-excel"></i>
-        Exportar Listagem das Localizações
-    </a>
-</div>
-
-            <div class="tabela-privada">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Edifício</th>
-                            <th>Piso</th>
-                            <th>Serviço/Departamento</th>
-                            <th>Sala/Gabinete</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="tabela-localizacoes">
-                        <tr>
-                            <td>LOC001</td>
-                            <td>Edifício Principal</td>
-                            <td>Piso 2</td>
-                            <td>Unidade de Cuidados Intensivos</td>
-                            <td>Sala 2.10</td>
-                            <td>Monitor multiparamétrico de sinais vitais</td>
-                            <td class="acoes-tabela-privada">
-                                <a href="consultar_localizacao.html?id=LOC001" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-eye"></i>
-                                    Consultar
-                                </a>
-
-                                <a href="editar_localizacao.html?id=LOC001" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                    Editar
-                                </a>
-
-                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
-                                    data-bs-target="#modalEliminarLocalizacao"
-                                    onclick="prepararEliminacaoLocalizacao('LOC001')">
-                                    <i class="fa-regular fa-trash-can"></i>
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>LOC002</td>
-                            <td>Edifício Principal</td>
-                            <td>Piso 2</td>
-                            <td>Unidade de Cuidados Intensivos</td>
-                            <td>Sala 2.11</td>
-                            <td>Ventilador pulmonar</td>
-                            <td class="acoes-tabela-privada">
-                                <a href="consultar_localizacao.html?id=LOC002" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-eye"></i>
-                                    Consultar
-                                </a>
-
-                                <a href="editar_localizacao.html?id=LOC002" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                    Editar
-                                </a>
-
-                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
-                                    data-bs-target="#modalEliminarLocalizacao"
-                                    onclick="prepararEliminacaoLocalizacao('LOC002')">
-                                    <i class="fa-regular fa-trash-can"></i>
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>LOC003</td>
-                            <td>Edifício B</td>
-                            <td>Piso 0</td>
-                            <td>Serviço de Medicina</td>
-                            <td>Gabinete 0.04</td>
-                            <td>Bomba de infusão</td>
-                            <td class="acoes-tabela-privada">
-                                <a href="consultar_localizacao.html?id=LOC003" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-eye"></i>
-                                    Consultar
-                                </a>
-
-                                <a href="editar_localizacao.html?id=LOC003" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                    Editar
-                                </a>
-
-                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
-                                    data-bs-target="#modalEliminarLocalizacao"
-                                    onclick="prepararEliminacaoLocalizacao('LOC003')">
-                                    <i class="fa-regular fa-trash-can"></i>
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>LOC004</td>
-                            <td>Edifício Principal</td>
-                            <td>Piso 1</td>
-                            <td>Urgência</td>
-                            <td>Sala 1.02</td>
-                            <td>Desfibrilhador</td>
-                            <td class="acoes-tabela-privada">
-                                <a href="consultar_localizacao.html?id=LOC004" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-eye"></i>
-                                    Consultar
-                                </a>
-
-                                <a href="editar_localizacao.html?id=LOC004" class="acao-tabela-privada">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                    Editar
-                                </a>
-
-                                <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal"
-                                    data-bs-target="#modalEliminarLocalizacao"
-                                    onclick="prepararEliminacaoLocalizacao('LOC004')">
-                                    <i class="fa-regular fa-trash-can"></i>
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-        </main>
-
-    </div>
-
-    <!-- Modal eliminar localização -->
-    <div class="modal fade" id="modalEliminarLocalizacao" tabindex="-1" aria-labelledby="tituloModalEliminarLocalizacao"
-        aria-hidden="true">
-
-        <div class="modal-dialog modal-dialog-centered">
-
-            <div class="modal-content">
-
-                <div class="modal-header">
-
-                    <h5 class="modal-title" id="tituloModalEliminarLocalizacao">
-
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        Confirmar eliminação
-
-                    </h5>
-
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
-
-                </div>
-
-                <div class="modal-body">
-
-                    <p id="textoModalEliminarLocalizacao">
-                        Tem a certeza que pretende eliminar esta localização?
-                    </p>
-
-                </div>
-
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-
-                        Cancelar
-
-                    </button>
-
-                    <button type="button" class="btn btn-danger" onclick="confirmarEliminacaoLocalizacao()">
-
-                        Eliminar
-
-                    </button>
-
-                </div>
+                </button>
 
             </div>
 
@@ -430,22 +334,6 @@
 
     </div>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasHistorico" aria-labelledby="offcanvasHistoricoLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasHistoricoLabel">
-            <i class="fa-solid fa-clock-rotate-left" style="color:#0086a8; margin-right:8px;"></i>
-            Histórico de movimentações de Equipamentos
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
-    </div>
 </div>
 
-    <!-- Bootstrap JS -->
-    <script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
-
-    <!-- JavaScript próprio -->
-    <script src="../../../assets/js/1241466.js"></script>
-
-</body>
-
-</html>
+<?php include '../../includes/footer.php'; ?>

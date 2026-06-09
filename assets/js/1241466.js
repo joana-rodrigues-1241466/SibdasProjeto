@@ -31,7 +31,7 @@ function inicializarLogin() {
         event.preventDefault();
 
         setTimeout(function () {
-            window.location.href = "views/gestao_conteudos/gestao_conteudos.html";
+            window.location.href = "/medivault/private/views/gestao_conteudos/gestao_conteudos.php";
         }, 1000);
     });
 }
@@ -206,6 +206,76 @@ function inicializarGestaoConteudos() {
     }
 }
 
+function carregarConteudosPublicos() {
+
+    const conteudos =
+        JSON.parse(localStorage.getItem("conteudosPublicos"));
+
+    if (!conteudos) {
+        return;
+    }
+
+    function atualizar(id, valor) {
+
+        const elemento =
+            document.getElementById(id);
+
+        if (elemento) {
+            elemento.textContent = valor;
+        }
+    }
+
+    atualizar("home-titulo", conteudos.homeTitulo);
+    atualizar("home-texto", conteudos.homeTexto);
+    atualizar("home-botao", conteudos.homeBotao);
+
+    atualizar("sobre-titulo", conteudos.sobreTitulo);
+    atualizar("sobre-texto-1", conteudos.sobreTexto1);
+    atualizar("sobre-texto-2", conteudos.sobreTexto2);
+    atualizar("sobre-texto-3", conteudos.sobreTexto3);
+
+    atualizar("sobre-card-titulo", conteudos.sobreCardTitulo);
+    atualizar("sobre-card-texto-1", conteudos.sobreCardTexto1);
+    atualizar("sobre-card-texto-2", conteudos.sobreCardTexto2);
+    atualizar("sobre-card-texto-3", conteudos.sobreCardTexto3);
+    atualizar("sobre-card-texto-4", conteudos.sobreCardTexto4);
+
+    atualizar("funcionalidades-titulo", conteudos.funcionalidadesTitulo);
+    atualizar("funcionalidades-texto", conteudos.funcionalidadesTexto);
+
+    atualizar("funcionalidade-titulo-1", conteudos.funcionalidadeTitulo1);
+    atualizar("funcionalidade-texto-1", conteudos.funcionalidadeTexto1);
+
+    atualizar("funcionalidade-titulo-2", conteudos.funcionalidadeTitulo2);
+    atualizar("funcionalidade-texto-2", conteudos.funcionalidadeTexto2);
+
+    atualizar("funcionalidade-titulo-3", conteudos.funcionalidadeTitulo3);
+    atualizar("funcionalidade-texto-3", conteudos.funcionalidadeTexto3);
+
+    atualizar("funcionalidade-titulo-4", conteudos.funcionalidadeTitulo4);
+    atualizar("funcionalidade-texto-4", conteudos.funcionalidadeTexto4);
+
+    atualizar("funcionalidade-titulo-5", conteudos.funcionalidadeTitulo5);
+    atualizar("funcionalidade-texto-5", conteudos.funcionalidadeTexto5);
+
+    atualizar("funcionalidade-titulo-6", conteudos.funcionalidadeTitulo6);
+    atualizar("funcionalidade-texto-6", conteudos.funcionalidadeTexto6);
+
+    atualizar("funcionalidade-titulo-7", conteudos.funcionalidadeTitulo7);
+    atualizar("funcionalidade-texto-7", conteudos.funcionalidadeTexto7);
+
+    atualizar("funcionalidade-titulo-8", conteudos.funcionalidadeTitulo8);
+    atualizar("funcionalidade-texto-8", conteudos.funcionalidadeTexto8);
+
+    atualizar("contactos-titulo", conteudos.contactosTitulo);
+    atualizar("contactos-texto", conteudos.contactosTexto);
+
+    atualizar("rodape-localizacao", conteudos.localizacao);
+    atualizar("rodape-horario", conteudos.horario);
+    atualizar("rodape-email", conteudos.email);
+    atualizar("rodape-telefone", conteudos.telefone);
+}
+
 function inicializarAvisoGarantias() {
     const aviso = document.getElementById("aviso-garantias-globais");
     if (!aviso) return;
@@ -230,7 +300,7 @@ function inicializarAvisoGarantias() {
     aviso.innerHTML = `
         <i class="fa-solid fa-triangle-exclamation"></i>
         <span>${aExpirar.length} equipamento${aExpirar.length !== 1 ? 's' : ''} com garantia a expirar nos próximos 30 dias.</span>
-        <a href="../equipamentos/equipamentos.html">Ver equipamentos</a>
+        <a href="../equipamentos/equipamentos.php">Ver equipamentos</a>
     `;
 }
 
@@ -4651,12 +4721,12 @@ function preencherListagemEquipamentos(listaEquipamentos = Object.values(equipam
     <td>${criticidadeHTML}</td>
 
     <td class="acoes-tabela-privada">
-        <a href="consultar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
+        <a href="/medivault/private/views/equipamentos/consultar_equipamento.php?id=${equipamento.codigo}" class="acao-tabela-privada">
             <i class="fa-regular fa-eye"></i>
             Consultar
         </a>
 
-        <a href="editar_equipamento.html?id=${equipamento.codigo}" class="acao-tabela-privada">
+        <a href="editar_equipamento.php?id=${equipamento.codigo}" class="acao-tabela-privada">
             <i class="fa-regular fa-pen-to-square"></i>
             Editar
         </a>
@@ -5341,7 +5411,7 @@ function inicializarNovoEquipamento() {
         localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
 
         setTimeout(function () {
-            window.location.href = "equipamentos.html";
+            window.location.href = "/medivault/private/views/equipamentos/equipamentos.php";
         }, 800);
     });
 
@@ -6728,7 +6798,7 @@ document.getElementById("textoLocalizacaoEtiqueta").textContent = textoLocalizac
 
     qr.innerHTML = "";
 
-    const url = window.location.origin + window.location.pathname.replace('consultar_equipamento.html', '') + 'consultar_equipamento.html?id=' + codigo;
+    const url = window.location.origin + window.location.pathname.replace('/medivault/private/views/equipamentos/consultar_equipamento.php', '') + '/medivault/private/views/equipamentos/consultar_equipamento.php?id=' + codigo;
 
 const qrCode = new QRCode({
     content: url,
@@ -7210,7 +7280,7 @@ function inicializarEditarEquipamento() {
 
         setTimeout(function () {
             window.location.href =
-                "consultar_equipamento.html?id=" + idEquipamento;
+                "/medivault/private/views/equipamentos/consultar_equipamento.php?id=" + idEquipamento;
         }, 800);
     });
 }
@@ -7405,12 +7475,12 @@ function preencherListagemLocalizacoes(localizacoes = null) {
             <td>${localizacao.sala}</td>
 
             <td class="acoes-tabela-privada">
-                <a href="consultar_localizacao.html?id=${localizacao.codigo}" class="acao-tabela-privada">
+                <a href="/medivault/private/views/localizacoes/consultar_localizacao.php?id=${localizacao.codigo}" class="acao-tabela-privada">
                     <i class="fa-regular fa-eye"></i>
                     Consultar
                 </a>
 
-                <a href="editar_localizacao.html?id=${localizacao.codigo}" class="acao-tabela-privada">
+                <a href="editar_localizacao.php?id=${localizacao.codigo}" class="acao-tabela-privada">
                     <i class="fa-regular fa-pen-to-square"></i>
                     Editar
                 </a>
@@ -7790,7 +7860,7 @@ function inicializarNovaLocalizacao() {
         localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
 
         setTimeout(function () {
-            window.location.href = "localizacoes.html";
+            window.location.href = "/medivault/private/views/localizacoes/localizacoes.php";
         }, 800);
     });
 }
@@ -7850,7 +7920,7 @@ function preencherDetalhesLocalizacao() {
                     <td>${eq.categoria || "-"}</td>
                     <td>${eq.estado || "-"}</td>
                     <td>
-                        <a href="../equipamentos/consultar_equipamento.html?id=${eq.codigo}" class="botao-ver-fornecedor">
+                        <a href="../equipamentos//medivault/private/views/equipamentos/consultar_equipamento.php?id=${eq.codigo}" class="botao-ver-fornecedor">
                             <i class="fa-regular fa-eye"></i>
                             Ver
                         </a>
@@ -7890,7 +7960,7 @@ function inicializarEditarLocalizacao() {
     const botaoCancelarEdicaoLocalizacao = document.getElementById("botao-cancelar-edicao-localizacao");
 
     if (botaoCancelarEdicaoLocalizacao) {
-        botaoCancelarEdicaoLocalizacao.href = `localizacoes.html?id=${localizacao.codigo}`;
+        botaoCancelarEdicaoLocalizacao.href = `localizacoes.php?id=${localizacao.codigo}`;
     }
 
     formEditarLocalizacao.addEventListener("submit", function (event) {
@@ -7905,7 +7975,7 @@ function inicializarEditarLocalizacao() {
         localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
 
         setTimeout(function () {
-            window.location.href = `consultar_localizacao.html?id=${idLocalizacao}`;
+            window.location.href = `/medivault/private/views/localizacoes/consultar_localizacao.php?id=${idLocalizacao}`;
         }, 800);
     });
 }
@@ -8178,7 +8248,7 @@ if (!fornecedoresGuardados) {
 }
 
 
-// Preencher listagem de fornecedores na página fornecedores.html
+// Preencher listagem de fornecedores na página fornecedores.php
 function preencherListagemFornecedores(
     listaFornecedores = Object.values(fornecedoresGuardados)) {
     const tabelaFornecedores = document.getElementById("tabela-fornecedores");
@@ -8214,12 +8284,12 @@ function preencherListagemFornecedores(
     <td>${fornecedor.telefonePessoaContacto}</td>
 
             <td class="acoes-tabela-privada">
-                <a href="consultar_fornecedor.html?id=${fornecedor.codigo}" class="acao-tabela-privada">
+                <a href="/medivault/private/views/fornecedores/consultar_fornecedor.php?id=${fornecedor.codigo}" class="acao-tabela-privada">
                     <i class="fa-regular fa-eye"></i>
                     Consultar
                 </a>
 
-                <a href="editar_fornecedor.html?id=${fornecedor.codigo}" class="acao-tabela-privada">
+                <a href="editar_fornecedor.php?id=${fornecedor.codigo}" class="acao-tabela-privada">
                     <i class="fa-regular fa-pen-to-square"></i>
                     Editar
                 </a>
@@ -8649,7 +8719,7 @@ function inicializarNovoFornecedor() {
         localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
 
         setTimeout(function () {
-            window.location.href = "fornecedores.html";
+            window.location.href = "/medivault/private/views/fornecedores/fornecedores.php";
         }, 800);
     });
 }
@@ -8718,7 +8788,7 @@ function preencherDetalhesFornecedor() {
                     <td>${eq.categoria || "-"}</td>
                     <td>${eq.estado || "-"}</td>
                     <td>
-                        <a href="../equipamentos/consultar_equipamento.html?id=${eq.codigo}" class="botao-ver-fornecedor">
+                        <a href="../equipamentos//medivault/private/views/equipamentos/consultar_equipamento.php?id=${eq.codigo}" class="botao-ver-fornecedor">
                             <i class="fa-regular fa-eye"></i>
                             Ver
                         </a>
@@ -8796,7 +8866,7 @@ function inicializarEditarFornecedor() {
     const botaoCancelarEdicaoFornecedor = document.getElementById("botao-cancelar-edicao-fornecedor");
 
     if (botaoCancelarEdicaoFornecedor) {
-        botaoCancelarEdicaoFornecedor.href = `fornecedores.html?id=${fornecedor.codigo}`;
+        botaoCancelarEdicaoFornecedor.href = `fornecedores.php?id=${fornecedor.codigo}`;
     }
 
     // Documentação do fornecedor — carregar valores existentes
@@ -8849,7 +8919,7 @@ function inicializarEditarFornecedor() {
         localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
 
         setTimeout(function () {
-            window.location.href = `consultar_fornecedor.html?id=${idFornecedor}`;
+            window.location.href = `/medivault/private/views/fornecedores/consultar_fornecedor.php?id=${idFornecedor}`;
         }, 800);
     });
 }
@@ -9530,6 +9600,7 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarContactos();
     inicializarLogin();
     inicializarGestaoConteudos();
+    carregarConteudosPublicos();
 
     inicializarAvisoGarantias();
 

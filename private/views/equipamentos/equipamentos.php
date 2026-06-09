@@ -1,155 +1,61 @@
-<!DOCTYPE html> <!-- informa que este é um documento HTML5  -->
-<html lang="pt"> <!-- define o início do documento HTML, indicando que o idioma principal da página é português -->
+<?php include '../../includes/header.php'; ?>
+<?php include '../../includes/navbar.php'; ?>
 
-<head> <!-- informações sobre a página (título, metadados, links) -->
-    <meta charset="UTF-8"> <!-- define a codificação de caracteres para UTF-8 (acentos e caracteres especiais) -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- torna a página responsiva (ajuste a diferentes tamanhos de ecrã) -->
+<div class="layout-privado">
 
-    <title>Listagem de Equipamentos</title>
+    <?php include '../../includes/menu.php'; ?>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap.min.css">
+    <!-- Conteúdo principal da área privada -->
+    <main class="conteudo-privado">
 
-    <!-- Font Awesome: biblioteca usada para apresentar ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        <div class="titulo-pagina-equipamentos">
+            <div class="bloco-titulo-equipamentos">
+                <h1>Listagem de Equipamentos</h1>
+                <span class="linha-titulo-equipamentos"></span>
+            </div>
 
-    <!-- CSS próprio -->
-    <link rel="stylesheet" href="../../../assets/css/1241466.css">
-</head>
-
-<body class="pagina-privada">
-
-    <!-- Navbar da área privada -->
-    <header class="navbar-privada">
-
-        <div class="logo-privada">
-            <img src="../../../assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
-            <span class="nome-navbar-privada">MediVault</span>
+            <a href="novo_equipamento.php" class="botao-novo-registo-privada">
+                <i class="fa-solid fa-plus"></i>
+                Novo equipamento
+            </a>
         </div>
 
-        <div class="dropdown-utilizador-privado">
-            <div style="display:flex; align-items:center; gap:1rem;">
+        <p class="mensagem-listagem">
+            Consulte, pesquise e filtre os equipamentos médicos registados no inventário hospitalar.
+        </p>
 
-                <button id="botao-historico-navbar" onclick="abrirHistoricoNavbar()" class="botao-historico-navbar">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
-                </button>
+        <!-- PESQUISA E FILTROS -->
+        <section class="area-pesquisa-filtros">
 
-                <div class="utilizador-privado">
-                    <i class="fa-regular fa-user"></i>
-                    <span>Profissional de saúde</span>
-                    <i class="fa-solid fa-caret-down"></i>
+            <div class="caixa-pesquisa-equipamentos">
+                <h2>Pesquisa</h2>
+
+                <div class="linha-pesquisa-equipamentos">
+                    <input type="text" id="pesquisaEquipamentos" class="campo-pesquisa-equipamentos"
+                        placeholder="Pesquisar por código, designação, marca, modelo, n.º de série, fornecedor ou localização...">
+
+                    <button type="button" id="botaoPesquisarEquipamentos" class="botao-pesquisar-equipamentos">
+                        Pesquisar
+                    </button>
+
+                    <button type="button" id="botaoLimparApenasPesquisaEquipamentos"
+                        class="botao-limpar-equipamentos">
+                        Limpar
+                    </button>
                 </div>
-
             </div>
 
-            <div class="menu-utilizador-privado">
-                <a href="alterar_password.html">
-                    <i class="fa-solid fa-key"></i>
-                    Alterar password
-                </a>
+            <div class="caixa-filtros-equipamentos">
+                <h2>Filtros</h2>
 
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-            </div>
-        </div>
+                <div class="grelha-filtros-equipamentos">
 
-    </header>
-
-    <div id="aviso-garantias-globais" style="display:none;"></div>
-
-    <div class="layout-privado">
-
-        <!-- Menu lateral da área privada -->
-        <aside class="menu-lateral-privada">
-            <h2>Menu</h2>
-
-            <nav>
-                <a href="../equipamentos/equipamentos.html" class="ativo">
-                    <i class="fa-solid fa-stethoscope"></i>
-                    Equipamentos
-                </a>
-
-                <a href="../fornecedores/fornecedores.html">
-                    <i class="fa-solid fa-truck-medical"></i>
-                    Fornecedores
-                </a>
-
-                <a href="../localizacoes/localizacoes.html">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Localizações
-                </a>
-
-                <a href="../gestao_conteudos/gestao_conteudos.html">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    Gestão de Conteúdos
-                </a>
-
-                <a href="../dashboard/dashboard.html">
-                    <i class="fa-solid fa-chart-line"></i>
-                    Dashboard
-                </a>
-
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-            </nav>
-        </aside>
-
-        <!-- Conteúdo principal da área privada -->
-        <main class="conteudo-privado">
-
-            <div class="titulo-pagina-equipamentos">
-                <div class="bloco-titulo-equipamentos">
-                    <h1>Listagem de Equipamentos</h1>
-                    <span class="linha-titulo-equipamentos"></span>
-                </div>
-
-                <a href="novo_equipamento.html" class="botao-novo-registo-privada">
-                    <i class="fa-solid fa-plus"></i>
-                    Novo equipamento
-                </a>
-            </div>
-
-            <p class="mensagem-listagem">
-                Consulte, pesquise e filtre os equipamentos médicos registados no inventário hospitalar.
-            </p>
-
-            <!-- PESQUISA E FILTROS -->
-            <section class="area-pesquisa-filtros">
-
-                <div class="caixa-pesquisa-equipamentos">
-                    <h2>Pesquisa</h2>
-
-                    <div class="linha-pesquisa-equipamentos">
-                        <input type="text" id="pesquisaEquipamentos" class="campo-pesquisa-equipamentos"
-                            placeholder="Pesquisar por código, designação, marca, modelo, n.º de série, fornecedor ou localização...">
-
-                        <button type="button" id="botaoPesquisarEquipamentos" class="botao-pesquisar-equipamentos">
-                            Pesquisar
-                        </button>
-
-                        <button type="button" id="botaoLimparApenasPesquisaEquipamentos"
-                            class="botao-limpar-equipamentos">
-                            Limpar
-                        </button>
-                    </div>
-                </div>
-
-                <div class="caixa-filtros-equipamentos">
-                    <h2>Filtros</h2>
-
-                    <div class="grelha-filtros-equipamentos">
-
-                        <div class="grupo-filtro-equipamentos">
-                            <label for="filtroEstadoEquipamento">
-                                Estado atual
-                                <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
-                                    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
-                                    data-bs-content="
+                    <div class="grupo-filtro-equipamentos">
+                        <label for="filtroEstadoEquipamento">
+                            Estado atual
+                            <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                data-bs-content="
        <strong>Ativo</strong> - Equipamento operacional e disponível para utilização.<br><br>
        <strong>Em manutenção</strong> - Equipamento temporariamente indisponível devido a manutenção preventiva ou corretiva.<br><br>
        <strong>Inativo</strong> - Equipamento sem utilização atual, mas disponível para voltar ao serviço.<br><br>
@@ -157,45 +63,45 @@
        <strong>Em quarentena</strong> - Equipamento isolado temporariamente para avaliação, descontaminação ou validação técnica.<br><br>
        <strong>Abatido</strong> - Equipamento retirado definitivamente de serviço e sem possibilidade de utilização.
        ">
-                                </i>
-                            </label>
+                            </i>
+                        </label>
 
-                            <div class="select-filtro-wrapper">
-                                <select id="filtroEstadoEquipamento" class="campo-filtro-equipamentos">
-                                    <option value="">Todos</option>
-                                    <option value="Ativo">Ativo</option>
-                                    <option value="Em manutenção">Em manutenção</option>
-                                    <option value="Inativo">Inativo</option>
-                                    <option value="Em calibração">Em calibração</option>
-                                    <option value="Em quarentena">Em quarentena</option>
-                                    <option value="Abatido">Abatido</option>
-                                </select>
-                            </div>
+                        <div class="select-filtro-wrapper">
+                            <select id="filtroEstadoEquipamento" class="campo-filtro-equipamentos">
+                                <option value="">Todos</option>
+                                <option value="Ativo">Ativo</option>
+                                <option value="Em manutenção">Em manutenção</option>
+                                <option value="Inativo">Inativo</option>
+                                <option value="Em calibração">Em calibração</option>
+                                <option value="Em quarentena">Em quarentena</option>
+                                <option value="Abatido">Abatido</option>
+                            </select>
                         </div>
+                    </div>
 
-                        <div class="grupo-filtro-equipamentos">
-                            <label for="filtroFornecedorEquipamento">Fornecedor associado</label>
-                            <div class="select-filtro-wrapper">
-                                <select id="filtroFornecedorEquipamento" class="campo-filtro-equipamentos">
-                                    <option value="">Todos</option>
-                                </select>
-                            </div>
+                    <div class="grupo-filtro-equipamentos">
+                        <label for="filtroFornecedorEquipamento">Fornecedor associado</label>
+                        <div class="select-filtro-wrapper">
+                            <select id="filtroFornecedorEquipamento" class="campo-filtro-equipamentos">
+                                <option value="">Todos</option>
+                            </select>
                         </div>
+                    </div>
 
-                        <div class="grupo-filtro-equipamentos">
-                            <label for="filtroLocalizacaoEquipamento">Localização associada</label>
-                            <div class="select-filtro-wrapper">
-                                <select id="filtroLocalizacaoEquipamento" class="campo-filtro-equipamentos">
-                                    <option value="">Todas</option>
-                                </select>
-                            </div>
+                    <div class="grupo-filtro-equipamentos">
+                        <label for="filtroLocalizacaoEquipamento">Localização associada</label>
+                        <div class="select-filtro-wrapper">
+                            <select id="filtroLocalizacaoEquipamento" class="campo-filtro-equipamentos">
+                                <option value="">Todas</option>
+                            </select>
                         </div>
+                    </div>
 
-                        <div class="grupo-filtro-equipamentos">
-                            <label for="filtroCategoriaEquipamento">Categoria
-                                <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
-                                    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
-                                    data-bs-content="
+                    <div class="grupo-filtro-equipamentos">
+                        <label for="filtroCategoriaEquipamento">Categoria
+                            <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                data-bs-content="
         <strong>Monitorização</strong> - Equipamentos utilizados para monitorizar parâmetros fisiológicos e o estado clínico do paciente.<br><br>
         <strong>Suporte de vida</strong> - Equipamentos essenciais para manter ou substituir funções vitais do organismo.<br><br>
         <strong>Terapia</strong> - Equipamentos utilizados na administração de tratamentos e intervenções terapêuticas.<br><br>
@@ -204,129 +110,127 @@
         <strong>Esterilização</strong> - Equipamentos destinados à limpeza, desinfeção e esterilização de materiais e dispositivos médicos.<br><br>
         <strong>Reabilitação</strong> - Equipamentos utilizados na recuperação funcional e reabilitação dos pacientes.
         ">
-                                </i>
-                            </label>
-                            <div class="select-filtro-wrapper">
-                                <select id="filtroCategoriaEquipamento" class="campo-filtro-equipamentos">
-                                    <option value="">Todas</option>
-                                    <option value="Monitorização">Monitorização</option>
-                                    <option value="Suporte de vida">Suporte de vida</option>
-                                    <option value="Terapia">Terapia</option>
-                                    <option value="Diagnóstico">Diagnóstico</option>
-                                    <option value="Laboratório">Laboratório</option>
-                                    <option value="Esterilização">Esterilização</option>
-                                    <option value="Reabilitação">Reabilitação</option>
-                                </select>
-                            </div>
+                            </i>
+                        </label>
+                        <div class="select-filtro-wrapper">
+                            <select id="filtroCategoriaEquipamento" class="campo-filtro-equipamentos">
+                                <option value="">Todas</option>
+                                <option value="Monitorização">Monitorização</option>
+                                <option value="Suporte de vida">Suporte de vida</option>
+                                <option value="Terapia">Terapia</option>
+                                <option value="Diagnóstico">Diagnóstico</option>
+                                <option value="Laboratório">Laboratório</option>
+                                <option value="Esterilização">Esterilização</option>
+                                <option value="Reabilitação">Reabilitação</option>
+                            </select>
                         </div>
+                    </div>
 
-                        <div class="grupo-filtro-equipamentos">
-                            <label for="filtroCriticidadeEquipamento">Criticidade
-                                <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
-                                    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
-                                    data-bs-content="
+                    <div class="grupo-filtro-equipamentos">
+                        <label for="filtroCriticidadeEquipamento">Criticidade
+                            <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                                data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                                data-bs-content="
         <strong>Suporte de vida</strong> - Equipamento essencial para manter ou monitorizar funções vitais do paciente.<br><br>
         <strong>Alta</strong> - Equipamento cuja indisponibilidade afeta significativamente a prestação de cuidados de saúde.<br><br>
         <strong>Média</strong> - Equipamento importante, mas cuja indisponibilidade pode ser temporariamente compensada por alternativas.<br><br>
         <strong>Baixa</strong> - Equipamento de apoio com impacto reduzido na prestação de cuidados.
         ">
-                                </i>
-                            </label>
+                            </i>
+                        </label>
 
-                            <div class="select-filtro-wrapper">
-                                <select id="filtroCriticidadeEquipamento" class="campo-filtro-equipamentos">
-                                    <option value="">Todas</option>
-                                    <option value="Baixa">Baixa</option>
-                                    <option value="Média">Média</option>
-                                    <option value="Alta">Alta</option>
-                                    <option value="Suporte de vida">Suporte de vida</option>
-                                </select>
-                            </div>
+                        <div class="select-filtro-wrapper">
+                            <select id="filtroCriticidadeEquipamento" class="campo-filtro-equipamentos">
+                                <option value="">Todas</option>
+                                <option value="Baixa">Baixa</option>
+                                <option value="Média">Média</option>
+                                <option value="Alta">Alta</option>
+                                <option value="Suporte de vida">Suporte de vida</option>
+                            </select>
                         </div>
-
-                        <div class="grupo-filtro-equipamentos grupo-botao-limpar-filtros">
-                            <label>&nbsp;</label>
-                            <button type="button" id="botaoLimparApenasFiltrosEquipamentos"
-                                class="botao-limpar-apenas-filtros" title="Limpar filtros">
-                                <i class="fa-solid fa-filter-circle-xmark"></i>
-                            </button>
-                        </div>
-
                     </div>
+
+                    <div class="grupo-filtro-equipamentos grupo-botao-limpar-filtros">
+                        <label>&nbsp;</label>
+                        <button type="button" id="botaoLimparApenasFiltrosEquipamentos"
+                            class="botao-limpar-apenas-filtros" title="Limpar filtros">
+                            <i class="fa-solid fa-filter-circle-xmark"></i>
+                        </button>
+                    </div>
+
                 </div>
-
-            </section>
-
-            <div class="acao-exportar-tabela">
-                <a href="#" class="link-exportar-excel">
-                    <i class="fa-solid fa-file-excel"></i>
-                    Exportar Listagem dos Equipamentos
-                </a>
             </div>
 
-            <div class="tabela-privada">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Designação</th>
-                            <th>Localização</th>
-                            <th>Estado atual</th>
-                            <th>Criticidade</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
+        </section>
 
-                    <tbody id="tabela-equipamentos">
+        <div class="acao-exportar-tabela">
+            <a href="#" class="link-exportar-excel">
+                <i class="fa-solid fa-file-excel"></i>
+                Exportar Listagem dos Equipamentos
+            </a>
+        </div>
 
-                    </tbody>
+        <div class="tabela-privada">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Designação</th>
+                        <th>Localização</th>
+                        <th>Estado atual</th>
+                        <th>Criticidade</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
 
-                </table>
+                <tbody id="tabela-equipamentos">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</div>
+
+<!-- Modal eliminar equipamento -->
+<div class="modal fade" id="modalEliminarEquipamento" tabindex="-1" aria-labelledby="tituloModalEliminarEquipamento"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="tituloModalEliminarEquipamento">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Confirmar eliminação
+                </h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
             </div>
 
-        </main>
+            <div class="modal-body">
 
-    </div>
+                <p id="textoModalEliminarEquipamento">
+                    Tem a certeza que pretende eliminar este equipamento?
+                </p>
 
-    <!-- Modal eliminar equipamento -->
-    <div class="modal fade" id="modalEliminarEquipamento" tabindex="-1" aria-labelledby="tituloModalEliminarEquipamento"
-        aria-hidden="true">
+            </div>
 
-        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-footer">
 
-            <div class="modal-content">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
 
-                <div class="modal-header">
-
-                    <h5 class="modal-title" id="tituloModalEliminarEquipamento">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        Confirmar eliminação
-                    </h5>
-
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-                </div>
-
-                <div class="modal-body">
-
-                    <p id="textoModalEliminarEquipamento">
-                        Tem a certeza que pretende eliminar este equipamento?
-                    </p>
-
-                </div>
-
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cancelar
-                    </button>
-
-                    <button type="button" class="btn btn-danger" onclick="confirmarEliminacaoEquipamento()">
-                        Eliminar
-                    </button>
-
-                </div>
+                <button type="button" class="btn btn-danger" onclick="confirmarEliminacaoEquipamento()">
+                    Eliminar
+                </button>
 
             </div>
 
@@ -334,23 +238,6 @@
 
     </div>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasHistorico"
-        aria-labelledby="offcanvasHistoricoLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasHistoricoLabel">
-                <i class="fa-solid fa-clock-rotate-left" style="color:#0086a8; margin-right:8px;"></i>
-                Histórico de movimentações de Equipamentos
-            </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
-        </div>
-    </div>
+</div>
 
-    <!-- Bootstrap JS -->
-    <script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
-
-    <!-- JavaScript próprio -->
-    <script src="../../../assets/js/1241466.js"></script>
-
-</body>
-
-</html>
+<?php include '../../includes/footer.php'; ?>

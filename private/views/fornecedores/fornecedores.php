@@ -1,358 +1,262 @@
-<!DOCTYPE html> <!-- informa que este é um documento HTML5  -->
-<html lang="pt"> <!-- define o início do documento HTML, indicando que o idioma principal da página é português -->
+<?php include '../../includes/header.php'; ?>
+<?php include '../../includes/navbar.php'; ?>
 
-<head> <!-- informações sobre a página (título, metadados, links) -->
-    <meta charset="UTF-8"> <!-- define a codificação de caracteres para UTF-8 (acentos e caracteres especiais) -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- torna a página responsiva (ajuste a diferentes tamanhos de ecrã) -->
+<div class="layout-privado">
 
-    <title>Listagem de Fornecedores</title>
+    <?php include '../../includes/menu.php'; ?>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap.min.css">
+    <!-- Conteúdo principal da área privada -->
+    <main class="conteudo-privado">
 
-    <!-- Font Awesome: biblioteca usada para apresentar ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        <div class="titulo-pagina-equipamentos">
+            <div class="bloco-titulo-equipamentos">
+                <h1>Listagem de Fornecedores</h1>
+                <span class="linha-titulo-equipamentos"></span>
+            </div>
 
-    <!-- CSS próprio -->
-    <link rel="stylesheet" href="../../../assets/css/1241466.css">
-</head>
-
-<body class="pagina-privada">
-
-    <!-- Navbar da área privada -->
-    <header class="navbar-privada">
-
-        <div class="logo-privada">
-            <img src="../../../assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
-            <span class="nome-navbar-privada">MediVault</span>
+            <a href="novo_fornecedor.php" class="botao-novo-registo-privada">
+                <i class="fa-solid fa-plus"></i>
+                Novo fornecedor
+            </a>
         </div>
 
-        <div class="dropdown-utilizador-privado">
-            <div style="display:flex; align-items:center; gap:1rem;">
+        <p class="mensagem-listagem">
+            Consulte, pesquise e filtre os fornecedores associados aos equipamentos médicos do inventário
+            hospitalar.
+        </p>
 
-                <button id="botao-historico-navbar" onclick="abrirHistoricoNavbar()" class="botao-historico-navbar">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
+        <!-- PESQUISA E FILTROS -->
+        <section class="area-pesquisa-filtros">
+
+            <div class="caixa-pesquisa-equipamentos">
+                <h2>Pesquisa</h2>
+
+                <div class="linha-pesquisa-equipamentos">
+                    <input type="text" id="pesquisaFornecedores" class="campo-pesquisa-equipamentos"
+                        placeholder="Pesquisar por código, nome da empresa, NIF, contacto telefónico, email, morada, website, pessoa de contacto ou tipo de fornecedor...">
+                    <button type="button" id="botaoPesquisarFornecedores" class="botao-pesquisar-equipamentos">
+                        Pesquisar
+                    </button>
+
+                    <button type="button" id="botaoLimparApenasPesquisaFornecedores"
+                        class="botao-limpar-equipamentos">
+                        Limpar
+                    </button>
+                </div>
+            </div>
+
+            <div class="caixa-filtros-equipamentos">
+                <h2>Filtros</h2>
+
+                <div class="grelha-filtros-equipamentos">
+
+                    <div class="grupo-filtro-equipamentos">
+
+                        <label for="filtroTipoFornecedor">
+                            Tipo de fornecedor
+                        </label>
+
+                        <div class="select-filtro-wrapper">
+
+                            <select id="filtroTipoFornecedor" class="campo-filtro-equipamentos">
+
+                                <option value="">Todos</option>
+
+                                <option value="Fabricante">
+                                    Fabricante
+                                </option>
+
+                                <option value="Distribuidor ou Fornecedor comercial">
+                                    Distribuidor ou Fornecedor comercial
+                                </option>
+
+                                <option value="Empresa de assistência técnica">
+                                    Empresa de assistência técnica
+                                </option>
+
+                                <option value="Fornecedor de consumíveis ou acessórios">
+                                    Fornecedor de consumíveis ou acessórios
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="grupo-filtro-equipamentos">
+
+                        <label for="filtroNomeEmpresa">
+                            Nome da empresa
+                        </label>
+
+                        <div class="select-filtro-wrapper">
+
+                            <select id="filtroNomeEmpresa" class="campo-filtro-equipamentos">
+
+                                <option value="">Todas</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="grupo-filtro-equipamentos">
+
+                        <label for="filtroMoradaFornecedor">
+                            Morada
+                        </label>
+
+                        <div class="select-filtro-wrapper">
+
+                            <select id="filtroMoradaFornecedor" class="campo-filtro-equipamentos">
+
+                                <option value="">Todos</option>
+
+                                <option value="Aveiro">Aveiro, Portugal</option>
+                                <option value="Beja">Beja, Portugal</option>
+                                <option value="Braga">Braga, Portugal</option>
+                                <option value="Bragança">Bragança, Portugal</option>
+                                <option value="Castelo Branco">Castelo Branco, Portugal</option>
+                                <option value="Coimbra">Coimbra, Portugal</option>
+                                <option value="Évora">Évora, Portugal</option>
+                                <option value="Faro">Faro, Portugal</option>
+                                <option value="Guarda">Guarda, Portugal</option>
+                                <option value="Leiria">Leiria, Portugal</option>
+                                <option value="Lisboa">Lisboa, Portugal</option>
+                                <option value="Portalegre">Portalegre, Portugal</option>
+                                <option value="Porto">Porto, Portugal</option>
+                                <option value="Santarém">Santarém, Portugal</option>
+                                <option value="Setúbal">Setúbal, Portugal</option>
+                                <option value="Viana do Castelo">Viana do Castelo, Portugal</option>
+                                <option value="Vila Real">Vila Real, Portugal</option>
+                                <option value="Viseu">Viseu, Portugal</option>
+                                <option value="Região Autónoma dos Açores">Região Autónoma dos Açores, Portugal
+                                </option>
+                                <option value="Região Autónoma da Madeira">Região Autónoma da Madeira, Portugal
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="grupo-filtro-equipamentos">
+
+                        <label for="filtroPessoaContacto">
+                            Pessoa de contacto
+                        </label>
+
+                        <div class="select-filtro-wrapper">
+
+                            <select id="filtroPessoaContacto" class="campo-filtro-equipamentos">
+
+                                <option value="">Todas</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="grupo-filtro-equipamentos">
+                        <label for="filtroEquipamentoFornecedor">
+                            Equipamento associado
+                        </label>
+                        <div class="select-filtro-wrapper">
+                            <select id="filtroEquipamentoFornecedor" class="campo-filtro-equipamentos">
+                                <option value="">Todos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grupo-filtro-equipamentos grupo-botao-limpar-filtros">
+                        <label>&nbsp;</label>
+                        <button type="button" id="botaoLimparApenasFiltrosFornecedores"
+                            class="botao-limpar-apenas-filtros" title="Limpar filtros">
+                            <i class="fa-solid fa-filter-circle-xmark"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <div class="acao-exportar-tabela">
+            <a href="#" class="link-exportar-excel">
+                <i class="fa-solid fa-file-excel"></i>
+                Exportar Listagem dos Fornecedores
+            </a>
+        </div>
+
+        <div class="tabela-privada">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome da empresa</th>
+                        <th>Tipo de fornecedor</th>
+                        <th>Pessoa de contacto</th>
+                        <th>Telefone de contacto</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tabela-fornecedores">
+
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</div>
+
+<!-- Modal eliminar fornecedor -->
+<div class="modal fade" id="modalEliminarFornecedor" tabindex="-1" aria-labelledby="tituloModalEliminarFornecedor"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="tituloModalEliminarFornecedor">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Confirmar eliminação
+
+                </h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
 
-                <div class="utilizador-privado">
-                    <i class="fa-regular fa-user"></i>
-                    <span>Profissional de saúde</span>
-                    <i class="fa-solid fa-caret-down"></i>
-                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <p id="textoModalEliminarFornecedor">
+                    Tem a certeza que pretende eliminar este fornecedor?
+                </p>
 
             </div>
 
-            <div class="menu-utilizador-privado">
-                <a href="alterar_password.html">
-                    <i class="fa-solid fa-key"></i>
-                    Alterar password
-                </a>
+            <div class="modal-footer">
 
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-            </div>
-        </div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 
-    </header>
+                    Cancelar
 
-    <div id="aviso-garantias-globais" style="display:none;"></div>
+                </button>
 
-    <div class="layout-privado">
+                <button type="button" class="btn btn-danger" onclick="confirmarEliminacaoFornecedor()">
 
-        <!-- Menu lateral da área privada -->
-        <aside class="menu-lateral-privada">
-            <h2>Menu</h2>
+                    Eliminar
 
-            <nav>
-                <a href="../equipamentos/equipamentos.html">
-                    <i class="fa-solid fa-stethoscope"></i>
-                    Equipamentos
-                </a>
-
-                <a href="../fornecedores/fornecedores.html" class="ativo">
-                    <i class="fa-solid fa-truck-medical"></i>
-                    Fornecedores
-                </a>
-
-                <a href="../localizacoes/localizacoes.html">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Localizações
-                </a>
-
-                <a href="../gestao_conteudos/gestao_conteudos.html">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    Gestão de Conteúdos
-                </a>
-
-                <a href="../dashboard/dashboard.html">
-                    <i class="fa-solid fa-chart-line"></i>
-                    Dashboard
-                </a>
-
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-            </nav>
-        </aside>
-
-        <!-- Conteúdo principal da área privada -->
-        <main class="conteudo-privado">
-
-            <div class="titulo-pagina-equipamentos">
-                <div class="bloco-titulo-equipamentos">
-                    <h1>Listagem de Fornecedores</h1>
-                    <span class="linha-titulo-equipamentos"></span>
-                </div>
-
-                <a href="novo_fornecedor.html" class="botao-novo-registo-privada">
-                    <i class="fa-solid fa-plus"></i>
-                    Novo fornecedor
-                </a>
-            </div>
-
-            <p class="mensagem-listagem">
-                Consulte, pesquise e filtre os fornecedores associados aos equipamentos médicos do inventário
-                hospitalar.
-            </p>
-
-            <!-- PESQUISA E FILTROS -->
-            <section class="area-pesquisa-filtros">
-
-                <div class="caixa-pesquisa-equipamentos">
-                    <h2>Pesquisa</h2>
-
-                    <div class="linha-pesquisa-equipamentos">
-                        <input type="text" id="pesquisaFornecedores" class="campo-pesquisa-equipamentos"
-                            placeholder="Pesquisar por código, nome da empresa, NIF, contacto telefónico, email, morada, website, pessoa de contacto ou tipo de fornecedor...">
-                        <button type="button" id="botaoPesquisarFornecedores" class="botao-pesquisar-equipamentos">
-                            Pesquisar
-                        </button>
-
-                        <button type="button" id="botaoLimparApenasPesquisaFornecedores"
-                            class="botao-limpar-equipamentos">
-                            Limpar
-                        </button>
-                    </div>
-                </div>
-
-                <div class="caixa-filtros-equipamentos">
-                    <h2>Filtros</h2>
-
-                    <div class="grelha-filtros-equipamentos">
-
-                        <div class="grupo-filtro-equipamentos">
-
-                            <label for="filtroTipoFornecedor">
-                                Tipo de fornecedor
-                            </label>
-
-                            <div class="select-filtro-wrapper">
-
-                                <select id="filtroTipoFornecedor" class="campo-filtro-equipamentos">
-
-                                    <option value="">Todos</option>
-
-                                    <option value="Fabricante">
-                                        Fabricante
-                                    </option>
-
-                                    <option value="Distribuidor ou Fornecedor comercial">
-                                        Distribuidor ou Fornecedor comercial
-                                    </option>
-
-                                    <option value="Empresa de assistência técnica">
-                                        Empresa de assistência técnica
-                                    </option>
-
-                                    <option value="Fornecedor de consumíveis ou acessórios">
-                                        Fornecedor de consumíveis ou acessórios
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                        <div class="grupo-filtro-equipamentos">
-
-                            <label for="filtroNomeEmpresa">
-                                Nome da empresa
-                            </label>
-
-                            <div class="select-filtro-wrapper">
-
-                                <select id="filtroNomeEmpresa" class="campo-filtro-equipamentos">
-
-                                    <option value="">Todas</option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                        <div class="grupo-filtro-equipamentos">
-
-                            <label for="filtroMoradaFornecedor">
-                                Morada
-                            </label>
-
-                            <div class="select-filtro-wrapper">
-
-                                <select id="filtroMoradaFornecedor" class="campo-filtro-equipamentos">
-
-                                    <option value="">Todos</option>
-
-                                    <option value="Aveiro">Aveiro, Portugal</option>
-                                    <option value="Beja">Beja, Portugal</option>
-                                    <option value="Braga">Braga, Portugal</option>
-                                    <option value="Bragança">Bragança, Portugal</option>
-                                    <option value="Castelo Branco">Castelo Branco, Portugal</option>
-                                    <option value="Coimbra">Coimbra, Portugal</option>
-                                    <option value="Évora">Évora, Portugal</option>
-                                    <option value="Faro">Faro, Portugal</option>
-                                    <option value="Guarda">Guarda, Portugal</option>
-                                    <option value="Leiria">Leiria, Portugal</option>
-                                    <option value="Lisboa">Lisboa, Portugal</option>
-                                    <option value="Portalegre">Portalegre, Portugal</option>
-                                    <option value="Porto">Porto, Portugal</option>
-                                    <option value="Santarém">Santarém, Portugal</option>
-                                    <option value="Setúbal">Setúbal, Portugal</option>
-                                    <option value="Viana do Castelo">Viana do Castelo, Portugal</option>
-                                    <option value="Vila Real">Vila Real, Portugal</option>
-                                    <option value="Viseu">Viseu, Portugal</option>
-                                    <option value="Região Autónoma dos Açores">Região Autónoma dos Açores, Portugal
-                                    </option>
-                                    <option value="Região Autónoma da Madeira">Região Autónoma da Madeira, Portugal
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                        <div class="grupo-filtro-equipamentos">
-
-                            <label for="filtroPessoaContacto">
-                                Pessoa de contacto
-                            </label>
-
-                            <div class="select-filtro-wrapper">
-
-                                <select id="filtroPessoaContacto" class="campo-filtro-equipamentos">
-
-                                    <option value="">Todas</option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                        <div class="grupo-filtro-equipamentos">
-    <label for="filtroEquipamentoFornecedor">
-        Equipamento associado
-    </label>
-    <div class="select-filtro-wrapper">
-        <select id="filtroEquipamentoFornecedor" class="campo-filtro-equipamentos">
-            <option value="">Todos</option>
-        </select>
-    </div>
-</div>
-
-                        <div class="grupo-filtro-equipamentos grupo-botao-limpar-filtros">
-                            <label>&nbsp;</label>
-                            <button type="button" id="botaoLimparApenasFiltrosFornecedores"
-                                class="botao-limpar-apenas-filtros" title="Limpar filtros">
-                                <i class="fa-solid fa-filter-circle-xmark"></i>
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-
-            </section>
-
-            <div class="acao-exportar-tabela">
-    <a href="#" class="link-exportar-excel">
-        <i class="fa-solid fa-file-excel"></i>
-        Exportar Listagem dos Fornecedores
-    </a>
-</div>
-
-            <div class="tabela-privada">
-                <table>
-                    <thead>
-    <tr>
-        <th>Nome da empresa</th>
-        <th>Tipo de fornecedor</th>
-        <th>Pessoa de contacto</th>
-        <th>Telefone de contacto</th>
-        <th>Ações</th>
-    </tr>
-</thead>
-
-                    <tbody id="tabela-fornecedores">
-
-                    </tbody>
-                </table>
-            </div>
-
-        </main>
-
-    </div>
-
-    <!-- Modal eliminar fornecedor -->
-    <div class="modal fade" id="modalEliminarFornecedor" tabindex="-1" aria-labelledby="tituloModalEliminarFornecedor"
-        aria-hidden="true">
-
-        <div class="modal-dialog modal-dialog-centered">
-
-            <div class="modal-content">
-
-                <div class="modal-header">
-
-                    <h5 class="modal-title" id="tituloModalEliminarFornecedor">
-
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        Confirmar eliminação
-
-                    </h5>
-
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
-
-                </div>
-
-                <div class="modal-body">
-
-                    <p id="textoModalEliminarFornecedor">
-                        Tem a certeza que pretende eliminar este fornecedor?
-                    </p>
-
-                </div>
-
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-
-                        Cancelar
-
-                    </button>
-
-                    <button type="button" class="btn btn-danger" onclick="confirmarEliminacaoFornecedor()">
-
-                        Eliminar
-
-                    </button>
-
-                </div>
+                </button>
 
             </div>
 
@@ -360,22 +264,6 @@
 
     </div>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasHistorico" aria-labelledby="offcanvasHistoricoLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasHistoricoLabel">
-            <i class="fa-solid fa-clock-rotate-left" style="color:#0086a8; margin-right:8px;"></i>
-            Histórico de movimentações de Equipamentos
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
-    </div>
 </div>
 
-    <!-- Bootstrap JS -->
-    <script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
-
-    <!-- JavaScript próprio -->
-    <script src="../../../assets/js/1241466.js"></script>
-
-</body>
-
-</html>
+<?php include '../../includes/footer.php'; ?>

@@ -1,0 +1,36 @@
+<!-- Menu lateral da área privada -->
+<aside class="menu-lateral-privada">
+    <h2>Menu</h2>
+
+    <nav>
+        <a href="/medivault/private/views/equipamentos/equipamentos.php">
+            <i class="fa-solid fa-stethoscope"></i>
+            Equipamentos
+        </a>
+
+        <a href="/medivault/private/views/fornecedores/fornecedores.php">
+            <i class="fa-solid fa-truck-medical"></i>
+            Fornecedores
+        </a>
+
+        <a href="/medivault/private/views/localizacoes/localizacoes.php">
+            <i class="fa-solid fa-location-dot"></i>
+            Localizações
+        </a>
+
+        <a href="/medivault/private/views/gestao_conteudos/gestao_conteudos.php">
+            <i class="fa-solid fa-pen-to-square"></i>
+            Gestão de Conteúdos
+        </a>
+
+        <a href="/medivault/private/views/dashboard/dashboard.php">
+            <i class="fa-solid fa-chart-line"></i>
+            Dashboard
+        </a>
+
+        <a href="/medivault/public/index.php">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Sair
+        </a>
+    </nav>
+</aside>

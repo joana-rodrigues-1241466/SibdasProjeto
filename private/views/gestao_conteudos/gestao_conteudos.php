@@ -1,528 +1,414 @@
-<!DOCTYPE html> <!-- Define que o documento usa HTML5 -->
-<html lang="pt"> <!-- Define o idioma principal da página como português -->
+<?php include '../../includes/header.php'; ?>
+<?php include '../../includes/navbar.php'; ?>
 
-<head> <!-- Início da zona de configurações da página -->
-    <meta charset="UTF-8"> <!-- Permite usar acentos e caracteres especiais -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Torna a página responsiva -->
+<div class="layout-privado">
 
-    <title>Gestão de Conteúdos</title> <!-- Título que aparece no separador do navegador -->
+    <?php include '../../includes/menu.php'; ?>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap.min.css">
+    <main class="conteudo-privado">
 
-    <!-- Font Awesome: biblioteca de ícones usada no projeto -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        <section class="gestao-conteudos">
 
-    <!-- CSS próprio do projeto -->
-    <link rel="stylesheet" href="../../../assets/css/1241466.css">
-</head>
+            <h1 class="titulo-secao text-start">Gestão de Conteúdos</h1>
+            <div class="linha-titulo"></div>
 
-<body class="pagina-privada"> <!-- Corpo da página privada -->
+            <p class="texto-gestao">
+                Nesta área reservada é possível atualizar conteúdos apresentados na área pública da MediVault,
+                sem necessidade de editar diretamente o HTML.
+            </p>
 
-    <!-- Barra superior da área privada -->
-    <header class="navbar-privada">
+            <form class="form-gestao-conteudos">
 
-        <div class="logo-privada">
-            <img src="../../../assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
-            <span class="nome-navbar-privada">MediVault</span>
-        </div>
+                <div class="accordion accordion-gestao" id="accordionGestao">
 
-        <div class="dropdown-utilizador-privado">
-            <div style="display:flex; align-items:center; gap:1rem;">
+                    <!-- HOME -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingHome">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseHome" aria-expanded="true" aria-controls="collapseHome">
+                                Secção Home
+                            </button>
+                        </h2>
 
-                <button id="botao-historico-navbar" onclick="abrirHistoricoNavbar()" class="botao-historico-navbar">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
-                </button>
+                        <div id="collapseHome" class="accordion-collapse collapse show"
+                            aria-labelledby="headingHome" data-bs-parent="#accordionGestao">
 
-                <div class="utilizador-privado">
-                    <i class="fa-regular fa-user"></i>
-                    <span>Profissional de saúde</span>
-                    <i class="fa-solid fa-caret-down"></i>
+                            <div class="accordion-body">
+
+                                <div class="mb-3">
+                                    <label for="editar-home-titulo" class="form-label">Título principal</label>
+                                    <input type="text" class="form-control campo-contacto" id="editar-home-titulo">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-home-texto" class="form-label">Texto introdutório</label>
+                                    <textarea class="form-control campo-contacto" id="editar-home-texto" rows="3"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-home-botao" class="form-label">Texto do botão</label>
+                                    <input type="text" class="form-control campo-contacto" id="editar-home-botao">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SOBRE -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSobre">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseSobre" aria-expanded="false" aria-controls="collapseSobre">
+                                Secção Sobre
+                            </button>
+                        </h2>
+
+                        <div id="collapseSobre" class="accordion-collapse collapse" aria-labelledby="headingSobre"
+                            data-bs-parent="#accordionGestao">
+
+                            <div class="accordion-body">
+
+                                <div class="mb-3">
+                                    <label for="editar-sobre-titulo" class="form-label">Título da secção</label>
+                                    <input type="text" class="form-control campo-contacto" id="editar-sobre-titulo">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-sobre-texto-1" class="form-label">Texto 1</label>
+                                    <textarea class="form-control campo-contacto" id="editar-sobre-texto-1" rows="3"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-sobre-texto-2" class="form-label">Texto 2</label>
+                                    <textarea class="form-control campo-contacto" id="editar-sobre-texto-2" rows="3"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-sobre-texto-3" class="form-label">Texto 3</label>
+                                    <textarea class="form-control campo-contacto" id="editar-sobre-texto-3" rows="3"></textarea>
+                                </div>
+
+                                <hr>
+
+                                <div class="bloco-funcionalidade-gestao">
+                                    <h6>Card informativo da secção Sobre</h6>
+
+                                    <div class="mb-3">
+                                        <label for="editar-sobre-card-titulo" class="form-label">Título do
+                                            card</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-sobre-card-titulo">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editar-sobre-card-texto-1" class="form-label">Frase 1 do
+                                            card</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-sobre-card-texto-1">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editar-sobre-card-texto-2" class="form-label">Frase 2 do
+                                            card</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-sobre-card-texto-2">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editar-sobre-card-texto-3" class="form-label">Frase 3 do
+                                            card</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-sobre-card-texto-3">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editar-sobre-card-texto-4" class="form-label">Frase 4 do
+                                            card</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-sobre-card-texto-4">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FUNCIONALIDADES -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFuncionalidades">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFuncionalidades" aria-expanded="false"
+                                aria-controls="collapseFuncionalidades">
+                                Secção Funcionalidades
+                            </button>
+                        </h2>
+
+                        <div id="collapseFuncionalidades" class="accordion-collapse collapse"
+                            aria-labelledby="headingFuncionalidades" data-bs-parent="#accordionGestao">
+
+                            <div class="accordion-body">
+
+                                <div class="mb-3">
+                                    <label for="editar-funcionalidades-titulo" class="form-label">Título da
+                                        secção</label>
+                                    <input type="text" class="form-control campo-contacto"
+                                        id="editar-funcionalidades-titulo">
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="editar-funcionalidades-texto" class="form-label">Texto
+                                        introdutório</label>
+                                    <textarea class="form-control campo-contacto" id="editar-funcionalidades-texto"
+                                        rows="3"></textarea>
+                                </div>
+
+                                <hr>
+
+                                <h5 class="subtitulo-gestao">Cards de funcionalidades</h5>
+
+                                <!-- FUNCIONALIDADE 1 -->
+                                <div class="bloco-funcionalidade-gestao">
+                                    <h6>Funcionalidade 1</h6>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-titulo-1"
+                                            class="form-label">Título</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-funcionalidade-titulo-1">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-texto-1" class="form-label">Texto</label>
+                                        <textarea class="form-control campo-contacto"
+                                            id="editar-funcionalidade-texto-1" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- FUNCIONALIDADE 2 -->
+                                <div class="bloco-funcionalidade-gestao">
+                                    <h6>Funcionalidade 2</h6>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-titulo-2"
+                                            class="form-label">Título</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-funcionalidade-titulo-2">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-texto-2" class="form-label">Texto</label>
+                                        <textarea class="form-control campo-contacto"
+                                            id="editar-funcionalidade-texto-2" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- FUNCIONALIDADE 3 -->
+                                <div class="bloco-funcionalidade-gestao">
+                                    <h6>Funcionalidade 3</h6>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-titulo-3"
+                                            class="form-label">Título</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-funcionalidade-titulo-3">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-texto-3" class="form-label">Texto</label>
+                                        <textarea class="form-control campo-contacto"
+                                            id="editar-funcionalidade-texto-3" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- FUNCIONALIDADE 4 -->
+                                <div class="bloco-funcionalidade-gestao">
+                                    <h6>Funcionalidade 4</h6>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-titulo-4"
+                                            class="form-label">Título</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-funcionalidade-titulo-4">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-texto-4" class="form-label">Texto</label>
+                                        <textarea class="form-control campo-contacto"
+                                            id="editar-funcionalidade-texto-4" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- FUNCIONALIDADE 5 -->
+                                <div class="bloco-funcionalidade-gestao">
+                                    <h6>Funcionalidade 5</h6>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-titulo-5"
+                                            class="form-label">Título</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-funcionalidade-titulo-5">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-texto-5" class="form-label">Texto</label>
+                                        <textarea class="form-control campo-contacto"
+                                            id="editar-funcionalidade-texto-5" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- FUNCIONALIDADE 6 -->
+                                <div class="bloco-funcionalidade-gestao">
+                                    <h6>Funcionalidade 6</h6>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-titulo-6"
+                                            class="form-label">Título</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-funcionalidade-titulo-6">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-texto-6" class="form-label">Texto</label>
+                                        <textarea class="form-control campo-contacto"
+                                            id="editar-funcionalidade-texto-6" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- FUNCIONALIDADE 7 -->
+                                <div class="bloco-funcionalidade-gestao">
+                                    <h6>Funcionalidade 7</h6>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-titulo-7"
+                                            class="form-label">Título</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-funcionalidade-titulo-7">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-texto-7" class="form-label">Texto</label>
+                                        <textarea class="form-control campo-contacto"
+                                            id="editar-funcionalidade-texto-7" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- FUNCIONALIDADE 8 -->
+                                <div class="bloco-funcionalidade-gestao">
+                                    <h6>Funcionalidade 8</h6>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-titulo-8"
+                                            class="form-label">Título</label>
+                                        <input type="text" class="form-control campo-contacto"
+                                            id="editar-funcionalidade-titulo-8">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="editar-funcionalidade-texto-8" class="form-label">Texto</label>
+                                        <textarea class="form-control campo-contacto"
+                                            id="editar-funcionalidade-texto-8" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CONTACTOS -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingContactos">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseContactos" aria-expanded="false"
+                                aria-controls="collapseContactos">
+                                Secção Contactos
+                            </button>
+                        </h2>
+
+                        <div id="collapseContactos" class="accordion-collapse collapse"
+                            aria-labelledby="headingContactos" data-bs-parent="#accordionGestao">
+
+                            <div class="accordion-body">
+
+                                <div class="mb-3">
+                                    <label for="editar-contactos-titulo" class="form-label">Título da
+                                        secção</label>
+                                    <input type="text" class="form-control campo-contacto"
+                                        id="editar-contactos-titulo">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-contactos-texto" class="form-label">Texto
+                                        introdutório</label>
+                                    <textarea class="form-control campo-contacto" id="editar-contactos-texto"
+                                        rows="3"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RODAPÉ -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingRodape">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseRodape" aria-expanded="false"
+                                aria-controls="collapseRodape">
+                                Rodapé
+                            </button>
+                        </h2>
+
+                        <div id="collapseRodape" class="accordion-collapse collapse" aria-labelledby="headingRodape"
+                            data-bs-parent="#accordionGestao">
+
+                            <div class="accordion-body">
+
+                                <div class="mb-3">
+                                    <label for="editar-localizacao" class="form-label">Localização</label>
+                                    <textarea class="form-control campo-contacto" id="editar-localizacao" rows="3"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-horario" class="form-label">Horário</label>
+                                    <textarea class="form-control campo-contacto" id="editar-horario" rows="3"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-email" class="form-label">Email</label>
+                                    <input type="text" class="form-control campo-contacto" id="editar-email">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editar-telefone" class="form-label">Telefone</label>
+                                    <input type="text" class="form-control campo-contacto" id="editar-telefone">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-            </div>
+                <div class="botoes-gestao">
+                    <button type="submit" class="btn botao-principal">
+                        Guardar Alterações
+                    </button>
 
-            <div class="menu-utilizador-privado">
-                <a href="alterar_password.html">
-                    <i class="fa-solid fa-key"></i>
-                    Alterar password
-                </a>
+                    <button type="button" class="btn botao-secundario-gestao" id="repor-conteudos">
+                        Repor Conteúdos Originais
+                    </button>
+                </div>
 
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-            </div>
-        </div>
+            </form>
 
-    </header>
+            <a href="/medivault/public/index.php" class="voltar-inicio">
+                <i class="fa-solid fa-arrow-left"></i>
+                Voltar à página pública
+            </a>
 
-    <div id="aviso-garantias-globais" style="display:none;"></div>
+        </section>
 
-    <!-- Layout principal com menu lateral e conteúdo -->
-    <div class="layout-privado">
+    </main>
 
-        <!-- Menu lateral da área privada -->
-        <aside class="menu-lateral-privada">
-            <h2>Menu</h2>
-
-            <nav>
-                <a href="../equipamentos/equipamentos.html">
-                    <i class="fa-solid fa-stethoscope"></i>
-                    Equipamentos
-                </a>
-
-                <a href="../fornecedores/fornecedores.html">
-                    <i class="fa-solid fa-truck-medical"></i>
-                    Fornecedores
-                </a>
-
-                <a href="../localizacoes/localizacoes.html">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Localizações
-                </a>
-
-                <a href="../gestao_conteudos/gestao_conteudos.html" class="ativo">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    Gestão de Conteúdos
-                </a>
-
-                <a href="../dashboard/dashboard.html">
-                    <i class="fa-solid fa-chart-line"></i>
-                    Dashboard
-                </a>
-
-                <a href="../../../public/index.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair
-                </a>
-
-            </nav>
-        </aside>
-
-        <main class="conteudo-privado">
-
-            <section class="gestao-conteudos">
-
-                <h1 class="titulo-secao text-start">Gestão de Conteúdos</h1>
-                <div class="linha-titulo"></div>
-
-                <p class="texto-gestao">
-                    Nesta área reservada é possível atualizar conteúdos apresentados na área pública da MediVault,
-                    sem necessidade de editar diretamente o HTML.
-                </p>
-
-                <form class="form-gestao-conteudos">
-
-                    <!-- Apoio de IA (ChatGPT): organização da gestão de conteúdos com Accordion do Bootstrap -->
-                    <div class="accordion accordion-gestao" id="accordionGestao">
-
-                        <!-- HOME -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingHome">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseHome" aria-expanded="true" aria-controls="collapseHome">
-                                    Secção Home
-                                </button>
-                            </h2>
-
-                            <div id="collapseHome" class="accordion-collapse collapse show"
-                                aria-labelledby="headingHome" data-bs-parent="#accordionGestao">
-
-                                <div class="accordion-body">
-
-                                    <div class="mb-3">
-                                        <label for="editar-home-titulo" class="form-label">Título principal</label>
-                                        <input type="text" class="form-control campo-contacto" id="editar-home-titulo">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="editar-home-texto" class="form-label">Texto introdutório</label>
-                                        <textarea class="form-control campo-contacto" id="editar-home-texto" rows="3"></textarea>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="editar-home-botao" class="form-label">Texto do botão</label>
-                                        <input type="text" class="form-control campo-contacto" id="editar-home-botao">
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SOBRE -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingSobre">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseSobre" aria-expanded="false" aria-controls="collapseSobre">
-                                    Secção Sobre
-                                </button>
-                            </h2>
-
-                            <div id="collapseSobre" class="accordion-collapse collapse" aria-labelledby="headingSobre"
-                                data-bs-parent="#accordionGestao">
-
-                                <div class="accordion-body">
-
-                                    <div class="mb-3">
-                                        <label for="editar-sobre-titulo" class="form-label">Título da secção</label>
-                                        <input type="text" class="form-control campo-contacto" id="editar-sobre-titulo">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="editar-sobre-texto-1" class="form-label">Texto 1</label>
-                                        <textarea class="form-control campo-contacto" id="editar-sobre-texto-1" rows="3"></textarea>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="editar-sobre-texto-2" class="form-label">Texto 2</label>
-                                        <textarea class="form-control campo-contacto" id="editar-sobre-texto-2" rows="3"></textarea>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="editar-sobre-texto-3" class="form-label">Texto 3</label>
-                                        <textarea class="form-control campo-contacto" id="editar-sobre-texto-3" rows="3"></textarea>
-                                    </div>
-
-                                    <hr>
-
-                                    <div class="bloco-funcionalidade-gestao">
-                                        <h6>Card informativo da secção Sobre</h6>
-
-                                        <div class="mb-3">
-                                            <label for="editar-sobre-card-titulo" class="form-label">Título do
-                                                card</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-sobre-card-titulo">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editar-sobre-card-texto-1" class="form-label">Frase 1 do
-                                                card</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-sobre-card-texto-1">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editar-sobre-card-texto-2" class="form-label">Frase 2 do
-                                                card</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-sobre-card-texto-2">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editar-sobre-card-texto-3" class="form-label">Frase 3 do
-                                                card</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-sobre-card-texto-3">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editar-sobre-card-texto-4" class="form-label">Frase 4 do
-                                                card</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-sobre-card-texto-4">
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- FUNCIONALIDADES -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingFuncionalidades">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseFuncionalidades" aria-expanded="false"
-                                    aria-controls="collapseFuncionalidades">
-                                    Secção Funcionalidades
-                                </button>
-                            </h2>
-
-                            <div id="collapseFuncionalidades" class="accordion-collapse collapse"
-                                aria-labelledby="headingFuncionalidades" data-bs-parent="#accordionGestao">
-
-                                <div class="accordion-body">
-
-                                    <div class="mb-3">
-                                        <label for="editar-funcionalidades-titulo" class="form-label">Título da
-                                            secção</label>
-                                        <input type="text" class="form-control campo-contacto"
-                                            id="editar-funcionalidades-titulo">
-                                    </div>
-
-                                    <div class="mb-4">
-                                        <label for="editar-funcionalidades-texto" class="form-label">Texto
-                                            introdutório</label>
-                                        <textarea class="form-control campo-contacto" id="editar-funcionalidades-texto"
-                                            rows="3"></textarea>
-                                    </div>
-
-                                    <hr>
-
-                                    <h5 class="subtitulo-gestao">Cards de funcionalidades</h5>
-
-                                    <!-- FUNCIONALIDADE 1 -->
-                                    <div class="bloco-funcionalidade-gestao">
-                                        <h6>Funcionalidade 1</h6>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-titulo-1"
-                                                class="form-label">Título</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-funcionalidade-titulo-1">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-texto-1" class="form-label">Texto</label>
-                                            <textarea class="form-control campo-contacto"
-                                                id="editar-funcionalidade-texto-1" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <!-- FUNCIONALIDADE 2 -->
-                                    <div class="bloco-funcionalidade-gestao">
-                                        <h6>Funcionalidade 2</h6>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-titulo-2"
-                                                class="form-label">Título</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-funcionalidade-titulo-2">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-texto-2" class="form-label">Texto</label>
-                                            <textarea class="form-control campo-contacto"
-                                                id="editar-funcionalidade-texto-2" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <!-- FUNCIONALIDADE 3 -->
-                                    <div class="bloco-funcionalidade-gestao">
-                                        <h6>Funcionalidade 3</h6>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-titulo-3"
-                                                class="form-label">Título</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-funcionalidade-titulo-3">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-texto-3" class="form-label">Texto</label>
-                                            <textarea class="form-control campo-contacto"
-                                                id="editar-funcionalidade-texto-3" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <!-- FUNCIONALIDADE 4 -->
-                                    <div class="bloco-funcionalidade-gestao">
-                                        <h6>Funcionalidade 4</h6>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-titulo-4"
-                                                class="form-label">Título</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-funcionalidade-titulo-4">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-texto-4" class="form-label">Texto</label>
-                                            <textarea class="form-control campo-contacto"
-                                                id="editar-funcionalidade-texto-4" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <!-- FUNCIONALIDADE 5 -->
-                                    <div class="bloco-funcionalidade-gestao">
-                                        <h6>Funcionalidade 5</h6>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-titulo-5"
-                                                class="form-label">Título</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-funcionalidade-titulo-5">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-texto-5" class="form-label">Texto</label>
-                                            <textarea class="form-control campo-contacto"
-                                                id="editar-funcionalidade-texto-5" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <!-- FUNCIONALIDADE 6 -->
-                                    <div class="bloco-funcionalidade-gestao">
-                                        <h6>Funcionalidade 6</h6>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-titulo-6"
-                                                class="form-label">Título</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-funcionalidade-titulo-6">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-texto-6" class="form-label">Texto</label>
-                                            <textarea class="form-control campo-contacto"
-                                                id="editar-funcionalidade-texto-6" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <!-- FUNCIONALIDADE 7 -->
-                                    <div class="bloco-funcionalidade-gestao">
-                                        <h6>Funcionalidade 7</h6>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-titulo-7"
-                                                class="form-label">Título</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-funcionalidade-titulo-7">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-texto-7" class="form-label">Texto</label>
-                                            <textarea class="form-control campo-contacto"
-                                                id="editar-funcionalidade-texto-7" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <!-- FUNCIONALIDADE 8 -->
-                                    <div class="bloco-funcionalidade-gestao">
-                                        <h6>Funcionalidade 8</h6>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-titulo-8"
-                                                class="form-label">Título</label>
-                                            <input type="text" class="form-control campo-contacto"
-                                                id="editar-funcionalidade-titulo-8">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="editar-funcionalidade-texto-8" class="form-label">Texto</label>
-                                            <textarea class="form-control campo-contacto"
-                                                id="editar-funcionalidade-texto-8" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CONTACTOS -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingContactos">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseContactos" aria-expanded="false"
-                                    aria-controls="collapseContactos">
-                                    Secção Contactos
-                                </button>
-                            </h2>
-
-                            <div id="collapseContactos" class="accordion-collapse collapse"
-                                aria-labelledby="headingContactos" data-bs-parent="#accordionGestao">
-
-                                <div class="accordion-body">
-
-                                    <div class="mb-3">
-                                        <label for="editar-contactos-titulo" class="form-label">Título da
-                                            secção</label>
-                                        <input type="text" class="form-control campo-contacto"
-                                            id="editar-contactos-titulo">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="editar-contactos-texto" class="form-label">Texto
-                                            introdutório</label>
-                                        <textarea class="form-control campo-contacto" id="editar-contactos-texto"
-                                            rows="3"></textarea>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- RODAPÉ -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingRodape">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseRodape" aria-expanded="false"
-                                    aria-controls="collapseRodape">
-                                    Rodapé
-                                </button>
-                            </h2>
-
-                            <div id="collapseRodape" class="accordion-collapse collapse" aria-labelledby="headingRodape"
-                                data-bs-parent="#accordionGestao">
-
-                                <div class="accordion-body">
-
-                                    <div class="mb-3">
-                                        <label for="editar-localizacao" class="form-label">Localização</label>
-                                        <textarea class="form-control campo-contacto" id="editar-localizacao" rows="3"></textarea>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="editar-horario" class="form-label">Horário</label>
-                                        <textarea class="form-control campo-contacto" id="editar-horario" rows="3"></textarea>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="editar-email" class="form-label">Email</label>
-                                        <input type="text" class="form-control campo-contacto" id="editar-email">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="editar-telefone" class="form-label">Telefone</label>
-                                        <input type="text" class="form-control campo-contacto" id="editar-telefone">
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="botoes-gestao">
-                        <button type="submit" class="btn botao-principal">
-                            Guardar Alterações
-                        </button>
-
-                        <button type="button" class="btn botao-secundario-gestao" id="repor-conteudos">
-                            Repor Conteúdos Originais
-                        </button>
-                    </div>
-
-                </form>
-
-                <a href="../../../public/index.html" class="voltar-inicio">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Voltar à página pública
-                </a>
-
-            </section>
-
-        </main>
-
-    </div>
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasHistorico" aria-labelledby="offcanvasHistoricoLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasHistoricoLabel">
-            <i class="fa-solid fa-clock-rotate-left" style="color:#0086a8; margin-right:8px;"></i>
-            Histórico de movimentações de Equipamentos
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
-    </div>
 </div>
 
-    <!-- JavaScript do Bootstrap -->
-    <script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
-
-    <!-- JavaScript próprio -->
-    <script src="../../../assets/js/1241466.js"></script>
-
-</body>
-
-</html>
+<?php include '../../includes/footer.php'; ?>

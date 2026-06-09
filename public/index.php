@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../config/config.php';
+?>
+
 <!DOCTYPE html> <!-- informa que este é um documento HTML5  -->
 <html lang="pt"> <!-- define o início do documento HTLM, indicando que o idioma principal da página é portugês -->
 
@@ -5,7 +9,7 @@
     <meta charset="UTF-8"> <!-- define a codificação de caracteres para UTF-8 (acentos e caracteres especiais) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- torna a página responsiva (ajuste a diferentes tamanhos de ecrã) -->
-    <title>MediVault</title>
+    <title><?php echo APP_NAME; ?></title>
 
     <!--favicon-->
     <link rel="shortcut icon" href="../assets/imagens/LOGO.png" type="image/png">
@@ -30,9 +34,9 @@
     <nav class="navbar navbar-expand navbar-light bg-white shadow-sm sticky-top border-bottom">
         <!-- Logo e Nome -->
         <div class="container-fluid px-4">
-            <a class="navbar-brand d-flex align-items-center gap-1" href="index.html">
+            <a class="navbar-brand d-flex align-items-center gap-1" href="index.php">
                 <img src="../assets/imagens/LOGO.png" alt="Logo da MediVault" class="logo-navbar">
-                <span class="nome-navbar">MediVault</span>
+                <span class="nome-navbar"><?php echo APP_NAME; ?></span>
             </a>
 
             <!-- Links -->
@@ -56,7 +60,7 @@
                     </li>
                 </ul>
 
-                <a href="../private/iniciar_sessao.html" class="btn botao-login">Iniciar Sessão</a>
+                <a href="/medivault/private/iniciar_sessao.php" class="btn botao-login">Iniciar Sessão</a>
             </div>
 
         </div>

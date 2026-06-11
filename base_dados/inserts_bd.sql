@@ -4,7 +4,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ESTADOS EQUIPAMENTO
 -- ============================================================
 
-INSERT INTO estados_equipamento (designacao, ordem) VALUES
+INSERT IGNORE INTO estados_equipamento (designacao, ordem) VALUES
 ('Ativo', 1),
 ('Em manutenção', 2),
 ('Em calibração', 3),
@@ -146,11 +146,11 @@ INSERT IGNORE INTO unidades (designacao, ordem) VALUES
 -- ============================================================
 
 INSERT IGNORE INTO estados_acessorio (designacao, valor, ordem) VALUES
-('Novo',             1),
-('Em uso',         2),
-('Danificado',      3),
-('Em falta',       4),
-('Abatido',         5);
+('Novo', 'novo', 1),
+('Em uso', 'em-uso', 2),
+('Danificado', 'danificado', 3),
+('Em falta', 'em-falta', 4),
+('Abatido', 'abatido', 5);
 
 -- ============================================================
 -- MORADAS
@@ -175,7 +175,7 @@ INSERT INTO moradas (designacao, ordem) VALUES
 ('Viana do Castelo, Portugal', 16),
 ('Vila Real, Portugal', 17),
 ('Viseu, Portugal', 18),
-('Região Autónoma dos Açores, Portugal', 19);
+('Região Autónoma dos Açores, Portugal', 19),
 ('Região Autónoma da Madeira, Portugal', 20);
 
 -- ============================================================
@@ -185,7 +185,7 @@ INSERT INTO moradas (designacao, ordem) VALUES
 INSERT INTO tipos_alteracao (designacao, ordem) VALUES
 ('Criação', 1),
 ('Edição', 2),
-('Eliminação', 3),
+('Eliminação', 3);
 
 -- ============================================================
 -- UTILIZADORES
@@ -517,7 +517,7 @@ ALTER TABLE documentacao_equipamentos
 
 INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_documento, data_documento, validade_documento, ficheiro_documento, nome_original_ficheiro) VALUES
 -- EQ001
-((SELECT id FROM equipamentos WHERE codigo='EQ001'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual IntelliVue MX450','2025-03-10','2030-03-10','manual_servico_EQ001.pdf','manual_servico_EQ001.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ001'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual IntelliVue MX450','2025-03-10','2030-03-10','manual_servico_EQ001.pdf','manual_servico_EQ001.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ001'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização MX450','2025-03-10','2030-03-10','manual_utilizacao_EQ001.pdf','manual_utilizacao_EQ001.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ001'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade MX450','2025-03-10','2030-03-10','declaracao_conformidade_EQ001.pdf','declaracao_conformidade_EQ001.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ001'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Fatura'),'Fatura Philips 2025','2025-03-12',NULL,'fatura_EQ001.pdf','fatura_EQ001.pdf'),
@@ -526,7 +526,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ001'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório de Manutenção 2026','2026-02-15',NULL,'relatorio_manutencao_EQ001.pdf','relatorio_manutencao_EQ001.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ001'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração 2026','2026-01-10','2027-01-10','certificado_calibracao_EQ001.pdf','certificado_calibracao_EQ001.pdf'),
 -- EQ002
-((SELECT id FROM equipamentos WHERE codigo='EQ002'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Evita V600','2021-09-08','2031-09-08','manual_servico_EQ002.pdf','manual_servico_EQ002.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ002'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual Evita V600','2021-09-08','2031-09-08','manual_servico_EQ002.pdf','manual_servico_EQ002.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ002'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Evita V600','2021-09-08','2031-09-08','manual_utilizacao_EQ002.pdf','manual_utilizacao_EQ002.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ002'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Evita V600','2021-09-08','2031-09-08','declaracao_conformidade_EQ002.pdf','declaracao_conformidade_EQ002.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ002'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Dräger 2021','2021-09-08',NULL,'contrato_aquisicao_EQ002.pdf','contrato_aquisicao_EQ002.pdf'),
@@ -540,7 +540,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ003'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração B. Braun 2025','2025-03-15','2026-03-15','certificado_calibracao_EQ003.pdf','certificado_calibracao_EQ003.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ003'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Calibração'),'Relatório de Calibração 2025','2025-03-15',NULL,'relatorio_calibracao_EQ003.pdf','relatorio_calibracao_EQ003.pdf'),
 -- EQ004
-((SELECT id FROM equipamentos WHERE codigo='EQ004'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Zoll R Series','2022-06-15','2032-06-15','manual_servico_EQ004.pdf','manual_servico_EQ004.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ004'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Zoll R Series','2022-06-15','2032-06-15','manual_servico_EQ004.pdf','manual_servico_EQ004.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ004'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Zoll R Series','2022-06-15','2032-06-15','manual_utilizacao_EQ004.pdf','manual_utilizacao_EQ004.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ004'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Zoll R Series','2022-06-15','2032-06-15','declaracao_conformidade_EQ004.pdf','declaracao_conformidade_EQ004.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ004'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Zoll 2022','2022-06-15',NULL,'contrato_aquisicao_EQ004.pdf','contrato_aquisicao_EQ004.pdf'),
@@ -550,7 +550,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ004'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório Manutenção Anual 2025','2025-03-20',NULL,'relatorio_manutencao_EQ004.pdf','relatorio_manutencao_EQ004.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ004'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração Zoll 2025','2025-03-20','2026-03-20','certificado_calibracao_EQ004.pdf','certificado_calibracao_EQ004.pdf'),
 -- EQ005
-((SELECT id FROM equipamentos WHERE codigo='EQ005'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Siemens Acuson Redwood','2024-04-10','2033-04-10','manual_servico_EQ005.pdf','manual_servico_EQ005.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ005'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Siemens Acuson Redwood','2024-04-10','2033-04-10','manual_servico_EQ005.pdf','manual_servico_EQ005.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ005'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Acuson Redwood','2024-04-10','2034-04-10','manual_utilizacao_EQ005.pdf','manual_utilizacao_EQ005.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ005'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Siemens Acuson Redwood','2024-04-10','2034-04-10','declaracao_conformidade_EQ005.pdf','declaracao_conformidade_EQ005.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ005'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Siemens 2024','2024-04-10',NULL,'contrato_aquisicao_EQ005.pdf','contrato_aquisicao_EQ005.pdf'),
@@ -561,7 +561,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ005'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração Ecógrafo 2025','2025-02-15','2026-02-15','certificado_calibracao_EQ005.pdf','certificado_calibracao_EQ005.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ005'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Calibração'),'Relatório Calibração Ecógrafo 2025','2025-02-15',NULL,'relatorio_calibracao_EQ005.pdf','relatorio_calibracao_EQ005.pdf'),
 -- EQ006
-((SELECT id FROM equipamentos WHERE codigo='EQ006'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Roche Cobas Pure','2024-02-20','2034-02-20','manual_servico_EQ006.pdf','manual_servico_EQ006.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ006'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Roche Cobas Pure','2024-02-20','2034-02-20','manual_servico_EQ006.pdf','manual_servico_EQ006.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ006'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Cobas Pure','2024-02-20','2034-02-20','manual_utilizacao_EQ006.pdf','manual_utilizacao_EQ006.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ006'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Cobas Pure','2024-02-20','2034-02-20','declaracao_conformidade_EQ006.pdf','declaracao_conformidade_EQ006.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ006'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Roche 2024','2024-02-20',NULL,'contrato_aquisicao_EQ006.pdf','contrato_aquisicao_EQ006.pdf'),
@@ -572,7 +572,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ006'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração Cobas Pure 2025','2025-03-15','2026-03-15','certificado_calibracao_EQ006.pdf','certificado_calibracao_EQ006.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ006'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Calibração'),'Relatório Calibração Cobas Pure 2025','2025-03-15',NULL,'relatorio_calibracao_EQ006.pdf','relatorio_calibracao_EQ006.pdf'),
 -- EQ007
-((SELECT id FROM equipamentos WHERE codigo='EQ007'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Getinge HS66','2021-05-12','2031-05-12','manual_servico_EQ007.pdf','manual_servico_EQ007.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ007'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Getinge HS66','2021-05-12','2031-05-12','manual_servico_EQ007.pdf','manual_servico_EQ007.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ007'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Getinge HS66','2021-05-12','2031-05-12','manual_utilizacao_EQ007.pdf','manual_utilizacao_EQ007.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ007'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Getinge HS66','2021-05-12','2031-05-12','declaracao_conformidade_EQ007.pdf','declaracao_conformidade_EQ007.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ007'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Getinge 2021','2021-05-12',NULL,'contrato_aquisicao_EQ007.pdf','contrato_aquisicao_EQ007.pdf'),
@@ -581,12 +581,12 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ007'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Manutenção'),'Contrato Manutenção Getinge 2025','2025-01-01','2025-12-31','contrato_manutencao_EQ007.pdf','contrato_manutencao_EQ007.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ007'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório Preventivo 1º Trimestre 2025','2025-03-05',NULL,'relatorio_manutencao_EQ007.pdf','relatorio_manutencao_EQ007.pdf'),
 -- EQ008
-((SELECT id FROM equipamentos WHERE codigo='EQ008'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico BTL-5820S','2023-01-10','2033-01-10','manual_servico_EQ008.pdf','manual_servico_EQ008.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ008'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço BTL-5820S','2023-01-10','2033-01-10','manual_servico_EQ008.pdf','manual_servico_EQ008.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ008'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização BTL-5820S','2023-01-10','2033-01-10','manual_utilizacao_EQ008.pdf','manual_utilizacao_EQ008.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ008'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade BTL-5820S','2023-01-10','2033-01-10','declaracao_conformidade_EQ008.pdf','declaracao_conformidade_EQ008.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ008'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Garantia'),'Garantia BTL-5820S','2023-02-15','2026-02-15','certificado_garantia_EQ008.pdf','certificado_garantia_EQ008.pdf'),
 -- EQ009
-((SELECT id FROM equipamentos WHERE codigo='EQ009'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico CARESCAPE B450','2022-09-08','2032-09-08','manual_servico_EQ009.pdf','manual_servico_EQ009.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ009'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço CARESCAPE B450','2022-09-08','2032-09-08','manual_servico_EQ009.pdf','manual_servico_EQ009.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ009'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização CARESCAPE B450','2022-09-08','2032-09-08','manual_utilizacao_EQ009.pdf','manual_utilizacao_EQ009.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ009'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade CARESCAPE B450','2022-09-08','2032-09-08','declaracao_conformidade_EQ009.pdf','declaracao_conformidade_EQ009.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ009'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de aluguer'),'Contrato Aluguer GE 2022','2022-09-08','2027-09-08','contrato_aluguer_EQ009.pdf','contrato_aluguer_EQ009.pdf'),
@@ -596,7 +596,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ009'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração B450 2025','2025-05-10','2026-05-10','certificado_calibracao_EQ009.pdf','certificado_calibracao_EQ009.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ009'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Calibração'),'Relatório Calibração B450 2025','2025-05-10',NULL,'relatorio_calibracao_EQ009.pdf','relatorio_calibracao_EQ009.pdf'),
 -- EQ010
-((SELECT id FROM equipamentos WHERE codigo='EQ010'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Perfusor Space','2021-03-15','2031-03-15','manual_servico_EQ010.pdf','manual_servico_EQ010.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ010'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Perfusor Space','2021-03-15','2031-03-15','manual_servico_EQ010.pdf','manual_servico_EQ010.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ010'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Perfusor Space','2021-03-15','2031-03-15','manual_utilizacao_EQ010.pdf','manual_utilizacao_EQ010.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ010'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Perfusor Space','2021-03-15','2031-03-15','declaracao_conformidade_EQ010.pdf','declaracao_conformidade_EQ010.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ010'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de empréstimo'),'Contrato Empréstimo Bomba Infusora 2021','2021-07-22','2026-07-22','contrato_emprestimo_EQ010.pdf','contrato_emprestimo_EQ010.pdf'),
@@ -604,14 +604,14 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ010'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Manutenção'),'Contrato Manutenção Perfusor 2025','2025-01-01','2025-12-31','contrato_manutencao_EQ010.pdf','contrato_manutencao_EQ010.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ010'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório Avaliação Técnica 2025','2025-04-18',NULL,'relatorio_manutencao_EQ010.pdf','relatorio_manutencao_EQ010.pdf'),
 -- EQ011
-((SELECT id FROM equipamentos WHERE codigo='EQ011'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Philips TC35','2020-02-10','2030-02-10','manual_servico_EQ011.pdf','manual_servico_EQ011.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ011'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Philips TC35','2020-02-10','2030-02-10','manual_servico_EQ011.pdf','manual_servico_EQ011.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ011'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Philips TC35','2020-02-10','2030-02-10','manual_utilizacao_EQ011.pdf','manual_utilizacao_EQ011.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ011'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Philips TC35','2020-02-10','2030-02-10','declaracao_conformidade_EQ011.pdf','declaracao_conformidade_EQ011.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ011'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Philips 2020','2020-02-10',NULL,'contrato_aquisicao_EQ011.pdf','contrato_aquisicao_EQ011.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ011'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Fatura'),'Fatura Philips 2020','2020-02-10',NULL,'fatura_EQ011.pdf','fatura_EQ011.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ011'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Garantia'),'Garantia Philips TC35','2020-02-10','2023-02-10','certificado_garantia_EQ011.pdf','certificado_garantia_EQ011.pdf'),
 -- EQ012
-((SELECT id FROM equipamentos WHERE codigo='EQ012'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Dräger Evita V600','2023-01-12','2033-01-12','manual_servico_EQ012.pdf','manual_servico_EQ012.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ012'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Dräger Evita V600','2023-01-12','2033-01-12','manual_servico_EQ012.pdf','manual_servico_EQ012.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ012'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Evita V600','2023-01-12','2033-01-12','manual_utilizacao_EQ012.pdf','manual_utilizacao_EQ012.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ012'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Evita V600','2023-01-12','2033-01-12','declaracao_conformidade_EQ012.pdf','declaracao_conformidade_EQ012.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ012'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Dräger 2023','2023-01-12',NULL,'contrato_aquisicao_EQ012.pdf','contrato_aquisicao_EQ012.pdf'),
@@ -621,14 +621,14 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ012'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório Preventivo 1º Semestre 2025','2025-04-15',NULL,'relatorio_manutencao_EQ012.pdf','relatorio_manutencao_EQ012.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ012'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração Evita V600','2025-04-15','2026-04-15','certificado_calibracao_EQ012.pdf','certificado_calibracao_EQ012.pdf'),
 -- EQ013
-((SELECT id FROM equipamentos WHERE codigo='EQ013'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Eppendorf 5702','2016-04-05','2026-04-05','manual_servico_EQ013.pdf','manual_servico_EQ013.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ013'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Eppendorf 5702','2016-04-05','2026-04-05','manual_servico_EQ013.pdf','manual_servico_EQ013.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ013'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Eppendorf 5702','2016-04-05','2026-04-05','manual_utilizacao_EQ013.pdf','manual_utilizacao_EQ013.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ013'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Eppendorf 5702','2016-04-05','2026-04-05','declaracao_conformidade_EQ013.pdf','declaracao_conformidade_EQ013.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ013'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Centrífuga 2016','2016-04-05',NULL,'contrato_aquisicao_EQ013.pdf','contrato_aquisicao_EQ013.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ013'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Fatura'),'Fatura Centrífuga 2016','2016-04-05',NULL,'fatura_EQ013.pdf','fatura_EQ013.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ013'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Garantia'),'Garantia Eppendorf 5702','2016-04-05','2019-04-05','certificado_garantia_EQ013.pdf','certificado_garantia_EQ013.pdf'),
 -- EQ014
-((SELECT id FROM equipamentos WHERE codigo='EQ014'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico IntelliVue MX550','2022-06-20','2032-06-20','manual_servico_EQ014.pdf','manual_servico_EQ014.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ014'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço IntelliVue MX550','2022-06-20','2032-06-20','manual_servico_EQ014.pdf','manual_servico_EQ014.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ014'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização IntelliVue MX550','2022-06-20','2032-06-20','manual_utilizacao_EQ014.pdf','manual_utilizacao_EQ014.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ014'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade IntelliVue MX550','2022-06-20','2032-06-20','declaracao_conformidade_EQ014.pdf','declaracao_conformidade_EQ014.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ014'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Philips 2022','2022-06-20',NULL,'contrato_aquisicao_EQ014.pdf','contrato_aquisicao_EQ014.pdf'),
@@ -639,7 +639,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ014'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração MX550','2026-01-15','2027-01-15','certificado_calibracao_EQ014.pdf','certificado_calibracao_EQ014.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ014'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Calibração'),'Relatório Calibração MX550','2026-01-15',NULL,'relatorio_calibracao_EQ014.pdf','relatorio_calibracao_EQ014.pdf'),
 -- EQ015
-((SELECT id FROM equipamentos WHERE codigo='EQ015'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Biodex Gait Trainer 3','2022-09-15','2032-09-15','manual_servico_EQ015.pdf','manual_servico_EQ015.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ015'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Biodex Gait Trainer 3','2022-09-15','2032-09-15','manual_servico_EQ015.pdf','manual_servico_EQ015.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ015'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Gait Trainer 3','2022-09-15','2032-09-15','manual_utilizacao_EQ015.pdf','manual_utilizacao_EQ015.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ015'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Gait Trainer 3','2022-09-15','2032-09-15','declaracao_conformidade_EQ015.pdf','declaracao_conformidade_EQ015.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ015'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de aluguer'),'Contrato Aluguer Biodex 2022','2022-10-10','2027-10-10','contrato_aluguer_EQ015.pdf','contrato_aluguer_EQ015.pdf'),
@@ -650,14 +650,14 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ015'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração Gait Trainer 2026','2026-05-20','2026-06-20','certificado_calibracao_EQ015.pdf','certificado_calibracao_EQ015.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ015'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Calibração'),'Relatório Calibração Gait Trainer 2026','2026-05-20',NULL,'relatorio_calibracao_EQ015.pdf','relatorio_calibracao_EQ015.pdf'),
 -- EQ016
-((SELECT id FROM equipamentos WHERE codigo='EQ016'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico ACUSON Redwood','2024-01-15','2034-01-15','manual_servico_EQ016.pdf','manual_servico_EQ016.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ016'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço ACUSON Redwood','2024-01-15','2034-01-15','manual_servico_EQ016.pdf','manual_servico_EQ016.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ016'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização ACUSON Redwood','2024-01-15','2034-01-15','manual_utilizacao_EQ016.pdf','manual_utilizacao_EQ016.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ016'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade ACUSON Redwood','2024-01-15','2034-01-15','declaracao_conformidade_EQ016.pdf','declaracao_conformidade_EQ016.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ016'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Termo de doação'),'Termo de Doação Ecógrafo 2024','2024-02-20',NULL,'termo_doacao_EQ016.pdf','termo_doacao_EQ016.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ016'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Garantia'),'Garantia ACUSON Redwood','2024-02-20','2028-02-20','certificado_garantia_EQ016.pdf','certificado_garantia_EQ016.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ016'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração Redwood 2026','2026-01-15','2027-01-15','certificado_calibracao_EQ016.pdf','certificado_calibracao_EQ016.pdf'),
 -- EQ017
-((SELECT id FROM equipamentos WHERE codigo='EQ017'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Sysmex XN-550','2024-03-12','2034-03-12','manual_servico_EQ017.pdf','manual_servico_EQ017.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ017'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Sysmex XN-550','2024-03-12','2034-03-12','manual_servico_EQ017.pdf','manual_servico_EQ017.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ017'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Sysmex XN-550','2024-03-12','2034-03-12','manual_utilizacao_EQ017.pdf','manual_utilizacao_EQ017.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ017'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Sysmex XN-550','2024-03-12','2034-03-12','declaracao_conformidade_EQ017.pdf','declaracao_conformidade_EQ017.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ017'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Sysmex 2024','2024-03-18',NULL,'contrato_aquisicao_EQ017.pdf','contrato_aquisicao_EQ017.pdf'),
@@ -667,7 +667,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ017'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório Preventivo Laboratório 2026','2026-01-10',NULL,'relatorio_manutencao_EQ017.pdf','relatorio_manutencao_EQ017.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ017'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração XN-550','2026-01-10','2027-01-10','certificado_calibracao_EQ017.pdf','certificado_calibracao_EQ017.pdf'),
 -- EQ018
-((SELECT id FROM equipamentos WHERE codigo='EQ018'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Perfusor Compact Plus','2023-07-18','2033-07-18','manual_servico_EQ018.pdf','manual_servico_EQ018.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ018'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Perfusor Compact Plus','2023-07-18','2033-07-18','manual_servico_EQ018.pdf','manual_servico_EQ018.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ018'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Perfusor Compact Plus','2023-07-18','2033-07-18','manual_utilizacao_EQ018.pdf','manual_utilizacao_EQ018.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ018'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Perfusor Compact Plus','2023-07-18','2033-07-18','declaracao_conformidade_EQ018.pdf','declaracao_conformidade_EQ018.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ018'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Bomba Seringa 2023','2023-07-18',NULL,'contrato_aquisicao_EQ018.pdf','contrato_aquisicao_EQ018.pdf'),
@@ -676,7 +676,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ018'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Manutenção'),'Contrato Manutenção B. Braun 2026','2026-01-01','2026-12-31','contrato_manutencao_EQ018.pdf','contrato_manutencao_EQ018.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ018'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório Preventivo 2026','2026-02-15',NULL,'relatorio_manutencao_EQ018.pdf','relatorio_manutencao_EQ018.pdf'),
 -- EQ019
-((SELECT id FROM equipamentos WHERE codigo='EQ019'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Getinge WD15 Claro','2019-04-15','2029-04-15','manual_servico_EQ019.pdf','manual_servico_EQ019.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ019'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Getinge WD15 Claro','2019-04-15','2029-04-15','manual_servico_EQ019.pdf','manual_servico_EQ019.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ019'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Getinge WD15 Claro','2019-04-15','2029-04-15','manual_utilizacao_EQ019.pdf','manual_utilizacao_EQ019.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ019'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade WD15 Claro','2019-04-15','2029-04-15','declaracao_conformidade_EQ019.pdf','declaracao_conformidade_EQ019.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ019'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição WD15 2019','2019-05-20',NULL,'contrato_aquisicao_EQ019.pdf','contrato_aquisicao_EQ019.pdf'),
@@ -685,7 +685,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ019'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Manutenção'),'Contrato Manutenção WD15 2026','2026-01-01','2026-12-31','contrato_manutencao_EQ019.pdf','contrato_manutencao_EQ019.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ019'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório Preventivo WD15 2026','2026-01-10',NULL,'relatorio_manutencao_EQ019.pdf','relatorio_manutencao_EQ019.pdf'),
 -- EQ020
-((SELECT id FROM equipamentos WHERE codigo='EQ020'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Isolette 8000 Plus','2023-05-05','2033-05-05','manual_servico_EQ020.pdf','manual_servico_EQ020.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ020'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Isolette 8000 Plus','2023-05-05','2033-05-05','manual_servico_EQ020.pdf','manual_servico_EQ020.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ020'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Isolette 8000 Plus','2023-05-05','2033-05-05','manual_utilizacao_EQ020.pdf','manual_utilizacao_EQ020.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ020'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Isolette 8000 Plus','2023-05-05','2033-05-05','declaracao_conformidade_EQ020.pdf','declaracao_conformidade_EQ020.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ020'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Incubadora 2023','2023-05-05',NULL,'contrato_aquisicao_EQ020.pdf','contrato_aquisicao_EQ020.pdf'),
@@ -695,7 +695,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ020'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório Preventivo Isolette 2026','2026-01-20',NULL,'relatorio_manutencao_EQ020.pdf','relatorio_manutencao_EQ020.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ020'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração Isolette','2026-01-20','2027-01-20','certificado_calibracao_EQ020.pdf','certificado_calibracao_EQ020.pdf'),
 -- EQ021
-((SELECT id FROM equipamentos WHERE codigo='EQ021'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico CARESCAPE B450','2021-03-10','2031-03-10','manual_servico_EQ021.pdf','manual_servico_EQ021.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ021'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço CARESCAPE B450','2021-03-10','2031-03-10','manual_servico_EQ021.pdf','manual_servico_EQ021.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ021'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização CARESCAPE B450','2021-03-10','2031-03-10','manual_utilizacao_EQ021.pdf','manual_utilizacao_EQ021.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ021'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade CARESCAPE B450','2021-03-10','2031-03-10','declaracao_conformidade_EQ021.pdf','declaracao_conformidade_EQ021.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ021'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Monitor GE 2021','2021-03-25',NULL,'contrato_aquisicao_EQ021.pdf','contrato_aquisicao_EQ021.pdf'),
@@ -705,7 +705,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ021'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório Corretivo B450','2026-06-05',NULL,'relatorio_manutencao_EQ021.pdf','relatorio_manutencao_EQ021.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ021'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração B450','2026-02-15','2027-02-15','certificado_calibracao_EQ021.pdf','certificado_calibracao_EQ021.pdf'),
 -- EQ022
-((SELECT id FROM equipamentos WHERE codigo='EQ022'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico PageWriter TC35','2022-05-12','2032-05-12','manual_servico_EQ022.pdf','manual_servico_EQ022.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ022'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço PageWriter TC35','2022-05-12','2032-05-12','manual_servico_EQ022.pdf','manual_servico_EQ022.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ022'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização PageWriter TC35','2022-05-12','2032-05-12','manual_utilizacao_EQ022.pdf','manual_utilizacao_EQ022.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ022'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade PageWriter TC35','2022-05-12','2032-05-12','declaracao_conformidade_EQ022.pdf','declaracao_conformidade_EQ022.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ022'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição ECG 2022','2022-06-20',NULL,'contrato_aquisicao_EQ022.pdf','contrato_aquisicao_EQ022.pdf'),
@@ -716,14 +716,14 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ022'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração TC35','2026-06-10','2027-06-10','certificado_calibracao_EQ022.pdf','certificado_calibracao_EQ022.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ022'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Calibração'),'Relatório Calibração TC35','2026-06-10',NULL,'relatorio_calibracao_EQ022.pdf','relatorio_calibracao_EQ022.pdf'),
 -- EQ023
-((SELECT id FROM equipamentos WHERE codigo='EQ023'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Ergoselect 200','2018-03-15','2028-03-15','manual_servico_EQ023.pdf','manual_servico_EQ023.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ023'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Ergoselect 200','2018-03-15','2028-03-15','manual_servico_EQ023.pdf','manual_servico_EQ023.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ023'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Ergoselect 200','2018-03-15','2028-03-15','manual_utilizacao_EQ023.pdf','manual_utilizacao_EQ023.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ023'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Ergoselect 200','2018-03-15','2028-03-15','declaracao_conformidade_EQ023.pdf','declaracao_conformidade_EQ023.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ023'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Ergoselect 2018','2018-04-20',NULL,'contrato_aquisicao_EQ023.pdf','contrato_aquisicao_EQ023.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ023'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Fatura'),'Fatura Ergoselect 2018','2018-04-20',NULL,'fatura_EQ023.pdf','fatura_EQ023.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ023'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Garantia'),'Garantia Ergoselect 200','2018-04-20','2021-04-20','certificado_garantia_EQ023.pdf','certificado_garantia_EQ023.pdf'),
 -- EQ024
-((SELECT id FROM equipamentos WHERE codigo='EQ024'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Infusomat Space','2020-01-15','2030-01-15','manual_servico_EQ024.pdf','manual_servico_EQ024.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ024'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Infusomat Space','2020-01-15','2030-01-15','manual_servico_EQ024.pdf','manual_servico_EQ024.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ024'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Infusomat Space','2020-01-15','2030-01-15','manual_utilizacao_EQ024.pdf','manual_utilizacao_EQ024.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ024'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Infusomat Space','2020-01-15','2030-01-15','declaracao_conformidade_EQ024.pdf','declaracao_conformidade_EQ024.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ024'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Infusomat 2020','2020-02-20',NULL,'contrato_aquisicao_EQ024.pdf','contrato_aquisicao_EQ024.pdf'),
@@ -733,7 +733,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ024'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório Avaliação Técnica 2026','2026-06-08',NULL,'relatorio_manutencao_EQ024.pdf','relatorio_manutencao_EQ024.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ024'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração Infusomat','2026-02-10','2027-02-10','certificado_calibracao_EQ024.pdf','certificado_calibracao_EQ024.pdf'),
 -- EQ025
-((SELECT id FROM equipamentos WHERE codigo='EQ025'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Cobas c 311','2024-02-10','2034-02-10','manual_servico_EQ025.pdf','manual_servico_EQ025.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ025'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Cobas c 311','2024-02-10','2034-02-10','manual_servico_EQ025.pdf','manual_servico_EQ025.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ025'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Cobas c 311','2024-02-10','2034-02-10','manual_utilizacao_EQ025.pdf','manual_utilizacao_EQ025.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ025'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Cobas c 311','2024-02-10','2034-02-10','declaracao_conformidade_EQ025.pdf','declaracao_conformidade_EQ025.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ025'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de empréstimo'),'Contrato Empréstimo Cobas c311','2024-08-01','2027-08-01','contrato_emprestimo_EQ025.pdf','contrato_emprestimo_EQ025.pdf'),
@@ -742,14 +742,14 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ025'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório Trimestral 2026','2026-04-01',NULL,'relatorio_manutencao_EQ025.pdf','relatorio_manutencao_EQ025.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ025'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração Cobas c311','2026-04-01','2027-04-01','certificado_calibracao_EQ025.pdf','certificado_calibracao_EQ025.pdf'),
 -- EQ026
-((SELECT id FROM equipamentos WHERE codigo='EQ026'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico SEER 1000','2015-02-10','2025-02-10','manual_servico_EQ026.pdf','manual_servico_EQ026.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ026'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço SEER 1000','2015-02-10','2025-02-10','manual_servico_EQ026.pdf','manual_servico_EQ026.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ026'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização SEER 1000','2015-02-10','2025-02-10','manual_utilizacao_EQ026.pdf','manual_utilizacao_EQ026.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ026'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade SEER 1000','2015-02-10','2025-02-10','declaracao_conformidade_EQ026.pdf','declaracao_conformidade_EQ026.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ026'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Holter 2015','2015-03-20',NULL,'contrato_aquisicao_EQ026.pdf','contrato_aquisicao_EQ026.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ026'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Fatura'),'Fatura Holter 2015','2015-03-20',NULL,'fatura_EQ026.pdf','fatura_EQ026.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ026'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Garantia'),'Garantia SEER 1000','2015-03-20','2018-03-20','certificado_garantia_EQ026.pdf','certificado_garantia_EQ026.pdf'),
 -- EQ027
-((SELECT id FROM equipamentos WHERE codigo='EQ027'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Philips Lumify','2025-01-15','2035-01-15','manual_servico_EQ027.pdf','manual_servico_EQ027.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ027'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Philips Lumify','2025-01-15','2035-01-15','manual_servico_EQ027.pdf','manual_servico_EQ027.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ027'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Philips Lumify','2025-01-15','2035-01-15','manual_utilizacao_EQ027.pdf','manual_utilizacao_EQ027.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ027'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Philips Lumify','2025-01-15','2035-01-15','declaracao_conformidade_EQ027.pdf','declaracao_conformidade_EQ027.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ027'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de aluguer'),'Contrato Aluguer Lumify','2025-02-01','2027-01-31','contrato_aluguer_EQ027.pdf','contrato_aluguer_EQ027.pdf'),
@@ -758,7 +758,7 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ027'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Manutenção'),'Contrato Manutenção Lumify','2026-01-01','2026-12-31','contrato_manutencao_EQ027.pdf','contrato_manutencao_EQ027.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ027'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Relatório de Manutenção'),'Relatório Preventivo Lumify','2026-02-12',NULL,'relatorio_manutencao_EQ027.pdf','relatorio_manutencao_EQ027.pdf'),
 -- EQ028
-((SELECT id FROM equipamentos WHERE codigo='EQ028'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Oxylog 3000 Plus','2019-04-12','2029-04-12','manual_servico_EQ028.pdf','manual_servico_EQ028.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ028'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Oxylog 3000 Plus','2019-04-12','2029-04-12','manual_servico_EQ028.pdf','manual_servico_EQ028.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ028'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Oxylog 3000 Plus','2019-04-12','2029-04-12','manual_utilizacao_EQ028.pdf','manual_utilizacao_EQ028.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ028'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Oxylog 3000 Plus','2019-04-12','2029-04-12','declaracao_conformidade_EQ028.pdf','declaracao_conformidade_EQ028.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ028'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Oxylog 2019','2019-05-10',NULL,'contrato_aquisicao_EQ028.pdf','contrato_aquisicao_EQ028.pdf'),
@@ -766,14 +766,14 @@ INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_d
 ((SELECT id FROM equipamentos WHERE codigo='EQ028'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Garantia'),'Garantia Oxylog 3000 Plus','2019-05-10','2022-05-10','certificado_garantia_EQ028.pdf','certificado_garantia_EQ028.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ028'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Calibração'),'Certificado Calibração Oxylog','2026-01-15','2027-01-15','certificado_calibracao_EQ028.pdf','certificado_calibracao_EQ028.pdf'),
 -- EQ029
-((SELECT id FROM equipamentos WHERE codigo='EQ029'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico Gait Trainer 3','2022-03-15','2032-03-15','manual_servico_EQ029.pdf','manual_servico_EQ029.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ029'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço Gait Trainer 3','2022-03-15','2032-03-15','manual_servico_EQ029.pdf','manual_servico_EQ029.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ029'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização Gait Trainer 3','2022-03-15','2032-03-15','manual_utilizacao_EQ029.pdf','manual_utilizacao_EQ029.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ029'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade Gait Trainer 3','2022-03-15','2032-03-15','declaracao_conformidade_EQ029.pdf','declaracao_conformidade_EQ029.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ029'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição Gait Trainer 2022','2022-04-20',NULL,'contrato_aquisicao_EQ029.pdf','contrato_aquisicao_EQ029.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ029'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Fatura'),'Fatura Gait Trainer 2022','2022-04-20',NULL,'fatura_EQ029.pdf','fatura_EQ029.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ029'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Certificado de Garantia'),'Garantia Gait Trainer 3','2022-04-20','2025-04-20','certificado_garantia_EQ029.pdf','certificado_garantia_EQ029.pdf'),
 -- EQ030
-((SELECT id FROM equipamentos WHERE codigo='EQ030'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual Técnico'),'Manual Técnico IntelliVue MX550','2025-02-15','2035-02-15','manual_servico_EQ030.pdf','manual_servico_EQ030.pdf'),
+((SELECT id FROM equipamentos WHERE codigo='EQ030'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Serviço'),'Manual de Serviço IntelliVue MX550','2025-02-15','2035-02-15','manual_servico_EQ030.pdf','manual_servico_EQ030.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ030'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Manual de Utilização'),'Manual de Utilização IntelliVue MX550','2025-02-15','2035-02-15','manual_utilizacao_EQ030.pdf','manual_utilizacao_EQ030.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ030'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Declaração de Conformidade'),'Declaração de Conformidade IntelliVue MX550','2025-02-15','2035-02-15','declaracao_conformidade_EQ030.pdf','declaracao_conformidade_EQ030.pdf'),
 ((SELECT id FROM equipamentos WHERE codigo='EQ030'),(SELECT id FROM tipos_documento_equipamento WHERE designacao='Contrato de Aquisição'),'Contrato Aquisição IntelliVue MX550','2025-03-01',NULL,'contrato_aquisicao_EQ030.pdf','contrato_aquisicao_EQ030.pdf'),
@@ -830,7 +830,7 @@ INSERT INTO acessorios (equipamento_id, nome, referencia, quantidade, unidade_id
 ((SELECT id FROM equipamentos WHERE codigo='EQ012'),'Braço articulado','ACC-BRA-012',1,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='em-uso'),''),
 ((SELECT id FROM equipamentos WHERE codigo='EQ012'),'Humidificador aquecido','ACC-HUM-012',1,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='em-uso'),''),
 -- EQ013
-((SELECT id FROM equipamentos WHERE codigo='EQ013'),'Rotor de 24 posições','ACC-ROT-013',1,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='fora-de-uso'),''),
+((SELECT id FROM equipamentos WHERE codigo='EQ013'),'Rotor de 24 posições','ACC-ROT-013',1,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='danificado'),''),
 -- EQ014
 ((SELECT id FROM equipamentos WHERE codigo='EQ014'),'Sensor SpO2','ACC-SPO2-014',2,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='em-uso'),''),
 ((SELECT id FROM equipamentos WHERE codigo='EQ014'),'Cabo ECG','ACC-ECG-014',1,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='em-uso'),''),
@@ -863,7 +863,7 @@ INSERT INTO acessorios (equipamento_id, nome, referencia, quantidade, unidade_id
 -- EQ025
 ((SELECT id FROM equipamentos WHERE codigo='EQ025'),'Leitor de código de barras','ACC-COD-025',1,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='em-uso'),''),
 -- EQ026
-((SELECT id FROM equipamentos WHERE codigo='EQ026'),'Bolsa de transporte','ACC-BOL-026',1,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='fora-de-uso'),''),
+((SELECT id FROM equipamentos WHERE codigo='EQ026'),'Bolsa de transporte','ACC-BOL-026',1,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='abatido'),''),
 -- EQ027
 ((SELECT id FROM equipamentos WHERE codigo='EQ027'),'Sonda convexa','ACC-SON-027',1,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='em-uso'),''),
 ((SELECT id FROM equipamentos WHERE codigo='EQ027'),'Tablet clínico','ACC-TAB-027',1,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='em-uso'),''),
@@ -923,7 +923,7 @@ INSERT INTO consumiveis (equipamento_id, nome, referencia, quantidade, unidade_i
 ((SELECT id FROM equipamentos WHERE codigo='EQ012'),'Circuito respiratório','CON-CIR-012',20,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='em-uso'),''),
 ((SELECT id FROM equipamentos WHERE codigo='EQ012'),'Filtro bacteriano','CON-FIL-012',30,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='novo'),''),
 -- EQ013
-((SELECT id FROM equipamentos WHERE codigo='EQ013'),'Tubos de centrifugação','CON-TUB-013',0,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='esgotado'),''),
+((SELECT id FROM equipamentos WHERE codigo='EQ013'),'Tubos de centrifugação','CON-TUB-013',0,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='danificado'),''),
 -- EQ014
 ((SELECT id FROM equipamentos WHERE codigo='EQ014'),'Elétrodos ECG','CON-ECG-014',150,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='em-uso'),''),
 -- EQ016
@@ -949,7 +949,7 @@ INSERT INTO consumiveis (equipamento_id, nome, referencia, quantidade, unidade_i
 ((SELECT id FROM equipamentos WHERE codigo='EQ025'),'Reagente bioquímico','CON-REA-025',12,(SELECT id FROM unidades WHERE designacao='kit'),(SELECT id FROM estados_acessorio WHERE valor='novo'),''),
 ((SELECT id FROM equipamentos WHERE codigo='EQ025'),'Calibrador','CON-CAL-025',4,(SELECT id FROM unidades WHERE designacao='kit'),(SELECT id FROM estados_acessorio WHERE valor='novo'),''),
 -- EQ026
-((SELECT id FROM equipamentos WHERE codigo='EQ026'),'Elétrodos descartáveis','CON-ELE-026',0,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='esgotado'),''),
+((SELECT id FROM equipamentos WHERE codigo='EQ026'),'Elétrodos descartáveis','CON-ELE-026',0,(SELECT id FROM unidades WHERE designacao='unid'),(SELECT id FROM estados_acessorio WHERE valor='abatido'),''),
 -- EQ027
 ((SELECT id FROM equipamentos WHERE codigo='EQ027'),'Gel de ultrassom','CON-GEL-027',20,(SELECT id FROM unidades WHERE designacao='frasco'),(SELECT id FROM estados_acessorio WHERE valor='novo'),''),
 -- EQ028

@@ -54,7 +54,7 @@ Table separadores_documentacao {
   designacao varchar [not null, unique]
   ordem      int     [not null, default: 0]
 
-  Note: 'Grupos de documentação: Técnica, Utilização, Conformidade, Aquisição, Garantia, Contrato, Calibração'
+  Note: 'Grupos de documentação: Identificação, Aquisição, Garantia, Contrato'
 }
 
 Table tipos_documento_equipamento {
@@ -63,7 +63,7 @@ Table tipos_documento_equipamento {
   designacao   varchar [not null, unique]
   ordem        int     [not null, default: 0]
 
-  Note: 'Cada tipo pertence a um separador. Ex: Manual de Serviço → Técnica; Fatura → Aquisição'
+  Note: 'Cada tipo pertence a um separador. Ex: Manual de Serviço → Identificação; Fatura → Aquisição'
 }
 
 Table tipos_documento_fornecedor {
@@ -71,7 +71,7 @@ Table tipos_documento_fornecedor {
   designacao varchar [not null, unique]
   ordem      int     [not null, default: 0]
 
-  Note: 'Valores: Certificado ISO, Licença de distribuição, Certificado de acreditação técnica, Declaração de autorização de representação'
+  Note: 'Valores: Certificado ISO, Licença de distribuição, Certificado de acreditação técnica, Declaração de autorização de representação, Contrato geral de prestação de serviços, Alvará ou licença de atividade'
 }
 
 Table perfis_utilizador {
@@ -79,7 +79,7 @@ Table perfis_utilizador {
   designacao varchar [not null, unique]
   ordem      int     [not null, default: 0]
 
-  Note: 'Valores: Administrador, Técnico, Utilizador'
+  Note: 'Valores: Administrador, Profissional de Saúde'
 }
 
 Table tipos_contrato {
@@ -113,7 +113,7 @@ Table estados_acessorio {
   // valor interno usado no código (ex: 'em-uso')
   ordem      int     [not null, default: 0]
 
-  Note: 'valor = código interno usado no código (ex: em-uso). Valores: novo, em-uso, danificado, em-falta, obsoleto, fora-de-uso, esgotado'
+  Note: 'Valores: Novo, Em uso, Danificado, Em falta, Abatido'
 }
 
 Table moradas {
@@ -129,7 +129,7 @@ Table tipos_alteracao {
   designacao varchar [not null, unique]
   ordem      int     [not null, default: 0]
 
-  Note: 'Preenchido automaticamente pelo sistema. Valores: Criação, Edição, Eliminação, Alteração de estado, Alteração de localização'
+  Note: 'Preenchido automaticamente pelo sistema. Valores: Criação, Edição, Eliminação'
 }
 
 // ============================================================

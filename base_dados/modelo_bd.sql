@@ -278,13 +278,13 @@ ALTER TABLE `tipos_fornecedor` COMMENT = 'Valores: Fabricante, Distribuidor ou F
 
 ALTER TABLE `tipos_entrada` COMMENT = 'Valores: Compra, Doação, Aluguer, Empréstimo';
 
-ALTER TABLE `separadores_documentacao` COMMENT = 'Grupos de documentação: Técnica, Utilização, Conformidade, Aquisição, Garantia, Contrato, Calibração';
+ALTER TABLE `separadores_documentacao` COMMENT = 'Grupos de documentação: Identificação, Aquisição, Garantia, Contrato';
 
-ALTER TABLE `tipos_documento_equipamento` COMMENT = 'Cada tipo pertence a um separador. Ex: Manual de Serviço → Técnica; Fatura → Aquisição';
+ALTER TABLE `tipos_documento_equipamento` COMMENT = 'Cada tipo pertence a um separador. Ex: Manual de Serviço → Identificação; Fatura → Aquisição';
 
-ALTER TABLE `tipos_documento_fornecedor` COMMENT = 'Valores: Certificado ISO, Licença de distribuição, Certificado de acreditação técnica, Declaração de autorização de representação';
+ALTER TABLE `tipos_documento_fornecedor` COMMENT = 'Valores: Certificado ISO, Licença de distribuição, Certificado de acreditação técnica, Declaração de autorização de representação, Contrato geral de prestação de serviços, Alvará ou licença de atividade';
 
-ALTER TABLE `perfis_utilizador` COMMENT = 'Valores: Administrador, Técnico, Utilizador';
+ALTER TABLE `perfis_utilizador` COMMENT = 'Valores: Administrador, Profissional de Saúde';
 
 ALTER TABLE `tipos_contrato` COMMENT = 'Valores: Manutenção preventiva, Manutenção corretiva, Manutenção preventiva e corretiva';
 
@@ -292,11 +292,11 @@ ALTER TABLE `periodicidades` COMMENT = 'Valores: Mensal, Trimestral, Semestral, 
 
 ALTER TABLE `unidades` COMMENT = 'Valores: unid, cx, pack, par, rolo, frasco, saco, kit, L, mL, m, cm';
 
-ALTER TABLE `estados_acessorio` COMMENT = 'valor = código interno usado no código (ex: em-uso). Valores: novo, em-uso, danificado, em-falta, obsoleto, fora-de-uso, esgotado';
+ALTER TABLE `estados_acessorio` COMMENT = 'Valores: Novo, Em uso, Danificado, Em falta, Abatido';
 
 ALTER TABLE `moradas` COMMENT = 'Distritos e regiões de Portugal. Ex: Lisboa, Porto, Aveiro, Região Autónoma da Madeira';
 
-ALTER TABLE `tipos_alteracao` COMMENT = 'Preenchido automaticamente pelo sistema. Valores: Criação, Edição, Eliminação, Alteração de estado, Alteração de localização';
+ALTER TABLE `tipos_alteracao` COMMENT = 'Preenchido automaticamente pelo sistema. Valores: Criação, Edição, Eliminação';
 
 ALTER TABLE `equipamentos` COMMENT = 'O índice único (numero_serie, fabricante, modelo) garante que o mesmo número de série não é duplicado para o mesmo fabricante e modelo';
 

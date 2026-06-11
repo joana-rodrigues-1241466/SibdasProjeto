@@ -21,6 +21,7 @@ body {
     color: #0b2d45;
     background-color: #ffffff;
     overflow-x: hidden;
+    padding-top: 80px;
 }
 
 /* Navbar */
@@ -2387,7 +2388,7 @@ body {
 }
 
 .select-filtro-wrapper::after {
-    content: "▾";
+    content: "\25BE";
     position: absolute;
     right: 16px;
     top: 50%;

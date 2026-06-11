@@ -31,7 +31,7 @@ require_once __DIR__ . '/../config/config.php';
 <body>
 
     <!-- Navegação -->
-    <nav class="navbar navbar-expand navbar-light bg-white shadow-sm sticky-top border-bottom">
+    <nav class="navbar navbar-expand navbar-light bg-white shadow-sm fixed-top border-bottom">
         <!-- Logo e Nome -->
         <div class="container-fluid px-4">
             <a class="navbar-brand d-flex align-items-center gap-1" href="index.php">
@@ -117,7 +117,6 @@ require_once __DIR__ . '/../config/config.php';
                 <div class="col-lg-6">
                     <div class="sobre-card">
                         <div class="d-flex align-items-center gap-3 mb-5">
-                            <!-- Retirado do ChatGPT: ícone da biblioteca Font Awesome, não abordada nos PowerPoints -->
                             <i class="fa-solid fa-clipboard-list icone-principal"></i>
                             <div>
                                 <h2 id="sobre-card-titulo" class="titulo-card mb-0">O que a MediVault permite?</h2>
@@ -126,31 +125,27 @@ require_once __DIR__ . '/../config/config.php';
                         </div>
 
                         <div class="d-flex align-items-start gap-3 mb-4">
-                            <!-- Retirado do ChatGPT: ícone da biblioteca Font Awesome, não abordada nos PowerPoints -->
                             <i class="fa-solid fa-boxes-stacked icone-funcao"></i>
                             <p id="sobre-card-texto-1" class="mb-0">Gerir equipamentos médicos e respetiva informação
-                                técnica</p>
+                                técnica;</p>
                         </div>
 
                         <div class="d-flex align-items-start gap-3 mb-4">
-                            <!-- Retirado do ChatGPT: ícone da biblioteca Font Awesome, não abordada nos PowerPoints -->
                             <i class="fa-solid fa-location-dot icone-funcao"></i>
                             <p id="sobre-card-texto-2" class="mb-0">Associar equipamentos a localizações hospitalares
-                                específicas</p>
+                                específicas;</p>
                         </div>
 
                         <div class="d-flex align-items-center gap-3 mb-4">
-                            <!-- Retirado do ChatGPT: ícone da biblioteca Font Awesome, não abordada nos PowerPoints -->
                             <i class="fa-solid fa-truck-medical icone-funcao"></i>
                             <p id="sobre-card-texto-3" class="mb-0">Registar fornecedores, garantias e contratos
-                                associados</p>
+                                associados;</p>
                         </div>
 
                         <div class="d-flex align-items-center gap-3">
-                            <!-- Retirado do ChatGPT: ícone da biblioteca Font Awesome, não abordada nos PowerPoints -->
                             <i class="fa-solid fa-chart-line icone-funcao"></i>
                             <p id="sobre-card-texto-4" class="mb-0">Consultar indicadores básicos através de um
-                                dashboard</p>
+                                dashboard.</p>
                         </div>
                     </div>
                 </div>
@@ -179,8 +174,7 @@ require_once __DIR__ . '/../config/config.php';
                         <h3 id="funcionalidade-titulo-1">Gestão de Equipamentos</h3>
                         <div class="linha-card-funcionalidade"></div>
                         <p id="funcionalidade-texto-1">
-                            Registe, consulte, edite e arquive equipamentos médicos
-                            com total rastreabilidade e controlo.
+                            Registo, consulta, edição e remoção de equipamentos médicos existentes no inventário hospitalar, com total segurança e controlo.
                         </p>
                     </div>
                 </div>
@@ -191,8 +185,7 @@ require_once __DIR__ . '/../config/config.php';
                         <h3 id="funcionalidade-titulo-2">Localizações</h3>
                         <div class="linha-card-funcionalidade"></div>
                         <p id="funcionalidade-texto-2">
-                            Associe cada equipamento à sua localização física:
-                            edifício, piso, serviço e sala.
+                            Organização da localização física dos equipamentos por edifício, piso, serviço e sala.
                         </p>
                     </div>
                 </div>
@@ -200,11 +193,10 @@ require_once __DIR__ . '/../config/config.php';
                 <div class="col-6 col-lg-3 col-md-4 d-flex">
                     <div class="card-funcionalidade">
                         <i class="fa-solid fa-handshake icone-funcionalidade"></i>
-                        <h3 id="funcionalidade-titulo-3">Gestão de Fornecedores</h3>
+                        <h3 id="funcionalidade-titulo-3">Fornecedores</h3>
                         <div class="linha-card-funcionalidade"></div>
                         <p id="funcionalidade-texto-3">
-                            Gerencie fornecedores, fabricantes e entidades de
-                            assistência técnica associados aos equipamentos.
+                            Gestão de fornecedores associados aos equipamentos médicos e respetivos contactos.
                         </p>
                     </div>
                 </div>
@@ -215,8 +207,7 @@ require_once __DIR__ . '/../config/config.php';
                         <h3 id="funcionalidade-titulo-4">Documentação</h3>
                         <div class="linha-card-funcionalidade"></div>
                         <p id="funcionalidade-texto-4">
-                            Associe documentos técnicos, manuais, certificados,
-                            relatórios e contratos aos equipamentos.
+                            Registo e controlo de documentação técnica, manuais, certificados e relatórios.
                         </p>
                     </div>
                 </div>
@@ -227,8 +218,7 @@ require_once __DIR__ . '/../config/config.php';
                         <h3 id="funcionalidade-titulo-5">Garantias e Contratos</h3>
                         <div class="linha-card-funcionalidade"></div>
                         <p id="funcionalidade-texto-5">
-                            Registe garantias e contratos de manutenção, incluindo
-                            prazos, entidades responsáveis e periodicidade.
+                            Acompanhamento de garantias, contratos de manutenção e datas relevantes.
                         </p>
                     </div>
                 </div>
@@ -239,8 +229,7 @@ require_once __DIR__ . '/../config/config.php';
                         <h3 id="funcionalidade-titulo-6">Pesquisa e Filtragem</h3>
                         <div class="linha-card-funcionalidade"></div>
                         <p id="funcionalidade-texto-6">
-                            Pesquise e filtre equipamentos por código, designação,
-                            marca, modelo, número de série, serviço e estado.
+                            Encontre rapidamente os equipamentos, fornecedores e localizações pretendidos através de pesquisa e filtros avançados.
                         </p>
                     </div>
                 </div>
@@ -251,8 +240,7 @@ require_once __DIR__ . '/../config/config.php';
                         <h3 id="funcionalidade-titulo-7">Dashboard</h3>
                         <div class="linha-card-funcionalidade"></div>
                         <p id="funcionalidade-texto-7">
-                            Visualize indicadores e estatísticas importantes sobre
-                            o inventário: totais, estados, serviços e garantias.
+                            Visualização resumida de indicadores relevantes para apoio à gestão.
                         </p>
                     </div>
                 </div>
@@ -260,11 +248,10 @@ require_once __DIR__ . '/../config/config.php';
                 <div class="col-6 col-lg-3 col-md-4 d-flex">
                     <div class="card-funcionalidade">
                         <i class="fa-solid fa-bell icone-funcionalidade"></i>
-                        <h3 id="funcionalidade-titulo-8">Alertas e Notificações</h3>
+                        <h3 id="funcionalidade-titulo-8">Alertas</h3>
                         <div class="linha-card-funcionalidade"></div>
                         <p id="funcionalidade-texto-8">
-                            Receba alertas sobre manutenções, garantias a expirar,
-                            documentos vencidos e outras situações relevantes.
+                            Receba alertas sobre garantias a expirar e outras situações relevantes.
                         </p>
                     </div>
                 </div>
@@ -331,7 +318,7 @@ require_once __DIR__ . '/../config/config.php';
                     <strong>LOCALIZAÇÃO</strong>
                     <p id="rodape-localizacao" class="mb-0">
                         Travessa Encosta do Pilar <br>
-                        9000-136, Funchal <br>
+                        9000-777, Funchal <br>
                         Madeira
                     </p>
                 </div>
@@ -339,9 +326,9 @@ require_once __DIR__ . '/../config/config.php';
                 <div class="col-4">
                     <strong>HORÁRIO</strong>
                     <p id="rodape-horario" class="mb-1">
-                        2.ª a 6.ª Feira: 09h - 19h <br>
-                        Sábados e Feriados: 09h - 13h <br>
-                        Domingo: Encerrado
+                        2.ª a 6.ª Feira: 09h00 - 19h00 <br>
+                        Sábado: 09h00 - 14h00 <br>
+                        Domingo e Feriados: Encerrado
                     </p>
                 </div>
 

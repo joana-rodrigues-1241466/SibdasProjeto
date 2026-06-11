@@ -635,7 +635,6 @@
                             <thead>
                                 <tr>
                                     <th>Fornecedor</th>
-                                    <th>Tipo de fornecedor</th>
                                     <th>Morada</th>
                                     <th>Pessoa de contacto</th>
                                     <th>Telefone da pessoa de contacto</th>
@@ -854,9 +853,12 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="tipoContrato" class="form-label">Tipo de contrato</label>
-                                <input type="text" id="tipoContrato" class="form-control campo-formulario-privado"
-                                    placeholder="Ex.: manutenção preventiva">
-                            </div>
+                                <select id="tipoContrato" class="form-select campo-formulario-privado">
+    <option value="" selected disabled>Escolha uma opção</option>
+    <option value="Manutenção preventiva">Manutenção preventiva</option>
+    <option value="Manutenção corretiva">Manutenção corretiva</option>
+    <option value="Manutenção preventiva e corretiva">Manutenção preventiva e corretiva</option>
+</select>
                         </div>
 
                         <div class="row">

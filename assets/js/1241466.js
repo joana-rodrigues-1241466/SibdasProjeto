@@ -115,22 +115,22 @@ function inicializarGestaoConteudos() {
         homeTexto: "Plataforma web para gestão e monitorização do inventário de equipamentos médicos em ambiente hospitalar.",
         homeBotao: "Entre em contacto connosco",
 
-        sobreTitulo: "Sobre",
-        sobreTexto1: "A MediVault é uma plataforma desenvolvida para apoiar a gestão do inventário hospitalar, permitindo organizar equipamentos médicos, controlar documentação, acompanhar garantias e melhorar a rastreabilidade dos recursos existentes.",
+        sobreTitulo: "Sobre a MediVault",
+        sobreTexto1: "A MediVault é uma plataforma web desenvolvida para apoiar instituições de saúde na gestão organizada e centralizada do inventário hospitalar de equipamentos médicos.",
         sobreTexto2: "O sistema permite reunir, num único local, informação essencial sobre os equipamentos, incluindo categoria, localização, estado atual, fornecedor, documentação técnica, garantias e contactos associados.",
         sobreTexto3: "O objetivo da plataforma é substituir métodos dispersos, como folhas de cálculo, documentos isolados e registos manuais, por uma solução digital mais segura, acessível e eficiente para os utilizadores autorizados.",
 
-        sobreCardTitulo: "Gestão centralizada",
-        sobreCardTexto1: "Organização dos equipamentos médicos por categoria, estado, localização e criticidade.",
-        sobreCardTexto2: "Acompanhamento de documentação técnica, contratos, garantias e fornecedores.",
-        sobreCardTexto3: "Acesso reservado a utilizadores autorizados através de uma área privada.",
-        sobreCardTexto4: "Apoio à rastreabilidade e à tomada de decisão em contexto hospitalar.",
+        sobreCardTitulo: "O que a MediVault permite?",
+        sobreCardTexto1: "Gerir equipamentos médicos e respetiva informação técnica;",
+        sobreCardTexto2: "Associar equipamentos a localizações hospitalares específicas;",
+        sobreCardTexto3: "Registar fornecedores, garantias e contratos associados;",
+        sobreCardTexto4: "Consultar indicadores básicos através de um dashboard.",
 
         funcionalidadesTitulo: "Funcionalidades",
         funcionalidadesTexto: "A MediVault disponibiliza um conjunto de serviços e funcionalidades para gerir o inventário hospitalar com eficiência, segurança e total rastreabilidade.",
 
         funcionalidadeTitulo1: "Gestão de Equipamentos",
-        funcionalidadeTexto1: "Registo, consulta, edição e remoção de equipamentos médicos existentes no inventário hospitalar.",
+        funcionalidadeTexto1: "Registo, consulta, edição e remoção de equipamentos médicos existentes no inventário hospitalar, com total segurança e controlo.",
 
         funcionalidadeTitulo2: "Localizações",
         funcionalidadeTexto2: "Organização da localização física dos equipamentos por edifício, piso, serviço e sala.",
@@ -144,22 +144,22 @@ function inicializarGestaoConteudos() {
         funcionalidadeTitulo5: "Garantias e Contratos",
         funcionalidadeTexto5: "Acompanhamento de garantias, contratos de manutenção e datas relevantes.",
 
-        funcionalidadeTitulo6: "Dashboard",
-        funcionalidadeTexto6: "Visualização resumida de indicadores relevantes para apoio à gestão.",
+        funcionalidadeTitulo6: "Pesquisa e Filtragem",
+        funcionalidadeTexto6: "Encontre rapidamente os equipamentos, fornecedores e localizações pretendidos através de pesquisa e filtros avançados.",
 
-        funcionalidadeTitulo7: "Área Privada",
-        funcionalidadeTexto7: "Acesso reservado a profissionais autorizados para gestão dos dados do sistema.",
+        funcionalidadeTitulo7: "Dashboard",
+        funcionalidadeTexto7: "Visualização resumida de indicadores relevantes para apoio à gestão.",
 
-        funcionalidadeTitulo8: "Gestão de Conteúdos",
-        funcionalidadeTexto8: "Possibilidade de editar conteúdos da área pública através da área privada.",
+        funcionalidadeTitulo8: "Alertas",
+        funcionalidadeTexto8: "Receba alertas sobre garantias a expirar e outras situações relevantes.",
 
         contactosTitulo: "Contactos",
         contactosTexto: "Entre em contacto connosco para esclarecer dúvidas sobre a MediVault ou obter mais informações sobre a gestão do inventário hospitalar.",
 
-        localizacao: "Aveiro, Portugal",
-        horario: "Segunda a sexta-feira, das 09h00 às 18h00",
-        email: "medivault@hospital.pt",
-        telefone: "+351 234 000 000"
+        localizacao: "Travessa Encosta do Pilar, 9000-777, Funchal, Madeira",
+        horario: "Segunda a sexta-feira: 09h00 às 19h00; Sábados: 09h0 às 14h00; Domingos e Feriados: Encerrado",
+        email: "suporte@medivault.pt",
+        telefone: "+351 930 466 310"
     };
 
     let conteudosGuardados = JSON.parse(localStorage.getItem("conteudosPublicos"));
@@ -5320,7 +5320,6 @@ function inicializarNovoEquipamento() {
                     morada: tr.querySelector('select[name="fornecedores[morada][]"]')?.value || "",
                     pessoaContacto: tr.querySelector('input[name="fornecedores[pessoa][]"]')?.value || "",
                     telefone: tr.querySelector('input[name="fornecedores[telefone][]"]')?.value || "",
-                    tipo: tr.querySelector('select[name="fornecedores[tipo][]"]')?.value || "",
                     observacoes: tr.querySelector('input[name="fornecedores[observacoes][]"]')?.value || ""
                 };
             }),
@@ -5330,8 +5329,11 @@ function inicializarNovoEquipamento() {
 
             dataInicioGarantia: converterDataParaTexto(document.getElementById("dataInicioGarantia").value),
             dataFimGarantia: converterDataParaTexto(document.getElementById("dataFimGarantia").value),
+
             contratoManutencao: document.getElementById("contratoManutencao").value,
-            tipoContrato: document.getElementById("contratoManutencao").value === "Não" ? "Não existe" : document.getElementById("tipoContrato").value.trim(),
+            tipoContrato: document.getElementById("contratoManutencao").value === "Não"
+    ? "Não existe"
+    : document.getElementById("tipoContrato").value,
             entidadeResponsavelContrato: document.getElementById("contratoManutencao").value === "Não" ? "Não existe" : document.getElementById("entidadeResponsavelContrato").value.trim(),
             periodicidadeContrato: document.getElementById("contratoManutencao").value === "Não" ? "Não aplicável" : document.getElementById("periodicidadeContrato").value,
             observacoesContrato: document.getElementById("observacoesContrato").value.trim(),
@@ -5550,15 +5552,6 @@ window.adicionarFornecedorEquipamento = function () {
         return '<option value="' + f.codigo + '">' + f.codigo + ' — ' + f.nomeEmpresa + '</option>';
     }).join('');
 
-    const opcoesTipo = [
-        'Fabricante',
-        'Distribuidor ou Fornecedor comercial',
-        'Empresa de assistência técnica',
-        'Fornecedor de consumíveis ou acessórios'
-    ].map(function (t) {
-        return '<option value="' + t + '">' + t + '</option>';
-    }).join('');
-
     const opcoesMorada = [
         'Aveiro, Portugal', 'Beja, Portugal', 'Braga, Portugal',
         'Bragança, Portugal', 'Castelo Branco, Portugal', 'Coimbra, Portugal',
@@ -5576,9 +5569,6 @@ window.adicionarFornecedorEquipamento = function () {
     tr.innerHTML =
         '<td><select name="fornecedores[codigo][]" class="campo-formulario-privado">' +
         '<option value="" disabled selected>Escolha</option>' + opcoesFornecedores +
-        '</select></td>' +
-        '<td><select name="fornecedores[tipo][]" class="campo-formulario-privado">' +
-        '<option value="" disabled selected>Escolha</option>' + opcoesTipo +
         '</select></td>' +
         '<td><select name="fornecedores[morada][]" class="campo-formulario-privado">' +
         '<option value="" disabled selected>Escolha</option>' + opcoesMorada +
@@ -5640,6 +5630,7 @@ window.abrirOffcanvasFornecedor = function (index, codigoEquipamento) {
 
     const dadosFornecedor = fornecedoresGuardados[f.codigo];
     const nomeFornecedor = dadosFornecedor ? dadosFornecedor.nomeEmpresa : f.codigo;
+    const tipoFornecedor = dadosFornecedor ? dadosFornecedor.tipoFornecedor : "-";
 
     const body = document.getElementById("offcanvas-body-fornecedor");
     if (body) {
@@ -5663,7 +5654,9 @@ window.abrirOffcanvasFornecedor = function (index, codigoEquipamento) {
                 </div>
                 <div class="offcanvas-fornecedor-campo">
                     <span class="offcanvas-fornecedor-label">Tipo</span>
-                    <span class="offcanvas-fornecedor-valor">${f.tipo || "Não definido"}</span>
+<span class="offcanvas-fornecedor-valor">
+    ${dadosFornecedor ? dadosFornecedor.tipoFornecedor : "Não definido"}
+</span>
                 </div>
                 <div class="offcanvas-fornecedor-campo">
                     <span class="offcanvas-fornecedor-label">Website</span>
@@ -6244,7 +6237,7 @@ function preencherDetalhesEquipamento() {
                     <tr>
                         <th>Código</th>
                         <th>Nome do Fornecedor</th>
-                        <th>Tipo</th>
+                        <th>Tipo de Fornecedor</th>
                         <th>Pessoa de Contacto</th>
                         <th>Telefone de Contacto</th>
                         <th></th>
@@ -6256,13 +6249,16 @@ function preencherDetalhesEquipamento() {
             fornecedores.forEach(function (f, index) {
                 const dadosFornecedor = fornecedoresGuardados[f.codigo];
                 const nomeFornecedor = dadosFornecedor ? dadosFornecedor.nomeEmpresa : f.codigo;
+               const tipoFornecedor = dadosFornecedor
+    ? dadosFornecedor.tipoFornecedor
+    : "-";
                 const par = index % 2 === 0 ? 'linha-par' : 'linha-impar';
 
                 htmlFornecedores += `
                 <tr class="${par}">
                     <td class="celula-ref">${f.codigo || "-"}</td>
                     <td class="celula-nome">${nomeFornecedor}</td>
-                    <td>${f.tipo || "-"}</td>
+                   <td>${tipoFornecedor}</td>
                     <td>${f.pessoaContacto || "-"}</td>
                     <td>${f.telefone || "-"}</td>
                     <td>
@@ -6927,7 +6923,6 @@ function inicializarEditarEquipamento() {
             const linhas = document.querySelectorAll('#tbody-fornecedores-equipamento tr');
             const ultima = linhas[linhas.length - 1];
             ultima.querySelector('select[name="fornecedores[codigo][]"]').value = f.codigo || "";
-            ultima.querySelector('select[name="fornecedores[tipo][]"]').value = f.tipo || "";
             ultima.querySelector('select[name="fornecedores[morada][]"]').value = f.morada || "";
             ultima.querySelector('input[name="fornecedores[pessoa][]"]').value = f.pessoaContacto || "";
             ultima.querySelector('input[name="fornecedores[telefone][]"]').value = f.telefone || "";
@@ -7220,7 +7215,6 @@ function inicializarEditarEquipamento() {
                 morada: tr.querySelector('select[name="fornecedores[morada][]"]')?.value || "",
                 pessoaContacto: tr.querySelector('input[name="fornecedores[pessoa][]"]')?.value || "",
                 telefone: tr.querySelector('input[name="fornecedores[telefone][]"]')?.value || "",
-                tipo: tr.querySelector('select[name="fornecedores[tipo][]"]')?.value || "",
                 observacoes: tr.querySelector('input[name="fornecedores[observacoes][]"]')?.value || ""
             };
         });
@@ -7237,7 +7231,7 @@ function inicializarEditarEquipamento() {
         eq.observacoesGarantia = document.getElementById("observacoesGarantia").value.trim();
 
         eq.contratoManutencao = document.getElementById("contratoManutencao").value;
-        eq.tipoContrato = document.getElementById("contratoManutencao").value === "Não" ? "Não existe" : document.getElementById("tipoContrato").value.trim();
+        eq.tipoContrato = document.getElementById("contratoManutencao").value === "Não" ? "Não existe" : document.getElementById("tipoContrato").value;
         eq.entidadeResponsavelContrato = document.getElementById("contratoManutencao").value === "Não" ? "Não existe" : document.getElementById("entidadeResponsavelContrato").value.trim();
         eq.periodicidadeContrato = document.getElementById("contratoManutencao").value === "Não" ? "Não aplicável" : document.getElementById("periodicidadeContrato").value;
         eq.observacoesContrato = document.getElementById("observacoesContrato").value.trim();

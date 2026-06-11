@@ -1,49 +1,79 @@
 <?php
-require_once __DIR__ . '/../config/config.php';
+// Inicia a sessão (necessário para usar $_SESSION)
+session_start();
+
+// Inicializa a variável que irá conter os erros de validação
+$validation_errors = [];
+
+// --------------------------------------------------------------------
+// RECOLHA DE MENSAGENS TEMPORÁRIAS DA SESSÃO
+// --------------------------------------------------------------------
+// Verifica se existem erros de validação guardados na sessão
+if (!empty($_SESSION['validation_errors'])) {
+    $validation_errors = $_SESSION['validation_errors'];
+    unset($_SESSION['validation_errors']);
+}
+
+// Inicializa a variável que irá conter erros de servidor
+$server_error = [];
+
+// Verifica se existe algum erro de servidor guardado na sessão
+if (!empty($_SESSION['server_error'])) {
+    $server_error = $_SESSION['server_error'];
+    unset($_SESSION['server_error']);
+}
 ?>
-
-<!DOCTYPE html>
-<html lang="pt">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sessão | <?php echo APP_NAME; ?></title>
-
-    <link rel="shortcut icon" href="/medivault/assets/imagens/LOGO.png" type="image/png">
-    <link rel="stylesheet" href="/medivault/assets/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="/medivault/assets/css/1241466.css">
-</head>
-
-<body class="pagina-login">
+<?php include 'includes/header.php'; ?>
 
 <main class="login-container">
     <section class="login-card">
-        <h1 class="login-titulo">Iniciar Sessão</h1>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 1rem;">
+    <img src="/medivault/assets/imagens/LOGO.png" alt="Logo MediVault" style="height: 90px;">
+    <span style="font-size: 2.2rem; font-weight: 700; color: #003f78; letter-spacing: 3px;">MediVault</span>
+</div>
+<hr>
+<h1 class="login-titulo">Iniciar Sessão</h1>
         <p class="login-subtitulo">
             Acesso reservado a profissionais de saúde autorizados.
         </p>
         <div class="linha-login"></div>
-        <form class="form-login">
+        <form class="form-login" action="processa_iniciar_sessao.php" method="post">
             <div class="mb-3 text-start">
                 <label for="email-login" class="form-label">Email</label>
                 <div class="input-login">
                     <i class="fa-regular fa-envelope"></i>
-                    <input type="text" id="email-login" name="email" placeholder="exemplo@hospital.pt">
+                    <input type="email" class="form-control" name="text_username" id="email-login" placeholder="exemplo@hospital.pt">
                 </div>
             </div>
             <div class="mb-4 text-start">
                 <label for="password-login" class="form-label">Palavra-passe</label>
                 <div class="input-login">
                     <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="password-login" name="password" placeholder="Insira a sua palavra-passe">
+                    <input type="password" class="form-control" name="text_password" id="password-login" placeholder="Insira a sua palavra-passe">
                     <i class="fa-regular fa-eye"></i>
                 </div>
             </div>
-            <div id="erros-formulario" class="erros-separador" style="display:none;">
-                <ul id="lista-erros-formulario"></ul>
-            </div>
+
+            <!-- -------------------------------------------------------------------- -->
+            <!-- APRESENTAÇÃO DE MENSAGENS DE ERRO (VALIDAÇÃO E SERVIDOR) -->
+            <!-- -------------------------------------------------------------------- -->
+            <!-- Verifica se existem erros de validação -->
+            <?php if (!empty($validation_errors)) : ?>
+                <div class="alert alert-danger p-2 text-center">
+                    <div><strong>Erros:</strong></div>
+                    <?php foreach ($validation_errors as $error) : ?>
+                        <div><?= htmlspecialchars($error) ?></div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <!-- Verifica se existe um erro de servidor -->
+            <?php if (!empty($server_error)) : ?>
+                <div class="alert alert-danger p-2 text-center">
+                    <div><?= htmlspecialchars($server_error) ?></div>
+                </div>
+            <?php endif; ?>
+
             <button type="submit" class="btn botao-login-pagina">
                 Entrar
             </button>
@@ -55,8 +85,7 @@ require_once __DIR__ . '/../config/config.php';
     </section>
 </main>
 
-    <script src="/medivault/assets/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="/medivault/assets/js/1241466.js"></script>
-
+<script src="/medivault/assets/bootstrap/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

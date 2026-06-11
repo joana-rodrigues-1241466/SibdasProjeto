@@ -577,6 +577,7 @@ body {
 .pagina-privada {
     background-color: #ffffff;
     color: #0b2d45;
+    padding-top: 0;
 }
 
 /* Navbar da área privada */

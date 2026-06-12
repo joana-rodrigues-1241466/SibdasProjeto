@@ -3,6 +3,30 @@ require_once __DIR__ . '/funcoes.php';
 redirect_if_not_logged();
 start_session();
 $nome = $_SESSION['utilizador'];
+
+$totalGarantiasAExpirar = 0;
+try {
+    $ligacaoAviso = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+    $ligacaoAviso->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $resultadoAviso = $ligacaoAviso->query("
+        SELECT COUNT(*) AS total
+        FROM garantias_equipamentos
+        WHERE data_fim IS NOT NULL
+          AND data_fim >= CURDATE()
+          AND data_fim <= DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+    ")->fetch(PDO::FETCH_OBJ);
+
+    $totalGarantiasAExpirar = (int) $resultadoAviso->total;
+} catch (PDOException $err) {
+    $totalGarantiasAExpirar = 0;
+}
+
+$ligacaoAviso = null;
 ?>
 
 <!-- Navbar da área privada -->
@@ -29,6 +53,9 @@ $nome = $_SESSION['utilizador'];
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
                 </div>
+                <div class="offcanvas-body">
+                    <p class="text-muted">Sem movimentações registadas.</p>
+                </div>
             </div>
 
             <div class="utilizador-privado">
@@ -54,4 +81,12 @@ $nome = $_SESSION['utilizador'];
 
 </header>
 
-<div id="aviso-garantias-globais" style="display:none;"></div>
+<?php if ($totalGarantiasAExpirar > 0) : ?>
+    <div id="aviso-garantias-globais" style="display:flex;">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span><?= $totalGarantiasAExpirar ?> equipamento<?= $totalGarantiasAExpirar !== 1 ? 's' : '' ?> com garantia a expirar nos próximos 30 dias.</span>
+        <a href="/medivault/private/views/equipamentos/equipamentos.php">Ver equipamentos</a>
+    </div>
+<?php else : ?>
+    <div id="aviso-garantias-globais" style="display:none;"></div>
+<?php endif; ?>

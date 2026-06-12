@@ -39,16 +39,15 @@ function inicializarLogin() {
 // ===============================
 // HISTÓRICO DE EQUIPAMENTOS
 // ===============================
-
 function abrirHistoricoNavbar() {
     const offcanvasEl = document.getElementById("offcanvasHistorico");
     const offcanvas = new bootstrap.Offcanvas(offcanvasEl);
     offcanvas.show();
 }
 
-// ===============================
+// ==================================
 // GESTÃO DE CONTEÚDOS DA ÁREA PÚBLICA
-// ===============================
+// ==================================
 
 function inicializarGestaoConteudos() {
     const camposGestao = {
@@ -276,7 +275,7 @@ function carregarConteudosPublicos() {
     atualizar("rodape-telefone", conteudos.telefone);
 }
 
-function inicializarAvisoGarantias() {
+/*function inicializarAvisoGarantias() {
     const aviso = document.getElementById("aviso-garantias-globais");
     if (!aviso) return;
 
@@ -302,7 +301,7 @@ function inicializarAvisoGarantias() {
         <span>${aExpirar.length} equipamento${aExpirar.length !== 1 ? 's' : ''} com garantia a expirar nos próximos 30 dias.</span>
         <a href="../equipamentos/equipamentos.php">Ver equipamentos</a>
     `;
-}
+}*/
 
 // ===============================
 // EQUIPAMENTOS
@@ -4648,14 +4647,14 @@ const equipamentosConsulta = {
     },
 };
 
-let equipamentosGuardados = JSON.parse(localStorage.getItem("equipamentosGuardados"));
+// let equipamentosGuardados = JSON.parse(localStorage.getItem("equipamentosGuardados"));
 
-if (!equipamentosGuardados) {
-    equipamentosGuardados = equipamentosConsulta;
-    localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
-}
+//if (!equipamentosGuardados) {
+ //   equipamentosGuardados = equipamentosConsulta;
+  //  localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
+// }
 
-function formatarEstadoEquipamento(estado) {
+/*function formatarEstadoEquipamento(estado) {
     const classes = {
         "Ativo": "estado-ativo",
         "Em manutenção": "estado-manutencao",
@@ -5050,7 +5049,7 @@ function preencherSelectFiltrosEquipamentos() {
         option.textContent = categoria;
         filtroCategoria.appendChild(option);
     });
-}
+}*/
 
 function inicializarNovoEquipamento() {
     const formularioNovoEquipamento = document.getElementById("form-novo-equipamento");
@@ -7279,7 +7278,7 @@ function inicializarEditarEquipamento() {
     });
 }
 
-let codigoEquipamentoEliminar = null;
+/*let codigoEquipamentoEliminar = null;
 
 function prepararEliminacaoEquipamento(codigo) {
 
@@ -7324,7 +7323,7 @@ function confirmarEliminacaoEquipamento() {
     }
 
     codigoEquipamentoEliminar = null;
-}
+}*/
 
 // ===============================
 // LOCALIZAÇÕES
@@ -7440,15 +7439,14 @@ const localizacoesConsulta = {
     }
 };
 
-let localizacoesGuardadas = JSON.parse(localStorage.getItem("localizacoesGuardadas"));
+//let localizacoesGuardadas = JSON.parse(localStorage.getItem("localizacoesGuardadas"));
 
-if (!localizacoesGuardadas) {
-    localizacoesGuardadas = localizacoesConsulta;
-    localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
-}
+//if (!localizacoesGuardadas) {
+    //localizacoesGuardadas = localizacoesConsulta;
+    //localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
+//}
 
-
-function preencherListagemLocalizacoes(localizacoes = null) {
+/*function preencherListagemLocalizacoes(localizacoes = null) {
     const tabelaLocalizacoes = document.getElementById("tabela-localizacoes");
 
     if (!tabelaLocalizacoes) {
@@ -7826,7 +7824,7 @@ function preencherSelectFiltrosLocalizacoes() {
             filtroEquipamentoLocalizacao.appendChild(option);
         });
     }
-}
+} */
 
 function inicializarNovaLocalizacao() {
     const formularioNovaLocalizacao = document.getElementById("form-nova-localizacao");
@@ -7974,7 +7972,7 @@ function inicializarEditarLocalizacao() {
     });
 }
 
-let codigoLocalizacaoEliminar = null;
+/*let codigoLocalizacaoEliminar = null;
 
 function prepararEliminacaoLocalizacao(codigo) {
 
@@ -8028,7 +8026,7 @@ function confirmarEliminacaoLocalizacao() {
     }
 
     codigoLocalizacaoEliminar = null;
-}
+}*/
 
 // ===============================
 // FORNECEDORES
@@ -8234,17 +8232,16 @@ const fornecedoresConsulta = {
     },
 };
 
-let fornecedoresGuardados = JSON.parse(localStorage.getItem("fornecedoresGuardados"));
+//let fornecedoresGuardados = JSON.parse(localStorage.getItem("fornecedoresGuardados"));
 
-if (!fornecedoresGuardados) {
-    fornecedoresGuardados = fornecedoresConsulta;
-    localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
-}
-
+//if (!fornecedoresGuardados) {
+    //fornecedoresGuardados = fornecedoresConsulta;
+   // localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
+//}
 
 // Preencher listagem de fornecedores na página fornecedores.php
-function preencherListagemFornecedores(
-    listaFornecedores = Object.values(fornecedoresGuardados)) {
+/*function preencherListagemFornecedores(
+listaFornecedores = Object.values(fornecedoresGuardados)) {
     const tabelaFornecedores = document.getElementById("tabela-fornecedores");
 
     if (!tabelaFornecedores) {
@@ -8486,7 +8483,7 @@ function inicializarFiltrosFornecedores() {
                 );
             });
 
-        preencherListagemFornecedores(fornecedoresFiltrados);
+        //preencherListagemFornecedores(fornecedoresFiltrados);
     }
 
     pesquisaFornecedores.addEventListener(
@@ -8645,7 +8642,7 @@ function ordenarFornecedoresPorCodigoCrescente(listaFornecedores) {
             .localeCompare(b.codigo || "");
 
     });
-}
+}*/
 
 // Adicionar novo fornecedor e guardar no localStorage
 function inicializarNovoFornecedor() {
@@ -8918,7 +8915,7 @@ function inicializarEditarFornecedor() {
     });
 }
 
-let codigoFornecedorEliminar = null;
+/*let codigoFornecedorEliminar = null;
 
 function prepararEliminacaoFornecedor(codigo) {
 
@@ -8950,7 +8947,7 @@ function confirmarEliminacaoFornecedor() {
         JSON.stringify(fornecedoresGuardados)
     );
 
-    preencherListagemFornecedores();
+    //preencherListagemFornecedores();
 
     const modalElement =
         document.getElementById("modalEliminarFornecedor");
@@ -8963,9 +8960,10 @@ function confirmarEliminacaoFornecedor() {
     }
 
     codigoFornecedorEliminar = null;
-}
+}*/
 
 /*DASHBOARD*/
+
 function inicializarDashboard() {
     const totalEquipamentos = document.getElementById("totalEquipamentosDashboard");
 
@@ -9592,14 +9590,16 @@ function preencherSuporteVidaDashboard(equipamentos, localizacoes) {
 
 document.addEventListener("DOMContentLoaded", function () {
     inicializarContactos();
+   
     inicializarLogin();
+   
     inicializarGestaoConteudos();
     carregarConteudosPublicos();
 
-    inicializarAvisoGarantias();
+    //inicializarAvisoGarantias();
 
-    preencherListagemEquipamentos();
-    inicializarFiltrosEquipamentos();
+    //preencherListagemEquipamentos();
+    //inicializarFiltrosEquipamentos();
     inicializarDashboard();
     preencherDetalhesEquipamento();
     inicializarTabsEquipamento();
@@ -9608,27 +9608,27 @@ document.addEventListener("DOMContentLoaded", function () {
     inicializarNovoEquipamento();
     inicializarEditarEquipamento();
     controlarCamposContratoManutencao();
-    preencherDadosLocalizacaoAssociada
+    preencherDadosLocalizacaoAssociada();
 
-    preencherListagemLocalizacoes();
-    inicializarFiltrosLocalizacoes();
+   // preencherListagemLocalizacoes();
+   // inicializarFiltrosLocalizacoes();
     preencherDetalhesLocalizacao();
     inicializarNovaLocalizacao();
     inicializarEditarLocalizacao();
 
-    preencherListagemFornecedores();
-    inicializarFiltrosFornecedores();
+    //preencherListagemFornecedores();
+   // inicializarFiltrosFornecedores();
     preencherDetalhesFornecedor();
     inicializarNovoFornecedor();
     inicializarEditarFornecedor();
 
     inicializarDropdownUtilizador();
 
-    const popoverTriggerList = document.querySelectorAll(
-        '[data-bs-toggle="popover"]'
-    );
+   // const popoverTriggerList = document.querySelectorAll(
+    //    '[data-bs-toggle="popover"]'
+   // );
 
-    popoverTriggerList.forEach(function (popoverTriggerEl) {
-        new bootstrap.Popover(popoverTriggerEl);
-    });
+    //popoverTriggerList.forEach(function (popoverTriggerEl) {
+    //    new bootstrap.Popover(popoverTriggerEl);
+   // });
 });

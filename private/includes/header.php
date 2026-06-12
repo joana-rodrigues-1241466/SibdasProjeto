@@ -5,6 +5,13 @@ require_once __DIR__ . '/../../config/config.php';
 <!DOCTYPE html>
 <html lang="pt">
 
+<!-- jQuery -->
+<script src="/medivault/assets/jquery/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables CSS + JS -->
+<link rel="stylesheet" href="/medivault/assets/datatables/datatables.min.css">
+<script src="/medivault/assets/datatables/datatables.min.js"></script>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

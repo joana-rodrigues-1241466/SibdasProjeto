@@ -1,3 +1,58 @@
+<?php
+require_once __DIR__ . '/../../includes/funcoes.php';
+redirect_if_not_logged();
+
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $resultados = $ligacao->query("
+    SELECT 
+        e.codigo,
+        e.designacao,
+        l.codigo AS localizacao,
+        ee.designacao AS estado,
+        c.designacao AS criticidade,
+        cat.designacao AS categoria,
+        GROUP_CONCAT(DISTINCT ef.fornecedor_id) AS fornecedores_ids,
+        GROUP_CONCAT(DISTINCT CONCAT(f.codigo, ' - ', f.nome_empresa) SEPARATOR ', ') AS fornecedores_nomes
+    FROM equipamentos e
+    LEFT JOIN localizacoes l ON e.localizacao_id = l.id
+    LEFT JOIN estados_equipamento ee ON e.estado_id = ee.id
+    LEFT JOIN criticidades c ON e.criticidade_id = c.id
+    LEFT JOIN categorias cat ON e.categoria_id = cat.id
+    LEFT JOIN equipamento_fornecedor ef ON ef.equipamento_id = e.id
+    LEFT JOIN fornecedores f ON f.id = ef.fornecedor_id
+    GROUP BY e.id, e.codigo, e.designacao, l.codigo, ee.designacao, c.designacao, cat.designacao
+")->fetchAll(PDO::FETCH_OBJ);
+
+$fornecedoresFiltro = $ligacao->query("
+        SELECT id, codigo, nome_empresa
+        FROM fornecedores
+        ORDER BY codigo
+    ")->fetchAll(PDO::FETCH_OBJ);
+
+    $localizacoesFiltro = $ligacao->query("
+        SELECT id, codigo
+        FROM localizacoes
+        ORDER BY codigo
+    ")->fetchAll(PDO::FETCH_OBJ);
+
+    $erro = '';
+} catch (PDOException $err) {
+    $erro = "Aconteceu um erro na ligação.";
+    $resultados = [];
+    $fornecedoresFiltro = [];
+    $localizacoesFiltro = [];
+}
+
+$ligacao = null;
+?>
+
 <?php include '../../includes/header.php'; ?>
 <?php include '../../includes/navbar.php'; ?>
 
@@ -84,6 +139,9 @@
                         <div class="select-filtro-wrapper">
                             <select id="filtroFornecedorEquipamento" class="campo-filtro-equipamentos">
                                 <option value="">Todos</option>
+                                <?php foreach ($fornecedoresFiltro as $fornecedor) : ?>
+                                    <option value="<?= htmlspecialchars($fornecedor->id) ?>"><?= htmlspecialchars($fornecedor->codigo . ' - ' . $fornecedor->nome_empresa) ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -93,6 +151,9 @@
                         <div class="select-filtro-wrapper">
                             <select id="filtroLocalizacaoEquipamento" class="campo-filtro-equipamentos">
                                 <option value="">Todas</option>
+                                <?php foreach ($localizacoesFiltro as $localizacao) : ?>
+                                    <option value="<?= htmlspecialchars($localizacao->codigo) ?>"><?= htmlspecialchars($localizacao->codigo) ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -171,7 +232,7 @@
         </div>
 
         <div class="tabela-privada">
-            <table>
+            <table id="tabela-equipamentos">
                 <thead>
                     <tr>
                         <th>Código</th>
@@ -179,12 +240,74 @@
                         <th>Localização</th>
                         <th>Estado atual</th>
                         <th>Criticidade</th>
+                        <th style="display:none;">Categoria</th>
+                        <th style="display:none;">Fornecedores IDs</th>
+                        <th style="display:none;">Fornecedores Nomes</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
 
                 <tbody id="tabela-equipamentos">
+                    <?php if (!empty($erro)) : ?>
+                        <tr>
+                            <td colspan="6" class="text-center text-danger"><?= $erro ?></td>
+                        </tr>
+                    <?php elseif (count($resultados) == 0) : ?>
+                        <tr>
+                            <td colspan="6" class="text-muted">Não existem equipamentos registados.</td>
+                        </tr>
+                    <?php else : ?>
+                        <?php foreach ($resultados as $equipamento) : ?>
+                            <tr>
+                                <td><?= htmlspecialchars($equipamento->codigo) ?></td>
+                                <td><?= htmlspecialchars($equipamento->designacao) ?></td>
+                                <td><?= htmlspecialchars($equipamento->localizacao) ?></td>
+                                <td>
+                                    <?php
+                                    $classesEstado = [
+                                        'Ativo' => 'estado-ativo',
+                                        'Em manutenção' => 'estado-manutencao',
+                                        'Em calibração' => 'estado-calibracao',
+                                        'Inativo' => 'estado-inativo',
+                                        'Em quarentena' => 'estado-quarentena',
+                                        'Abatido' => 'estado-abatido'
+                                    ];
+                                    $classeEstado = $classesEstado[$equipamento->estado] ?? '';
+                                    ?>
+                                    <span class="<?= $classeEstado ?>"><?= htmlspecialchars($equipamento->estado) ?></span>
+                                </td>
+                                <td>
+                                    <?php
+                                    $classesCriticidade = [
+                                        'Suporte de vida' => 'badge-criticidade-suporte',
+                                        'Alta' => 'badge-criticidade-alta',
+                                        'Média' => 'badge-criticidade-media',
+                                        'Baixa' => 'badge-criticidade-baixa'
+                                    ];
+                                    $classeCriticidade = $classesCriticidade[$equipamento->criticidade] ?? '';
+                                    ?>
+                                    <span class="badge-detalhe <?= $classeCriticidade ?>"><?= htmlspecialchars($equipamento->criticidade) ?></span>
+                                </td>
 
+                                <td style="display:none;"><?= htmlspecialchars($equipamento->categoria) ?></td>
+
+                                <td style="display:none;"><?= htmlspecialchars($equipamento->fornecedores_ids) ?></td>
+                                <td style="display:none;"><?= htmlspecialchars($equipamento->fornecedores_nomes) ?></td>
+
+                                <td class="acoes-tabela-privada">
+                                    <a href="/medivault/private/views/equipamentos/consultar_equipamento.php?id=<?= htmlspecialchars($equipamento->codigo) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </a>
+                                    <a href="editar_equipamento.php?id=<?= htmlspecialchars($equipamento->codigo) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </a>
+                                    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarEquipamento" onclick="prepararEliminacaoEquipamento('<?= htmlspecialchars($equipamento->codigo) ?>', '<?= htmlspecialchars($equipamento->designacao, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
 
             </table>
@@ -239,5 +362,149 @@
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function() {
+        var tabela = $('#tabela-equipamentos').DataTable({
+            pageLength: 5,
+            pagingType: "full_numbers",
+            dom: 'rtip',
+            search: {
+                smart: false
+            },
+            language: {
+                decimal: "",
+                emptyTable: "Sem dados disponíveis na tabela.",
+                info: "Mostrando _START_ até _END_ de _TOTAL_ registos",
+                infoEmpty: "Mostrando 0 até 0 de 0 registos",
+                infoFiltered: "(Filtrando _MAX_ total de registos)",
+                infoPostFix: "",
+                thousands: ",",
+                lengthMenu: "Mostrando _MENU_ registos por página.",
+                loadingRecords: "Carregando...",
+                processing: "Processando...",
+                search: "Filtrar:",
+                zeroRecords: "Nenhum registo encontrado.",
+                paginate: {
+                    first: "Primeira",
+                    last: "Última",
+                    next: "Seguinte",
+                    previous: "Anterior"
+                },
+                aria: {
+                    sortAscending: ": ative para classificar a coluna em ordem crescente.",
+                    sortDescending: ": ative para classificar a coluna em ordem decrescente."
+                }
+            }
+        });
+
+        // Ligar caixa de pesquisa ao DataTables
+        $('#pesquisaEquipamentos').on('input', function() {
+            tabela.search($(this).val()).draw();
+        });
+
+        $('#botaoPesquisarEquipamentos').on('click', function() {
+            tabela.search($('#pesquisaEquipamentos').val()).draw();
+        });
+
+        $('#botaoLimparApenasPesquisaEquipamentos').on('click', function() {
+            $('#pesquisaEquipamentos').val('');
+            tabela.search('').draw();
+        });
+
+        // Ligar filtro de estado ao DataTables
+        $('#filtroEstadoEquipamento').on('change', function() {
+            var valor = $(this).val();
+            if (valor === '') {
+                tabela.column(3).search('').draw();
+            } else {
+                tabela.column(3).search('^' + valor + '$', true, false).draw();
+            }
+        });
+
+        // Ligar filtro de criticidade ao DataTables
+        $('#filtroCriticidadeEquipamento').on('change', function() {
+            var valor = $(this).val();
+            if (valor === '') {
+                tabela.column(4).search('').draw();
+            } else {
+                tabela.column(4).search('^' + valor + '$', true, false).draw();
+            }
+        });
+
+        // Ligar filtro de categoria ao DataTables
+        $('#filtroCategoriaEquipamento').on('change', function() {
+            var valor = $(this).val();
+            if (valor === '') {
+                tabela.column(5).search('').draw();
+            } else {
+                tabela.column(5).search('^' + valor + '$', true, false).draw();
+            }
+        });
+
+        // Ligar filtro de fornecedor ao DataTables
+        $('#filtroFornecedorEquipamento').on('change', function() {
+            var valor = $(this).val();
+            if (valor === '') {
+                tabela.column(6).search('').draw();
+            } else {
+                tabela.column(6).search('(^|,)' + valor + '(,|$)', true, false).draw();
+            }
+        });
+
+        // Ligar filtro de localização ao DataTables
+        $('#filtroLocalizacaoEquipamento').on('change', function() {
+            var valor = $(this).val();
+            if (valor === '') {
+                tabela.column(2).search('').draw();
+            } else {
+                tabela.column(2).search('^' + valor + '$', true, false).draw();
+            }
+        });
+
+       // Limpar filtros
+        $('#botaoLimparApenasFiltrosEquipamentos').on('click', function() {
+            $('#filtroEstadoEquipamento').val('');
+            $('#filtroCriticidadeEquipamento').val('');
+            $('#filtroCategoriaEquipamento').val('');
+            $('#filtroFornecedorEquipamento').val('');
+            $('#filtroLocalizacaoEquipamento').val('');
+            tabela.columns().search('').draw();
+        });
+
+        // Reinicializar popovers
+        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function(el) {
+            new bootstrap.Popover(el);
+        });
+    });
+
+    let codigoEquipamentoEliminar = null;
+
+    function prepararEliminacaoEquipamento(codigo, designacao) {
+        codigoEquipamentoEliminar = codigo;
+        const textoModal = document.getElementById("textoModalEliminarEquipamento");
+        if (textoModal) {
+            textoModal.innerHTML =
+                `Tem a certeza que pretende eliminar o equipamento <strong>${designacao || codigo}</strong>?`;
+        }
+    }
+
+    function confirmarEliminacaoEquipamento() {
+        if (!codigoEquipamentoEliminar) {
+            return;
+        }
+
+        var linha = tabela.row($('button[onclick*="' + codigoEquipamentoEliminar + '"]').closest('tr'));
+        linha.remove().draw();
+
+        var modalElement = document.getElementById("modalEliminarEquipamento");
+        var modalBootstrap = bootstrap.Modal.getInstance(modalElement);
+        if (modalBootstrap) {
+            modalBootstrap.hide();
+        }
+
+        codigoEquipamentoEliminar = null;
+    }
+</script>
 
 <?php include '../../includes/footer.php'; ?>

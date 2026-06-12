@@ -1,3 +1,55 @@
+<?php
+require_once __DIR__ . '/../../includes/funcoes.php';
+redirect_if_not_logged();
+
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $resultados = $ligacao->query("
+    SELECT
+        f.codigo,
+        f.nome_empresa,
+        tf.designacao AS tipo_fornecedor,
+        f.pessoa_contacto,
+        f.telefone_pessoa_contacto,
+        m.designacao AS morada,
+        GROUP_CONCAT(DISTINCT e.id) AS equipamentos_ids,
+        GROUP_CONCAT(DISTINCT CONCAT(e.codigo, ' - ', e.designacao) SEPARATOR ', ') AS equipamentos_nomes
+    FROM fornecedores f
+    LEFT JOIN tipos_fornecedor tf ON f.tipo_id = tf.id
+    LEFT JOIN moradas m ON f.morada_id = m.id
+    LEFT JOIN equipamento_fornecedor ef ON ef.fornecedor_id = f.id
+    LEFT JOIN equipamentos e ON e.id = ef.equipamento_id
+    GROUP BY f.id, f.codigo, f.nome_empresa, tf.designacao, f.pessoa_contacto, f.telefone_pessoa_contacto, m.designacao
+")->fetchAll(PDO::FETCH_OBJ);
+
+    $nomes = $ligacao->query("SELECT nome_empresa FROM fornecedores ORDER BY nome_empresa")->fetchAll(PDO::FETCH_OBJ);
+    $pessoas = $ligacao->query("SELECT pessoa_contacto FROM fornecedores ORDER BY pessoa_contacto")->fetchAll(PDO::FETCH_OBJ);
+
+    $equipamentosFiltro = $ligacao->query("
+        SELECT id, codigo, designacao
+        FROM equipamentos
+        ORDER BY codigo
+    ")->fetchAll(PDO::FETCH_OBJ);
+
+    $erro = '';
+} catch (PDOException $err) {
+    $erro = "Aconteceu um erro na ligação.";
+    $resultados = [];
+    $nomes = [];
+    $pessoas = [];
+    $equipamentosFiltro = [];
+}
+
+$ligacao = null;
+
+?>
+
 <?php include '../../includes/header.php'; ?>
 <?php include '../../includes/navbar.php'; ?>
 
@@ -93,9 +145,10 @@
                         <div class="select-filtro-wrapper">
 
                             <select id="filtroNomeEmpresa" class="campo-filtro-equipamentos">
-
                                 <option value="">Todas</option>
-
+                                <?php foreach ($nomes as $nome) : ?>
+                                    <option value="<?= htmlspecialchars($nome->nome_empresa) ?>"><?= htmlspecialchars($nome->nome_empresa) ?></option>
+                                <?php endforeach; ?>
                             </select>
 
                         </div>
@@ -152,9 +205,10 @@
                         <div class="select-filtro-wrapper">
 
                             <select id="filtroPessoaContacto" class="campo-filtro-equipamentos">
-
                                 <option value="">Todas</option>
-
+                                <?php foreach ($pessoas as $pessoa) : ?>
+                                    <option value="<?= htmlspecialchars($pessoa->pessoa_contacto) ?>"><?= htmlspecialchars($pessoa->pessoa_contacto) ?></option>
+                                <?php endforeach; ?>
                             </select>
 
                         </div>
@@ -168,6 +222,9 @@
                         <div class="select-filtro-wrapper">
                             <select id="filtroEquipamentoFornecedor" class="campo-filtro-equipamentos">
                                 <option value="">Todos</option>
+                                <?php foreach ($equipamentosFiltro as $equipamento) : ?>
+                                    <option value="<?= htmlspecialchars($equipamento->id) ?>"><?= htmlspecialchars($equipamento->codigo . ' - ' . $equipamento->designacao) ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -193,20 +250,56 @@
         </div>
 
         <div class="tabela-privada">
-            <table>
+            <table id="tabela-fornecedores">
                 <thead>
                     <tr>
                         <th>Nome da empresa</th>
                         <th>Tipo de fornecedor</th>
                         <th>Pessoa de contacto</th>
                         <th>Telefone de contacto</th>
+                        <th style="display:none;">Morada</th>
+                        <th style="display:none;">Equipamentos IDs</th>
+                        <th style="display:none;">Equipamentos Nomes</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
 
-                <tbody id="tabela-fornecedores">
+                <tbody>
+                    <?php if (!empty($erro)) : ?>
+                        <tr>
+                            <td colspan="5" class="text-center text-danger"><?= $erro ?></td>
+                        </tr>
+                    <?php elseif (count($resultados) == 0) : ?>
+                        <tr>
+                            <td colspan="5" class="text-muted">Não existem fornecedores registados.</td>
+                        </tr>
+                    <?php else : ?>
+                        <?php foreach ($resultados as $fornecedor) : ?>
+                            <tr>
+                                <td><?= htmlspecialchars($fornecedor->nome_empresa) ?></td>
+                                <td><?= htmlspecialchars($fornecedor->tipo_fornecedor) ?></td>
+                                <td><?= htmlspecialchars($fornecedor->pessoa_contacto) ?></td>
+                                <td><?= htmlspecialchars($fornecedor->telefone_pessoa_contacto) ?></td>
+                                <td style="display:none;"><?= htmlspecialchars($fornecedor->morada) ?></td>
+                                <td style="display:none;"><?= htmlspecialchars($fornecedor->equipamentos_ids) ?></td>
+                                <td style="display:none;"><?= htmlspecialchars($fornecedor->equipamentos_nomes) ?></td>
 
+                                <td class="acoes-tabela-privada">
+                                    <a href="/medivault/private/views/fornecedores/consultar_fornecedor.php?id=<?= htmlspecialchars($fornecedor->codigo) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </a>
+                                    <a href="editar_fornecedor.php?id=<?= htmlspecialchars($fornecedor->codigo) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </a>
+                                    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarFornecedor" onclick="prepararEliminacaoFornecedor('<?= htmlspecialchars($fornecedor->codigo) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
+
             </table>
         </div>
 
@@ -265,5 +358,139 @@
     </div>
 
 </div>
+
+<script>
+    let tabela;
+
+    $(document).ready(function() {
+        tabela = $('#tabela-fornecedores').DataTable({
+            pageLength: 5,
+            pagingType: "full_numbers",
+            dom: 'rtip',
+            language: {
+                decimal: "",
+                emptyTable: "Sem dados disponíveis na tabela.",
+                info: "Mostrando _START_ até _END_ de _TOTAL_ registos",
+                infoEmpty: "Mostrando 0 até 0 de 0 registos",
+                infoFiltered: "(Filtrando _MAX_ total de registos)",
+                infoPostFix: "",
+                thousands: ",",
+                lengthMenu: "Mostrando _MENU_ registos por página.",
+                loadingRecords: "Carregando...",
+                processing: "Processando...",
+                search: "Filtrar:",
+                zeroRecords: "Nenhum registo encontrado.",
+                paginate: {
+                    first: "Primeira",
+                    last: "Última",
+                    next: "Seguinte",
+                    previous: "Anterior"
+                }
+            }
+        });
+
+        // Pesquisa
+        $('#pesquisaFornecedores').on('input', function() {
+            tabela.search($(this).val()).draw();
+        });
+
+        $('#botaoPesquisarFornecedores').on('click', function() {
+            tabela.search($('#pesquisaFornecedores').val()).draw();
+        });
+
+        $('#botaoLimparApenasPesquisaFornecedores').on('click', function() {
+            $('#pesquisaFornecedores').val('');
+            tabela.search('').draw();
+        });
+
+        // Filtro tipo de fornecedor
+        $('#filtroTipoFornecedor').on('change', function() {
+            var valor = $(this).val();
+            if (valor === '') {
+                tabela.column(1).search('').draw();
+            } else {
+                tabela.column(1).search('^' + valor + '$', true, false).draw();
+            }
+        });
+
+        // Filtro nome da empresa
+        $('#filtroNomeEmpresa').on('change', function() {
+            var valor = $(this).val();
+            if (valor === '') {
+                tabela.column(0).search('').draw();
+            } else {
+                tabela.column(0).search('^' + valor + '$', true, false).draw();
+            }
+        });
+
+        // Filtro pessoa de contacto
+        $('#filtroPessoaContacto').on('change', function() {
+            var valor = $(this).val();
+            if (valor === '') {
+                tabela.column(2).search('').draw();
+            } else {
+                tabela.column(2).search('^' + valor + '$', true, false).draw();
+            }
+        });
+
+        // Filtro morada
+        $('#filtroMoradaFornecedor').on('change', function() {
+            var valor = $(this).val();
+            if (valor === '') {
+                tabela.column(4).search('').draw();
+            } else {
+                tabela.column(4).search(valor, false, false).draw();
+            }
+        });
+
+        // Filtro equipamento associado
+        $('#filtroEquipamentoFornecedor').on('change', function() {
+            var valor = $(this).val();
+            if (valor === '') {
+                tabela.column(5).search('').draw();
+            } else {
+                tabela.column(5).search('(^|,)' + valor + '(,|$)', true, false).draw();
+            }
+        });
+
+        // Limpar filtros
+        $('#botaoLimparApenasFiltrosFornecedores').on('click', function() {
+            $('#filtroTipoFornecedor').val('');
+            $('#filtroNomeEmpresa').val('');
+            $('#filtroMoradaFornecedor').val('');
+            $('#filtroPessoaContacto').val('');
+            $('#filtroEquipamentoFornecedor').val('');
+            tabela.columns().search('').draw();
+        });
+    });
+
+    let codigoFornecedorEliminarLista = null;
+
+    function prepararEliminacaoFornecedor(codigo, nomeEmpresa) {
+        codigoFornecedorEliminarLista = codigo;
+        const textoModal = document.getElementById("textoModalEliminarFornecedor");
+        if (textoModal) {
+            textoModal.innerHTML =
+                `Tem a certeza que pretende eliminar o fornecedor <strong>${nomeEmpresa || codigo}</strong>?`;
+        }
+    }
+
+    function confirmarEliminacaoFornecedor() {
+        if (!codigoFornecedorEliminarLista) {
+            return;
+        }
+
+        var linha = tabela.row($('button[onclick*="' + codigoFornecedorEliminarLista + '"]').closest('tr'));
+        linha.remove().draw();
+
+        var modalElement = document.getElementById("modalEliminarFornecedor");
+        var modalBootstrap = bootstrap.Modal.getInstance(modalElement);
+        if (modalBootstrap) {
+            modalBootstrap.hide();
+        }
+
+        codigoFornecedorEliminarLista = null;
+    }
+</script>
 
 <?php include '../../includes/footer.php'; ?>

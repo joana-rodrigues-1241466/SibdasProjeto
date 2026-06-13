@@ -1,6 +1,328 @@
 <?php
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
+
+$erros = [];
+
+// Verificar se o formulário foi submetido
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+ 
+    // 1. Recolher dados
+    $codigo = trim($_POST["codigo"] ?? "");
+    $nome_empresa = trim($_POST["nome_empresa"] ?? "");
+    $nif = trim($_POST["nif"] ?? "");
+    $tipo_fornecedor = trim($_POST["tipo_fornecedor"] ?? "");
+    $website = trim($_POST["website"] ?? "");
+    $telefone = trim($_POST["telefone"] ?? "");
+    $email = trim($_POST["email"] ?? "");
+    $pessoa_contacto = trim($_POST["pessoa_contacto"] ?? "");
+    $telefone_pessoa_contacto = trim($_POST["telefone_pessoa_contacto"] ?? "");
+    $morada = trim($_POST["morada"] ?? "");
+    $observacoes = trim($_POST["observacoes"] ?? "");
+    $tem_doc_fornecedor = $_POST["tem_doc_fornecedor"] ?? "";
+    $tipoDocFornecedor = trim($_POST["tipoDocFornecedor"] ?? "");
+    $nomeDocFornecedor = trim($_POST["nomeDocFornecedor"] ?? "");
+    $dataDocFornecedor = $_POST["dataDocFornecedor"] ?? "";
+    $validadeDocFornecedor = $_POST["validadeDocFornecedor"] ?? "";
+ 
+    // 2. Imprimir os dados recebidos (para teste)
+    /*
+    echo "<p><strong>Dados recebidos:</strong> Código: $codigo | Nome empresa: $nome_empresa
+        | NIF: $nif | Tipo: $tipo_fornecedor | Website: $website | Telefone: $telefone
+        | Email: $email | Pessoa contacto: $pessoa_contacto | Telefone pessoa: $telefone_pessoa_contacto
+        | Morada: $morada | Observações: $observacoes | Tem doc: $tem_doc_fornecedor
+        | Tipo doc: $tipoDocFornecedor | Nome doc: $nomeDocFornecedor | Data doc: $dataDocFornecedor
+        | Validade doc: $validadeDocFornecedor</p>";
+    */
+ 
+    // 3. Validar os dados
+ 
+    // --- Código ---
+    if ($codigo === "") {
+        $erros[] = "O código do fornecedor é obrigatório.";
+    } else {
+        if (preg_match('/\s/', $codigo)) {
+            $erros[] = "O código não pode conter espaços em branco.";
+        }
+        if (strlen($codigo) < 6) {
+            $erros[] = "O código deve ter no mínimo 6 caracteres.";
+        }
+        if (!preg_match('/^FOR\d+$/', $codigo)) {
+            $erros[] = "O código deve começar com o prefixo \"FOR\" seguido de números (ex.: FOR001).";
+        }
+    }
+ 
+    // --- Nome da empresa ---
+    if ($nome_empresa === "") {
+        $erros[] = "O nome da empresa é obrigatório.";
+    } elseif (strlen($nome_empresa) < 2) {
+        $erros[] = "O nome da empresa deve ter no mínimo 2 caracteres.";
+    }
+ 
+    // --- NIF ---
+    if ($nif === "") {
+        $erros[] = "O NIF é obrigatório.";
+    } else {
+        if (preg_match('/\s/', $nif)) {
+            $erros[] = "O NIF não pode conter espaços em branco.";
+        }
+        if (!preg_match('/^\d{9}$/', $nif)) {
+            $erros[] = "O NIF deve ser constituído por exatamente 9 dígitos numéricos.";
+        }
+    }
+ 
+    // --- Tipo de fornecedor ---
+    if ($tipo_fornecedor === "") {
+        $erros[] = "O tipo de fornecedor é obrigatório.";
+    }
+ 
+    // --- Website (opcional) ---
+    if ($website !== "") {
+        if (!preg_match('/^www\.[a-zA-Z0-9\-]+\.pt$/', $website)) {
+            $erros[] = "O website deve começar com \"www.\" e terminar com a extensão \".pt\" (ex.: www.empresa.pt).";
+        }
+    }
+ 
+    // --- Telefone geral ---
+    if ($telefone === "") {
+        $erros[] = "O telefone geral é obrigatório.";
+    } else {
+        $telefoneSemEspacos = preg_replace('/\s+/', '', $telefone);
+        if (!preg_match('/^\+351(91|92|93|96)\d{7}$/', $telefoneSemEspacos)) {
+            $erros[] = "O telefone geral deve começar com \"+351\" seguido de 9 dígitos, sendo os dois primeiros 91, 92, 93 ou 96.";
+        }
+    }
+ 
+    // --- Email geral ---
+    if ($email === "") {
+        $erros[] = "O email geral é obrigatório.";
+    } else {
+        if (preg_match('/\s/', $email)) {
+            $erros[] = "O email não pode conter espaços em branco.";
+        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $erros[] = "O email deve ter um formato válido (ex.: contacto@empresa.pt).";
+        }
+    }
+ 
+    // --- Pessoa de contacto ---
+    if ($pessoa_contacto === "") {
+        $erros[] = "A pessoa de contacto é obrigatória.";
+    } else {
+        if (strlen($pessoa_contacto) < 2) {
+            $erros[] = "O nome da pessoa de contacto deve ter no mínimo 2 caracteres.";
+        }
+        if (!preg_match('/^[A-Za-zÀ-ÿ\s\'-]+$/', $pessoa_contacto)) {
+            $erros[] = "O nome da pessoa de contacto deve conter apenas letras, espaços, hífens e apóstrofos.";
+        }
+    }
+ 
+    // --- Telefone da pessoa de contacto ---
+    if ($telefone_pessoa_contacto === "") {
+        $erros[] = "O telefone da pessoa de contacto é obrigatório.";
+    } else {
+        $telefonePessoaSemEspacos = preg_replace('/\s+/', '', $telefone_pessoa_contacto);
+        if (!preg_match('/^\+351(91|92|93|96)\d{7}$/', $telefonePessoaSemEspacos)) {
+            $erros[] = "O telefone da pessoa de contacto deve começar com \"+351\" seguido de 9 dígitos, sendo os dois primeiros 91, 92, 93 ou 96.";
+        }
+    }
+ 
+    // --- Morada ---
+    if ($morada === "") {
+        $erros[] = "A morada é obrigatória.";
+    }
+ 
+    // --- Observações (opcional) ---
+    if ($observacoes !== "" && strlen($observacoes) < 2) {
+        $erros[] = "As observações, se preenchidas, devem ter no mínimo 2 caracteres.";
+    }
+ 
+    // --- Documentação do fornecedor ---
+    if ($tem_doc_fornecedor === "") {
+        $erros[] = "É obrigatório indicar se existe documentação associada ao fornecedor.";
+    } elseif ($tem_doc_fornecedor === "sim") {
+ 
+        if ($tipoDocFornecedor === "") {
+            $erros[] = "O tipo de documento é obrigatório.";
+        }
+ 
+        if ($nomeDocFornecedor === "") {
+            $erros[] = "O nome do documento é obrigatório.";
+        } elseif (strlen($nomeDocFornecedor) < 2) {
+            $erros[] = "O nome do documento deve ter no mínimo 2 caracteres.";
+        }
+ 
+        if ($dataDocFornecedor === "") {
+            $erros[] = "A data do documento é obrigatória.";
+        } else {
+            $dataDocObj = DateTime::createFromFormat('Y-m-d', $dataDocFornecedor);
+            $hoje = new DateTime('today');
+            if ($dataDocObj && $dataDocObj > $hoje) {
+                $erros[] = "A data do documento não pode ser uma data futura.";
+            }
+        }
+ 
+        if ($validadeDocFornecedor !== "" && $dataDocFornecedor !== "") {
+            $validadeObj = DateTime::createFromFormat('Y-m-d', $validadeDocFornecedor);
+            $dataDocObj = DateTime::createFromFormat('Y-m-d', $dataDocFornecedor);
+            if ($validadeObj && $dataDocObj && $validadeObj <= $dataDocObj) {
+                $erros[] = "A validade do documento deve ser posterior à data do documento.";
+            }
+        }
+    }
+
+    // --- Validações de unicidade (codigo, NIF, telefone, email) ---
+    if (empty($erros)) {
+        try {
+            $ligacao = new PDO(
+                "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+                MYSQL_USERNAME,
+                MYSQL_PASSWORD
+            );
+            $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Código único
+            $stmt = $ligacao->prepare("SELECT COUNT(*) FROM fornecedores WHERE codigo = :codigo");
+            $stmt->execute([':codigo' => $codigo]);
+            if ($stmt->fetchColumn() > 0) {
+                $erros[] = "Já existe um fornecedor registado com o código \"$codigo\".";
+            }
+
+            // NIF único
+            $stmt = $ligacao->prepare("SELECT COUNT(*) FROM fornecedores WHERE nif = :nif");
+            $stmt->execute([':nif' => $nif]);
+            if ($stmt->fetchColumn() > 0) {
+                $erros[] = "Já existe um fornecedor registado com o NIF \"$nif\".";
+            }
+
+            // Telefone geral único
+            $stmt = $ligacao->prepare("SELECT COUNT(*) FROM fornecedores WHERE telefone = :telefone");
+            $stmt->execute([':telefone' => $telefone]);
+            if ($stmt->fetchColumn() > 0) {
+                $erros[] = "Já existe um fornecedor registado com o telefone \"$telefone\".";
+            }
+
+            // Email geral único
+            $stmt = $ligacao->prepare("SELECT COUNT(*) FROM fornecedores WHERE email = :email");
+            $stmt->execute([':email' => $email]);
+            if ($stmt->fetchColumn() > 0) {
+                $erros[] = "Já existe um fornecedor registado com o email \"$email\".";
+            }
+
+            $ligacao = null;
+
+        } catch (PDOException $err) {
+            $erros[] = "Erro ao verificar duplicados: " . $err->getMessage();
+        }
+    }
+ 
+    // 4. Se não houver erros, guardar na base de dados
+    $erro_sistema = "";
+
+    if (empty($erros)) {
+        try {
+            $ligacao = new PDO(
+                "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+                MYSQL_USERNAME,
+                MYSQL_PASSWORD
+            );
+            $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Resolver tipo_id a partir do nome do tipo de fornecedor
+            $stmt = $ligacao->prepare("SELECT id FROM tipos_fornecedor WHERE designacao = :designacao");
+            $stmt->execute([':designacao' => $tipo_fornecedor]);
+            $tipo_id = $stmt->fetchColumn();
+
+            // Resolver morada_id a partir do texto da morada
+            $stmt = $ligacao->prepare("SELECT id FROM moradas WHERE designacao = :designacao");
+            $stmt->execute([':designacao' => $morada]);
+            $morada_id = $stmt->fetchColumn();
+
+            // Insert do fornecedor
+            $sql = "INSERT INTO fornecedores (
+                codigo, nome_empresa, nif, telefone, email, morada_id, website,
+                pessoa_contacto, telefone_pessoa_contacto, tipo_id, observacoes
+            ) VALUES (
+                :codigo, :nome_empresa, :nif, :telefone, :email, :morada_id, :website,
+                :pessoa_contacto, :telefone_pessoa_contacto, :tipo_id, :observacoes
+            )";
+
+            $stmt = $ligacao->prepare($sql);
+            $stmt->execute([
+                ':codigo' => $codigo,
+                ':nome_empresa' => $nome_empresa,
+                ':nif' => $nif,
+                ':telefone' => $telefone,
+                ':email' => $email,
+                ':morada_id' => $morada_id,
+                ':website' => $website,
+                ':pessoa_contacto' => $pessoa_contacto,
+                ':telefone_pessoa_contacto' => $telefone_pessoa_contacto,
+                ':tipo_id' => $tipo_id,
+                ':observacoes' => $observacoes
+            ]);
+
+            $fornecedor_id = $ligacao->lastInsertId();
+
+            // Documentação do fornecedor (se aplicável)
+            if ($tem_doc_fornecedor === "sim") {
+
+                // Resolver tipo_documento_id
+                $stmt = $ligacao->prepare("SELECT id FROM tipos_documento_fornecedor WHERE designacao = :designacao");
+                $stmt->execute([':designacao' => $tipoDocFornecedor]);
+                $tipo_documento_id = $stmt->fetchColumn();
+
+                // Processar upload do ficheiro (se enviado)
+                $nomeFicheiroGuardado = "";
+                $nomeOriginalFicheiro = "";
+
+                if (isset($_FILES['ficheiroDocFornecedor']) && $_FILES['ficheiroDocFornecedor']['error'] === UPLOAD_ERR_OK) {
+                    $nomeOriginalFicheiro = $_FILES['ficheiroDocFornecedor']['name'];
+                    $extensao = strtolower(pathinfo($nomeOriginalFicheiro, PATHINFO_EXTENSION));
+                    $nomeFicheiroGuardado = "doc_fornecedor_" . $codigo . "_" . time() . "." . $extensao;
+
+                    $pastaDestino = __DIR__ . "/../../../uploads/documentacao_fornecedores/";
+
+                    if (!is_dir($pastaDestino)) {
+                        mkdir($pastaDestino, 0755, true);
+                    }
+
+                    move_uploaded_file(
+                        $_FILES['ficheiroDocFornecedor']['tmp_name'],
+                        $pastaDestino . $nomeFicheiroGuardado
+                    );
+                }
+
+                $sqlDoc = "INSERT INTO documentacao_fornecedores (
+                    fornecedor_id, tipo_documento_id, nome_documento, data_documento,
+                    validade_documento, ficheiro_documento, nome_original_ficheiro
+                ) VALUES (
+                    :fornecedor_id, :tipo_documento_id, :nome_documento, :data_documento,
+                    :validade_documento, :ficheiro_documento, :nome_original_ficheiro
+                )";
+
+                $stmtDoc = $ligacao->prepare($sqlDoc);
+                $stmtDoc->execute([
+                    ':fornecedor_id' => $fornecedor_id,
+                    ':tipo_documento_id' => $tipo_documento_id,
+                    ':nome_documento' => $nomeDocFornecedor,
+                    ':data_documento' => $dataDocFornecedor,
+                    ':validade_documento' => $validadeDocFornecedor !== "" ? $validadeDocFornecedor : null,
+                    ':ficheiro_documento' => $nomeFicheiroGuardado,
+                    ':nome_original_ficheiro' => $nomeOriginalFicheiro
+                ]);
+            }
+
+            header("Location: fornecedores.php");
+            exit;
+
+        } catch (PDOException $err) {
+            $erro_sistema = "Erro ao gravar os dados: " . $err->getMessage();
+        }
+
+        $ligacao = null;
+    }
+}
 ?>
 
 <?php include '../../includes/header.php'; ?>
@@ -24,7 +346,7 @@ redirect_if_not_logged();
 
             <hr>
 
-            <form id="form-novo-fornecedor" class="form-equipamento-privado">
+            <form id="form-novo-fornecedor" class="form-equipamento-privado" action="#" method="post" enctype="multipart/form-data" novalidate>
 
                 <!-- DADOS GERAIS -->
                 <h5 class="subtitulo-separador titulo-azul-separador mt-0">
@@ -36,35 +358,37 @@ redirect_if_not_logged();
                     <div class="col-md-4">
                         <label for="codigo" class="form-label">Código do fornecedor</label>
                         <input type="text" class="form-control campo-formulario-privado" id="codigo" name="codigo"
-                            placeholder="Ex.: FOR001">
+                            placeholder="Ex.: FOR001" value="<?= htmlspecialchars($_POST['codigo'] ?? '') ?>">
                     </div>
                     <div class="col-md-8">
                         <label for="nome_empresa" class="form-label">Nome da empresa</label>
                         <input type="text" class="form-control campo-formulario-privado" id="nome_empresa"
-                            name="nome_empresa">
+                            name="nome_empresa" value="<?= htmlspecialchars($_POST['nome_empresa'] ?? '') ?>">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="nif" class="form-label">NIF</label>
-                        <input type="text" class="form-control campo-formulario-privado" id="nif" name="nif">
+                        <input type="text" class="form-control campo-formulario-privado" id="nif" name="nif"
+                            value="<?= htmlspecialchars($_POST['nif'] ?? '') ?>">
                     </div>
                     <div class="col-md-4">
                         <label for="tipo_fornecedor" class="form-label">Tipo de fornecedor</label>
+                        <?php $tipoFornecedorSelecionado = $_POST['tipo_fornecedor'] ?? ''; ?>
                         <select class="form-select campo-formulario-privado" id="tipo_fornecedor"
                             name="tipo_fornecedor">
-                            <option value="" selected disabled>Escolha uma opção</option>
-                            <option>Fabricante</option>
-                            <option>Distribuidor ou Fornecedor comercial</option>
-                            <option>Empresa de assistência técnica</option>
-                            <option>Fornecedor de consumíveis ou acessórios</option>
+                            <option value="" disabled <?= $tipoFornecedorSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
+                            <option <?= $tipoFornecedorSelecionado === 'Fabricante' ? 'selected' : '' ?>>Fabricante</option>
+                            <option <?= $tipoFornecedorSelecionado === 'Distribuidor ou Fornecedor comercial' ? 'selected' : '' ?>>Distribuidor ou Fornecedor comercial</option>
+                            <option <?= $tipoFornecedorSelecionado === 'Empresa de assistência técnica' ? 'selected' : '' ?>>Empresa de assistência técnica</option>
+                            <option <?= $tipoFornecedorSelecionado === 'Fornecedor de consumíveis ou acessórios' ? 'selected' : '' ?>>Fornecedor de consumíveis ou acessórios</option>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="website" class="form-label">Website geral</label>
                         <input type="text" class="form-control campo-formulario-privado" id="website" name="website"
-                            placeholder="Ex.: www.empresa.pt">
+                            placeholder="Ex.: www.empresa.pt" value="<?= htmlspecialchars($_POST['website'] ?? '') ?>">
                     </div>
                 </div>
 
@@ -80,12 +404,12 @@ redirect_if_not_logged();
                     <div class="col-md-6">
                         <label for="telefone" class="form-label">Contacto telefónico geral</label>
                         <input type="text" class="form-control campo-formulario-privado" id="telefone"
-                            name="telefone">
+                            name="telefone" value="<?= htmlspecialchars($_POST['telefone'] ?? '') ?>">
                     </div>
                     <div class="col-md-6">
                         <label for="email" class="form-label">Email geral</label>
                         <input type="text" class="form-control campo-formulario-privado" id="email" name="email"
-                            placeholder="Ex.: contacto@empresa.com">
+                            placeholder="Ex.: contacto@empresa.com" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                     </div>
                 </div>
 
@@ -93,13 +417,14 @@ redirect_if_not_logged();
                     <div class="col-md-6">
                         <label for="pessoa_contacto" class="form-label">Pessoa de contacto</label>
                         <input type="text" class="form-control campo-formulario-privado" id="pessoa_contacto"
-                            name="pessoa_contacto">
+                            name="pessoa_contacto" value="<?= htmlspecialchars($_POST['pessoa_contacto'] ?? '') ?>">
                     </div>
                     <div class="col-md-6">
                         <label for="telefone_pessoa_contacto" class="form-label">Telefone da pessoa de
                             contacto</label>
                         <input type="text" class="form-control campo-formulario-privado"
-                            id="telefone_pessoa_contacto" name="telefone_pessoa_contacto">
+                            id="telefone_pessoa_contacto" name="telefone_pessoa_contacto"
+                            value="<?= htmlspecialchars($_POST['telefone_pessoa_contacto'] ?? '') ?>">
                     </div>
                 </div>
 
@@ -114,31 +439,22 @@ redirect_if_not_logged();
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="morada" class="form-label">Morada</label>
+                        <?php
+$moradaSelecionada = $_POST['morada'] ?? '';
+$listaMoradas = [
+    'Aveiro, Portugal', 'Beja, Portugal', 'Braga, Portugal', 'Bragança, Portugal',
+    'Castelo Branco, Portugal', 'Coimbra, Portugal', 'Évora, Portugal', 'Faro, Portugal',
+    'Guarda, Portugal', 'Leiria, Portugal', 'Lisboa, Portugal', 'Portalegre, Portugal',
+    'Porto, Portugal', 'Santarém, Portugal', 'Setúbal, Portugal',
+    'Viana do Castelo, Portugal', 'Vila Real, Portugal', 'Viseu, Portugal',
+    'Região Autónoma dos Açores, Portugal', 'Região Autónoma da Madeira, Portugal'
+];
+?>
                         <select class="form-select campo-formulario-privado" id="morada" name="morada">
-                            <option value="" selected disabled>Escolha uma morada</option>
-
-                            <option value="Aveiro, Portugal">Aveiro, Portugal</option>
-                            <option value="Beja, Portugal">Beja, Portugal</option>
-                            <option value="Braga, Portugal">Braga, Portugal</option>
-                            <option value="Bragança, Portugal">Bragança, Portugal</option>
-                            <option value="Castelo Branco, Portugal">Castelo Branco, Portugal</option>
-                            <option value="Coimbra, Portugal">Coimbra, Portugal</option>
-                            <option value="Évora, Portugal">Évora, Portugal</option>
-                            <option value="Faro, Portugal">Faro, Portugal</option>
-                            <option value="Guarda, Portugal">Guarda, Portugal</option>
-                            <option value="Leiria, Portugal">Leiria, Portugal</option>
-                            <option value="Lisboa, Portugal">Lisboa, Portugal</option>
-                            <option value="Portalegre, Portugal">Portalegre, Portugal</option>
-                            <option value="Porto, Portugal">Porto, Portugal</option>
-                            <option value="Santarém, Portugal">Santarém, Portugal</option>
-                            <option value="Setúbal, Portugal">Setúbal, Portugal</option>
-                            <option value="Viana do Castelo, Portugal">Viana do Castelo, Portugal</option>
-                            <option value="Vila Real, Portugal">Vila Real, Portugal</option>
-                            <option value="Viseu, Portugal">Viseu, Portugal</option>
-                            <option value="Região Autónoma dos Açores, Portugal">Região Autónoma dos Açores,
-                                Portugal</option>
-                            <option value="Região Autónoma da Madeira, Portugal">Região Autónoma da Madeira,
-                                Portugal</option>
+                            <option value="" disabled <?= $moradaSelecionada === '' ? 'selected' : '' ?>>Escolha uma morada</option>
+                            <?php foreach ($listaMoradas as $m): ?>
+                                <option value="<?= htmlspecialchars($m) ?>" <?= $moradaSelecionada === $m ? 'selected' : '' ?>><?= htmlspecialchars($m) ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -155,46 +471,52 @@ redirect_if_not_logged();
                     <label for="tem_doc_fornecedor">
                         Existe documentação associada ao fornecedor?
                     </label>
-                    <select id="tem_doc_fornecedor" class="campo-formulario-privado">
-                        <option value="">Escolha uma opção</option>
-                        <option value="sim">Sim</option>
-                        <option value="nao">Não</option>
+                    <?php $temDocSelecionado = $_POST['tem_doc_fornecedor'] ?? ''; ?>
+                    <select id="tem_doc_fornecedor" name="tem_doc_fornecedor" class="campo-formulario-privado">
+                        <option value="" <?= $temDocSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
+                        <option value="sim" <?= $temDocSelecionado === 'sim' ? 'selected' : '' ?>>Sim</option>
+                        <option value="nao" <?= $temDocSelecionado === 'nao' ? 'selected' : '' ?>>Não</option>
                     </select>
                 </div>
 
-                <div id="bloco-doc-fornecedor" style="display:none">
+                <?php $estiloBlocoDoc = ($_POST['tem_doc_fornecedor'] ?? '') === 'sim' ? '' : 'style="display:none"'; ?>
+                <div id="bloco-doc-fornecedor" <?= $estiloBlocoDoc ?>>
                     <div class="card-documentacao">
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Tipo de documento</label>
+                                <?php $tipoDocSelecionado = $_POST['tipoDocFornecedor'] ?? ''; ?>
                                 <select class="form-select campo-formulario-privado" id="tipoDocFornecedor"
                                     name="tipoDocFornecedor">
-                                    <option value="" selected disabled>Escolha uma opção</option>
-                                    <option>Certificado ISO</option>
-                                    <option>Licença de distribuição</option>
-                                    <option>Certificado de acreditação técnica</option>
-                                    <option>Contrato geral de prestação de serviços</option>
-                                    <option>Alvará ou licença de atividade</option>
-                                    <option>Declaração de autorização de representação</option>
+                                    <option value="" disabled <?= $tipoDocSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
+                                    <option <?= $tipoDocSelecionado === 'Certificado ISO' ? 'selected' : '' ?>>Certificado ISO</option>
+                                    <option <?= $tipoDocSelecionado === 'Licença de distribuição' ? 'selected' : '' ?>>Licença de distribuição</option>
+                                    <option <?= $tipoDocSelecionado === 'Certificado de acreditação técnica' ? 'selected' : '' ?>>Certificado de acreditação técnica</option>
+                                    <option <?= $tipoDocSelecionado === 'Contrato geral de prestação de serviços' ? 'selected' : '' ?>>Contrato geral de prestação de serviços</option>
+                                    <option <?= $tipoDocSelecionado === 'Alvará ou licença de atividade' ? 'selected' : '' ?>>Alvará ou licença de atividade</option>
+                                    <option <?= $tipoDocSelecionado === 'Declaração de autorização de representação' ? 'selected' : '' ?>>Declaração de autorização de representação</option>
                                 </select>
                             </div>
                             <div class="col-md-8 mb-3">
                                 <label class="form-label">Nome do documento</label>
                                 <input type="text" class="form-control campo-formulario-privado"
-                                    id="nomeDocFornecedor" name="nomeDocFornecedor">
+                                    id="nomeDocFornecedor" name="nomeDocFornecedor"
+                                    value="<?= htmlspecialchars($_POST['nomeDocFornecedor'] ?? '') ?>">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Data do documento</label>
                                 <input type="date" class="form-control campo-formulario-privado"
-                                    id="dataDocFornecedor" name="dataDocFornecedor">
+                                    id="dataDocFornecedor" name="dataDocFornecedor"
+                                    value="<?= htmlspecialchars($_POST['dataDocFornecedor'] ?? '') ?>">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Validade <span
                                         style="color:#6b7280; font-size:0.85rem;">(se aplicável)</span></label>
                                 <input type="date" class="form-control campo-formulario-privado"
-                                    id="validadeDocFornecedor" name="validadeDocFornecedor">
+                                    id="validadeDocFornecedor" name="validadeDocFornecedor"
+                                    value="<?= htmlspecialchars($_POST['validadeDocFornecedor'] ?? '') ?>">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Ficheiro PDF</label>
@@ -213,12 +535,25 @@ redirect_if_not_logged();
 
                 <div class="mb-3">
                     <textarea class="form-control campo-formulario-privado" id="observacoes" name="observacoes"
-                        rows="4"></textarea>
+                        rows="4"><?= htmlspecialchars($_POST['observacoes'] ?? '') ?></textarea>
                 </div>
 
-                <div id="erros-formulario" class="erros-separador" style="display:none;">
-                    <ul id="lista-erros-formulario"></ul>
+                <?php if (!empty($erros)): ?>
+                <div id="erros-formulario" class="erros-separador alert alert-danger">
+                    <ul id="lista-erros-formulario">
+                        <?php foreach ($erros as $erro): ?>
+                            <li><?= htmlspecialchars($erro) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
                 </div>
+                <?php endif; ?>
+
+                <?php if (!empty($erro_sistema)) : ?>
+                    <div class="alert alert-danger">
+                        <strong>Erro:</strong>
+                        <p><?= htmlspecialchars($erro_sistema) ?></p>
+                    </div>
+                <?php endif; ?>
 
                 <div class="botoes-formulario-privado">
                     <a href="fornecedores.php" class="botao-cancelar-privado">

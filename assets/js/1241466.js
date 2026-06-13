@@ -5051,7 +5051,7 @@ function preencherSelectFiltrosEquipamentos() {
     });
 }*/
 
-function inicializarNovoEquipamento() {
+/*function inicializarNovoEquipamento() {
     const formularioNovoEquipamento = document.getElementById("form-novo-equipamento");
 
     if (!formularioNovoEquipamento) {
@@ -5426,17 +5426,320 @@ function inicializarNovoEquipamento() {
             }
         });
     }
+} */
+
+// ========================================
+// TOGGLES DOCUMENTAÇÃO - NOVO EQUIPAMENTO
+// ========================================
+
+function inicializarTogglesDocumentacaoEquipamento() {
+
+    function ligarToggle(idSeletor, idBloco) {
+        const seletor = document.getElementById(idSeletor);
+        const bloco = document.getElementById(idBloco);
+
+        if (!seletor || !bloco) {
+            return;
+        }
+
+        bloco.style.display = "none";
+
+        seletor.addEventListener("change", function () {
+            bloco.style.display = this.value === "sim" ? "block" : "none";
+        });
+    }
+
+    ligarToggle("tem_documentacao_tecnica", "bloco-documentacao-tecnica");
+    ligarToggle("tem_documentacao_utilizacao", "bloco-documentacao-utilizacao");
+    ligarToggle("tem_declaracao_conformidade", "bloco-declaracao-conformidade");
+    ligarToggle("tem_contrato_aquisicao", "bloco-contrato-aquisicao");
+    ligarToggle("tem_fatura", "bloco-fatura");
+    ligarToggle("tem_documentacao_garantia", "bloco-documentacao-garantia");
+    ligarToggle("tem_documentacao_contrato", "bloco-documentacao-contrato");
+    ligarToggle("tem_relatorio_contrato", "bloco-relatorio-contrato");
+    ligarToggle("tem_documentacao_calibracao", "bloco-documentacao-calibracao");
+    ligarToggle("tem_relatorio_calibracao", "bloco-relatorio-calibracao");
 }
 
-const ESTADOS = [
-    { value: 'novo', label: 'Novo' },
-    { value: 'em-uso', label: 'Em uso' },
-    { value: 'danificado', label: 'Danificado' },
-    { value: 'em-falta', label: 'Em falta' },
-    { value: 'obsoleto', label: 'Obsoleto' },
-];
+// ===============================
+// VALIDAÇÃO CLIENT-SIDE — TAB 1 (IDENTIFICAÇÃO)
+// ===============================
 
-const UNIDADES = ['unid', 'cx', 'pack', 'par', 'rolo', 'frasco', 'saco', 'kit', 'L', 'mL', 'm', 'cm'];
+function validarTabIdentificacao() {
+    const erros = [];
+
+    const codigo = document.getElementById("codigo").value.trim();
+    const designacao = document.getElementById("designacao").value.trim();
+    const categoria = document.getElementById("categoria").value;
+    const marca = document.getElementById("marca").value.trim();
+    const modelo = document.getElementById("modelo").value.trim();
+    const numeroSerie = document.getElementById("numero_serie").value.trim();
+    const fabricante = document.getElementById("fabricante").value.trim();
+    const anoFabrico = document.getElementById("ano_fabrico").value.trim();
+    const estado = document.getElementById("estado").value;
+    const criticidade = document.getElementById("criticidade").value;
+
+    if (codigo === "") {
+        erros.push("O código do equipamento é obrigatório.");
+    } else {
+        if (/\s/.test(codigo)) erros.push("O código não pode conter espaços em branco.");
+        if (codigo.length < 5) erros.push("O código deve ter no mínimo 5 caracteres.");
+        if (!/^EQ\d+$/.test(codigo)) erros.push("O código deve começar com \"EQ\" seguido de números (ex.: EQ001).");
+    }
+
+    if (designacao === "") {
+        erros.push("A designação do equipamento é obrigatória.");
+    } else if (designacao.length < 2) {
+        erros.push("A designação deve ter no mínimo 2 caracteres.");
+    }
+
+    if (categoria === "") erros.push("A categoria do equipamento é obrigatória.");
+
+    if (marca === "") {
+        erros.push("A marca é obrigatória.");
+    } else if (marca.length < 2) {
+        erros.push("A marca deve ter no mínimo 2 caracteres.");
+    }
+
+    if (modelo === "") {
+        erros.push("O modelo é obrigatório.");
+    } else if (modelo.length < 2) {
+        erros.push("O modelo deve ter no mínimo 2 caracteres.");
+    }
+
+    if (numeroSerie === "") {
+        erros.push("O número de série é obrigatório.");
+    } else if (numeroSerie.length < 2) {
+        erros.push("O número de série deve ter no mínimo 2 caracteres.");
+    }
+
+    if (fabricante === "") {
+        erros.push("O fabricante é obrigatório.");
+    } else if (fabricante.length < 2) {
+        erros.push("O fabricante deve ter no mínimo 2 caracteres.");
+    }
+
+    const anoAtual = new Date().getFullYear();
+    if (anoFabrico !== "") {
+        const ano = parseInt(anoFabrico, 10);
+        if (isNaN(ano) || ano < 1900 || ano > anoAtual) {
+            erros.push("O ano de fabrico, se preenchido, deve estar entre 1900 e " + anoAtual + ".");
+        }
+    }
+
+    if (estado === "") erros.push("O estado do equipamento é obrigatório.");
+    if (criticidade === "") erros.push("A criticidade do equipamento é obrigatória.");
+
+    // Documentação técnica / utilização / conformidade
+    erros.push(...validarBlocoDocumentacao("tem_documentacao_tecnica", "nomeManualTecnico", "dataManualTecnico", "validadeManualTecnico", anoFabrico, "documentação técnica"));
+    erros.push(...validarBlocoDocumentacao("tem_documentacao_utilizacao", "nomeManualUtilizacao", "dataManualUtilizacao", "validadeManualUtilizacao", anoFabrico, "documentação de utilização"));
+    erros.push(...validarBlocoDocumentacao("tem_declaracao_conformidade", "nomeDeclaracaoConformidade", "dataDeclaracaoConformidade", "validadeDeclaracaoConformidade", anoFabrico, "declaração de conformidade"));
+
+    return erros;
+}
+
+function validarBlocoDocumentacao(idSelect, idNome, idData, idValidade, anoFabrico, rotulo) {
+    const erros = [];
+
+    const temDoc = document.getElementById(idSelect).value;
+
+    if (temDoc === "") {
+        erros.push("É obrigatório indicar se existe " + rotulo + " associada.");
+        return erros;
+    }
+
+    if (temDoc !== "sim") {
+        return erros;
+    }
+
+    const nome = document.getElementById(idNome).value.trim();
+    const data = document.getElementById(idData).value;
+    const validade = document.getElementById(idValidade).value;
+
+    if (nome === "") {
+        erros.push("O nome do documento (" + rotulo + ") é obrigatório.");
+    } else if (nome.length < 2) {
+        erros.push("O nome do documento (" + rotulo + ") deve ter no mínimo 2 caracteres.");
+    }
+
+    if (data === "") {
+        erros.push("A data do documento (" + rotulo + ") é obrigatória.");
+    } else {
+        const dataObj = new Date(data);
+        if (anoFabrico !== "") {
+            if (dataObj.getFullYear() <= parseInt(anoFabrico, 10)) {
+                erros.push("A data do documento (" + rotulo + ") deve ser posterior ao ano de fabrico do equipamento.");
+            }
+        } else {
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+            if (dataObj > hoje) {
+                erros.push("A data do documento (" + rotulo + ") não pode ser uma data futura.");
+            }
+        }
+
+        if (validade !== "") {
+            const validadeObj = new Date(validade);
+            if (validadeObj <= dataObj) {
+                erros.push("A validade do documento (" + rotulo + ") deve ser posterior à data do documento.");
+            }
+        }
+    }
+
+    return erros;
+}
+
+function inicializarValidacaoTabIdentificacao() {
+    const botao = document.getElementById("botao-seguinte-identificacao");
+
+    if (!botao) {
+        return;
+    }
+
+    botao.addEventListener("click", function (event) {
+        const erros = validarTabIdentificacao();
+
+        mostrarErrosTab("erros-separador-1", erros);
+
+        if (erros.length > 0) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        }
+    });
+}
+
+function mostrarErrosTab(idContainerErros, erros) {
+    const container = document.getElementById(idContainerErros);
+    const lista = container ? container.querySelector("ul") : null;
+
+    if (!container || !lista) {
+        return;
+    }
+
+    if (erros.length === 0) {
+        container.style.display = "none";
+        lista.innerHTML = "";
+        return;
+    }
+
+    lista.innerHTML = "";
+    erros.forEach(function (erro) {
+        const li = document.createElement("li");
+        li.textContent = erro;
+        lista.appendChild(li);
+    });
+
+    container.style.display = "block";
+    container.classList.add("alert", "alert-danger");
+}
+
+// ===============================
+// VALIDAÇÃO CLIENT-SIDE — TAB 2 (ACESSÓRIOS E CONSUMÍVEIS)
+// ===============================
+
+function validarTabAcessoriosConsumiveis() {
+    const erros = [];
+
+    const linhasAcessorios = document.querySelectorAll('#tbody-acessorios tr');
+    const linhasConsumiveis = document.querySelectorAll('#tbody-consumiveis tr');
+
+    if (linhasAcessorios.length === 0) {
+        erros.push("Deve existir pelo menos um acessório associado ao equipamento.");
+    }
+
+    linhasAcessorios.forEach(function (tr, index) {
+        validarLinhaItemJS(tr, index, "Acessório", true, erros);
+    });
+
+    linhasConsumiveis.forEach(function (tr, index) {
+        validarLinhaItemJS(tr, index, "Consumível", false, erros);
+    });
+
+    return erros;
+}
+
+function validarLinhaItemJS(tr, index, rotulo, estadoObrigatorio, erros) {
+    const numeroLinha = index + 1;
+
+    const nome = tr.querySelector('input[name$="[nome][]"]').value.trim();
+    const referencia = tr.querySelector('input[name$="[referencia][]"]').value.trim();
+    const quantidade = tr.querySelector('input[name$="[quantidade][]"]').value.trim();
+    const unidade = tr.querySelector('select[name$="[unidade][]"]').value;
+    const estadoSelect = tr.querySelector('select[name$="[estado][]"]');
+    const estado = estadoSelect ? estadoSelect.value : "";
+    const observacoes = tr.querySelector('input[name$="[observacoes][]"]').value.trim();
+
+    if (nome === "") {
+        erros.push(rotulo + " #" + numeroLinha + ": o nome é obrigatório.");
+    } else if (nome.length < 2) {
+        erros.push(rotulo + " #" + numeroLinha + ": o nome deve ter no mínimo 2 caracteres.");
+    }
+
+    if (referencia === "") {
+        erros.push(rotulo + " #" + numeroLinha + ": a referência é obrigatória.");
+    } else if (referencia.length < 2) {
+        erros.push(rotulo + " #" + numeroLinha + ": a referência deve ter no mínimo 2 caracteres.");
+    }
+
+    let quantidadeValida = false;
+    if (quantidade === "" || !/^\d+$/.test(quantidade)) {
+        erros.push(rotulo + " #" + numeroLinha + ": a quantidade deve ser um número inteiro igual ou superior a zero.");
+    } else {
+        quantidadeValida = true;
+    }
+
+    if (unidade === "") {
+        erros.push(rotulo + " #" + numeroLinha + ": a unidade é obrigatória.");
+    }
+
+    if (estadoObrigatorio && estado === "") {
+        erros.push(rotulo + " #" + numeroLinha + ": o estado é obrigatório.");
+    }
+
+    if (quantidadeValida && estado !== "") {
+        const qtd = parseInt(quantidade, 10);
+        const estadosSemStock = ['Em falta', 'Abatido'];
+        const estadosComStock = ['Novo', 'Em uso', 'Danificado'];
+
+        // Procurar a label correspondente ao value selecionado
+        const labelEstado = estadoSelect.options[estadoSelect.selectedIndex]?.text || estado;
+
+        if (qtd === 0 && !estadosSemStock.includes(labelEstado)) {
+            erros.push(rotulo + " #" + numeroLinha + ": com quantidade 0, o estado deve ser \"Em falta\" ou \"Abatido\".");
+        } else if (qtd > 0 && !estadosComStock.includes(labelEstado)) {
+            erros.push(rotulo + " #" + numeroLinha + ": com quantidade superior a 0, o estado deve ser \"Novo\", \"Em uso\" ou \"Danificado\".");
+        }
+    }
+
+    if (observacoes !== "" && observacoes.length < 2) {
+        erros.push(rotulo + " #" + numeroLinha + ": as observações, se preenchidas, devem ter no mínimo 2 caracteres.");
+    }
+}
+
+function inicializarValidacaoTabAcessoriosConsumiveis() {
+    const botao = document.getElementById("botao-seguinte-acessorios");
+
+    if (!botao) {
+        return;
+    }
+
+    botao.addEventListener("click", function (event) {
+        const erros = validarTabAcessoriosConsumiveis();
+
+        mostrarErrosTab("erros-separador-2", erros);
+
+        if (erros.length > 0) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        }
+    });
+}
+
+const ESTADOS = (typeof ESTADOS_ACESSORIO_BD !== 'undefined' ? ESTADOS_ACESSORIO_BD : []).map(function (e) {
+    return { value: e.valor, label: e.designacao };
+});
+
+const UNIDADES = typeof UNIDADES_BD !== 'undefined' ? UNIDADES_BD : [];
 
 const contadores = { acessorios: 0, consumiveis: 0 };
 
@@ -5540,41 +5843,227 @@ window.atualizarResumo = function (tipo) {
     resumo.innerHTML = html;
 };
 
+// ===============================
+// VALIDAÇÃO CLIENT-SIDE — TAB 3 (AQUISIÇÃO)
+// ===============================
+
+function atualizarDocumentacaoPorTipoEntrada() {
+    const selectTipoEntrada = document.getElementById("tipo_entrada");
+    const seletorFatura = document.getElementById("tem_fatura");
+    const blocoFatura = document.getElementById("bloco-fatura");
+    const seletorContratoAquisicao = document.getElementById("tem_contrato_aquisicao");
+    const blocoContratoAquisicao = document.getElementById("bloco-contrato-aquisicao");
+
+    if (!selectTipoEntrada || !seletorFatura || !blocoFatura || !seletorContratoAquisicao || !blocoContratoAquisicao) {
+        return;
+    }
+
+    function aplicar() {
+        const tipo = selectTipoEntrada.value;
+
+        // --- Fatura ---
+        if (tipo === "Compra") {
+            seletorFatura.value = "sim";
+            blocoFatura.style.display = "block";
+            seletorFatura.style.pointerEvents = "none";
+            seletorFatura.style.opacity = "0.65";
+        } else if (tipo === "Doação") {
+            seletorFatura.value = "nao";
+            blocoFatura.style.display = "none";
+            seletorFatura.style.pointerEvents = "none";
+            seletorFatura.style.opacity = "0.65";
+        } else {
+            // Aluguer, Empréstimo ou sem seleção: livre
+            seletorFatura.style.pointerEvents = "";
+            seletorFatura.style.opacity = "";
+            blocoFatura.style.display = seletorFatura.value === "sim" ? "block" : "none";
+        }
+
+        // --- Contrato de aquisição ---
+        if (tipo === "Aluguer" || tipo === "Empréstimo") {
+            seletorContratoAquisicao.value = "sim";
+            blocoContratoAquisicao.style.display = "block";
+            seletorContratoAquisicao.style.pointerEvents = "none";
+            seletorContratoAquisicao.style.opacity = "0.65";
+        } else {
+            // Compra, Doação ou sem seleção: livre
+            seletorContratoAquisicao.style.pointerEvents = "";
+            seletorContratoAquisicao.style.opacity = "";
+            blocoContratoAquisicao.style.display = seletorContratoAquisicao.value === "sim" ? "block" : "none";
+        }
+    }
+
+    selectTipoEntrada.addEventListener("change", aplicar);
+    seletorFatura.addEventListener("change", function () {
+        blocoFatura.style.display = this.value === "sim" ? "block" : "none";
+    });
+    seletorContratoAquisicao.addEventListener("change", function () {
+        blocoContratoAquisicao.style.display = this.value === "sim" ? "block" : "none";
+    });
+
+    aplicar();
+}
+
+function validarTabAquisicao() {
+    const erros = [];
+
+    const dataAquisicao = document.getElementById("data_aquisicao").value;
+    const custoAquisicao = document.getElementById("custo_aquisicao").value.trim();
+    const tipoEntrada = document.getElementById("tipo_entrada").value;
+    const temContratoAquisicao = document.getElementById("tem_contrato_aquisicao").value;
+    const temFatura = document.getElementById("tem_fatura").value;
+    const observacoesAquisicao = document.getElementById("observacoesAquisicao").value.trim();
+    const anoFabrico = document.getElementById("ano_fabrico").value.trim();
+
+    let dataAquisicaoObj = null;
+
+    // Data de aquisição
+    if (dataAquisicao === "") {
+        erros.push("A data de aquisição é obrigatória.");
+    } else {
+        dataAquisicaoObj = new Date(dataAquisicao);
+        if (anoFabrico !== "") {
+            if (dataAquisicaoObj.getFullYear() <= parseInt(anoFabrico, 10)) {
+                erros.push("A data de aquisição deve ser posterior ao ano de fabrico do equipamento.");
+            }
+        }
+    }
+
+    // Custo de aquisição
+    if (custoAquisicao === "") {
+        erros.push("O custo de aquisição é obrigatório.");
+    } else if (isNaN(custoAquisicao) || parseFloat(custoAquisicao) < 0) {
+        erros.push("O custo de aquisição deve ser um valor numérico igual ou superior a zero.");
+    }
+
+    // Tipo de entrada
+    if (tipoEntrada === "") {
+        erros.push("O tipo de entrada é obrigatório.");
+    }
+
+    // Tem contrato de aquisição
+    if (temContratoAquisicao === "") {
+        erros.push("É obrigatório indicar se existe contrato de aquisição associado.");
+    }
+
+    // Tem fatura
+    if (temFatura === "") {
+        erros.push("É obrigatório indicar se existe fatura associada.");
+    }
+
+    // Documentação: Contrato de Aquisição
+    if (temContratoAquisicao === "sim") {
+        const nomeContratoAquisicao = document.getElementById("nomeContratoAquisicao").value.trim();
+        const dataContratoAquisicao = document.getElementById("dataContratoAquisicao").value;
+        const validadeContratoAquisicao = document.getElementById("validadeContratoAquisicao").value;
+
+        if (nomeContratoAquisicao === "") {
+            erros.push("O nome do documento (contrato de aquisição) é obrigatório.");
+        } else if (nomeContratoAquisicao.length < 2) {
+            erros.push("O nome do documento (contrato de aquisição) deve ter no mínimo 2 caracteres.");
+        }
+
+        let dataContratoAquisicaoObj = null;
+
+        if (dataContratoAquisicao === "") {
+            erros.push("A data do documento (contrato de aquisição) é obrigatória.");
+        } else {
+            dataContratoAquisicaoObj = new Date(dataContratoAquisicao);
+            if (dataAquisicaoObj && dataContratoAquisicaoObj < dataAquisicaoObj) {
+                erros.push("A data do documento (contrato de aquisição) deve ser igual ou posterior à data de aquisição.");
+            }
+        }
+
+        if (validadeContratoAquisicao !== "" && dataContratoAquisicaoObj) {
+            const validadeContratoAquisicaoObj = new Date(validadeContratoAquisicao);
+            if (validadeContratoAquisicaoObj <= dataContratoAquisicaoObj) {
+                erros.push("A validade do documento (contrato de aquisição) deve ser posterior à data do documento.");
+            }
+        }
+    }
+
+    // Documentação: Fatura
+    if (temFatura === "sim") {
+        const nomeFatura = document.getElementById("nomeFatura").value.trim();
+        const dataFatura = document.getElementById("dataFatura").value;
+
+        if (nomeFatura === "") {
+            erros.push("O nome do documento (fatura) é obrigatório.");
+        } else if (nomeFatura.length < 2) {
+            erros.push("O nome do documento (fatura) deve ter no mínimo 2 caracteres.");
+        }
+
+        if (dataFatura === "") {
+            erros.push("A data do documento (fatura) é obrigatória.");
+        } else {
+            const dataFaturaObj = new Date(dataFatura);
+            if (dataAquisicaoObj && dataFaturaObj < dataAquisicaoObj) {
+                erros.push("A data do documento (fatura) deve ser igual ou posterior à data de aquisição.");
+            }
+        }
+    }
+
+    // Observações
+    if (observacoesAquisicao !== "" && observacoesAquisicao.length < 2) {
+        erros.push("As observações da aquisição, se preenchidas, devem ter no mínimo 2 caracteres.");
+    }
+
+    return erros;
+}
+
+function inicializarValidacaoTabAquisicao() {
+    const botao = document.getElementById("botao-seguinte-aquisicao");
+
+    if (!botao) {
+        return;
+    }
+
+    botao.addEventListener("click", function (event) {
+        const erros = validarTabAquisicao();
+
+        mostrarErrosTab("erros-separador-3", erros);
+
+        if (erros.length > 0) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        }
+    });
+}
+
 const contadorFornecedores = { count: 0 };
 
-window.adicionarFornecedorEquipamento = function () {
+window.adicionarFornecedorEquipamento = function (dados) {
+    dados = dados || {};
+
     const tbody = document.getElementById('tbody-fornecedores-equipamento');
     if (!tbody) return;
     const id = 'fornecedor-linha-' + (++contadorFornecedores.count);
 
-    const opcoesFornecedores = Object.values(fornecedoresGuardados).map(function (f) {
-        return '<option value="' + f.codigo + '">' + f.codigo + ' — ' + f.nomeEmpresa + '</option>';
+    const listaFornecedores = typeof FORNECEDORES_BD !== 'undefined' ? FORNECEDORES_BD : [];
+    const listaMoradas = typeof MORADAS_BD !== 'undefined' ? MORADAS_BD : [];
+
+    const opcoesFornecedores = listaFornecedores.map(function (f) {
+        const sel = String(dados.fornecedor) === String(f.id) ? ' selected' : '';
+        return '<option value="' + f.id + '"' + sel + '>' + f.codigo + ' — ' + f.nome_empresa + '</option>';
     }).join('');
 
-    const opcoesMorada = [
-        'Aveiro, Portugal', 'Beja, Portugal', 'Braga, Portugal',
-        'Bragança, Portugal', 'Castelo Branco, Portugal', 'Coimbra, Portugal',
-        'Évora, Portugal', 'Faro, Portugal', 'Guarda, Portugal',
-        'Leiria, Portugal', 'Lisboa, Portugal', 'Portalegre, Portugal',
-        'Porto, Portugal', 'Santarém, Portugal', 'Setúbal, Portugal',
-        'Viana do Castelo, Portugal', 'Vila Real, Portugal', 'Viseu, Portugal',
-        'Região Autónoma dos Açores, Portugal', 'Região Autónoma da Madeira, Portugal'
-    ].map(function (m) {
-        return '<option value="' + m + '">' + m + '</option>';
+    const opcoesMorada = listaMoradas.map(function (m) {
+        const sel = String(dados.morada) === String(m.id) ? ' selected' : '';
+        return '<option value="' + m.id + '"' + sel + '>' + m.designacao + '</option>';
     }).join('');
 
     const tr = document.createElement('tr');
     tr.id = id;
     tr.innerHTML =
-        '<td><select name="fornecedores[codigo][]" class="campo-formulario-privado">' +
-        '<option value="" disabled selected>Escolha</option>' + opcoesFornecedores +
+        '<td><select name="fornecedores[fornecedor][]" class="campo-formulario-privado">' +
+        '<option value="" disabled' + (dados.fornecedor ? '' : ' selected') + '>Escolha</option>' + opcoesFornecedores +
         '</select></td>' +
         '<td><select name="fornecedores[morada][]" class="campo-formulario-privado">' +
-        '<option value="" disabled selected>Escolha</option>' + opcoesMorada +
+        '<option value="" disabled' + (dados.morada ? '' : ' selected') + '>Escolha</option>' + opcoesMorada +
         '</select></td>' +
-        '<td><input type="text" name="fornecedores[pessoa][]" placeholder="Nome" class="campo-formulario-privado"></td>' +
-        '<td><input type="text" name="fornecedores[telefone][]" placeholder="+351..." class="campo-formulario-privado"></td>' +
-        '<td><input type="text" name="fornecedores[observacoes][]" placeholder="Notas opcionais..." class="campo-formulario-privado"></td>' +
+        '<td><input type="text" name="fornecedores[pessoa][]" placeholder="Nome" class="campo-formulario-privado" value="' + (dados.pessoa || '') + '"></td>' +
+        '<td><input type="text" name="fornecedores[telefone][]" placeholder="+351 9XX XXX XXX" class="campo-formulario-privado" value="' + (dados.telefone || '') + '"></td>' +
+        '<td><input type="text" name="fornecedores[observacoes][]" placeholder="Notas opcionais..." class="campo-formulario-privado" value="' + (dados.observacoes || '') + '"></td>' +
         '<td><button type="button" class="botao-remover-item" onclick="removerFornecedorEquipamento(\'' + id + '\')" title="Remover">' +
         '<i class="fa-solid fa-xmark"></i>' +
         '</button></td>';
@@ -5583,6 +6072,441 @@ window.adicionarFornecedorEquipamento = function () {
     atualizarResumoFornecedores();
     tr.querySelector('select').focus();
 };
+
+// ===============================
+// VALIDAÇÃO CLIENT-SIDE — TAB 4 (FORNECEDOR)
+// ===============================
+
+function repopularFornecedoresEquipamento() {
+    if (typeof FORNECEDORES_POST === 'undefined' || !FORNECEDORES_POST || !FORNECEDORES_POST.fornecedor) {
+        return;
+    }
+
+    FORNECEDORES_POST.fornecedor.forEach(function (fornecedorId, i) {
+        adicionarFornecedorEquipamento({
+            fornecedor: fornecedorId,
+            morada: FORNECEDORES_POST.morada ? FORNECEDORES_POST.morada[i] : '',
+            pessoa: FORNECEDORES_POST.pessoa ? FORNECEDORES_POST.pessoa[i] : '',
+            telefone: FORNECEDORES_POST.telefone ? FORNECEDORES_POST.telefone[i] : '',
+            observacoes: FORNECEDORES_POST.observacoes ? FORNECEDORES_POST.observacoes[i] : ''
+        });
+    });
+}
+
+function validarTabFornecedor() {
+    const erros = [];
+
+    const linhas = document.querySelectorAll('#tbody-fornecedores-equipamento tr');
+
+    if (linhas.length === 0) {
+        erros.push("Deve existir pelo menos um fornecedor associado ao equipamento.");
+        return erros;
+    }
+
+    const idsUsados = [];
+
+    linhas.forEach(function (tr, index) {
+        const numeroLinha = index + 1;
+
+        const fornecedor = tr.querySelector('select[name="fornecedores[fornecedor][]"]').value;
+        const morada = tr.querySelector('select[name="fornecedores[morada][]"]').value;
+        const pessoa = tr.querySelector('input[name="fornecedores[pessoa][]"]').value.trim();
+        const telefone = tr.querySelector('input[name="fornecedores[telefone][]"]').value.trim();
+        const observacoes = tr.querySelector('input[name="fornecedores[observacoes][]"]').value.trim();
+
+        // Fornecedor
+        if (fornecedor === "") {
+            erros.push("Fornecedor #" + numeroLinha + ": o fornecedor é obrigatório.");
+        } else {
+            if (idsUsados.includes(fornecedor)) {
+                erros.push("Fornecedor #" + numeroLinha + ": este fornecedor já foi associado noutra linha.");
+            } else {
+                idsUsados.push(fornecedor);
+            }
+        }
+
+        // Morada
+        if (morada === "") {
+            erros.push("Fornecedor #" + numeroLinha + ": a morada é obrigatória.");
+        }
+
+        // Pessoa de contacto
+        if (pessoa === "") {
+            erros.push("Fornecedor #" + numeroLinha + ": a pessoa de contacto é obrigatória.");
+        } else {
+            if (pessoa.length < 2) {
+                erros.push("Fornecedor #" + numeroLinha + ": o nome da pessoa de contacto deve ter no mínimo 2 caracteres.");
+            }
+            if (!/^[A-Za-zÀ-ÿ\s'-]+$/.test(pessoa)) {
+                erros.push("Fornecedor #" + numeroLinha + ": o nome da pessoa de contacto deve conter apenas letras, espaços, hífens e apóstrofos.");
+            }
+        }
+
+        // Telefone da pessoa de contacto
+        const telefoneSemEspacos = telefone.replace(/\s+/g, "");
+        if (telefoneSemEspacos === "") {
+            erros.push("Fornecedor #" + numeroLinha + ": o telefone da pessoa de contacto é obrigatório.");
+        } else if (!/^\+351(91|92|93|96)\d{7}$/.test(telefoneSemEspacos)) {
+            erros.push("Fornecedor #" + numeroLinha + ": o telefone da pessoa de contacto deve começar com \"+351\" seguido de 9 dígitos, sendo os dois primeiros 91, 92, 93 ou 96.");
+        }
+
+        // Observações (opcional)
+        if (observacoes !== "" && observacoes.length < 2) {
+            erros.push("Fornecedor #" + numeroLinha + ": as observações, se preenchidas, devem ter no mínimo 2 caracteres.");
+        }
+    });
+
+    return erros;
+}
+
+function inicializarValidacaoTabFornecedor() {
+    const botao = document.getElementById("botao-seguinte-fornecedor");
+
+    if (!botao) {
+        return;
+    }
+
+    botao.addEventListener("click", function (event) {
+        const erros = validarTabFornecedor();
+
+        mostrarErrosTab("erros-separador-4", erros);
+
+        if (erros.length > 0) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        }
+    });
+}
+
+// ===============================
+// VALIDAÇÃO CLIENT-SIDE — TAB 5 (LOCALIZAÇÃO)
+// ===============================
+
+function validarTabLocalizacao() {
+    const erros = [];
+
+    const localizacao = document.getElementById("localizacao").value;
+    const observacoesLocalizacao = document.getElementById("observacoesLocalizacao").value.trim();
+
+    // --- Localização ---
+    if (localizacao === "") {
+        erros.push("A localização associada é obrigatória.");
+    }
+
+    // --- Observações da localização (opcional) ---
+    if (observacoesLocalizacao !== "" && observacoesLocalizacao.length < 2) {
+        erros.push("As observações da localização, se preenchidas, devem ter no mínimo 2 caracteres.");
+    }
+
+    return erros;
+}
+
+function inicializarValidacaoTabLocalizacao() {
+    const botao = document.getElementById("botao-seguinte-localizacao");
+
+    if (!botao) {
+        return;
+    }
+
+    botao.addEventListener("click", function (event) {
+        const erros = validarTabLocalizacao();
+
+        mostrarErrosTab("erros-separador-5", erros);
+
+        if (erros.length > 0) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        }
+    });
+}
+
+// ===============================
+// VALIDAÇÃO CLIENT-SIDE — TAB 6 (GARANTIA)
+// ===============================
+
+function validarBlocoDocumentacaoComData(idSelect, idNome, idData, idValidade, dataReferencia, rotulo) {
+    const erros = [];
+
+    const temDoc = document.getElementById(idSelect).value;
+
+    if (temDoc === "") {
+        erros.push("É obrigatório indicar se existe " + rotulo + " associada.");
+        return erros;
+    }
+
+    if (temDoc !== "sim") {
+        return erros;
+    }
+
+    const nome = document.getElementById(idNome).value.trim();
+    const data = document.getElementById(idData).value;
+    const validade = document.getElementById(idValidade).value;
+
+    if (nome === "") {
+        erros.push("O nome do documento (" + rotulo + ") é obrigatório.");
+    } else if (nome.length < 2) {
+        erros.push("O nome do documento (" + rotulo + ") deve ter no mínimo 2 caracteres.");
+    }
+
+    let dataObj = null;
+
+    if (data === "") {
+        erros.push("A data do documento (" + rotulo + ") é obrigatória.");
+    } else {
+        dataObj = new Date(data);
+
+        if (dataReferencia) {
+            const dataReferenciaObj = new Date(dataReferencia);
+            if (dataObj <= dataReferenciaObj) {
+                erros.push("A data do documento (" + rotulo + ") deve ser posterior à data de aquisição do equipamento.");
+            }
+        }
+
+        if (validade !== "") {
+            const validadeObj = new Date(validade);
+            if (validadeObj <= dataObj) {
+                erros.push("A validade do documento (" + rotulo + ") deve ser posterior à data do documento.");
+            }
+        }
+    }
+
+    return erros;
+}
+
+function validarTabGarantia() {
+    const erros = [];
+
+    const dataInicioGarantia = document.getElementById("dataInicioGarantia").value;
+    const dataFimGarantia = document.getElementById("dataFimGarantia").value;
+    const observacoesGarantia = document.getElementById("observacoesGarantia").value.trim();
+    const dataAquisicao = document.getElementById("data_aquisicao").value;
+
+    let dataInicioGarantiaObj = null;
+
+    // --- Data de início da garantia ---
+    if (dataInicioGarantia === "") {
+        erros.push("A data de início da garantia é obrigatória.");
+    } else {
+        dataInicioGarantiaObj = new Date(dataInicioGarantia);
+
+        if (dataAquisicao !== "") {
+            const dataAquisicaoObj = new Date(dataAquisicao);
+            if (dataInicioGarantiaObj < dataAquisicaoObj) {
+                erros.push("A data de início da garantia deve ser igual ou posterior à data de aquisição do equipamento.");
+            }
+        }
+    }
+
+    // --- Data de fim da garantia ---
+    if (dataFimGarantia === "") {
+        erros.push("A data de fim da garantia é obrigatória.");
+    } else {
+        const dataFimGarantiaObj = new Date(dataFimGarantia);
+
+        if (dataInicioGarantiaObj && dataFimGarantiaObj <= dataInicioGarantiaObj) {
+            erros.push("A data de fim da garantia deve ser posterior à data de início da garantia.");
+        }
+    }
+
+    // --- Documentação: Certificado de Garantia ---
+    erros.push(...validarBlocoDocumentacaoComData("tem_documentacao_garantia", "nomeCertificadoGarantia", "dataCertificadoGarantia", "validadeCertificadoGarantia", dataAquisicao, "certificado de garantia"));
+
+    // --- Observações (opcional) ---
+    if (observacoesGarantia !== "" && observacoesGarantia.length < 2) {
+        erros.push("As observações da garantia, se preenchidas, devem ter no mínimo 2 caracteres.");
+    }
+
+    return erros;
+}
+
+function inicializarValidacaoTabGarantia() {
+    const botao = document.getElementById("botao-seguinte-garantia");
+
+    if (!botao) {
+        return;
+    }
+
+    botao.addEventListener("click", function (event) {
+        const erros = validarTabGarantia();
+
+        mostrarErrosTab("erros-separador-6", erros);
+
+        if (erros.length > 0) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        }
+    });
+}
+
+function controlarCamposContratoManutencao() {
+    const contratoManutencao = document.getElementById("contratoManutencao");
+    const tipoContrato = document.getElementById("tipoContrato");
+    const entidadeResponsavelContrato = document.getElementById("entidadeResponsavelContrato");
+    const periodicidadeContrato = document.getElementById("periodicidadeContrato");
+
+    if (!contratoManutencao || !tipoContrato || !entidadeResponsavelContrato || !periodicidadeContrato) {
+        return;
+    }
+
+    function atualizarCamposContrato() {
+        if (contratoManutencao.value === "nao") {
+
+            tipoContrato.innerHTML = '<option value="" selected>Não existe</option>';
+            tipoContrato.disabled = true;
+
+            entidadeResponsavelContrato.value = "Não existe";
+            entidadeResponsavelContrato.disabled = true;
+
+            periodicidadeContrato.innerHTML = '<option value="" selected>Não aplicável</option>';
+            periodicidadeContrato.disabled = true;
+
+        } else {
+
+            // Repor opções normais quando deixa de ser "nao"
+            if (tipoContrato.disabled) {
+                tipoContrato.innerHTML = '<option value="" selected>Escolha uma opção</option>' +
+                    TIPOS_CONTRATO_BD.map(function (t) {
+                        return '<option value="' + t.id + '">' + t.designacao + '</option>';
+                    }).join('');
+            }
+
+            if (periodicidadeContrato.disabled) {
+                periodicidadeContrato.innerHTML = '<option value="" selected>Escolha uma opção</option>' +
+                    PERIODICIDADES_BD.map(function (p) {
+                        return '<option value="' + p.id + '">' + p.designacao + '</option>';
+                    }).join('');
+            }
+
+            if (entidadeResponsavelContrato.value === "Não existe") {
+                entidadeResponsavelContrato.value = "";
+            }
+
+            tipoContrato.disabled = false;
+            entidadeResponsavelContrato.disabled = false;
+            periodicidadeContrato.disabled = false;
+        }
+    }
+
+    atualizarCamposContrato();
+    contratoManutencao.addEventListener("change", atualizarCamposContrato);
+}
+
+// ===============================
+// VALIDAÇÃO CLIENT-SIDE — TAB 7 (CONTRATO DE MANUTENÇÃO)
+// ===============================
+
+function validarTabContrato() {
+    const erros = [];
+
+    const contratoManutencao = document.getElementById("contratoManutencao").value;
+    const tipoContrato = document.getElementById("tipoContrato").value;
+    const entidadeResponsavelContrato = document.getElementById("entidadeResponsavelContrato").value.trim();
+    const periodicidadeContrato = document.getElementById("periodicidadeContrato").value;
+    const observacoesContrato = document.getElementById("observacoesContrato").value.trim();
+    const dataAquisicao = document.getElementById("data_aquisicao").value;
+
+    if (contratoManutencao === "") {
+        erros.push("É obrigatório indicar se existe contrato de manutenção.");
+    } else if (contratoManutencao === "sim") {
+
+        if (tipoContrato === "") {
+            erros.push("O tipo de contrato é obrigatório.");
+        }
+
+        if (entidadeResponsavelContrato === "") {
+            erros.push("A entidade responsável pelo contrato é obrigatória.");
+        } else {
+            if (entidadeResponsavelContrato.length < 2) {
+                erros.push("O nome da entidade responsável deve ter no mínimo 2 caracteres.");
+            }
+            if (!/^[A-Za-zÀ-ÿ0-9\s.\-]+$/.test(entidadeResponsavelContrato)) {
+                erros.push("O nome da entidade responsável deve conter apenas letras, números, espaços, pontos e hífens.");
+            }
+        }
+
+        if (periodicidadeContrato === "") {
+            erros.push("A periodicidade do contrato é obrigatória.");
+        }
+    }
+
+    erros.push(...validarBlocoDocumentacaoComData("tem_documentacao_contrato", "nomeCertificadoContrato", "dataContratoManutencao", "validadeContratoManutencao", dataAquisicao, "contrato de manutenção"));
+    erros.push(...validarBlocoDocumentacaoComData("tem_relatorio_contrato", "nomeRelatorioManutencao", "dataRelatorioManutencao", "validadeRelatorioManutencao", dataAquisicao, "relatório de manutenção"));
+    erros.push(...validarBlocoDocumentacaoComData("tem_documentacao_calibracao", "nomeCertificadoCalibracao", "dataCertificadoCalibracao", "validadeCertificadoCalibracao", dataAquisicao, "certificado de calibração"));
+    erros.push(...validarBlocoDocumentacaoComData("tem_relatorio_calibracao", "nomeRelatorioCalibracao", "dataRelatorioCalibracao", "validadeRelatorioCalibracao", dataAquisicao, "relatório de calibração"));
+
+    if (observacoesContrato !== "" && observacoesContrato.length < 2) {
+        erros.push("As observações do contrato, se preenchidas, devem ter no mínimo 2 caracteres.");
+    }
+
+    return erros;
+}
+
+function inicializarValidacaoTabContrato() {
+    const form = document.getElementById("form-novo-equipamento");
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener("submit", function (event) {
+        const erros = validarTabContrato();
+
+        mostrarErrosTab("erros-separador-7", erros);
+
+        if (erros.length > 0) {
+            event.preventDefault();
+        }
+    });
+}
+
+function sincronizarDocumentacaoContrato() {
+    const selectContratoManutencao = document.getElementById('contratoManutencao');
+    const selectTemDocContrato = document.getElementById('tem_documentacao_contrato');
+    const blocoDocContrato = document.getElementById('bloco-documentacao-contrato');
+
+    if (!selectContratoManutencao || !selectTemDocContrato) {
+        return;
+    }
+
+    // Input hidden para garantir envio do valor no POST mesmo com o select disabled
+    let hidden = document.getElementById('tem_documentacao_contrato_hidden');
+    if (!hidden) {
+        hidden = document.createElement('input');
+        hidden.type = 'hidden';
+        hidden.id = 'tem_documentacao_contrato_hidden';
+        hidden.name = 'tem_documentacao_contrato';
+        hidden.disabled = true;
+        selectTemDocContrato.insertAdjacentElement('afterend', hidden);
+    }
+
+    function aplicar() {
+        const valor = selectContratoManutencao.value; // "sim" ou "nao"
+
+        if (valor === "sim" || valor === "nao") {
+            selectTemDocContrato.value = valor;
+            selectTemDocContrato.disabled = true;
+            selectTemDocContrato.removeAttribute('name');
+
+            hidden.value = valor;
+            hidden.disabled = false;
+        } else {
+            // sem seleção em contratoManutencao
+            selectTemDocContrato.value = "";
+            selectTemDocContrato.disabled = true; // continua bloqueado, nunca editável
+            selectTemDocContrato.removeAttribute('name');
+            hidden.disabled = true;
+        }
+
+        if (blocoDocContrato) {
+            blocoDocContrato.style.display = selectTemDocContrato.value === "sim" ? "block" : "none";
+        }
+    }
+
+    selectContratoManutencao.addEventListener('change', aplicar);
+    aplicar();
+}
+
+
 
 window.removerFornecedorEquipamento = function (id) {
     const linha = document.getElementById(id);
@@ -7826,7 +8750,7 @@ function preencherSelectFiltrosLocalizacoes() {
     }
 } */
 
-function inicializarNovaLocalizacao() {
+/*function inicializarNovaLocalizacao() {
     const formularioNovaLocalizacao = document.getElementById("form-nova-localizacao");
 
     if (!formularioNovaLocalizacao) {
@@ -7855,7 +8779,7 @@ function inicializarNovaLocalizacao() {
             window.location.href = "/medivault/private/views/localizacoes/localizacoes.php";
         }, 800);
     });
-}
+}*/
 
 function preencherDetalhesLocalizacao() {
     const campoCodigoLocalizacao = document.getElementById("detalhe-codigo-localizacao");
@@ -8645,7 +9569,7 @@ function ordenarFornecedoresPorCodigoCrescente(listaFornecedores) {
 }*/
 
 // Adicionar novo fornecedor e guardar no localStorage
-function inicializarNovoFornecedor() {
+/*function inicializarNovoFornecedor() {
     const formularioNovoFornecedor = document.getElementById("form-novo-fornecedor");
 
     if (!formularioNovoFornecedor) {
@@ -8712,6 +9636,25 @@ function inicializarNovoFornecedor() {
         setTimeout(function () {
             window.location.href = "/medivault/private/views/fornecedores/fornecedores.php";
         }, 800);
+    });
+}*/
+
+function inicializarNovoFornecedor() {
+    const seletorDocFornecedor = document.getElementById("tem_doc_fornecedor");
+    const blocoDocFornecedor = document.getElementById("bloco-doc-fornecedor");
+
+    if (!seletorDocFornecedor || !blocoDocFornecedor) {
+        return;
+    }
+
+    blocoDocFornecedor.style.display = "none";
+
+    seletorDocFornecedor.addEventListener("change", function () {
+        if (this.value === "sim") {
+            blocoDocFornecedor.style.display = "block";
+        } else {
+            blocoDocFornecedor.style.display = "none";
+        }
     });
 }
 
@@ -9262,83 +10205,6 @@ function limparCusto(custoTexto) {
     return custoTexto.replace("€", "").trim();
 }
 
-function controlarCamposContratoManutencao() {
-    const contratoManutencao = document.getElementById("contratoManutencao");
-    const tipoContrato = document.getElementById("tipoContrato");
-    const entidadeResponsavelContrato = document.getElementById("entidadeResponsavelContrato");
-    const periodicidadeContrato = document.getElementById("periodicidadeContrato");
-
-    if (!contratoManutencao || !tipoContrato || !entidadeResponsavelContrato || !periodicidadeContrato) {
-        return;
-    }
-
-    const opcaoNaoAplicavel = periodicidadeContrato.querySelector('option[value="Não aplicável"]');
-
-    let valoresGuardados = {
-        tipoContrato: "",
-        entidadeResponsavelContrato: "",
-        periodicidadeContrato: ""
-    };
-
-    function atualizarCamposContrato() {
-        if (contratoManutencao.value === "Não") {
-
-            // Guarda os valores antes de limpar
-            if (tipoContrato.value && tipoContrato.value !== "Não existe") {
-                valoresGuardados.tipoContrato = tipoContrato.value;
-            }
-            if (entidadeResponsavelContrato.value && entidadeResponsavelContrato.value !== "Não existe") {
-                valoresGuardados.entidadeResponsavelContrato = entidadeResponsavelContrato.value;
-            }
-            if (periodicidadeContrato.value && periodicidadeContrato.value !== "Não aplicável") {
-                valoresGuardados.periodicidadeContrato = periodicidadeContrato.value;
-            }
-
-            tipoContrato.value = "Não existe";
-            entidadeResponsavelContrato.value = "Não existe";
-            periodicidadeContrato.value = "Não aplicável";
-
-            tipoContrato.disabled = true;
-            entidadeResponsavelContrato.disabled = true;
-            periodicidadeContrato.disabled = true;
-
-            if (opcaoNaoAplicavel) opcaoNaoAplicavel.hidden = false;
-
-        } else if (contratoManutencao.value === "Sim") {
-
-            // Restaura os valores guardados
-            tipoContrato.value = valoresGuardados.tipoContrato || "";
-            entidadeResponsavelContrato.value = valoresGuardados.entidadeResponsavelContrato || "";
-            periodicidadeContrato.value = valoresGuardados.periodicidadeContrato || "";
-
-            tipoContrato.disabled = false;
-            entidadeResponsavelContrato.disabled = false;
-            periodicidadeContrato.disabled = false;
-
-            if (opcaoNaoAplicavel) opcaoNaoAplicavel.hidden = true;
-
-        } else {
-            tipoContrato.value = "";
-            entidadeResponsavelContrato.value = "";
-            periodicidadeContrato.value = "";
-
-            tipoContrato.disabled = false;
-            entidadeResponsavelContrato.disabled = false;
-            periodicidadeContrato.disabled = false;
-
-            if (opcaoNaoAplicavel) opcaoNaoAplicavel.hidden = true;
-        }
-    }
-
-    // Preenche os valores guardados com o que já está nos campos ao inicializar
-    valoresGuardados.tipoContrato = tipoContrato.value !== "Não existe" ? tipoContrato.value : "";
-    valoresGuardados.entidadeResponsavelContrato = entidadeResponsavelContrato.value !== "Não existe" ? entidadeResponsavelContrato.value : "";
-    valoresGuardados.periodicidadeContrato = periodicidadeContrato.value !== "Não aplicável" ? periodicidadeContrato.value : "";
-
-    contratoManutencao.addEventListener("change", atualizarCamposContrato);
-    atualizarCamposContrato();
-}
-
 function contarPorCampo(lista, campo) {
     const contagem = {};
 
@@ -9602,18 +10468,30 @@ document.addEventListener("DOMContentLoaded", function () {
     //inicializarFiltrosEquipamentos();
     inicializarDashboard();
     preencherDetalhesEquipamento();
+
     inicializarTabsEquipamento();
+    inicializarValidacaoTabIdentificacao();
+    inicializarValidacaoTabAcessoriosConsumiveis();
+    inicializarValidacaoTabAquisicao();
+    inicializarValidacaoTabFornecedor();
+    repopularFornecedoresEquipamento();
+    inicializarValidacaoTabLocalizacao();
+    inicializarValidacaoTabGarantia();
+    inicializarValidacaoTabContrato();
     inicializarBotaoSeguinteEquipamento();
     inicializarBotaoAnteriorEquipamento();
-    inicializarNovoEquipamento();
+    //inicializarNovoEquipamento();
+    inicializarTogglesDocumentacaoEquipamento();
+    atualizarDocumentacaoPorTipoEntrada();
     inicializarEditarEquipamento();
     controlarCamposContratoManutencao();
-    preencherDadosLocalizacaoAssociada();
+    sincronizarDocumentacaoContrato();
+    //preencherDadosLocalizacaoAssociada();
 
    // preencherListagemLocalizacoes();
    // inicializarFiltrosLocalizacoes();
     preencherDetalhesLocalizacao();
-    inicializarNovaLocalizacao();
+    // inicializarNovaLocalizacao();
     inicializarEditarLocalizacao();
 
     //preencherListagemFornecedores();

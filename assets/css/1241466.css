@@ -3095,3 +3095,15 @@ body {
 .dataTables_wrapper {
     overflow-x: hidden !important;
 }
+
+.tabela-itens input[type="number"] {
+    -moz-appearance: textfield;
+    padding: 6px 4px;
+    min-width: 0;
+}
+
+.tabela-itens input[type="number"]::-webkit-outer-spin-button,
+.tabela-itens input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

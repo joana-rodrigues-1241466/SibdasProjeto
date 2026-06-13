@@ -247,7 +247,7 @@ $ligacao = null;
                     </tr>
                 </thead>
 
-                <tbody id="tabela-equipamentos">
+                <tbody>
                     <?php if (!empty($erro)) : ?>
                         <tr>
                             <td colspan="6" class="text-center text-danger"><?= $erro ?></td>
@@ -364,8 +364,10 @@ $ligacao = null;
 </div>
 
 <script>
+    let tabela;
+
     $(document).ready(function() {
-        var tabela = $('#tabela-equipamentos').DataTable({
+        tabela = $('#tabela-equipamentos').DataTable({
             pageLength: 5,
             pagingType: "full_numbers",
             dom: 'rtip',
@@ -462,7 +464,7 @@ $ligacao = null;
             }
         });
 
-       // Limpar filtros
+        // Limpar filtros
         $('#botaoLimparApenasFiltrosEquipamentos').on('click', function() {
             $('#filtroEstadoEquipamento').val('');
             $('#filtroCriticidadeEquipamento').val('');

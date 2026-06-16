@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
+require_once __DIR__ . '/../../includes/validacoes.php';
 
 $erros = [];
 
@@ -37,139 +38,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
     // 3. Validar os dados
  
-    // --- Código ---
-    if ($codigo === "") {
-        $erros[] = "O código do fornecedor é obrigatório.";
-    } else {
-        if (preg_match('/\s/', $codigo)) {
-            $erros[] = "O código não pode conter espaços em branco.";
-        }
-        if (strlen($codigo) < 6) {
-            $erros[] = "O código deve ter no mínimo 6 caracteres.";
-        }
-        if (!preg_match('/^FOR\d+$/', $codigo)) {
-            $erros[] = "O código deve começar com o prefixo \"FOR\" seguido de números (ex.: FOR001).";
-        }
-    }
+    // --- Validações dos campos gerais (reutilizáveis em validacoes.php) ---
+    $erros = array_merge(
+        $erros,
+        validar_codigo_fornecedor($codigo),
+        validar_nome_empresa($nome_empresa),
+        validar_nif($nif),
+        validar_tipo_fornecedor($tipo_fornecedor),
+        validar_website($website),
+        validar_telefone($telefone),
+        validar_email_fornecedor($email),
+        validar_pessoa_contacto($pessoa_contacto),
+        validar_telefone_pessoa_contacto($telefone_pessoa_contacto),
+        validar_morada($morada),
+        validar_observacoes_fornecedor($observacoes)
+    );
  
-    // --- Nome da empresa ---
-    if ($nome_empresa === "") {
-        $erros[] = "O nome da empresa é obrigatório.";
-    } elseif (strlen($nome_empresa) < 2) {
-        $erros[] = "O nome da empresa deve ter no mínimo 2 caracteres.";
-    }
- 
-    // --- NIF ---
-    if ($nif === "") {
-        $erros[] = "O NIF é obrigatório.";
-    } else {
-        if (preg_match('/\s/', $nif)) {
-            $erros[] = "O NIF não pode conter espaços em branco.";
-        }
-        if (!preg_match('/^\d{9}$/', $nif)) {
-            $erros[] = "O NIF deve ser constituído por exatamente 9 dígitos numéricos.";
-        }
-    }
- 
-    // --- Tipo de fornecedor ---
-    if ($tipo_fornecedor === "") {
-        $erros[] = "O tipo de fornecedor é obrigatório.";
-    }
- 
-    // --- Website (opcional) ---
-    if ($website !== "") {
-        if (!preg_match('/^www\.[a-zA-Z0-9\-]+\.pt$/', $website)) {
-            $erros[] = "O website deve começar com \"www.\" e terminar com a extensão \".pt\" (ex.: www.empresa.pt).";
-        }
-    }
- 
-    // --- Telefone geral ---
-    if ($telefone === "") {
-        $erros[] = "O telefone geral é obrigatório.";
-    } else {
-        $telefoneSemEspacos = preg_replace('/\s+/', '', $telefone);
-        if (!preg_match('/^\+351(91|92|93|96)\d{7}$/', $telefoneSemEspacos)) {
-            $erros[] = "O telefone geral deve começar com \"+351\" seguido de 9 dígitos, sendo os dois primeiros 91, 92, 93 ou 96.";
-        }
-    }
- 
-    // --- Email geral ---
-    if ($email === "") {
-        $erros[] = "O email geral é obrigatório.";
-    } else {
-        if (preg_match('/\s/', $email)) {
-            $erros[] = "O email não pode conter espaços em branco.";
-        }
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $erros[] = "O email deve ter um formato válido (ex.: contacto@empresa.pt).";
-        }
-    }
- 
-    // --- Pessoa de contacto ---
-    if ($pessoa_contacto === "") {
-        $erros[] = "A pessoa de contacto é obrigatória.";
-    } else {
-        if (strlen($pessoa_contacto) < 2) {
-            $erros[] = "O nome da pessoa de contacto deve ter no mínimo 2 caracteres.";
-        }
-        if (!preg_match('/^[A-Za-zÀ-ÿ\s\'-]+$/', $pessoa_contacto)) {
-            $erros[] = "O nome da pessoa de contacto deve conter apenas letras, espaços, hífens e apóstrofos.";
-        }
-    }
- 
-    // --- Telefone da pessoa de contacto ---
-    if ($telefone_pessoa_contacto === "") {
-        $erros[] = "O telefone da pessoa de contacto é obrigatório.";
-    } else {
-        $telefonePessoaSemEspacos = preg_replace('/\s+/', '', $telefone_pessoa_contacto);
-        if (!preg_match('/^\+351(91|92|93|96)\d{7}$/', $telefonePessoaSemEspacos)) {
-            $erros[] = "O telefone da pessoa de contacto deve começar com \"+351\" seguido de 9 dígitos, sendo os dois primeiros 91, 92, 93 ou 96.";
-        }
-    }
- 
-    // --- Morada ---
-    if ($morada === "") {
-        $erros[] = "A morada é obrigatória.";
-    }
- 
-    // --- Observações (opcional) ---
-    if ($observacoes !== "" && strlen($observacoes) < 2) {
-        $erros[] = "As observações, se preenchidas, devem ter no mínimo 2 caracteres.";
-    }
- 
-    // --- Documentação do fornecedor ---
-    if ($tem_doc_fornecedor === "") {
-        $erros[] = "É obrigatório indicar se existe documentação associada ao fornecedor.";
-    } elseif ($tem_doc_fornecedor === "sim") {
- 
-        if ($tipoDocFornecedor === "") {
-            $erros[] = "O tipo de documento é obrigatório.";
-        }
- 
-        if ($nomeDocFornecedor === "") {
-            $erros[] = "O nome do documento é obrigatório.";
-        } elseif (strlen($nomeDocFornecedor) < 2) {
-            $erros[] = "O nome do documento deve ter no mínimo 2 caracteres.";
-        }
- 
-        if ($dataDocFornecedor === "") {
-            $erros[] = "A data do documento é obrigatória.";
-        } else {
-            $dataDocObj = DateTime::createFromFormat('Y-m-d', $dataDocFornecedor);
-            $hoje = new DateTime('today');
-            if ($dataDocObj && $dataDocObj > $hoje) {
-                $erros[] = "A data do documento não pode ser uma data futura.";
-            }
-        }
- 
-        if ($validadeDocFornecedor !== "" && $dataDocFornecedor !== "") {
-            $validadeObj = DateTime::createFromFormat('Y-m-d', $validadeDocFornecedor);
-            $dataDocObj = DateTime::createFromFormat('Y-m-d', $dataDocFornecedor);
-            if ($validadeObj && $dataDocObj && $validadeObj <= $dataDocObj) {
-                $erros[] = "A validade do documento deve ser posterior à data do documento.";
-            }
-        }
-    }
+    // --- Documentação do fornecedor (reutilizável em validacoes.php) ---
+    $erros = array_merge(
+        $erros,
+        validar_documentacao_fornecedor($tem_doc_fornecedor, $tipoDocFornecedor, $nomeDocFornecedor, $dataDocFornecedor, $validadeDocFornecedor)
+    );
 
     // --- Validações de unicidade (codigo, NIF, telefone, email) ---
     if (empty($erros)) {

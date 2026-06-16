@@ -20,7 +20,7 @@ function inicializarContactos() {
 // LOGIN
 // ===============================
 
-function inicializarLogin() {
+/*function inicializarLogin() {
     const formularioLogin = document.querySelector(".form-login");
 
     if (!formularioLogin) {
@@ -34,7 +34,7 @@ function inicializarLogin() {
             window.location.href = "/medivault/private/views/gestao_conteudos/gestao_conteudos.php";
         }, 1000);
     });
-}
+}*/
 
 // ===============================
 // HISTÓRICO DE EQUIPAMENTOS
@@ -5434,21 +5434,6 @@ function preencherSelectFiltrosEquipamentos() {
 
 function inicializarTogglesDocumentacaoEquipamento() {
 
-    function ligarToggle(idSeletor, idBloco) {
-        const seletor = document.getElementById(idSeletor);
-        const bloco = document.getElementById(idBloco);
-
-        if (!seletor || !bloco) {
-            return;
-        }
-
-        bloco.style.display = "none";
-
-        seletor.addEventListener("change", function () {
-            bloco.style.display = this.value === "sim" ? "block" : "none";
-        });
-    }
-
     ligarToggle("tem_documentacao_tecnica", "bloco-documentacao-tecnica");
     ligarToggle("tem_documentacao_utilizacao", "bloco-documentacao-utilizacao");
     ligarToggle("tem_declaracao_conformidade", "bloco-declaracao-conformidade");
@@ -6348,8 +6333,22 @@ function controlarCamposContratoManutencao() {
         return;
     }
 
+    // Guarda os valores "reais" do contrato para poder repô-los
+    // sempre que o utilizador voltar a escolher "Sim"
+    let valorGuardadoTipoContrato = tipoContrato.value;
+    let valorGuardadoEntidade = entidadeResponsavelContrato.value === "Não existe" ? "" : entidadeResponsavelContrato.value;
+    let valorGuardadoPeriodicidade = periodicidadeContrato.value;
+
     function atualizarCamposContrato() {
         if (contratoManutencao.value === "nao") {
+
+            // Antes de limpar visualmente, guarda os valores atuais
+            // (caso o utilizador já os tenha alterado)
+            if (!tipoContrato.disabled) {
+                valorGuardadoTipoContrato = tipoContrato.value;
+                valorGuardadoEntidade = entidadeResponsavelContrato.value === "Não existe" ? "" : entidadeResponsavelContrato.value;
+                valorGuardadoPeriodicidade = periodicidadeContrato.value;
+            }
 
             tipoContrato.innerHTML = '<option value="" selected>Não existe</option>';
             tipoContrato.disabled = true;
@@ -6362,23 +6361,25 @@ function controlarCamposContratoManutencao() {
 
         } else {
 
-            // Repor opções normais quando deixa de ser "nao"
+            // Repor opções normais e valores guardados ao deixar de ser "nao"
             if (tipoContrato.disabled) {
-                tipoContrato.innerHTML = '<option value="" selected>Escolha uma opção</option>' +
+                tipoContrato.innerHTML = '<option value="" disabled' + (valorGuardadoTipoContrato ? '' : ' selected') + '>Escolha uma opção</option>' +
                     TIPOS_CONTRATO_BD.map(function (t) {
-                        return '<option value="' + t.id + '">' + t.designacao + '</option>';
+                        var sel = String(valorGuardadoTipoContrato) === String(t.id) ? ' selected' : '';
+                        return '<option value="' + t.id + '"' + sel + '>' + t.designacao + '</option>';
                     }).join('');
             }
 
             if (periodicidadeContrato.disabled) {
-                periodicidadeContrato.innerHTML = '<option value="" selected>Escolha uma opção</option>' +
+                periodicidadeContrato.innerHTML = '<option value="" disabled' + (valorGuardadoPeriodicidade ? '' : ' selected') + '>Escolha uma opção</option>' +
                     PERIODICIDADES_BD.map(function (p) {
-                        return '<option value="' + p.id + '">' + p.designacao + '</option>';
+                        var sel = String(valorGuardadoPeriodicidade) === String(p.id) ? ' selected' : '';
+                        return '<option value="' + p.id + '"' + sel + '>' + p.designacao + '</option>';
                     }).join('');
             }
 
-            if (entidadeResponsavelContrato.value === "Não existe") {
-                entidadeResponsavelContrato.value = "";
+            if (entidadeResponsavelContrato.disabled || entidadeResponsavelContrato.value === "Não existe") {
+                entidadeResponsavelContrato.value = valorGuardadoEntidade;
             }
 
             tipoContrato.disabled = false;
@@ -6479,9 +6480,7 @@ function sincronizarDocumentacaoContrato() {
         selectTemDocContrato.insertAdjacentElement('afterend', hidden);
     }
 
-    function aplicar() {
-        const valor = selectContratoManutencao.value; // "sim" ou "nao"
-
+    function aplicar(valor) {
         if (valor === "sim" || valor === "nao") {
             selectTemDocContrato.value = valor;
             selectTemDocContrato.disabled = true;
@@ -6490,7 +6489,7 @@ function sincronizarDocumentacaoContrato() {
             hidden.value = valor;
             hidden.disabled = false;
         } else {
-            // sem seleção em contratoManutencao
+            // sem seleção
             selectTemDocContrato.value = "";
             selectTemDocContrato.disabled = true; // continua bloqueado, nunca editável
             selectTemDocContrato.removeAttribute('name');
@@ -6498,12 +6497,20 @@ function sincronizarDocumentacaoContrato() {
         }
 
         if (blocoDocContrato) {
-            blocoDocContrato.style.display = selectTemDocContrato.value === "sim" ? "block" : "none";
+            blocoDocContrato.style.display = selectTemDocContrato.value === "sim" ? "" : "none";
         }
     }
 
-    selectContratoManutencao.addEventListener('change', aplicar);
-    aplicar();
+    // No carregamento da página, mantém o valor já preenchido pelo PHP
+    // (a partir da base de dados, em editar, ou de um POST anterior),
+    // em vez de o forçar a ser sempre igual a "contratoManutencao".
+    aplicar(selectTemDocContrato.value);
+
+    // A partir de agora, alterar "Contrato de manutenção" sincroniza
+    // automaticamente "Existe contrato de manutenção associado?"
+    selectContratoManutencao.addEventListener('change', function () {
+        aplicar(selectContratoManutencao.value);
+    });
 }
 
 
@@ -6852,7 +6859,7 @@ function badgeGarantia(dataFimGarantia) {
     return `<span class="badge-garantia ${config.classe}">${config.texto}</span>`;
 }
 
-function preencherDetalhesEquipamento() {
+/*function preencherDetalhesEquipamento() {
     const campoCodigo = document.getElementById("detalhe-codigo");
 
     if (!campoCodigo) {
@@ -7690,9 +7697,9 @@ function preencherDetalhesEquipamento() {
             }
         }
     }
-}
+} */
 
-function gerarEtiqueta() {
+/*function gerarEtiqueta() {
 
     document.getElementById("modalEtiqueta").style.display = "flex";
 
@@ -7731,9 +7738,9 @@ const qrCode = new QRCode({
 function fecharEtiqueta() {
 
     document.getElementById("modalEtiqueta").style.display = "none";
-}
+}*/
 
-function inicializarEditarEquipamento() {
+/*function inicializarEditarEquipamento() {
     const formEditarEquipamento = document.getElementById("form-editar-equipamento");
 
     if (!formEditarEquipamento) {
@@ -8200,7 +8207,7 @@ function inicializarEditarEquipamento() {
                 "/medivault/private/views/equipamentos/consultar_equipamento.php?id=" + idEquipamento;
         }, 800);
     });
-}
+}*/
 
 /*let codigoEquipamentoEliminar = null;
 
@@ -8781,7 +8788,7 @@ function preencherSelectFiltrosLocalizacoes() {
     });
 }*/
 
-function preencherDetalhesLocalizacao() {
+/*function preencherDetalhesLocalizacao() {
     const campoCodigoLocalizacao = document.getElementById("detalhe-codigo-localizacao");
 
     if (!campoCodigoLocalizacao) {
@@ -8848,9 +8855,9 @@ function preencherDetalhesLocalizacao() {
             containerEquipamentosLocalizacao.innerHTML = html;
         }
     }
-}
+}*/
 
-function inicializarEditarLocalizacao() {
+/*function inicializarEditarLocalizacao() {
     const formEditarLocalizacao = document.getElementById("form-editar-localizacao");
 
     if (!formEditarLocalizacao) {
@@ -8894,7 +8901,7 @@ function inicializarEditarLocalizacao() {
             window.location.href = `/medivault/private/views/localizacoes/consultar_localizacao.php?id=${idLocalizacao}`;
         }, 800);
     });
-}
+}*/
 
 /*let codigoLocalizacaoEliminar = null;
 
@@ -9639,7 +9646,7 @@ function ordenarFornecedoresPorCodigoCrescente(listaFornecedores) {
     });
 }*/
 
-function inicializarNovoFornecedor() {
+/*function inicializarNovoFornecedor() {
     const seletorDocFornecedor = document.getElementById("tem_doc_fornecedor");
     const blocoDocFornecedor = document.getElementById("bloco-doc-fornecedor");
 
@@ -9656,10 +9663,27 @@ function inicializarNovoFornecedor() {
             blocoDocFornecedor.style.display = "none";
         }
     });
-}
+}*/
+
+function ligarToggle(idSeletor, idBloco) {
+        const seletor = document.getElementById(idSeletor);
+        const bloco = document.getElementById(idBloco);
+
+        if (!seletor || !bloco) {
+            return;
+        }
+
+        // No carregamento da página, respeita a opção já selecionada
+        // (vinda da base de dados, em editar, ou de um POST anterior)
+        bloco.style.display = seletor.value === "sim" ? "" : "none";
+
+        seletor.addEventListener("change", function () {
+            bloco.style.display = this.value === "sim" ? "" : "none";
+        });
+    }
 
 // Consultar detalhes do fornecedor
-function preencherDetalhesFornecedor() {
+/*function preencherDetalhesFornecedor() {
     const campoCodigoFornecedor = document.getElementById("detalhe-codigo-fornecedor");
 
     if (!campoCodigoFornecedor) {
@@ -9766,10 +9790,10 @@ function preencherDetalhesFornecedor() {
             document.getElementById("detalhe-ficheiro-doc-fornecedor").textContent = "Sem documentação associada";
         }
     }
-}
+} */
 
 // Editar fornecedor
-function inicializarEditarFornecedor() {
+/*function inicializarEditarFornecedor() {
     const formEditarFornecedor = document.getElementById("form-editar-fornecedor");
 
     if (!formEditarFornecedor) {
@@ -9856,7 +9880,7 @@ function inicializarEditarFornecedor() {
             window.location.href = `/medivault/private/views/fornecedores/consultar_fornecedor.php?id=${idFornecedor}`;
         }, 800);
     });
-}
+} */
 
 /*let codigoFornecedorEliminar = null;
 
@@ -9907,7 +9931,7 @@ function confirmarEliminacaoFornecedor() {
 
 /*DASHBOARD*/
 
-function inicializarDashboard() {
+/*function inicializarDashboard() {
     const totalEquipamentos = document.getElementById("totalEquipamentosDashboard");
 
     if (!totalEquipamentos) {
@@ -9971,7 +9995,7 @@ function inicializarDashboard() {
         dataAtual.toLocaleDateString("pt-PT") +
         " " +
         dataAtual.toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" });
-}
+}*/
 
 // ===============================
 // DROPDOWN DO UTILIZADOR
@@ -10221,7 +10245,7 @@ function contarPorCampo(lista, campo) {
     return contagem;
 }
 
-function preencherGraficoServicosDashboard(equipamentos, localizacoes) {
+/*function preencherGraficoServicosDashboard(equipamentos, localizacoes) {
     const container = document.getElementById("graficoServicosDashboard");
 
     if (!container) return;
@@ -10280,9 +10304,9 @@ function preencherGraficoServicosDashboard(equipamentos, localizacoes) {
 
     container.appendChild(areaBarras);
     container.appendChild(areaLabels);
-}
+}*/
 
-function preencherDistribuicaoCategoriasDashboard(equipamentos) {
+/*function preencherDistribuicaoCategoriasDashboard(equipamentos) {
     const container = document.getElementById("categoriasDashboard");
 
     if (!container) {
@@ -10307,9 +10331,9 @@ function preencherDistribuicaoCategoriasDashboard(equipamentos) {
             </div>
         `;
     });
-}
+}*/
 
-function preencherTabelaGarantiasDashboard(equipamentos, fornecedores) {
+/*function preencherTabelaGarantiasDashboard(equipamentos, fornecedores) {
     const tabela = document.getElementById("tabelaGarantiasDashboard");
 
     if (!tabela) {
@@ -10371,9 +10395,9 @@ function preencherTabelaGarantiasDashboard(equipamentos, fornecedores) {
             </tr>
         `;
     });
-}
+}*/
 
-function preencherCriticidadeElevadaDashboard(equipamentos) {
+/*function preencherCriticidadeElevadaDashboard(equipamentos) {
     const numero = document.getElementById("dashboardCriticidadeElevada");
     const percentagemTexto = document.getElementById("dashboardPercentagemCriticidade");
 
@@ -10392,9 +10416,9 @@ function preencherCriticidadeElevadaDashboard(equipamentos) {
 
     numero.textContent = criticidadeElevada;
     percentagemTexto.textContent = percentagem + "% do total";
-}
+}*/
 
-function preencherSuporteVidaDashboard(equipamentos, localizacoes) {
+/*function preencherSuporteVidaDashboard(equipamentos, localizacoes) {
     const container = document.getElementById("suporteVidaDashboard");
 
     if (!container) {
@@ -10448,7 +10472,7 @@ function preencherSuporteVidaDashboard(equipamentos, localizacoes) {
         </div>
     `;
     });
-}
+}*/
 
 // ===============================
 // INICIALIZAÇÃO GERAL
@@ -10457,7 +10481,7 @@ function preencherSuporteVidaDashboard(equipamentos, localizacoes) {
 document.addEventListener("DOMContentLoaded", function () {
     inicializarContactos();
    
-    inicializarLogin();
+   // inicializarLogin();
    
     inicializarGestaoConteudos();
     carregarConteudosPublicos();
@@ -10466,8 +10490,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //preencherListagemEquipamentos();
     //inicializarFiltrosEquipamentos();
-    inicializarDashboard();
-    preencherDetalhesEquipamento();
+    //inicializarDashboard();
+    //preencherDetalhesEquipamento();
 
     inicializarTabsEquipamento();
     inicializarValidacaoTabIdentificacao();
@@ -10483,22 +10507,23 @@ document.addEventListener("DOMContentLoaded", function () {
     //inicializarNovoEquipamento();
     inicializarTogglesDocumentacaoEquipamento();
     atualizarDocumentacaoPorTipoEntrada();
-    inicializarEditarEquipamento();
+   // inicializarEditarEquipamento();
     controlarCamposContratoManutencao();
     sincronizarDocumentacaoContrato();
     //preencherDadosLocalizacaoAssociada();
 
    // preencherListagemLocalizacoes();
    // inicializarFiltrosLocalizacoes();
-    preencherDetalhesLocalizacao();
+   // preencherDetalhesLocalizacao();
     // inicializarNovaLocalizacao();
-    inicializarEditarLocalizacao();
+    //inicializarEditarLocalizacao();
 
     //preencherListagemFornecedores();
    // inicializarFiltrosFornecedores();
-    preencherDetalhesFornecedor();
-    inicializarNovoFornecedor();
-    inicializarEditarFornecedor();
+    //preencherDetalhesFornecedor();
+    //inicializarNovoFornecedor();
+    inicializarToggleDocFornecedor();
+   // inicializarEditarFornecedor();
 
     inicializarDropdownUtilizador();
 

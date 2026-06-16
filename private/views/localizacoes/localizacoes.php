@@ -12,7 +12,7 @@ try {
 
     $resultados = $ligacao->query("
         SELECT 
-            l.codigo, l.edificio, l.piso, l.servico, l.sala,
+        l.id, l.codigo, l.edificio, l.piso, l.servico, l.sala,
             GROUP_CONCAT(DISTINCT e.id) AS equipamentos_ids,
             GROUP_CONCAT(DISTINCT CONCAT(e.codigo, ' - ', e.designacao) SEPARATOR ', ') AS equipamentos_nomes
         FROM localizacoes l
@@ -212,7 +212,7 @@ $ligacao = null;
                                     <a href="/medivault/private/views/localizacoes/consultar_localizacao.php?id=<?= htmlspecialchars($localizacao->codigo) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
                                         <i class="fa-regular fa-eye"></i>
                                     </a>
-                                    <a href="editar_localizacao.php?id=<?= htmlspecialchars($localizacao->codigo) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
+                                    <a href="editar_localizacao.php?id_localizacao=<?= aes_encrypt($localizacao->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
                                     <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarLocalizacao" onclick="prepararEliminacaoLocalizacao('<?= htmlspecialchars($localizacao->codigo) ?>', '<?= htmlspecialchars($localizacao->codigo . ' - ' . $localizacao->servico, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">

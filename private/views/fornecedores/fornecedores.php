@@ -15,6 +15,7 @@ try {
 
     $resultados = $ligacao->query("
     SELECT
+        f.id, 
         f.codigo,
         f.nome_empresa,
         tf.designacao AS tipo_fornecedor,
@@ -291,7 +292,7 @@ $ligacao = null;
                                     <a href="/medivault/private/views/fornecedores/consultar_fornecedor.php?id=<?= htmlspecialchars($fornecedor->codigo) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
                                         <i class="fa-regular fa-eye"></i>
                                     </a>
-                                    <a href="editar_fornecedor.php?id=<?= htmlspecialchars($fornecedor->codigo) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
+                                    <a href="editar_fornecedor.php?id_fornecedor=<?= aes_encrypt($fornecedor->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
                                     <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarFornecedor" onclick="prepararEliminacaoFornecedor('<?= htmlspecialchars($fornecedor->codigo) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">

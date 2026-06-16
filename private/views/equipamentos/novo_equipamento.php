@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
+require_once __DIR__ . '/../../includes/validacoes.php';
 
 // Ir buscar unidades e estados de acessório para os selects dinâmicos (Tab 2)
 try {
@@ -66,137 +67,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dataDeclaracaoConformidade = $_POST["dataDeclaracaoConformidade"] ?? "";
     $validadeDeclaracaoConformidade = $_POST["validadeDeclaracaoConformidade"] ?? "";
 
-    // 3. Validar os dados
-
-    // --- Código ---
-    if ($codigo === "") {
-        $erros[] = "O código do equipamento é obrigatório.";
-    } else {
-        if (preg_match('/\s/', $codigo)) {
-            $erros[] = "O código não pode conter espaços em branco.";
-        }
-        if (strlen($codigo) < 5) {
-            $erros[] = "O código deve ter no mínimo 5 caracteres.";
-        }
-        if (!preg_match('/^EQ\d+$/', $codigo)) {
-            $erros[] = "O código deve começar com o prefixo \"EQ\" seguido de números (ex.: EQ001).";
-        }
-    }
-
-    // --- Designação ---
-    if ($designacao === "") {
-        $erros[] = "A designação do equipamento é obrigatória.";
-    } elseif (strlen($designacao) < 2) {
-        $erros[] = "A designação deve ter no mínimo 2 caracteres.";
-    }
-
-    // --- Categoria ---
-    if ($categoria === "") {
-        $erros[] = "A categoria do equipamento é obrigatória.";
-    }
-
-    // --- Marca ---
-    if ($marca === "") {
-        $erros[] = "A marca é obrigatória.";
-    } elseif (strlen($marca) < 2) {
-        $erros[] = "A marca deve ter no mínimo 2 caracteres.";
-    }
-
-    // --- Modelo ---
-    if ($modelo === "") {
-        $erros[] = "O modelo é obrigatório.";
-    } elseif (strlen($modelo) < 2) {
-        $erros[] = "O modelo deve ter no mínimo 2 caracteres.";
-    }
-
-    // --- Número de série ---
-    if ($numero_serie === "") {
-        $erros[] = "O número de série é obrigatório.";
-    } elseif (strlen($numero_serie) < 2) {
-        $erros[] = "O número de série deve ter no mínimo 2 caracteres.";
-    }
-
-    // --- Fabricante ---
-    if ($fabricante === "") {
-        $erros[] = "O fabricante é obrigatório.";
-    } elseif (strlen($fabricante) < 2) {
-        $erros[] = "O fabricante deve ter no mínimo 2 caracteres.";
-    }
-
-    // --- Ano de fabrico (opcional) ---
-    $anoAtual = (int) date('Y');
-    if ($ano_fabrico !== "") {
-        if (!preg_match('/^\d{4}$/', $ano_fabrico) || (int)$ano_fabrico < 1900 || (int)$ano_fabrico > $anoAtual) {
-            $erros[] = "O ano de fabrico, se preenchido, deve estar entre 1900 e $anoAtual.";
-        }
-    }
-
-    // --- Estado ---
-    if ($estado === "") {
-        $erros[] = "O estado do equipamento é obrigatório.";
-    }
-
-    // --- Criticidade ---
-    if ($criticidade === "") {
-        $erros[] = "A criticidade do equipamento é obrigatória.";
-    }
-
-    // --- Observações (opcional) ---
-    if ($observacoes !== "" && strlen($observacoes) < 2) {
-        $erros[] = "As observações, se preenchidas, devem ter no mínimo 2 caracteres.";
-    }
-
-    // --- Função auxiliar para validar cada bloco de documentação do Tab 1 ---
-    function validarDocumentacaoIdentificacao($temDoc, $nomeDoc, $dataDoc, $validadeDoc, $anoFabrico, $rotulo, &$erros)
-    {
-
-        if ($temDoc === "") {
-            $erros[] = "É obrigatório indicar se existe $rotulo associada.";
-            return;
-        }
-
-        if ($temDoc !== "sim") {
-            return;
-        }
-
-        if ($nomeDoc === "") {
-            $erros[] = "O nome do documento ($rotulo) é obrigatório.";
-        } elseif (strlen($nomeDoc) < 2) {
-            $erros[] = "O nome do documento ($rotulo) deve ter no mínimo 2 caracteres.";
-        }
-
-        $dataDocObj = null;
-
-        if ($dataDoc === "") {
-            $erros[] = "A data do documento ($rotulo) é obrigatória.";
-        } else {
-            $dataDocObj = DateTime::createFromFormat('Y-m-d', $dataDoc);
-
-            if ($dataDocObj) {
-                if ($anoFabrico !== "") {
-                    if ((int)$dataDocObj->format('Y') <= (int)$anoFabrico) {
-                        $erros[] = "A data do documento ($rotulo) deve ser posterior ao ano de fabrico do equipamento.";
-                    }
-                } else {
-                    $hoje = new DateTime('today');
-                    if ($dataDocObj > $hoje) {
-                        $erros[] = "A data do documento ($rotulo) não pode ser uma data futura.";
-                    }
-                }
-            }
-        }
-
-        if ($validadeDoc !== "" && $dataDocObj) {
-            $validadeObj = DateTime::createFromFormat('Y-m-d', $validadeDoc);
-            if ($validadeObj && $validadeObj <= $dataDocObj) {
-                $erros[] = "A validade do documento ($rotulo) deve ser posterior à data do documento.";
-            }
-        }
-    }
-
-    validarDocumentacaoIdentificacao($tem_documentacao_tecnica, $nomeManualTecnico, $dataManualTecnico, $validadeManualTecnico, $ano_fabrico, "documentação técnica", $erros);
-    validarDocumentacaoIdentificacao($tem_documentacao_utilizacao, $nomeManualUtilizacao, $dataManualUtilizacao, $validadeManualUtilizacao, $ano_fabrico, "documentação de utilização", $erros);
-    validarDocumentacaoIdentificacao($tem_declaracao_conformidade, $nomeDeclaracaoConformidade, $dataDeclaracaoConformidade, $validadeDeclaracaoConformidade, $ano_fabrico, "declaração de conformidade", $erros);
+    // 3. Validar os dados — Tab 1 (Identificação), funções reutilizáveis em validacoes.php
+    $erros = array_merge(
+        $erros,
+        validar_codigo_equipamento($codigo),
+        validar_designacao_equipamento($designacao),
+        validar_categoria_equipamento($categoria),
+        validar_marca_equipamento($marca),
+        validar_modelo_equipamento($modelo),
+        validar_numero_serie_equipamento($numero_serie),
+        validar_fabricante_equipamento($fabricante),
+        validar_ano_fabrico_equipamento($ano_fabrico),
+        validar_estado_equipamento($estado),
+        validar_criticidade_equipamento($criticidade),
+        validar_observacoes_equipamento($observacoes),
+        validar_documentacao_identificacao_equipamento($tem_documentacao_tecnica, $nomeManualTecnico, $dataManualTecnico, $validadeManualTecnico, $ano_fabrico, "documentação técnica"),
+        validar_documentacao_identificacao_equipamento($tem_documentacao_utilizacao, $nomeManualUtilizacao, $dataManualUtilizacao, $validadeManualUtilizacao, $ano_fabrico, "documentação de utilização"),
+        validar_documentacao_identificacao_equipamento($tem_declaracao_conformidade, $nomeDeclaracaoConformidade, $dataDeclaracaoConformidade, $validadeDeclaracaoConformidade, $ano_fabrico, "declaração de conformidade")
+    );
 
     // --- Validações de unicidade (código; fabricante+modelo+numero_serie) ---
     if (empty($erros)) {
@@ -247,100 +135,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'observacoes' => $_POST['consumiveis']['observacoes'] ?? [],
     ];
 
-    // --- Função auxiliar para validar cada linha de acessório/consumível ---
-    function validarLinhaItem($nome, $referencia, $quantidade, $unidade, $estado, $observacoes, $estadoObrigatorio, $rotulo, $indice, &$erros)
-    {
-
-        $nome = trim($nome);
-        $referencia = trim($referencia);
-        $quantidade = trim($quantidade);
-        $unidade = trim($unidade);
-        $estado = trim($estado);
-        $observacoes = trim($observacoes);
-
-        $numeroLinha = $indice + 1;
-
-        // Nome
-        if ($nome === "") {
-            $erros[] = "$rotulo #$numeroLinha: o nome é obrigatório.";
-        } elseif (strlen($nome) < 2) {
-            $erros[] = "$rotulo #$numeroLinha: o nome deve ter no mínimo 2 caracteres.";
-        }
-
-        // Referência
-        if ($referencia === "") {
-            $erros[] = "$rotulo #$numeroLinha: a referência é obrigatória.";
-        } elseif (strlen($referencia) < 2) {
-            $erros[] = "$rotulo #$numeroLinha: a referência deve ter no mínimo 2 caracteres.";
-        }
-
-        // Quantidade
-        $quantidadeValida = false;
-        if ($quantidade === "" || !preg_match('/^\d+$/', $quantidade)) {
-            $erros[] = "$rotulo #$numeroLinha: a quantidade deve ser um número inteiro igual ou superior a zero.";
-        } else {
-            $quantidadeValida = true;
-        }
-
-        // Unidade
-        if ($unidade === "") {
-            $erros[] = "$rotulo #$numeroLinha: a unidade é obrigatória.";
-        }
-
-        // Estado
-        if ($estadoObrigatorio && $estado === "") {
-            $erros[] = "$rotulo #$numeroLinha: o estado é obrigatório.";
-        }
-
-        // Coerência quantidade/estado
-        if ($quantidadeValida && $estado !== "") {
-            $qtd = (int)$quantidade;
-            $estadosSemStock = ['em-falta', 'abatido'];
-            $estadosComStock = ['novo', 'em-uso', 'danificado'];
-
-            if ($qtd === 0 && !in_array($estado, $estadosSemStock)) {
-                $erros[] = "$rotulo #$numeroLinha: com quantidade 0, o estado deve ser \"Em falta\" ou \"Abatido\".";
-            } elseif ($qtd > 0 && !in_array($estado, $estadosComStock)) {
-                $erros[] = "$rotulo #$numeroLinha: com quantidade superior a 0, o estado deve ser \"Novo\", \"Em uso\" ou \"Danificado\".";
-            }
-        }
-    }
-
-    // --- Validar Acessórios (mínimo 1 linha) ---
-    if (empty($acessorios['nome'])) {
-        $erros[] = "Deve existir pelo menos um acessório associado ao equipamento.";
-    } else {
-        foreach ($acessorios['nome'] as $i => $nome) {
-            validarLinhaItem(
-                $nome,
-                $acessorios['referencia'][$i] ?? '',
-                $acessorios['quantidade'][$i] ?? '',
-                $acessorios['unidade'][$i] ?? '',
-                $acessorios['estado'][$i] ?? '',
-                $acessorios['observacoes'][$i] ?? '',
-                true, // estado obrigatório
-                "Acessório",
-                $i,
-                $erros
-            );
-        }
-    }
-
-    // --- Validar Consumíveis (opcional, 0 ou mais linhas) ---
-    foreach ($consumiveis['nome'] as $i => $nome) {
-        validarLinhaItem(
-            $nome,
-            $consumiveis['referencia'][$i] ?? '',
-            $consumiveis['quantidade'][$i] ?? '',
-            $consumiveis['unidade'][$i] ?? '',
-            $consumiveis['estado'][$i] ?? '',
-            $consumiveis['observacoes'][$i] ?? '',
-            false, // estado opcional
-            "Consumível",
-            $i,
-            $erros
-        );
-    }
+    // --- Validar Acessórios e Consumíveis (funções reutilizáveis em validacoes.php) ---
+    $erros = array_merge(
+        $erros,
+        validar_acessorios_equipamento($acessorios),
+        validar_consumiveis_equipamento($consumiveis)
+    );
 
     // 1c. Recolher dados — Tab 3 (Aquisição)
     $data_aquisicao = trim($_POST["data_aquisicao"] ?? "");
@@ -358,95 +158,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $observacoesAquisicao = trim($_POST["observacoesAquisicao"] ?? "");
 
-    // --- Data de aquisição ---
-    $dataAquisicaoObj = null;
-    if ($data_aquisicao === "") {
-        $erros[] = "A data de aquisição é obrigatória.";
-    } else {
-        $dataAquisicaoObj = DateTime::createFromFormat('Y-m-d', $data_aquisicao);
-        if (!$dataAquisicaoObj) {
-            $erros[] = "A data de aquisição é inválida.";
-        } elseif ($ano_fabrico !== "") {
-            if ((int)$dataAquisicaoObj->format('Y') <= (int)$ano_fabrico) {
-                $erros[] = "A data de aquisição deve ser posterior ao ano de fabrico do equipamento.";
-            }
-        }
-    }
+    // $dataAquisicaoObj é reutilizada nos Tabs 6 e 7 (validarDocumentacaoComData)
+    $dataAquisicaoObj = ($data_aquisicao !== "") ? DateTime::createFromFormat('Y-m-d', $data_aquisicao) : null;
 
-    // --- Custo de aquisição ---
-    if ($custo_aquisicao === "") {
-        $erros[] = "O custo de aquisição é obrigatório.";
-    } elseif (!is_numeric($custo_aquisicao) || (float)$custo_aquisicao < 0) {
-        $erros[] = "O custo de aquisição deve ser um valor numérico igual ou superior a zero.";
-    }
-
-    // --- Tipo de entrada ---
-    if ($tipo_entrada === "") {
-        $erros[] = "O tipo de entrada é obrigatório.";
-    }
-
-    // --- Tem contrato de aquisição ---
-    if ($tem_contrato_aquisicao === "") {
-        $erros[] = "É obrigatório indicar se existe contrato de aquisição associado.";
-    }
-
-    // --- Tem fatura ---
-    if ($tem_fatura === "") {
-        $erros[] = "É obrigatório indicar se existe fatura associada.";
-    }
-
-    // --- Documentação: Contrato de Aquisição ---
-    if ($tem_contrato_aquisicao === "sim") {
-        if ($nomeContratoAquisicao === "") {
-            $erros[] = "O nome do documento (contrato de aquisição) é obrigatório.";
-        } elseif (strlen($nomeContratoAquisicao) < 2) {
-            $erros[] = "O nome do documento (contrato de aquisição) deve ter no mínimo 2 caracteres.";
-        }
-
-        $dataContratoAquisicaoObj = null;
-        if ($dataContratoAquisicao === "") {
-            $erros[] = "A data do documento (contrato de aquisição) é obrigatória.";
-        } else {
-            $dataContratoAquisicaoObj = DateTime::createFromFormat('Y-m-d', $dataContratoAquisicao);
-            if (!$dataContratoAquisicaoObj) {
-                $erros[] = "A data do documento (contrato de aquisição) é inválida.";
-            } elseif ($dataAquisicaoObj && $dataContratoAquisicaoObj < $dataAquisicaoObj) {
-                $erros[] = "A data do documento (contrato de aquisição) deve ser igual ou posterior à data de aquisição.";
-            }
-        }
-
-        if ($validadeContratoAquisicao !== "" && $dataContratoAquisicaoObj) {
-            $validadeContratoAquisicaoObj = DateTime::createFromFormat('Y-m-d', $validadeContratoAquisicao);
-            if ($validadeContratoAquisicaoObj && $validadeContratoAquisicaoObj <= $dataContratoAquisicaoObj) {
-                $erros[] = "A validade do documento (contrato de aquisição) deve ser posterior à data do documento.";
-            }
-        }
-    }
-
-    // --- Documentação: Fatura ---
-    if ($tem_fatura === "sim") {
-        if ($nomeFatura === "") {
-            $erros[] = "O nome do documento (fatura) é obrigatório.";
-        } elseif (strlen($nomeFatura) < 2) {
-            $erros[] = "O nome do documento (fatura) deve ter no mínimo 2 caracteres.";
-        }
-
-        if ($dataFatura === "") {
-            $erros[] = "A data do documento (fatura) é obrigatória.";
-        } else {
-            $dataFaturaObj = DateTime::createFromFormat('Y-m-d', $dataFatura);
-            if (!$dataFaturaObj) {
-                $erros[] = "A data do documento (fatura) é inválida.";
-            } elseif ($dataAquisicaoObj && $dataFaturaObj < $dataAquisicaoObj) {
-                $erros[] = "A data do documento (fatura) deve ser igual ou posterior à data de aquisição.";
-            }
-        }
-    }
-
-    // --- Observações da aquisição (opcional) ---
-    if ($observacoesAquisicao !== "" && strlen($observacoesAquisicao) < 2) {
-        $erros[] = "As observações da aquisição, se preenchidas, devem ter no mínimo 2 caracteres.";
-    }
+    // Validações do Tab 3 (funções reutilizáveis em validacoes.php)
+    $erros = array_merge(
+        $erros,
+        validar_data_aquisicao_equipamento($data_aquisicao, $ano_fabrico),
+        validar_custo_aquisicao_equipamento($custo_aquisicao),
+        validar_tipo_entrada_equipamento($tipo_entrada),
+        validar_tem_contrato_aquisicao_equipamento($tem_contrato_aquisicao),
+        validar_tem_fatura_equipamento($tem_fatura),
+        validar_documentacao_contrato_aquisicao_equipamento($tem_contrato_aquisicao, $nomeContratoAquisicao, $dataContratoAquisicao, $validadeContratoAquisicao, $dataAquisicaoObj),
+        validar_documentacao_fatura_equipamento($tem_fatura, $nomeFatura, $dataFatura, $dataAquisicaoObj),
+        validar_observacoes_aquisicao_equipamento($observacoesAquisicao)
+    );
 
     // 1d. Recolher dados — Tab 4 (Fornecedor)
     $fornecedoresAssociados = [
@@ -457,117 +183,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'observacoes' => $_POST['fornecedores']['observacoes'] ?? [],
     ];
 
-    if (empty($fornecedoresAssociados['fornecedor'])) {
-        $erros[] = "Deve existir pelo menos um fornecedor associado ao equipamento.";
-    } else {
-        $idsFornecedoresUsados = [];
-
-        foreach ($fornecedoresAssociados['fornecedor'] as $i => $fornecedorId) {
-            $numeroLinha = $i + 1;
-
-            $fornecedorId = trim($fornecedorId);
-            $moradaId = trim($fornecedoresAssociados['morada'][$i] ?? '');
-            $pessoaContacto = trim($fornecedoresAssociados['pessoa'][$i] ?? '');
-            $telefonePessoaContacto = trim($fornecedoresAssociados['telefone'][$i] ?? '');
-            $observacoesFornecedor = trim($fornecedoresAssociados['observacoes'][$i] ?? '');
-
-            // --- Fornecedor ---
-            if ($fornecedorId === "") {
-                $erros[] = "Fornecedor #$numeroLinha: o fornecedor é obrigatório.";
-            } else {
-                if (in_array($fornecedorId, $idsFornecedoresUsados)) {
-                    $erros[] = "Fornecedor #$numeroLinha: este fornecedor já foi associado noutra linha.";
-                } else {
-                    $idsFornecedoresUsados[] = $fornecedorId;
-                }
-            }
-
-            // --- Morada ---
-            if ($moradaId === "") {
-                $erros[] = "Fornecedor #$numeroLinha: a morada é obrigatória.";
-            }
-
-            // --- Pessoa de contacto ---
-            if ($pessoaContacto === "") {
-                $erros[] = "Fornecedor #$numeroLinha: a pessoa de contacto é obrigatória.";
-            } else {
-                if (strlen($pessoaContacto) < 2) {
-                    $erros[] = "Fornecedor #$numeroLinha: o nome da pessoa de contacto deve ter no mínimo 2 caracteres.";
-                }
-                if (!preg_match('/^[A-Za-zÀ-ÿ\s\'-]+$/', $pessoaContacto)) {
-                    $erros[] = "Fornecedor #$numeroLinha: o nome da pessoa de contacto deve conter apenas letras, espaços, hífens e apóstrofos.";
-                }
-            }
-
-            // --- Telefone da pessoa de contacto ---
-            $telefoneSemEspacos = preg_replace('/\s+/', '', $telefonePessoaContacto);
-            if ($telefoneSemEspacos === "") {
-                $erros[] = "Fornecedor #$numeroLinha: o telefone da pessoa de contacto é obrigatório.";
-            } elseif (!preg_match('/^\+351(91|92|93|96)\d{7}$/', $telefoneSemEspacos)) {
-                $erros[] = "Fornecedor #$numeroLinha: o telefone da pessoa de contacto deve começar com \"+351\" seguido de 9 dígitos, sendo os dois primeiros 91, 92, 93 ou 96.";
-            }
-
-            // --- Observações (opcional) ---
-            if ($observacoesFornecedor !== "" && strlen($observacoesFornecedor) < 2) {
-                $erros[] = "Fornecedor #$numeroLinha: as observações, se preenchidas, devem ter no mínimo 2 caracteres.";
-            }
-        }
-    }
+    // Validações dos fornecedores associados (função reutilizável em validacoes.php)
+    $erros = array_merge($erros, validar_fornecedores_associados_equipamento($fornecedoresAssociados));
 
     // 1e. Recolher dados — Tab 5 (Localização)
     $localizacao_id = trim($_POST["localizacao"] ?? "");
     $observacoesLocalizacao = trim($_POST["observacoesLocalizacao"] ?? "");
 
-    // --- Localização ---
-    if ($localizacao_id === "") {
-        $erros[] = "A localização associada é obrigatória.";
-    }
-
-    // --- Observações da localização (opcional) ---
-    if ($observacoesLocalizacao !== "" && strlen($observacoesLocalizacao) < 2) {
-        $erros[] = "As observações da localização, se preenchidas, devem ter no mínimo 2 caracteres.";
-    }
-
-    // --- Função auxiliar para validar documentação cuja data deve ser posterior à data de aquisição ---
-    function validarDocumentacaoComData($temDoc, $nomeDoc, $dataDoc, $validadeDoc, $dataReferenciaObj, $rotulo, &$erros)
-    {
-
-        if ($temDoc === "") {
-            $erros[] = "É obrigatório indicar se existe $rotulo associada.";
-            return;
-        }
-
-        if ($temDoc !== "sim") {
-            return;
-        }
-
-        if ($nomeDoc === "") {
-            $erros[] = "O nome do documento ($rotulo) é obrigatório.";
-        } elseif (strlen($nomeDoc) < 2) {
-            $erros[] = "O nome do documento ($rotulo) deve ter no mínimo 2 caracteres.";
-        }
-
-        $dataDocObj = null;
-
-        if ($dataDoc === "") {
-            $erros[] = "A data do documento ($rotulo) é obrigatória.";
-        } else {
-            $dataDocObj = DateTime::createFromFormat('Y-m-d', $dataDoc);
-
-            if ($dataDocObj && $dataReferenciaObj) {
-                if ($dataDocObj <= $dataReferenciaObj) {
-                    $erros[] = "A data do documento ($rotulo) deve ser posterior à data de aquisição do equipamento.";
-                }
-            }
-        }
-
-        if ($validadeDoc !== "" && $dataDocObj) {
-            $validadeObj = DateTime::createFromFormat('Y-m-d', $validadeDoc);
-            if ($validadeObj && $validadeObj <= $dataDocObj) {
-                $erros[] = "A validade do documento ($rotulo) deve ser posterior à data do documento.";
-            }
-        }
-    }
+    // Validações do Tab 5 (funções reutilizáveis em validacoes.php)
+    $erros = array_merge(
+        $erros,
+        validar_localizacao_equipamento($localizacao_id),
+        validar_observacoes_localizacao_equipamento($observacoesLocalizacao)
+    );
 
     // 1f. Recolher dados — Tab 6 (Garantia)
     $dataInicioGarantia = $_POST["dataInicioGarantia"] ?? "";
@@ -580,38 +208,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $observacoesGarantia = trim($_POST["observacoesGarantia"] ?? "");
 
-    // --- Data de início da garantia ---
-    $dataInicioGarantiaObj = null;
-    if ($dataInicioGarantia === "") {
-        $erros[] = "A data de início da garantia é obrigatória.";
-    } else {
-        $dataInicioGarantiaObj = DateTime::createFromFormat('Y-m-d', $dataInicioGarantia);
-        if (!$dataInicioGarantiaObj) {
-            $erros[] = "A data de início da garantia é inválida.";
-        } elseif ($dataAquisicaoObj && $dataInicioGarantiaObj < $dataAquisicaoObj) {
-            $erros[] = "A data de início da garantia deve ser igual ou posterior à data de aquisição do equipamento.";
-        }
-    }
+    // $dataInicioGarantiaObj é reutilizada para validar a data de fim da garantia
+    // e a data do certificado de garantia (funções reutilizáveis em validacoes.php)
+    $dataInicioGarantiaObj = ($dataInicioGarantia !== "") ? DateTime::createFromFormat('Y-m-d', $dataInicioGarantia) : null;
 
-    // --- Data de fim da garantia ---
-    if ($dataFimGarantia === "") {
-        $erros[] = "A data de fim da garantia é obrigatória.";
-    } else {
-        $dataFimGarantiaObj = DateTime::createFromFormat('Y-m-d', $dataFimGarantia);
-        if (!$dataFimGarantiaObj) {
-            $erros[] = "A data de fim da garantia é inválida.";
-        } elseif ($dataInicioGarantiaObj && $dataFimGarantiaObj <= $dataInicioGarantiaObj) {
-            $erros[] = "A data de fim da garantia deve ser posterior à data de início da garantia.";
-        }
-    }
-
-    // --- Documentação: Certificado de Garantia ---
-    validarDocumentacaoComData($tem_documentacao_garantia, $nomeCertificadoGarantia, $dataCertificadoGarantia, $validadeCertificadoGarantia, $dataAquisicaoObj, "certificado de garantia", $erros);
-
-    // --- Observações da garantia (opcional) ---
-    if ($observacoesGarantia !== "" && strlen($observacoesGarantia) < 2) {
-        $erros[] = "As observações da garantia, se preenchidas, devem ter no mínimo 2 caracteres.";
-    }
+    $erros = array_merge(
+        $erros,
+        validar_data_inicio_garantia_equipamento($dataInicioGarantia, $dataAquisicaoObj),
+        validar_data_fim_garantia_equipamento($dataFimGarantia, $dataInicioGarantiaObj),
+        validar_documentacao_garantia_equipamento($tem_documentacao_garantia, $nomeCertificadoGarantia, $dataCertificadoGarantia, $validadeCertificadoGarantia, $dataInicioGarantiaObj),
+        validar_observacoes_garantia_equipamento($observacoesGarantia)
+    );
 
     // 1g. Recolher dados — Tab 7 (Contrato de Manutenção)
     $contratoManutencao = $_POST["contratoManutencao"] ?? "";
@@ -640,50 +247,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dataRelatorioCalibracao = $_POST["dataRelatorioCalibracao"] ?? "";
     $validadeRelatorioCalibracao = $_POST["validadeRelatorioCalibracao"] ?? "";
 
-    // --- Contrato de manutenção ---
-    if ($contratoManutencao === "") {
-        $erros[] = "É obrigatório indicar se existe contrato de manutenção.";
-    } elseif ($contratoManutencao === "sim") {
+    // Validações de contratoManutencao/tipoContrato/entidadeResponsavel/periodicidade (função reutilizável em validacoes.php)
+    $erros = array_merge($erros, validar_contrato_manutencao_equipamento($contratoManutencao, $tipoContrato, $entidadeResponsavelContrato, $periodicidadeContrato));
 
-        // --- Tipo de contrato ---
-        if ($tipoContrato === "") {
-            $erros[] = "O tipo de contrato é obrigatório.";
-        }
+    // --- Documentação do Tab 7 que depende da data de aquisição (função reutilizável em validacoes.php) ---
+    $erros = array_merge(
+        $erros,
+        validar_documentacao_com_data_equipamento($tem_documentacao_contrato, $nomeCertificadoContrato, $dataContratoManutencao, $validadeContratoManutencao, $dataAquisicaoObj, "contrato de manutenção"),
+        validar_documentacao_com_data_equipamento($tem_relatorio_contrato, $nomeRelatorioManutencao, $dataRelatorioManutencao, $validadeRelatorioManutencao, $dataAquisicaoObj, "relatório de manutenção"),
+        validar_documentacao_com_data_equipamento($tem_documentacao_calibracao, $nomeCertificadoCalibracao, $dataCertificadoCalibracao, $validadeCertificadoCalibracao, $dataAquisicaoObj, "certificado de calibração"),
+        validar_documentacao_com_data_equipamento($tem_relatorio_calibracao, $nomeRelatorioCalibracao, $dataRelatorioCalibracao, $validadeRelatorioCalibracao, $dataAquisicaoObj, "relatório de calibração")
+    );
 
-        // --- Entidade responsável ---
-        if ($entidadeResponsavelContrato === "") {
-            $erros[] = "A entidade responsável pelo contrato é obrigatória.";
-        } else {
-            if (strlen($entidadeResponsavelContrato) < 2) {
-                $erros[] = "O nome da entidade responsável deve ter no mínimo 2 caracteres.";
-            }
-            if (!preg_match('/^[A-Za-zÀ-ÿ0-9\s.\-]+$/', $entidadeResponsavelContrato)) {
-                $erros[] = "O nome da entidade responsável deve conter apenas letras, números, espaços, pontos e hífens.";
-            }
-        }
-
-        // --- Periodicidade ---
-        if ($periodicidadeContrato === "") {
-            $erros[] = "A periodicidade do contrato é obrigatória.";
-        }
-    }
-
-    // --- Documentação: Certificado de Contrato de Manutenção ---
-    validarDocumentacaoComData($tem_documentacao_contrato, $nomeCertificadoContrato, $dataContratoManutencao, $validadeContratoManutencao, $dataAquisicaoObj, "contrato de manutenção", $erros);
-
-    // --- Documentação: Relatório de Manutenção ---
-    validarDocumentacaoComData($tem_relatorio_contrato, $nomeRelatorioManutencao, $dataRelatorioManutencao, $validadeRelatorioManutencao, $dataAquisicaoObj, "relatório de manutenção", $erros);
-
-    // --- Documentação: Certificado de Calibração ---
-    validarDocumentacaoComData($tem_documentacao_calibracao, $nomeCertificadoCalibracao, $dataCertificadoCalibracao, $validadeCertificadoCalibracao, $dataAquisicaoObj, "certificado de calibração", $erros);
-
-    // --- Documentação: Relatório de Calibração ---
-    validarDocumentacaoComData($tem_relatorio_calibracao, $nomeRelatorioCalibracao, $dataRelatorioCalibracao, $validadeRelatorioCalibracao, $dataAquisicaoObj, "relatório de calibração", $erros);
-
-    // --- Observações do contrato (opcional) ---
-    if ($observacoesContrato !== "" && strlen($observacoesContrato) < 2) {
-        $erros[] = "As observações do contrato, se preenchidas, devem ter no mínimo 2 caracteres.";
-    }
+    // Validação das observações do contrato (função reutilizável em validacoes.php)
+    $erros = array_merge($erros, validar_observacoes_contrato_equipamento($observacoesContrato));
 
     // 4. Guardar na base de dados — Tab 1
     if (empty($erros)) {

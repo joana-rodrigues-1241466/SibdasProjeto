@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
+require_once __DIR__ . '/../../includes/validacoes.php';
 
 // Verificar se o formulário foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -28,49 +29,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sala = trim($sala);
     $observacoes = trim($observacoes);
 
-    // Validação do Código
-    if (empty($codigo)) {
-        $erros[] = "O campo Código é obrigatório.";
-    } elseif (!preg_match('/^LOC\d+$/', $codigo)) {
-        $erros[] = "O código deve começar com \"LOC\" seguido apenas de números (ex: LOC001).";
-    } elseif (strlen($codigo) < 6) {
-        $erros[] = "O código deve ter no mínimo 6 caracteres.";
-    }
-
-    // Validação do Edifício
-    if (empty($edificio)) {
-        $erros[] = "O campo Edifício é obrigatório.";
-    } elseif (strlen($edificio) < 2) {
-        $erros[] = "O campo Edifício deve ter no mínimo 2 caracteres.";
-    }
-
-    // Validação do Piso
-    if (empty($piso)) {
-        $erros[] = "O campo Piso é obrigatório.";
-    } elseif (strlen($piso) < 2) {
-        $erros[] = "O campo Piso deve ter no mínimo 2 caracteres.";
-    } elseif (!preg_match('/^[A-Za-zÀ-ÿ0-9 ]+$/', $piso)) {
-        $erros[] = "O campo Piso só pode conter letras, números e espaços.";
-    }
-
-    // Validação do Serviço/Departamento
-    if (empty($servico)) {
-        $erros[] = "O campo Serviço/Departamento é obrigatório.";
-    } elseif (strlen($servico) < 2) {
-        $erros[] = "O campo Serviço/Departamento deve ter no mínimo 2 caracteres.";
-    }
-
-    // Validação da Sala/Gabinete
-    if (empty($sala)) {
-        $erros[] = "O campo Sala/Gabinete é obrigatório.";
-    } elseif (strlen($sala) < 2) {
-        $erros[] = "O campo Sala/Gabinete deve ter no mínimo 2 caracteres.";
-    }
-
-    // Validação das Observações (campo opcional)
-    if (!empty($observacoes) && strlen($observacoes) < 2) {
-        $erros[] = "O campo Observações, se preenchido, deve ter no mínimo 2 caracteres.";
-    }
+   // Validações reutilizáveis (definidas em validacoes.php)
+    $erros = array_merge(
+        $erros,
+        validar_codigo($codigo),
+        validar_edificio($edificio),
+        validar_piso($piso),
+        validar_servico($servico),
+        validar_sala($sala),
+        validar_observacoes($observacoes)
+    );
 
     /*
     // 4. Depuração: mostrar os erros recolhidos

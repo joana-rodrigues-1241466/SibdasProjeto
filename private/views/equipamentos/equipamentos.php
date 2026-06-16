@@ -12,6 +12,7 @@ try {
 
     $resultados = $ligacao->query("
     SELECT 
+        e.id,
         e.codigo,
         e.designacao,
         l.codigo AS localizacao,
@@ -62,6 +63,24 @@ $ligacao = null;
 
     <!-- Conteúdo principal da área privada -->
     <main class="conteudo-privado">
+
+    <?php if (isset($_SESSION['sucesso']) && $_SESSION['sucesso'] === 'equipamento_atualizado') : ?>
+    <div id="alerta-sucesso" class="alert alert-success text-center" role="alert">
+        <i class="fa-solid fa-circle-check"></i>
+        Equipamento atualizado com sucesso.
+    </div>
+    <script>
+        setTimeout(function () {
+            const alerta = document.getElementById('alerta-sucesso');
+            if (alerta) {
+                alerta.style.transition = 'opacity 0.5s ease';
+                alerta.style.opacity = '0';
+                setTimeout(function () { alerta.remove(); }, 500);
+            }
+        }, 3000);
+    </script>
+<?php unset($_SESSION['sucesso']); ?>
+<?php endif; ?>
 
         <div class="titulo-pagina-equipamentos">
             <div class="bloco-titulo-equipamentos">
@@ -298,7 +317,7 @@ $ligacao = null;
                                     <a href="/medivault/private/views/equipamentos/consultar_equipamento.php?id=<?= htmlspecialchars($equipamento->codigo) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
                                         <i class="fa-regular fa-eye"></i>
                                     </a>
-                                    <a href="editar_equipamento.php?id=<?= htmlspecialchars($equipamento->codigo) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
+                                    <a href="editar_equipamento.php?id_equipamento=<?= aes_encrypt($equipamento->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
                                     <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarEquipamento" onclick="prepararEliminacaoEquipamento('<?= htmlspecialchars($equipamento->codigo) ?>', '<?= htmlspecialchars($equipamento->designacao, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">
@@ -364,10 +383,8 @@ $ligacao = null;
 </div>
 
 <script>
-    let tabela;
-
     $(document).ready(function() {
-        tabela = $('#tabela-equipamentos').DataTable({
+        var tabela = $('#tabela-equipamentos').DataTable({
             pageLength: 5,
             pagingType: "full_numbers",
             dom: 'rtip',
@@ -464,7 +481,7 @@ $ligacao = null;
             }
         });
 
-        // Limpar filtros
+       // Limpar filtros
         $('#botaoLimparApenasFiltrosEquipamentos').on('click', function() {
             $('#filtroEstadoEquipamento').val('');
             $('#filtroCriticidadeEquipamento').val('');

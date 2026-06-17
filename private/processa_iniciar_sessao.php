@@ -50,31 +50,50 @@ if (!empty($validation_errors)) {
 }
 
 // --------------------------------------------------------------------
-// SIMULAÇÃO DE RESULTADO DE LOGIN (antes da ligação real à base de dados)
+// LIGAÇÃO REAL À BASE DE DADOS E VERIFICAÇÃO DO LOGIN
 // --------------------------------------------------------------------
-// Simula o resultado que viria de uma verificação à base de dados
-// Neste caso, assume-se que o login é válido (status = 1)
-// Mais tarde, esta variável será substituída por um resultado real vindo da BD
-$result['status'] = 1;; // 1 = login válido, 0 = inválido
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD,
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+    );
 
-// Verifica se o status retornado indica login inválido
-if (!$result['status']) {
-    // Se o login for inválido, guarda uma mensagem de erro na sessão
-    $_SESSION['server_error'] = 'Login inválido';
+    // Procurar o utilizador pelo email (desencriptado, porque está guardado encriptado na BD)
+    $comando = $ligacao->prepare("
+        SELECT u.id, u.nome, AES_DECRYPT(u.email, :chave) AS email, u.password_hash, u.ativo, p.designacao AS perfil
+        FROM utilizadores u
+        JOIN perfis_utilizador p ON p.id = u.perfil_id
+        WHERE AES_DECRYPT(u.email, :chave) = :email
+    ");
+    $comando->execute([
+        ':chave' => MYSQL_AES_KEY,
+        ':email' => $username
+    ]);
+    $utilizador = $comando->fetch(PDO::FETCH_OBJ);
 
-    // Redireciona o utilizador novamente para o formulário de login
+    // Verificar se existe, se está ativo, e se a password coincide com o hash guardado
+    if (!$utilizador || !$utilizador->ativo || !password_verify($password, $utilizador->password_hash)) {
+        $_SESSION['server_error'] = 'Login inválido';
+        header('Location: iniciar_sessao.php');
+        return;
+    }
+
+    // Atualizar a data/hora do último login
+    $stmt = $ligacao->prepare("UPDATE utilizadores SET last_login = NOW() WHERE id = ?");
+    $stmt->execute([$utilizador->id]);
+
+    // Guardar os dados essenciais na sessão (email já desencriptado pela query)
+    $_SESSION['utilizador'] = $utilizador->nome;
+    $_SESSION['email'] = $utilizador->email;
+    $_SESSION['profile'] = $utilizador->perfil;
+
+} catch (PDOException $e) {
+    $_SESSION['server_error'] = 'Erro ao ligar à base de dados.';
     header('Location: iniciar_sessao.php');
-
-    // Encerra o script para não continuar o processamento
     return;
 }
-// Em produção, **nunca** se deve mostrar a password assim — isto é apenas para testes!
-
-// --------------------------------------------------------------------
-// LOGIN BEM-SUCEDIDO: Guardar o utilizador na sessão
-// --------------------------------------------------------------------
-// Guarda o nome de utilizador na sessão para identificar o utilizador autenticado
-$_SESSION['utilizador'] = $username;
 
 // Redireciona para a página principal privada
 header('Location: home.php');

@@ -102,7 +102,8 @@ INSERT INTO tipos_documento_fornecedor (designacao, ordem) VALUES
 
 INSERT INTO perfis_utilizador (designacao, ordem) VALUES
 ('Administrador', 1),
-('Profissional de Saúde', 2);
+('Técnico', 2),
+('Profissional de Saúde', 3);
 
 -- ============================================================
 -- TIPOS CONTRATO
@@ -193,87 +194,78 @@ INSERT INTO tipos_alteracao (designacao, ordem) VALUES
 
 INSERT INTO utilizadores (nome, email, password_hash, perfil_id, ativo) VALUES
 (
-    'Administrador',
-    'admin@medivault.pt',
-    '$2y$10$abcdefghijklmnopqrstuv',
+    'Administrador Principal',
+    AES_ENCRYPT('admin@medivault.pt', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'),
+    '$2b$10$Izb1ii2RIUgUYpcTXndLqOZGP/puiQP.4VO.MKKti5jEOgy4NWynG',
     (SELECT id FROM perfis_utilizador WHERE designacao='Administrador'),
     TRUE
 ),
 (
-    'Administrador',
-    'admin2@medivault.pt',
-    '$2y$10$abcdefghijklmnopqrstuv',
-    (SELECT id FROM perfis_utilizador WHERE designacao='Administrador'),
+    'Administrador Secundário',
+    AES_ENCRYPT('admin2@medivault.pt', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'),
+'$2b$10$kE02SpMgK3VEueUN14yLv.ml95gdAdJap8KTBjhkVqgTlox88IbGK',    (SELECT id FROM perfis_utilizador WHERE designacao='Administrador'),
     TRUE
 ),
 (
-    'Administrador',
-    'admin3@medivault.pt',
-    '$2y$10$abcdefghijklmnopqrstuv',
-    (SELECT id FROM perfis_utilizador WHERE designacao='Administrador'),
+    'Administrador Terciário',
+    AES_ENCRYPT('admin3@medivault.pt', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'),
+'$2b$10$kE02SpMgK3VEueUN14yLv.ml95gdAdJap8KTBjhkVqgTlox88IbGK',    (SELECT id FROM perfis_utilizador WHERE designacao='Administrador'),
     TRUE
 ),
 (
     'Ana Silva',
-    'ana.silva@medivault.pt',
-    '$2y$10$abcdefghijklmnopqrstuv',
-    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
+    AES_ENCRYPT('ana.silva@medivault.pt', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'),
+    '$2b$10$0bJ4VuAZoTxY4HKmzpqSNu6NRAG3B3Flaq/4anxUQeVuafSI/C28G',
+    (SELECT id FROM perfis_utilizador WHERE designacao='Técnico'),
     TRUE
 ),
 (
     'João Costa',
-    'joao.costa@medivault.pt',
-    '$2y$10$abcdefghijklmnopqrstuv',
-    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
+    AES_ENCRYPT('joao.costa@medivault.pt', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'),
+'$2b$10$kE02SpMgK3VEueUN14yLv.ml95gdAdJap8KTBjhkVqgTlox88IbGK',    (SELECT id FROM perfis_utilizador WHERE designacao='Técnico'),
     TRUE
 ),
 (
     'Maria Santos',
-    'maria.santos@medivault.pt',
-    '$2y$10$abcdefghijklmnopqrstuv',
-    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
+    AES_ENCRYPT('maria.santos@medivault.pt', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'),
+'$2b$10$kE02SpMgK3VEueUN14yLv.ml95gdAdJap8KTBjhkVqgTlox88IbGK',    (SELECT id FROM perfis_utilizador WHERE designacao='Técnico'),
     TRUE
 ),
 (
     'Rui Ferreira',
-    'rui.ferreira@medivault.pt',
-    '$2y$10$abcdefghijklmnopqrstuv',
+    AES_ENCRYPT('rui.ferreira@medivault.pt', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'),
+    '$2b$10$atTWxXwbjNrXbvuw..G3fe2IWR8cNA/Gz/NnPjEx2BEcjfTDn20Z.',
     (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
     TRUE
 ),
 (
     'Catarina Lopes',
-    'catarina.lopes@medivault.pt',
-    '$2y$10$abcdefghijklmnopqrstuv',
-    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
+    AES_ENCRYPT('catarina.lopes@medivault.pt', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'),
+'$2b$10$kE02SpMgK3VEueUN14yLv.ml95gdAdJap8KTBjhkVqgTlox88IbGK',    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
     TRUE
 ),
 (
     'Pedro Marques',
-    'pedro.marques@medivault.pt',
-    '$2y$10$abcdefghijklmnopqrstuv',
-    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
+    AES_ENCRYPT('pedro.marques@medivault.pt', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'),
+'$2b$10$kE02SpMgK3VEueUN14yLv.ml95gdAdJap8KTBjhkVqgTlox88IbGK',    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
     TRUE
 ),
 (
     'Sofia Rodrigues',
-    'sofia.rodrigues@medivault.pt',
-    '$2y$10$abcdefghijklmnopqrstuv',
-    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
+    AES_ENCRYPT('sofia.rodrigues@medivault.pt', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'),
+'$2b$10$kE02SpMgK3VEueUN14yLv.ml95gdAdJap8KTBjhkVqgTlox88IbGK',    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
     TRUE
 ),
 (
     'Miguel Oliveira',
-    'miguel.oliveira@medivault.pt',
-    '$2y$10$abcdefghijklmnopqrstuv',
-    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
+    AES_ENCRYPT('miguel.oliveira@medivault.pt', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'),
+'$2b$10$kE02SpMgK3VEueUN14yLv.ml95gdAdJap8KTBjhkVqgTlox88IbGK',    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
     TRUE
 ),
 (
     'Inês Carvalho',
-    'ines.carvalho@medivault.pt',
-    '$2y$10$abcdefghijklmnopqrstuv',
-    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
+    AES_ENCRYPT('ines.carvalho@medivault.pt', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'),
+'$2b$10$kE02SpMgK3VEueUN14yLv.ml95gdAdJap8KTBjhkVqgTlox88IbGK',    (SELECT id FROM perfis_utilizador WHERE designacao='Profissional de Saúde'),
     TRUE
 );
 

@@ -11,14 +11,14 @@ try {
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $resultados = $ligacao->query("
-        SELECT 
-        l.id, l.codigo, l.edificio, l.piso, l.servico, l.sala,
-            GROUP_CONCAT(DISTINCT e.id) AS equipamentos_ids,
-            GROUP_CONCAT(DISTINCT CONCAT(e.codigo, ' - ', e.designacao) SEPARATOR ', ') AS equipamentos_nomes
-        FROM localizacoes l
-        LEFT JOIN equipamentos e ON e.localizacao_id = l.id
-        GROUP BY l.id, l.codigo, l.edificio, l.piso, l.servico, l.sala
-    ")->fetchAll(PDO::FETCH_OBJ);
+    SELECT 
+    l.id, l.codigo, l.edificio, l.piso, l.servico, l.sala, l.ativo,
+        GROUP_CONCAT(DISTINCT e.id) AS equipamentos_ids,
+        GROUP_CONCAT(DISTINCT CONCAT(e.codigo, ' - ', e.designacao) SEPARATOR ', ') AS equipamentos_nomes
+    FROM localizacoes l
+    LEFT JOIN equipamentos e ON e.localizacao_id = l.id
+    GROUP BY l.id, l.codigo, l.edificio, l.piso, l.servico, l.sala, l.ativo
+")->fetchAll(PDO::FETCH_OBJ);
 
     $edificios = $ligacao->query("SELECT DISTINCT edificio FROM localizacoes ORDER BY edificio")->fetchAll(PDO::FETCH_OBJ);
     $servicos = $ligacao->query("SELECT DISTINCT servico FROM localizacoes ORDER BY servico")->fetchAll(PDO::FETCH_OBJ);
@@ -209,15 +209,22 @@ $ligacao = null;
                                 <td style="display:none;"><?= htmlspecialchars($localizacao->equipamentos_ids) ?></td>
                                 <td style="display:none;"><?= htmlspecialchars($localizacao->equipamentos_nomes) ?></td>
                                 <td class="acoes-tabela-privada">
-                                    <a href="/medivault/private/views/localizacoes/consultar_localizacao.php?id=<?= htmlspecialchars($localizacao->codigo) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
+
+                                    <a href="/medivault/private/views/localizacoes/consultar_localizacao.php?id_localizacao=<?= aes_encrypt($localizacao->id) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
                                         <i class="fa-regular fa-eye"></i>
                                     </a>
                                     <a href="editar_localizacao.php?id_localizacao=<?= aes_encrypt($localizacao->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
-                                    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarLocalizacao" onclick="prepararEliminacaoLocalizacao('<?= htmlspecialchars($localizacao->codigo) ?>', '<?= htmlspecialchars($localizacao->codigo . ' - ' . $localizacao->servico, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">
-                                        <i class="fa-regular fa-trash-can"></i>
-                                    </button>
+                                    <?php if ($localizacao->ativo == 1) : ?>
+    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarLocalizacao" onclick="prepararEliminacaoLocalizacao('<?= aes_encrypt($localizacao->id) ?>', '<?= htmlspecialchars($localizacao->codigo . ' - ' . $localizacao->servico, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">
+        <i class="fa-regular fa-trash-can"></i>
+    </button>
+<?php else : ?>
+    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalReativarLocalizacao" onclick="prepararReativacaoLocalizacao('<?= aes_encrypt($localizacao->id) ?>', '<?= htmlspecialchars($localizacao->codigo . ' - ' . $localizacao->servico, ENT_QUOTES) ?>')" title="Reativar" style="color: #9333ea;">
+    <i class="fa-solid fa-rotate-left"></i>
+</button>
+<?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -272,6 +279,47 @@ $ligacao = null;
 
 </div>
 
+<!-- Modal reativar localização -->
+<div class="modal fade" id="modalReativarLocalizacao" tabindex="-1" aria-labelledby="tituloModalReativarLocalizacao"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="tituloModalReativarLocalizacao">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Confirmar reativação
+                </h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+                <p id="textoModalReativarLocalizacao">
+                    Tem a certeza que pretende reativar esta localização?
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn" style="background-color: #9333ea; color: #fff;" onclick="confirmarReativacaoLocalizacao()">
+                    Reativar
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 <script>
     let tabela;
 
@@ -281,8 +329,8 @@ $ligacao = null;
             pagingType: "full_numbers",
             dom: 'rtip',
             search: {
-        smart: false
-    },
+                smart: false
+            },
             language: {
                 decimal: "",
                 emptyTable: "Sem dados disponíveis na tabela.",
@@ -359,7 +407,7 @@ $ligacao = null;
             }
         });
 
-       // Filtro equipamento associado
+        // Filtro equipamento associado
         $('#filtroEquipamentoLocalizacao').on('change', function() {
             var valor = $(this).val();
             if (valor === '') {
@@ -380,33 +428,43 @@ $ligacao = null;
         });
     });
 
-    let codigoLocalizacaoEliminarLista = null;
+    let idLocalizacaoEliminarEncriptado = null;
 
-    function prepararEliminacaoLocalizacao(codigo, descricao) {
-        codigoLocalizacaoEliminarLista = codigo;
-        const textoModal = document.getElementById("textoModalEliminarLocalizacao");
-        if (textoModal) {
-            textoModal.innerHTML =
-                `Tem a certeza que pretende eliminar a localização <strong>${descricao || codigo}</strong>?`;
-        }
+function prepararEliminacaoLocalizacao(idEncriptado, descricao) {
+    idLocalizacaoEliminarEncriptado = idEncriptado;
+    const textoModal = document.getElementById("textoModalEliminarLocalizacao");
+    if (textoModal) {
+        textoModal.innerHTML =
+            `Tem a certeza que pretende desativar a localização <strong>${descricao}</strong>?`;
+    }
+}
+
+function confirmarEliminacaoLocalizacao() {
+    if (!idLocalizacaoEliminarEncriptado) {
+        return;
     }
 
-    function confirmarEliminacaoLocalizacao() {
-        if (!codigoLocalizacaoEliminarLista) {
-            return;
-        }
+    window.location.href = "confirmar_apagar_localizacao.php?id_localizacao=" + encodeURIComponent(idLocalizacaoEliminarEncriptado);
+}
 
-        var linha = tabela.row($('button[onclick*="' + codigoLocalizacaoEliminarLista + '"]').closest('tr'));
-        linha.remove().draw();
+let idLocalizacaoReativarEncriptado = null;
 
-        var modalElement = document.getElementById("modalEliminarLocalizacao");
-        var modalBootstrap = bootstrap.Modal.getInstance(modalElement);
-        if (modalBootstrap) {
-            modalBootstrap.hide();
-        }
-
-        codigoLocalizacaoEliminarLista = null;
+function prepararReativacaoLocalizacao(idEncriptado, descricao) {
+    idLocalizacaoReativarEncriptado = idEncriptado;
+    const textoModal = document.getElementById("textoModalReativarLocalizacao");
+    if (textoModal) {
+        textoModal.innerHTML =
+            `Tem a certeza que pretende reativar a localização <strong>${descricao}</strong>?`;
     }
+}
+
+function confirmarReativacaoLocalizacao() {
+    if (!idLocalizacaoReativarEncriptado) {
+        return;
+    }
+
+    window.location.href = "reativar_localizacao.php?id_localizacao=" + encodeURIComponent(idLocalizacaoReativarEncriptado);
+}
 </script>
 
 <?php include '../../includes/footer.php'; ?>

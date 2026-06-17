@@ -3,25 +3,33 @@
     <h2>Menu</h2>
 
     <nav>
-        <a href="/medivault/private/views/equipamentos/equipamentos.php">
-            <i class="fa-solid fa-stethoscope"></i>
-            Equipamentos
-        </a>
+        <?php if (in_array($_SESSION['profile'], ['Administrador', 'Técnico', 'Profissional de Saúde'])) : ?>
+            <a href="/medivault/private/views/equipamentos/equipamentos.php">
+                <i class="fa-solid fa-stethoscope"></i>
+                Equipamentos
+            </a>
+        <?php endif; ?>
 
-        <a href="/medivault/private/views/fornecedores/fornecedores.php">
-            <i class="fa-solid fa-truck-medical"></i>
-            Fornecedores
-        </a>
+        <?php if (in_array($_SESSION['profile'], ['Administrador', 'Técnico'])) : ?>
+            <a href="/medivault/private/views/fornecedores/fornecedores.php">
+                <i class="fa-solid fa-truck-medical"></i>
+                Fornecedores
+            </a>
+        <?php endif; ?>
 
-        <a href="/medivault/private/views/localizacoes/localizacoes.php">
-            <i class="fa-solid fa-location-dot"></i>
-            Localizações
-        </a>
+        <?php if (in_array($_SESSION['profile'], ['Administrador', 'Técnico', 'Profissional de Saúde'])) : ?>
+            <a href="/medivault/private/views/localizacoes/localizacoes.php">
+                <i class="fa-solid fa-location-dot"></i>
+                Localizações
+            </a>
+        <?php endif; ?>
 
-        <a href="/medivault/private/views/gestao_conteudos/gestao_conteudos.php">
-            <i class="fa-solid fa-pen-to-square"></i>
-            Gestão de Conteúdos
-        </a>
+        <?php if ($_SESSION['profile'] === 'Administrador') : ?>
+            <a href="/medivault/private/views/gestao_conteudos/gestao_conteudos.php">
+                <i class="fa-solid fa-pen-to-square"></i>
+                Gestão de Conteúdos
+            </a>
+        <?php endif; ?>
 
         <a href="/medivault/private/views/dashboard/dashboard.php">
             <i class="fa-solid fa-chart-line"></i>

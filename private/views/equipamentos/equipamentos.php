@@ -11,24 +11,25 @@ try {
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $resultados = $ligacao->query("
-    SELECT 
-        e.id,
-        e.codigo,
-        e.designacao,
-        l.codigo AS localizacao,
-        ee.designacao AS estado,
-        c.designacao AS criticidade,
-        cat.designacao AS categoria,
-        GROUP_CONCAT(DISTINCT ef.fornecedor_id) AS fornecedores_ids,
-        GROUP_CONCAT(DISTINCT CONCAT(f.codigo, ' - ', f.nome_empresa) SEPARATOR ', ') AS fornecedores_nomes
-    FROM equipamentos e
-    LEFT JOIN localizacoes l ON e.localizacao_id = l.id
-    LEFT JOIN estados_equipamento ee ON e.estado_id = ee.id
-    LEFT JOIN criticidades c ON e.criticidade_id = c.id
-    LEFT JOIN categorias cat ON e.categoria_id = cat.id
-    LEFT JOIN equipamento_fornecedor ef ON ef.equipamento_id = e.id
-    LEFT JOIN fornecedores f ON f.id = ef.fornecedor_id
-    GROUP BY e.id, e.codigo, e.designacao, l.codigo, ee.designacao, c.designacao, cat.designacao
+SELECT 
+    e.id,
+    e.codigo,
+    e.designacao,
+    l.codigo AS localizacao,
+    ee.designacao AS estado,
+    c.designacao AS criticidade,
+    cat.designacao AS categoria,
+    e.ativo,
+    GROUP_CONCAT(DISTINCT ef.fornecedor_id) AS fornecedores_ids,
+    GROUP_CONCAT(DISTINCT CONCAT(f.codigo, ' - ', f.nome_empresa) SEPARATOR ', ') AS fornecedores_nomes
+FROM equipamentos e
+LEFT JOIN localizacoes l ON e.localizacao_id = l.id
+LEFT JOIN estados_equipamento ee ON e.estado_id = ee.id
+LEFT JOIN criticidades c ON e.criticidade_id = c.id
+LEFT JOIN categorias cat ON e.categoria_id = cat.id
+LEFT JOIN equipamento_fornecedor ef ON ef.equipamento_id = e.id
+LEFT JOIN fornecedores f ON f.id = ef.fornecedor_id
+GROUP BY e.id, e.codigo, e.designacao, l.codigo, ee.designacao, c.designacao, cat.designacao, e.ativo
 ")->fetchAll(PDO::FETCH_OBJ);
 
 $fornecedoresFiltro = $ligacao->query("
@@ -314,15 +315,21 @@ $ligacao = null;
                                 <td style="display:none;"><?= htmlspecialchars($equipamento->fornecedores_nomes) ?></td>
 
                                 <td class="acoes-tabela-privada">
-                                    <a href="/medivault/private/views/equipamentos/consultar_equipamento.php?id=<?= htmlspecialchars($equipamento->codigo) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
-                                        <i class="fa-regular fa-eye"></i>
-                                    </a>
+                                    <a href="/medivault/private/views/equipamentos/consultar_equipamento.php?id_equipamento=<?= aes_encrypt($equipamento->id) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
+    <i class="fa-regular fa-eye"></i>
+</a>
                                     <a href="editar_equipamento.php?id_equipamento=<?= aes_encrypt($equipamento->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
-                                    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarEquipamento" onclick="prepararEliminacaoEquipamento('<?= htmlspecialchars($equipamento->codigo) ?>', '<?= htmlspecialchars($equipamento->designacao, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">
-                                        <i class="fa-regular fa-trash-can"></i>
-                                    </button>
+                                    <?php if ($equipamento->ativo == 1) : ?>
+    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarEquipamento" onclick="prepararEliminacaoEquipamento('<?= aes_encrypt($equipamento->id) ?>', '<?= htmlspecialchars($equipamento->designacao, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">
+        <i class="fa-regular fa-trash-can"></i>
+    </button>
+<?php else : ?>
+    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalReativarEquipamento" onclick="prepararReativacaoEquipamento('<?= aes_encrypt($equipamento->id) ?>', '<?= htmlspecialchars($equipamento->designacao, ENT_QUOTES) ?>')" title="Reativar" style="color: #9333ea;">
+        <i class="fa-solid fa-rotate-left"></i>
+    </button>
+<?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -374,6 +381,46 @@ $ligacao = null;
                     Eliminar
                 </button>
 
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Modal reativar equipamento -->
+<div class="modal fade" id="modalReativarEquipamento" tabindex="-1" aria-labelledby="tituloModalReativarEquipamento"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="tituloModalReativarEquipamento">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Confirmar reativação
+                </h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+
+            <div class="modal-body">
+                <p id="textoModalReativarEquipamento">
+                    Tem a certeza que pretende reativar este equipamento?
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn" style="background-color: #9333ea; color: #fff;" onclick="confirmarReativacaoEquipamento()">
+                    Reativar
+                </button>
             </div>
 
         </div>
@@ -497,33 +544,43 @@ $ligacao = null;
         });
     });
 
-    let codigoEquipamentoEliminar = null;
+    let idEquipamentoEliminarEncriptado = null;
 
-    function prepararEliminacaoEquipamento(codigo, designacao) {
-        codigoEquipamentoEliminar = codigo;
-        const textoModal = document.getElementById("textoModalEliminarEquipamento");
-        if (textoModal) {
-            textoModal.innerHTML =
-                `Tem a certeza que pretende eliminar o equipamento <strong>${designacao || codigo}</strong>?`;
-        }
+function prepararEliminacaoEquipamento(idEncriptado, designacao) {
+    idEquipamentoEliminarEncriptado = idEncriptado;
+    const textoModal = document.getElementById("textoModalEliminarEquipamento");
+    if (textoModal) {
+        textoModal.innerHTML =
+            `Tem a certeza que pretende desativar o equipamento <strong>${designacao}</strong>?`;
+    }
+}
+
+function confirmarEliminacaoEquipamento() {
+    if (!idEquipamentoEliminarEncriptado) {
+        return;
     }
 
-    function confirmarEliminacaoEquipamento() {
-        if (!codigoEquipamentoEliminar) {
-            return;
-        }
+    window.location.href = "confirmar_apagar_equipamento.php?id_equipamento=" + encodeURIComponent(idEquipamentoEliminarEncriptado);
+}
 
-        var linha = tabela.row($('button[onclick*="' + codigoEquipamentoEliminar + '"]').closest('tr'));
-        linha.remove().draw();
+let idEquipamentoReativarEncriptado = null;
 
-        var modalElement = document.getElementById("modalEliminarEquipamento");
-        var modalBootstrap = bootstrap.Modal.getInstance(modalElement);
-        if (modalBootstrap) {
-            modalBootstrap.hide();
-        }
-
-        codigoEquipamentoEliminar = null;
+function prepararReativacaoEquipamento(idEncriptado, designacao) {
+    idEquipamentoReativarEncriptado = idEncriptado;
+    const textoModal = document.getElementById("textoModalReativarEquipamento");
+    if (textoModal) {
+        textoModal.innerHTML =
+            `Tem a certeza que pretende reativar o equipamento <strong>${designacao}</strong>?`;
     }
+}
+
+function confirmarReativacaoEquipamento() {
+    if (!idEquipamentoReativarEncriptado) {
+        return;
+    }
+
+    window.location.href = "reativar_equipamento.php?id_equipamento=" + encodeURIComponent(idEquipamentoReativarEncriptado);
+}
 </script>
 
 <?php include '../../includes/footer.php'; ?>

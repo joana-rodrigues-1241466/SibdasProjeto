@@ -412,7 +412,110 @@ body {
     color: #ffffff;
 }
 
+.botao-login-pagina:active {
+    transform: scale(0.98);
+}
+
+.login-container {
+    background: linear-gradient(135deg, #eaf3fb 0%, #ffffff 60%);
+}
+
+.login-card {
+    animation: loginFadeIn 0.5s ease-out;
+}
+
+@keyframes loginFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.input-login {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-login:focus-within {
+    border-color: #0077a3;
+    box-shadow: 0 0 0 3px rgba(0, 119, 163, 0.12);
+}
+
+.input-login .fa-eye,
+.input-login .fa-eye-slash {
+    color: #7b8794;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.input-login .fa-eye:hover,
+.input-login .fa-eye-slash:hover {
+    color: #0077a3;
+}
+
+.painel-modo-teste {
+    margin-top: 28px;
+    border-left: 4px solid #0077a3;
+    border-radius: 8px;
+    background-color: #f4f8fb;
+    padding: 16px 18px;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(0, 63, 120, 0.06);
+}
+
+.badge-modo-teste {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #0077a3;
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.select-modo-teste {
+    display: flex;
+    align-items: center;
+    border: 1px solid #cfdce6;
+    border-radius: 6px;
+    padding: 0 12px;
+    height: 45px;
+    background-color: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.select-modo-teste:focus-within {
+    border-color: #0077a3;
+    box-shadow: 0 0 0 3px rgba(0, 119, 163, 0.12);
+}
+
+.select-modo-teste i {
+    color: #0b2d45;
+    font-size: 0.9em;
+    margin-right: 12px;
+}
+
+.select-modo-teste select {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #0b2d45;
+    font-size: 0.95em;
+    appearance: none;
+}
+
 .voltar-inicio {
+    display: inline-block;
+    margin-top: 24px;
     color: #003f78;
     text-decoration: none;
     font-weight: 500;
@@ -1752,6 +1855,18 @@ body {
 
 .campo-criticidade-destaque h3 {
     margin-bottom: 0.6rem;
+}
+
+.badge-sim {
+    background-color: #e8f7ef;
+    color: #198754;
+    border: 1px solid #b7e4c7;
+}
+
+.badge-nao {
+    background-color: #f1f3f5;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
 }
 
 .cartao-documentacao-associada {

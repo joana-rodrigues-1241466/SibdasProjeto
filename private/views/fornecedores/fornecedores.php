@@ -14,22 +14,23 @@ try {
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $resultados = $ligacao->query("
-    SELECT
-        f.id, 
-        f.codigo,
-        f.nome_empresa,
-        tf.designacao AS tipo_fornecedor,
-        f.pessoa_contacto,
-        f.telefone_pessoa_contacto,
-        m.designacao AS morada,
-        GROUP_CONCAT(DISTINCT e.id) AS equipamentos_ids,
-        GROUP_CONCAT(DISTINCT CONCAT(e.codigo, ' - ', e.designacao) SEPARATOR ', ') AS equipamentos_nomes
-    FROM fornecedores f
-    LEFT JOIN tipos_fornecedor tf ON f.tipo_id = tf.id
-    LEFT JOIN moradas m ON f.morada_id = m.id
-    LEFT JOIN equipamento_fornecedor ef ON ef.fornecedor_id = f.id
-    LEFT JOIN equipamentos e ON e.id = ef.equipamento_id
-    GROUP BY f.id, f.codigo, f.nome_empresa, tf.designacao, f.pessoa_contacto, f.telefone_pessoa_contacto, m.designacao
+SELECT
+    f.id, 
+    f.codigo,
+    f.nome_empresa,
+    tf.designacao AS tipo_fornecedor,
+    f.pessoa_contacto,
+    f.telefone_pessoa_contacto,
+    m.designacao AS morada,
+    f.ativo,
+    GROUP_CONCAT(DISTINCT e.id) AS equipamentos_ids,
+    GROUP_CONCAT(DISTINCT CONCAT(e.codigo, ' - ', e.designacao) SEPARATOR ', ') AS equipamentos_nomes
+FROM fornecedores f
+LEFT JOIN tipos_fornecedor tf ON f.tipo_id = tf.id
+LEFT JOIN moradas m ON f.morada_id = m.id
+LEFT JOIN equipamento_fornecedor ef ON ef.fornecedor_id = f.id
+LEFT JOIN equipamentos e ON e.id = ef.equipamento_id
+GROUP BY f.id, f.codigo, f.nome_empresa, tf.designacao, f.pessoa_contacto, f.telefone_pessoa_contacto, m.designacao, f.ativo
 ")->fetchAll(PDO::FETCH_OBJ);
 
     $nomes = $ligacao->query("SELECT nome_empresa FROM fornecedores ORDER BY nome_empresa")->fetchAll(PDO::FETCH_OBJ);
@@ -289,15 +290,21 @@ $ligacao = null;
                                 <td style="display:none;"><?= htmlspecialchars($fornecedor->equipamentos_nomes) ?></td>
 
                                 <td class="acoes-tabela-privada">
-                                    <a href="/medivault/private/views/fornecedores/consultar_fornecedor.php?id=<?= htmlspecialchars($fornecedor->codigo) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
-                                        <i class="fa-regular fa-eye"></i>
-                                    </a>
+                                    <a href="/medivault/private/views/fornecedores/consultar_fornecedor.php?id_fornecedor=<?= aes_encrypt($fornecedor->id) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
+    <i class="fa-regular fa-eye"></i>
+</a>
                                     <a href="editar_fornecedor.php?id_fornecedor=<?= aes_encrypt($fornecedor->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
-                                    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarFornecedor" onclick="prepararEliminacaoFornecedor('<?= htmlspecialchars($fornecedor->codigo) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">
-                                        <i class="fa-regular fa-trash-can"></i>
-                                    </button>
+                                    <?php if ($fornecedor->ativo == 1) : ?>
+    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarFornecedor" onclick="prepararEliminacaoFornecedor('<?= aes_encrypt($fornecedor->id) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">
+        <i class="fa-regular fa-trash-can"></i>
+    </button>
+<?php else : ?>
+    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalReativarFornecedor" onclick="prepararReativacaoFornecedor('<?= aes_encrypt($fornecedor->id) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>')" title="Reativar" style="color: #9333ea;">
+        <i class="fa-solid fa-rotate-left"></i>
+    </button>
+<?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -355,6 +362,47 @@ $ligacao = null;
 
                 </button>
 
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Modal reativar fornecedor -->
+<div class="modal fade" id="modalReativarFornecedor" tabindex="-1" aria-labelledby="tituloModalReativarFornecedor"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="tituloModalReativarFornecedor">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Confirmar reativação
+                </h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+                <p id="textoModalReativarFornecedor">
+                    Tem a certeza que pretende reativar este fornecedor?
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn" style="background-color: #9333ea; color: #fff;" onclick="confirmarReativacaoFornecedor()">
+                    Reativar
+                </button>
             </div>
 
         </div>
@@ -468,33 +516,43 @@ $ligacao = null;
         });
     });
 
-    let codigoFornecedorEliminarLista = null;
+    let idFornecedorEliminarEncriptado = null;
 
-    function prepararEliminacaoFornecedor(codigo, nomeEmpresa) {
-        codigoFornecedorEliminarLista = codigo;
-        const textoModal = document.getElementById("textoModalEliminarFornecedor");
-        if (textoModal) {
-            textoModal.innerHTML =
-                `Tem a certeza que pretende eliminar o fornecedor <strong>${nomeEmpresa || codigo}</strong>?`;
-        }
+function prepararEliminacaoFornecedor(idEncriptado, nomeEmpresa) {
+    idFornecedorEliminarEncriptado = idEncriptado;
+    const textoModal = document.getElementById("textoModalEliminarFornecedor");
+    if (textoModal) {
+        textoModal.innerHTML =
+            `Tem a certeza que pretende desativar o fornecedor <strong>${nomeEmpresa}</strong>?`;
+    }
+}
+
+function confirmarEliminacaoFornecedor() {
+    if (!idFornecedorEliminarEncriptado) {
+        return;
     }
 
-    function confirmarEliminacaoFornecedor() {
-        if (!codigoFornecedorEliminarLista) {
-            return;
-        }
+    window.location.href = "confirmar_apagar_fornecedor.php?id_fornecedor=" + encodeURIComponent(idFornecedorEliminarEncriptado);
+}
 
-        var linha = tabela.row($('button[onclick*="' + codigoFornecedorEliminarLista + '"]').closest('tr'));
-        linha.remove().draw();
+let idFornecedorReativarEncriptado = null;
 
-        var modalElement = document.getElementById("modalEliminarFornecedor");
-        var modalBootstrap = bootstrap.Modal.getInstance(modalElement);
-        if (modalBootstrap) {
-            modalBootstrap.hide();
-        }
-
-        codigoFornecedorEliminarLista = null;
+function prepararReativacaoFornecedor(idEncriptado, nomeEmpresa) {
+    idFornecedorReativarEncriptado = idEncriptado;
+    const textoModal = document.getElementById("textoModalReativarFornecedor");
+    if (textoModal) {
+        textoModal.innerHTML =
+            `Tem a certeza que pretende reativar o fornecedor <strong>${nomeEmpresa}</strong>?`;
     }
+}
+
+function confirmarReativacaoFornecedor() {
+    if (!idFornecedorReativarEncriptado) {
+        return;
+    }
+
+    window.location.href = "reativar_fornecedor.php?id_fornecedor=" + encodeURIComponent(idFornecedorReativarEncriptado);
+}
 </script>
 
 <?php include '../../includes/footer.php'; ?>

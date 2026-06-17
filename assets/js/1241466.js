@@ -4650,8 +4650,8 @@ const equipamentosConsulta = {
 // let equipamentosGuardados = JSON.parse(localStorage.getItem("equipamentosGuardados"));
 
 //if (!equipamentosGuardados) {
- //   equipamentosGuardados = equipamentosConsulta;
-  //  localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
+//   equipamentosGuardados = equipamentosConsulta;
+//  localStorage.setItem("equipamentosGuardados", JSON.stringify(equipamentosGuardados));
 // }
 
 /*function formatarEstadoEquipamento(estado) {
@@ -8373,8 +8373,8 @@ const localizacoesConsulta = {
 //let localizacoesGuardadas = JSON.parse(localStorage.getItem("localizacoesGuardadas"));
 
 //if (!localizacoesGuardadas) {
-    //localizacoesGuardadas = localizacoesConsulta;
-    //localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
+//localizacoesGuardadas = localizacoesConsulta;
+//localStorage.setItem("localizacoesGuardadas", JSON.stringify(localizacoesGuardadas));
 //}
 
 /*function preencherListagemLocalizacoes(localizacoes = null) {
@@ -9166,8 +9166,8 @@ const fornecedoresConsulta = {
 //let fornecedoresGuardados = JSON.parse(localStorage.getItem("fornecedoresGuardados"));
 
 //if (!fornecedoresGuardados) {
-    //fornecedoresGuardados = fornecedoresConsulta;
-   // localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
+//fornecedoresGuardados = fornecedoresConsulta;
+// localStorage.setItem("fornecedoresGuardados", JSON.stringify(fornecedoresGuardados));
 //}
 
 // Preencher listagem de fornecedores na página fornecedores.php
@@ -9666,21 +9666,21 @@ function ordenarFornecedoresPorCodigoCrescente(listaFornecedores) {
 }*/
 
 function ligarToggle(idSeletor, idBloco) {
-        const seletor = document.getElementById(idSeletor);
-        const bloco = document.getElementById(idBloco);
+    const seletor = document.getElementById(idSeletor);
+    const bloco = document.getElementById(idBloco);
 
-        if (!seletor || !bloco) {
-            return;
-        }
-
-        // No carregamento da página, respeita a opção já selecionada
-        // (vinda da base de dados, em editar, ou de um POST anterior)
-        bloco.style.display = seletor.value === "sim" ? "" : "none";
-
-        seletor.addEventListener("change", function () {
-            bloco.style.display = this.value === "sim" ? "" : "none";
-        });
+    if (!seletor || !bloco) {
+        return;
     }
+
+    // No carregamento da página, respeita a opção já selecionada
+    // (vinda da base de dados, em editar, ou de um POST anterior)
+    bloco.style.display = seletor.value === "sim" ? "" : "none";
+
+    seletor.addEventListener("change", function () {
+        bloco.style.display = this.value === "sim" ? "" : "none";
+    });
+}
 
 // Consultar detalhes do fornecedor
 /*function preencherDetalhesFornecedor() {
@@ -10480,9 +10480,9 @@ function contarPorCampo(lista, campo) {
 
 document.addEventListener("DOMContentLoaded", function () {
     inicializarContactos();
-   
-   // inicializarLogin();
-   
+
+    // inicializarLogin();
+
     inicializarGestaoConteudos();
     carregarConteudosPublicos();
 
@@ -10507,31 +10507,31 @@ document.addEventListener("DOMContentLoaded", function () {
     //inicializarNovoEquipamento();
     inicializarTogglesDocumentacaoEquipamento();
     atualizarDocumentacaoPorTipoEntrada();
-   // inicializarEditarEquipamento();
+    // inicializarEditarEquipamento();
     controlarCamposContratoManutencao();
     sincronizarDocumentacaoContrato();
     //preencherDadosLocalizacaoAssociada();
 
-   // preencherListagemLocalizacoes();
-   // inicializarFiltrosLocalizacoes();
-   // preencherDetalhesLocalizacao();
+    // preencherListagemLocalizacoes();
+    // inicializarFiltrosLocalizacoes();
+    // preencherDetalhesLocalizacao();
     // inicializarNovaLocalizacao();
     //inicializarEditarLocalizacao();
 
     //preencherListagemFornecedores();
-   // inicializarFiltrosFornecedores();
+    // inicializarFiltrosFornecedores();
     //preencherDetalhesFornecedor();
     //inicializarNovoFornecedor();
-    inicializarToggleDocFornecedor();
-   // inicializarEditarFornecedor();
+    //inicializarToggleDocFornecedor();
+    // inicializarEditarFornecedor();
 
     inicializarDropdownUtilizador();
 
-   // const popoverTriggerList = document.querySelectorAll(
-    //    '[data-bs-toggle="popover"]'
-   // );
+    /*const popoverTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="popover"]'
+    );
 
-    //popoverTriggerList.forEach(function (popoverTriggerEl) {
-    //    new bootstrap.Popover(popoverTriggerEl);
-   // });
+    popoverTriggerList.forEach(function (popoverTriggerEl) {
+        new bootstrap.Popover(popoverTriggerEl);
+    });*/
 });

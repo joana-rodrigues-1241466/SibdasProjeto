@@ -93,10 +93,11 @@ CREATE TABLE `tipos_alteracao` (
 CREATE TABLE `utilizadores` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `nome` varchar(255) NOT NULL,
-  `email` varchar(255) UNIQUE NOT NULL,
+  `email` varbinary(255) UNIQUE NOT NULL COMMENT 'Encriptado com AES_ENCRYPT (ver MYSQL_AES_KEY em config.php)',
   `password_hash` varchar(255) NOT NULL,
   `perfil_id` int NOT NULL,
   `ativo` boolean DEFAULT true,
+  `last_login` datetime,
   `token_reset` varchar(255),
   `token_expira` datetime,
   `token_remember` varchar(255),
@@ -284,7 +285,7 @@ ALTER TABLE `tipos_documento_equipamento` COMMENT = 'Cada tipo pertence a um sep
 
 ALTER TABLE `tipos_documento_fornecedor` COMMENT = 'Valores: Certificado ISO, Licença de distribuição, Certificado de acreditação técnica, Declaração de autorização de representação, Contrato geral de prestação de serviços, Alvará ou licença de atividade';
 
-ALTER TABLE `perfis_utilizador` COMMENT = 'Valores: Administrador, Profissional de Saúde';
+ALTER TABLE `perfis_utilizador` COMMENT = 'Valores: Administrador, Técnico, Profissional de Saúde';
 
 ALTER TABLE `tipos_contrato` COMMENT = 'Valores: Manutenção preventiva, Manutenção corretiva, Manutenção preventiva e corretiva';
 

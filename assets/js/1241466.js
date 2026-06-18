@@ -7699,46 +7699,68 @@ function badgeGarantia(dataFimGarantia) {
     }
 } */
 
-/*function gerarEtiqueta() {
-
+function gerarEtiqueta() {
     document.getElementById("modalEtiqueta").style.display = "flex";
 
-    const codigo =
-        document.getElementById("cabecalho-codigo-equipamento").textContent;
-
-    const nome =
-        document.getElementById("cabecalho-nome-equipamento").textContent;
+    const codigo = document.getElementById("cabecalho-codigo-equipamento").textContent;
+    const nome = document.getElementById("cabecalho-nome-equipamento").textContent;
 
     document.getElementById("codigoEtiqueta").textContent = codigo;
     document.getElementById("nomeEtiqueta").textContent = nome;
+    document.getElementById("textoLocalizacaoEtiqueta").textContent = LOCALIZACAO_ETIQUETA;
 
-    const equipamento = equipamentosGuardados[codigo];
-const localizacao = localizacoesGuardadas[equipamento?.localizacao];
-const textoLocalizacao = localizacao
-    ? localizacao.servico + " · " + localizacao.sala
-    : "";
-document.getElementById("textoLocalizacaoEtiqueta").textContent = textoLocalizacao;
-
-    const qr =
-        document.getElementById("qrcode-etiqueta");
-
+    const qr = document.getElementById("qrcode-etiqueta");
     qr.innerHTML = "";
 
-    const url = window.location.origin + window.location.pathname.replace('/medivault/private/views/equipamentos/consultar_equipamento.php', '') + '/medivault/private/views/equipamentos/consultar_equipamento.php?id=' + codigo;
-
-const qrCode = new QRCode({
-    content: url,
-    width: 180,
-    height: 180
-});
-
-    qr.innerHTML = qrCode.svg();
+    new QRCode(qr, {
+        text: URL_EQUIPAMENTO,
+        width: 180,
+        height: 180,
+        colorDark: "#003f78",
+        colorLight: "#ffffff",
+    });
 }
 
 function fecharEtiqueta() {
-
     document.getElementById("modalEtiqueta").style.display = "none";
-}*/
+    document.getElementById("qrcode-etiqueta").innerHTML = "";
+}
+
+function imprimirEtiqueta() {
+    const qrCanvas = document.querySelector("#qrcode-etiqueta canvas");
+    const qrSrc = qrCanvas ? qrCanvas.toDataURL() : "";
+    const codigo = document.getElementById("codigoEtiqueta").textContent;
+    const nome = document.getElementById("nomeEtiqueta").textContent;
+    const localizacao = document.getElementById("textoLocalizacaoEtiqueta").textContent;
+
+    const janela = window.open("", "_blank", "width=400,height=500");
+    janela.document.write(`
+        <!DOCTYPE html>
+        <html lang="pt">
+        <head>
+            <meta charset="UTF-8">
+            <title>Etiqueta ${codigo}</title>
+            <link rel="stylesheet" href="/medivault/assets/css/1241466.css">
+            <style>
+                @page { margin: 0.5cm; size: A6; }
+            </style>
+        </head>
+        <body class="etiqueta-impressao-container">
+            <div class="etiqueta-impressao">
+                <h3>MediVault</h3>
+                ${qrSrc ? `<img src="${qrSrc}" alt="QR Code">` : ""}
+                <div class="codigo">${codigo}</div>
+                <div class="nome">${nome}</div>
+                <div class="localizacao">📍 ${localizacao}</div>
+            </div>
+            <script>
+                window.onload = function() { window.print(); };
+            <\/script>
+        </body>
+        </html>
+    `);
+    janela.document.close();
+}
 
 /*function inicializarEditarEquipamento() {
     const formEditarEquipamento = document.getElementById("form-editar-equipamento");

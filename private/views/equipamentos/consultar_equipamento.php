@@ -1349,15 +1349,25 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
             <span id="textoLocalizacaoEtiqueta"></span>
         </p>
 
-        <button onclick="fecharEtiqueta()">
-            Fechar
-        </button>
+        <div class="botoes-modal-etiqueta">
+            <button onclick="imprimirEtiqueta()">
+                <i class="fa-solid fa-print"></i>
+                Imprimir
+            </button>
+            <button onclick="fecharEtiqueta()">
+                <i class="fa-solid fa-xmark"></i>
+                Fechar
+            </button>
+        </div>
 
     </div>
 
 </div>
 
 <script>
+    const LOCALIZACAO_ETIQUETA = "<?= htmlspecialchars($equipamento['localizacao_servico'] . ' · ' . $equipamento['localizacao_sala']) ?>";
+    const URL_EQUIPAMENTO = "<?= BASE_URL ?>/private/views/equipamentos/consultar_equipamento.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncriptado) ?>";
+
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
             new bootstrap.Popover(el);
@@ -1460,3 +1470,5 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
 </script>
 
 <?php include '../../includes/footer.php'; ?>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>

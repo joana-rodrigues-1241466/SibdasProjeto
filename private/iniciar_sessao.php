@@ -92,22 +92,13 @@ if (!empty($_SESSION['server_error'])) {
                     <select id="select_preenchimento">
                         <option value="">Selecionar utilizador...</option>
                         <optgroup label="Administrador">
-                            <option value="admin@medivault.pt|Admin#2025!">Administrador Principal</option>
-                            <option value="admin2@medivault.pt|Teste#2025!">Administrador Secundário</option>
-                            <option value="admin3@medivault.pt|Teste#2025!">Administrador Terceário</option>
+                            <option value="admin@medivault.pt|Admin#2025!">Joana Rodrigues</option>
                         </optgroup>
                         <optgroup label="Técnico">
-                            <option value="ana.silva@medivault.pt|Agente#2025!">Ana Silva</option>
-                            <option value="joao.costa@medivault.pt|Teste#2025!">João Costa</option>
-                            <option value="maria.santos@medivault.pt|Teste#2025!">Maria Santos</option>
+                            <option value="tecnico@medivault.pt|Agente#2025!">Rui Ferreira</option>
                         </optgroup>
                         <optgroup label="Profissional de Saúde">
-                            <option value="rui.ferreira@medivault.pt|Saude#2025!">Rui Ferreira</option>
-                            <option value="catarina.lopes@medivault.pt|Teste#2025!">Catarina Lopes</option>
-                            <option value="pedro.marques@medivault.pt|Teste#2025!">Pedro Marques</option>
-                            <option value="sofia.rodrigues@medivault.pt|Teste#2025!">Sofia Rodrigues</option>
-                            <option value="miguel.oliveira@medivault.pt|Teste#2025!">Miguel Oliveira</option>
-                            <option value="ines.carvalho@medivault.pt|Teste#2025!">Inês Carvalho</option>
+                            <option value="profissional_saude@medivault.pt|Saude#2025!">Ana Silva</option>
                         </optgroup>
                     </select>
                 </div>

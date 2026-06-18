@@ -133,9 +133,9 @@ $rotulosCamposHistorico = [
         </div>
 
         <div class="menu-utilizador-privado">
-            <a href="/medivault/private/views/utilizadores/alterar_password.php">
+            <a href="/medivault/private/views/utilizador/alterar_password.php">
                 <i class="fa-solid fa-key"></i>
-                Alterar password
+                Alterar Palavra-passe
             </a>
 
             <a href="/medivault/public/logout.php">

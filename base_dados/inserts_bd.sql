@@ -186,7 +186,8 @@ INSERT INTO moradas (designacao, ordem) VALUES
 INSERT INTO tipos_alteracao (designacao, ordem) VALUES
 ('Criação', 1),
 ('Edição', 2),
-('Eliminação', 3);
+('Eliminação', 3),
+('Reativação', 4);
 
 -- ============================================================
 -- UTILIZADORES
@@ -504,8 +505,6 @@ INSERT INTO equipamento_fornecedor (equipamento_id, fornecedor_id, morada_id, pe
 -- ============================================================
 -- DOCUMENTAÇÃO DOS EQUIPAMENTOS
 -- ============================================================
-ALTER TABLE documentacao_equipamentos
-  MODIFY COLUMN validade_documento date NULL;
 
 INSERT INTO documentacao_equipamentos (equipamento_id, tipo_documento_id, nome_documento, data_documento, validade_documento, ficheiro_documento, nome_original_ficheiro) VALUES
 -- EQ001

@@ -120,3 +120,83 @@ function guardarDocumentoEquipamento(PDO $ligacao, int $idEquipamento, string $c
         $stmt->execute();
     }
 }
+
+function registar_historico($ligacao, $equipamento_id, $tipo_alteracao_designacao, $descricao, $dados_anteriores = null, $dados_novos = null)
+{
+    date_default_timezone_set('Europe/Lisbon');
+
+    $stmtTipo = $ligacao->prepare("SELECT id FROM tipos_alteracao WHERE designacao = :designacao");
+    $stmtTipo->execute([':designacao' => $tipo_alteracao_designacao]);
+    $tipo_alteracao_id = $stmtTipo->fetchColumn();
+
+    $stmt = $ligacao->prepare("
+        INSERT INTO historico_equipamentos (equipamento_id, utilizador_id, tipo_alteracao_id, descricao, dados_anteriores, dados_novos, data_alteracao)
+        VALUES (:equipamento_id, :utilizador_id, :tipo_alteracao_id, :descricao, :dados_anteriores, :dados_novos, :data_alteracao)
+    ");
+
+    $stmt->execute([
+        ':equipamento_id' => $equipamento_id,
+        ':utilizador_id' => $_SESSION['utilizador_id'] ?? null,
+        ':tipo_alteracao_id' => $tipo_alteracao_id,
+        ':descricao' => $descricao,
+        ':dados_anteriores' => $dados_anteriores !== null ? json_encode($dados_anteriores, JSON_UNESCAPED_UNICODE) : null,
+        ':dados_novos' => $dados_novos !== null ? json_encode($dados_novos, JSON_UNESCAPED_UNICODE) : null,
+        ':data_alteracao' => date('Y-m-d H:i:s'),
+    ]);
+}
+
+function calcular_diferencas_historico($dadosAnterioresJson, $dadosNovosJson, $rotulosCampos)
+{
+    if ($dadosAnterioresJson === null || $dadosNovosJson === null) {
+        return [];
+    }
+
+    $antes = json_decode($dadosAnterioresJson, true) ?? [];
+    $depois = json_decode($dadosNovosJson, true) ?? [];
+    $diferencas = [];
+
+    foreach ($rotulosCampos as $campo => $rotulo) {
+        $valorAntes = $antes[$campo] ?? '';
+        $valorDepois = $depois[$campo] ?? '';
+
+        if ((string) $valorAntes !== (string) $valorDepois) {
+            $diferencas[] = [
+                'rotulo' => $rotulo,
+                'antes' => $valorAntes !== '' ? $valorAntes : '—',
+                'depois' => $valorDepois !== '' ? $valorDepois : '—',
+            ];
+        }
+    }
+
+    return $diferencas;
+}
+
+function renderizar_entrada_historico($mov, $classesTipoAlteracao, $rotulosCamposHistorico)
+{
+    $estiloTipo = $classesTipoAlteracao[$mov['tipo_alteracao']] ?? '';
+    $linkEquipamento = BASE_URL . '/private/views/equipamentos/consultar_equipamento.php?id_equipamento=' . aes_encrypt($mov['equipamento_id']);
+
+    $html = '<div style="border-bottom: 1px solid #e5e7eb; padding: 0.8rem 0;">';
+    $html .= '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.3rem;">';
+    $html .= '<span style="' . $estiloTipo . ' padding: 2px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 600;">' . htmlspecialchars($mov['tipo_alteracao']) . '</span>';
+    $html .= '<span style="font-size: 0.75rem; color: #6b7280;">' . date('d/m/Y H:i', strtotime($mov['data_alteracao'])) . '</span>';
+    $html .= '</div>';
+    $html .= '<p style="margin: 0; font-size: 0.9rem;"><a href="' . $linkEquipamento . '" style="color:#0b2f4f; text-decoration:none;"><strong>' . htmlspecialchars($mov['equipamento_codigo']) . '</strong> — ' . htmlspecialchars($mov['equipamento_designacao']) . '</a></p>';
+    $html .= '<p style="margin: 0.2rem 0 0; font-size: 0.85rem; color: #374151;">' . htmlspecialchars($mov['descricao']) . '</p>';
+
+    if ($mov['tipo_alteracao'] === 'Edição') {
+        $diferencas = calcular_diferencas_historico($mov['dados_anteriores'], $mov['dados_novos'], $rotulosCamposHistorico);
+        if (!empty($diferencas)) {
+            $html .= '<ul style="margin: 0.4rem 0 0; padding-left: 1.1rem; font-size: 0.82rem; color: #4b5563;">';
+            foreach ($diferencas as $dif) {
+                $html .= '<li><strong>' . htmlspecialchars($dif['rotulo']) . ':</strong> ' . htmlspecialchars($dif['antes']) . ' → ' . htmlspecialchars($dif['depois']) . '</li>';
+            }
+            $html .= '</ul>';
+        }
+    }
+
+    $html .= '<p style="margin: 0.2rem 0 0; font-size: 0.78rem; color: #9ca3af;">por ' . htmlspecialchars($mov['utilizador_nome'] ?? 'Utilizador removido') . '</p>';
+    $html .= '</div>';
+
+    return $html;
+}

@@ -173,7 +173,7 @@ CREATE TABLE `documentacao_equipamentos` (
   `tipo_documento_id` int NOT NULL,
   `nome_documento` varchar(255) NOT NULL,
   `data_documento` date NOT NULL,
-  `validade_documento` date NOT NULL,
+  `validade_documento` date,
   `ficheiro_documento` varchar(255),
   `nome_original_ficheiro` varchar(255)
 );
@@ -297,7 +297,7 @@ ALTER TABLE `estados_acessorio` COMMENT = 'Valores: Novo, Em uso, Danificado, Em
 
 ALTER TABLE `moradas` COMMENT = 'Distritos e regiões de Portugal. Ex: Lisboa, Porto, Aveiro, Região Autónoma da Madeira';
 
-ALTER TABLE `tipos_alteracao` COMMENT = 'Preenchido automaticamente pelo sistema. Valores: Criação, Edição, Eliminação';
+ALTER TABLE `tipos_alteracao` COMMENT = 'Preenchido automaticamente pelo sistema. Valores: Criação, Edição, Eliminação, Reativação';
 
 ALTER TABLE `equipamentos` COMMENT = 'O índice único (numero_serie, fabricante, modelo) garante que o mesmo número de série não é duplicado para o mesmo fabricante e modelo';
 
@@ -307,9 +307,9 @@ ALTER TABLE `aquisicao_equipamentos` COMMENT = 'Relação 1-para-1 com equipamen
 
 ALTER TABLE `equipamento_fornecedor` COMMENT = 'Tabela de associação N:N entre equipamentos e fornecedores. morada_id, pessoa_contacto e telefone_pessoa_contacto são atributos da relação — podem variar consoante o equipamento. tipo_id não consta aqui porque o tipo é uma característica da empresa fornecedora, não da relação com o equipamento';
 
-ALTER TABLE `garantias_equipamentos` COMMENT = 'Relação 1-para-1 com equipamentos. Ausência de garantia representada por data_inicio e data_fim a NULL';
+ALTER TABLE `garantias_equipamentos` COMMENT = 'Relação 1-para-1 com equipamentos. A garantia é obrigatória: todo o equipamento tem sempre um registo associado';
 
-ALTER TABLE `contratos_manutencao` COMMENT = 'Relação 1-para-1 com equipamentos. Ausência de contrato representada por tipo_contrato_id a NULL';
+ALTER TABLE `contratos_manutencao` COMMENT = 'Relação 1-para-1 com equipamentos. Ausência de contrato representada pela ausência de registo (linha apagada quando não existe contrato)';
 
 ALTER TABLE `historico_equipamentos` COMMENT = 'Registo automático de auditoria. tipo_alteracao_id substitui tipo_alteracao varchar — valor controlado por lookup evita inconsistências (3NF). dados_anteriores e dados_novos em JSON permitem registar qualquer alteração sem alterar o schema';
 

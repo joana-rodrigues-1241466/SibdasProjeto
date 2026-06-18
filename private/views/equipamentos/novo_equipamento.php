@@ -467,6 +467,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 guardarDocumentoEquipamento($ligacao, $equipamento_id, 13, $nomeRelatorioCalibracao, $dataRelatorioCalibracao, $validadeRelatorioCalibracao, 'ficheiroRelatorioCalibracao', $codigo, $pastaDestino);
             }
 
+            registar_historico(
+                $ligacao,
+                $equipamento_id,
+                'Criação',
+                "Equipamento {$codigo} criado.",
+                null,
+                ['codigo' => $codigo, 'designacao' => $designacao, 'estado' => $estado, 'criticidade' => $criticidade]
+            );
+
             $ligacao = null;
 
             // Redirecionar após sucesso

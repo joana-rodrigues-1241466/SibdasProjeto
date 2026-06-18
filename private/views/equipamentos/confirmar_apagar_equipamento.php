@@ -18,9 +18,22 @@ try {
     );
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    $stmtCodigo = $ligacao->prepare("SELECT codigo FROM equipamentos WHERE id = :id");
+    $stmtCodigo->execute([':id' => $id]);
+    $codigoEquipamento = $stmtCodigo->fetchColumn();
+
     $stmt = $ligacao->prepare("UPDATE equipamentos SET ativo = 0 WHERE id = :id");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
+
+    registar_historico(
+        $ligacao,
+        $id,
+        'Eliminação',
+        "Equipamento {$codigoEquipamento} desativado.",
+        ['ativo' => 1],
+        ['ativo' => 0]
+    );
 
     header('Location: ' . BASE_URL . '/private/views/equipamentos/equipamentos.php');
     exit;

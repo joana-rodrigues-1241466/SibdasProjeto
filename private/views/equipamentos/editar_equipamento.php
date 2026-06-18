@@ -198,6 +198,19 @@ if ($metodoPost) {
         // codigo é readonly mas é submetido — usado para o nome do ficheiro
         $codigoEquipamento = $_POST['codigo'];
 
+        // Estado anterior do equipamento, para o histórico de movimentações
+        $stmtAntes = $ligacao->prepare("
+            SELECT e.designacao, e.marca, e.modelo, e.numero_serie, e.fabricante, e.ano_fabrico, e.observacoes,
+                   cat.designacao AS categoria, ee.designacao AS estado, c.designacao AS criticidade
+            FROM equipamentos e
+            LEFT JOIN categorias cat ON e.categoria_id = cat.id
+            LEFT JOIN estados_equipamento ee ON e.estado_id = ee.id
+            LEFT JOIN criticidades c ON e.criticidade_id = c.id
+            WHERE e.id = :id
+        ");
+        $stmtAntes->execute([':id' => $idEquipamento]);
+        $dadosAntesEdicao = $stmtAntes->fetch(PDO::FETCH_ASSOC);
+
         // ============================================================
         // Tab 1 — Identificação
         // ============================================================
@@ -471,6 +484,26 @@ if ($metodoPost) {
         guardarDocumentoEquipamento($ligacao, $idEquipamento, $codigoEquipamento, 11, 'tem_relatorio_contrato', 'nomeRelatorioManutencao', 'dataRelatorioManutencao', 'validadeRelatorioManutencao', 'ficheiroRelatorioManutencao');
         guardarDocumentoEquipamento($ligacao, $idEquipamento, $codigoEquipamento, 12, 'tem_documentacao_calibracao', 'nomeCertificadoCalibracao', 'dataCertificadoCalibracao', 'validadeCertificadoCalibracao', 'ficheiroCertificadoCalibracao');
         guardarDocumentoEquipamento($ligacao, $idEquipamento, $codigoEquipamento, 13, 'tem_relatorio_calibracao', 'nomeRelatorioCalibracao', 'dataRelatorioCalibracao', 'validadeRelatorioCalibracao', 'ficheiroRelatorioCalibracao');
+
+        registar_historico(
+            $ligacao,
+            $idEquipamento,
+            'Edição',
+            "Equipamento {$codigoEquipamento} editado.",
+            $dadosAntesEdicao,
+            [
+                'designacao' => trim($_POST['designacao']),
+                'categoria' => $_POST['categoria'],
+                'marca' => trim($_POST['marca']),
+                'modelo' => trim($_POST['modelo']),
+                'numero_serie' => trim($_POST['numero_serie']),
+                'fabricante' => trim($_POST['fabricante']),
+                'ano_fabrico' => $anoFabrico,
+                'estado' => $_POST['estado'],
+                'criticidade' => $_POST['criticidade'],
+                'observacoes' => trim($_POST['observacoes'] ?? ''),
+            ]
+        );
 
         $ligacao = null;
 

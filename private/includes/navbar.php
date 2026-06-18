@@ -28,12 +28,45 @@ try {
         $resultadoMensagens = $ligacaoAviso->query("SELECT COUNT(*) AS total FROM mensagens_contacto WHERE lido = 0")->fetch(PDO::FETCH_OBJ);
         $totalMensagensNaoLidas = (int) $resultadoMensagens->total;
     }
+
+    $historicoMovimentacoes = $ligacaoAviso->query("
+        SELECT h.id, h.equipamento_id, h.descricao, h.data_alteracao, h.dados_anteriores, h.dados_novos,
+               e.codigo AS equipamento_codigo, e.designacao AS equipamento_designacao,
+               ta.designacao AS tipo_alteracao, u.nome AS utilizador_nome
+        FROM historico_equipamentos h
+        JOIN equipamentos e ON e.id = h.equipamento_id
+        JOIN tipos_alteracao ta ON ta.id = h.tipo_alteracao_id
+        LEFT JOIN utilizadores u ON u.id = h.utilizador_id
+        ORDER BY h.data_alteracao DESC
+        LIMIT 15
+    ")->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $err) {
     $totalGarantiasAExpirar = 0;
     $totalMensagensNaoLidas = 0;
+    $historicoMovimentacoes = [];
 }
 
 $ligacaoAviso = null;
+
+$classesTipoAlteracao = [
+    'Criação' => 'background:#e8f7ef; color:#198754;',
+    'Edição' => 'background:#e7f1ff; color:#0d6efd;',
+    'Eliminação' => 'background:#fdecea; color:#dc3545;',
+    'Reativação' => 'background:#f3e8ff; color:#9333ea;',
+];
+
+$rotulosCamposHistorico = [
+    'designacao' => 'Designação',
+    'categoria' => 'Categoria',
+    'marca' => 'Marca',
+    'modelo' => 'Modelo',
+    'numero_serie' => 'N.º de série',
+    'fabricante' => 'Fabricante',
+    'ano_fabrico' => 'Ano de fabrico',
+    'estado' => 'Estado',
+    'criticidade' => 'Criticidade',
+    'observacoes' => 'Observações',
+];
 ?>
 
 <!-- Navbar da área privada -->
@@ -72,7 +105,22 @@ $ligacaoAviso = null;
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
                 </div>
                 <div class="offcanvas-body">
-                    <p class="text-muted">Sem movimentações registadas.</p>
+                    <?php if (empty($historicoMovimentacoes)) : ?>
+                        <p class="text-muted">Sem movimentações registadas.</p>
+                    <?php else : ?>
+                        <div id="lista-historico-movimentacoes">
+                            <?php foreach ($historicoMovimentacoes as $mov) : ?>
+                                <?= renderizar_entrada_historico($mov, $classesTipoAlteracao, $rotulosCamposHistorico) ?>
+                            <?php endforeach; ?>
+                        </div>
+                        <?php if (count($historicoMovimentacoes) === 15) : ?>
+                            <div class="text-center mt-2">
+                                <button type="button" id="botao-ver-mais-historico" class="btn botao-secundario-gestao" data-offset="15">
+                                    Ver mais
+                                </button>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -108,3 +156,24 @@ $ligacaoAviso = null;
 <?php else : ?>
     <div id="aviso-garantias-globais" style="display:none;"></div>
 <?php endif; ?>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const botaoVerMais = document.getElementById("botao-ver-mais-historico");
+        if (botaoVerMais) {
+            botaoVerMais.addEventListener("click", function () {
+                const offset = parseInt(this.dataset.offset, 10);
+                fetch("/medivault/private/includes/historico_carregar_mais.php?offset=" + offset)
+                    .then(function (resposta) { return resposta.json(); })
+                    .then(function (dados) {
+                        document.getElementById("lista-historico-movimentacoes").insertAdjacentHTML("beforeend", dados.html);
+                        if (dados.hasMore) {
+                            botaoVerMais.dataset.offset = offset + 15;
+                        } else {
+                            botaoVerMais.remove();
+                        }
+                    });
+            });
+        }
+    });
+</script>

@@ -22,8 +22,15 @@ try {
     ")->fetch(PDO::FETCH_OBJ);
 
     $totalGarantiasAExpirar = (int) $resultadoAviso->total;
+
+    $totalMensagensNaoLidas = 0;
+    if ($_SESSION['profile'] === 'Administrador') {
+        $resultadoMensagens = $ligacaoAviso->query("SELECT COUNT(*) AS total FROM mensagens_contacto WHERE lido = 0")->fetch(PDO::FETCH_OBJ);
+        $totalMensagensNaoLidas = (int) $resultadoMensagens->total;
+    }
 } catch (PDOException $err) {
     $totalGarantiasAExpirar = 0;
+    $totalMensagensNaoLidas = 0;
 }
 
 $ligacaoAviso = null;
@@ -43,6 +50,17 @@ $ligacaoAviso = null;
             <button id="botao-historico-navbar" onclick="abrirHistoricoNavbar()" class="botao-historico-navbar">
                 <i class="fa-solid fa-clock-rotate-left"></i>
             </button>
+
+            <?php if ($_SESSION['profile'] === 'Administrador') : ?>
+                <a href="/medivault/private/views/mensagens/mensagens.php" class="botao-historico-navbar" style="position:relative; text-decoration:none;" title="Mensagens de Contacto">
+                    <i class="fa-regular fa-envelope"></i>
+                    <?php if ($totalMensagensNaoLidas > 0) : ?>
+                        <span style="position:absolute; top:-4px; right:-6px; background:#dc3545; color:#fff; font-size:0.65rem; font-weight:700; border-radius:999px; padding:1px 5px; line-height:1.3; min-width:16px; text-align:center;">
+                            <?= $totalMensagensNaoLidas ?>
+                        </span>
+                    <?php endif; ?>
+                </a>
+            <?php endif; ?>
 
             <!-- Offcanvas do histórico -->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasHistorico" aria-labelledby="offcanvasHistoricoLabel">

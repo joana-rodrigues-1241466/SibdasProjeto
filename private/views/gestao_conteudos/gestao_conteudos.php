@@ -1,6 +1,135 @@
 <?php
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
+
+if ($_SESSION['profile'] !== 'Administrador') {
+    header('Location: ' . BASE_URL . '/private/home.php');
+    exit;
+}
+
+$valoresOriginais = [
+    'home_titulo' => 'Sistema de Inventário de Equipamentos Hospitalares',
+    'home_texto' => 'Plataforma web para gestão e monitorização do inventário de equipamentos médicos em ambiente hospitalar.',
+    'home_botao' => 'Entre em contacto connosco',
+    'sobre_titulo' => 'Sobre a MediVault',
+    'sobre_texto_1' => 'A MediVault é uma plataforma web desenvolvida para apoiar instituições de saúde na gestão organizada e centralizada do inventário hospitalar de equipamentos médicos.',
+    'sobre_texto_2' => 'O sistema permite reunir, num único local, informação essencial sobre os equipamentos, incluindo categoria, localização, estado atual, fornecedor, documentação técnica, garantias e contactos associados.',
+    'sobre_texto_3' => 'O objetivo da plataforma é substituir métodos dispersos, como folhas de cálculo, documentos isolados e registos manuais, por uma solução digital mais segura, acessível e eficiente para os utilizadores autorizados.',
+    'sobre_card_titulo' => 'O que a MediVault permite?',
+    'sobre_card_texto_1' => 'Gerir equipamentos médicos e respetiva informação técnica;',
+    'sobre_card_texto_2' => 'Associar equipamentos a localizações hospitalares específicas;',
+    'sobre_card_texto_3' => 'Registar fornecedores, garantias e contratos associados;',
+    'sobre_card_texto_4' => 'Consultar indicadores básicos através de um dashboard.',
+    'funcionalidades_titulo' => 'Funcionalidades',
+    'funcionalidades_texto' => 'A MediVault disponibiliza um conjunto de serviços e funcionalidades para gerir o inventário hospitalar com eficiência, segurança e total rastreabilidade.',
+    'funcionalidade_titulo_1' => 'Gestão de Equipamentos',
+    'funcionalidade_texto_1' => 'Registo, consulta, edição e remoção de equipamentos médicos existentes no inventário hospitalar, com total segurança e controlo.',
+    'funcionalidade_titulo_2' => 'Localizações',
+    'funcionalidade_texto_2' => 'Organização da localização física dos equipamentos por edifício, piso, serviço e sala.',
+    'funcionalidade_titulo_3' => 'Fornecedores',
+    'funcionalidade_texto_3' => 'Gestão de fornecedores associados aos equipamentos médicos e respetivos contactos.',
+    'funcionalidade_titulo_4' => 'Documentação',
+    'funcionalidade_texto_4' => 'Registo e controlo de documentação técnica, manuais, certificados e relatórios.',
+    'funcionalidade_titulo_5' => 'Garantias e Contratos',
+    'funcionalidade_texto_5' => 'Acompanhamento de garantias, contratos de manutenção e datas relevantes.',
+    'funcionalidade_titulo_6' => 'Pesquisa e Filtragem',
+    'funcionalidade_texto_6' => 'Encontre rapidamente os equipamentos, fornecedores e localizações pretendidos através de pesquisa e filtros avançados.',
+    'funcionalidade_titulo_7' => 'Dashboard',
+    'funcionalidade_texto_7' => 'Visualização resumida de indicadores relevantes para apoio à gestão.',
+    'funcionalidade_titulo_8' => 'Alertas',
+    'funcionalidade_texto_8' => 'Receba alertas sobre garantias a expirar e outras situações relevantes.',
+    'contactos_titulo' => 'Contactos',
+    'contactos_texto' => 'Entre em contacto connosco para esclarecer dúvidas sobre a MediVault ou obter mais informações sobre a gestão do inventário hospitalar.',
+    'localizacao' => "Travessa Encosta do Pilar\n9000-777, Funchal\nMadeira",
+    'horario' => "2.ª a 6.ª Feira: 09h00 - 19h00\nSábado: 09h00 - 14h00\nDomingo e Feriados: Encerrado",
+    'email' => 'suporte@medivault.pt',
+    'telefone' => '+351 291 466 310',
+];
+
+$mensagemSucesso = '';
+$erroGestao = '';
+
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['campo'])) {
+        $limitesTitulo = ['home_titulo', 'sobre_titulo', 'sobre_card_titulo', 'funcionalidades_titulo', 'contactos_titulo', 'home_botao',
+            'funcionalidade_titulo_1', 'funcionalidade_titulo_2', 'funcionalidade_titulo_3', 'funcionalidade_titulo_4',
+            'funcionalidade_titulo_5', 'funcionalidade_titulo_6', 'funcionalidade_titulo_7', 'funcionalidade_titulo_8'];
+
+        $erros = [];
+
+        foreach ($_POST['campo'] as $nomeCampo => $valor) {
+            if (!array_key_exists($nomeCampo, $valoresOriginais)) {
+                continue;
+            }
+
+            $valor = trim($valor);
+            $limite = in_array($nomeCampo, $limitesTitulo) ? 120 : 600;
+
+            if (mb_strlen($valor) > $limite) {
+                $erros[] = "O campo \"" . $nomeCampo . "\" excede o limite de " . $limite . " caracteres.";
+            }
+
+            if ($nomeCampo === 'email' && $valor !== '') {
+                if (preg_match('/\s/', $valor)) {
+                    $erros[] = "O email não pode conter espaços em branco.";
+                } elseif (!filter_var($valor, FILTER_VALIDATE_EMAIL)) {
+                    $erros[] = "O email deve ter um formato válido (ex.: contacto@medivault.pt).";
+                }
+            }
+
+            if ($nomeCampo === 'telefone' && $valor !== '') {
+                $telefoneSemEspacos = preg_replace('/\s+/', '', $valor);
+                if (!preg_match('/^\+351[2-9]\d{8}$/', $telefoneSemEspacos)) {
+                    $erros[] = "O telefone deve começar com \"+351\" seguido de 9 dígitos (linha fixa ou telemóvel).";
+                }
+            }
+        }
+
+        if (empty($erros)) {
+            $stmtUpdate = $ligacao->prepare("UPDATE conteudos_publicos SET conteudo_campo = :valor WHERE nome_campo = :campo");
+            foreach ($_POST['campo'] as $nomeCampo => $valor) {
+                if (array_key_exists($nomeCampo, $valoresOriginais)) {
+                    $stmtUpdate->execute([':valor' => trim($valor), ':campo' => $nomeCampo]);
+                }
+            }
+            header('Location: gestao_conteudos.php?sucesso=guardado');
+            exit;
+        } else {
+            $erroGestao = implode(' ', $erros);
+            $resultados = $_POST['campo'];
+        }
+    }
+
+    if (isset($_GET['repor']) && $_GET['repor'] === '1') {
+        $stmtReset = $ligacao->prepare("UPDATE conteudos_publicos SET conteudo_campo = :valor WHERE nome_campo = :campo");
+        foreach ($valoresOriginais as $nomeCampo => $valor) {
+            $stmtReset->execute([':valor' => $valor, ':campo' => $nomeCampo]);
+        }
+        header('Location: gestao_conteudos.php?sucesso=reposto');
+        exit;
+    }
+
+    if (!isset($resultados)) {
+        $resultados = $ligacao->query("SELECT nome_campo, conteudo_campo FROM conteudos_publicos")->fetchAll(PDO::FETCH_KEY_PAIR);
+    }
+} catch (PDOException $e) {
+    $erroGestao = "Erro ao ligar à base de dados: " . $e->getMessage();
+    $resultados = [];
+}
+
+$ligacao = null;
+
+function valor_campo($resultados, $campo)
+{
+    return htmlspecialchars($resultados[$campo] ?? '');
+}
 ?>
 
 <?php include '../../includes/header.php'; ?>
@@ -22,7 +151,17 @@ redirect_if_not_logged();
                 sem necessidade de editar diretamente o HTML.
             </p>
 
-            <form class="form-gestao-conteudos">
+            <?php if (isset($_GET['sucesso']) && $_GET['sucesso'] === 'guardado') : ?>
+                <div class="alert alert-success text-center">
+                    <i class="fa-solid fa-circle-check"></i> Conteúdos atualizados com sucesso.
+                </div>
+            <?php elseif (isset($_GET['sucesso']) && $_GET['sucesso'] === 'reposto') : ?>
+                <div class="alert alert-success text-center">
+                    <i class="fa-solid fa-circle-check"></i> Conteúdos repostos para os valores originais.
+                </div>
+            <?php endif; ?>
+
+            <form class="form-gestao-conteudos" method="post" action="gestao_conteudos.php">
 
                 <div class="accordion accordion-gestao" id="accordionGestao">
 
@@ -42,17 +181,17 @@ redirect_if_not_logged();
 
                                 <div class="mb-3">
                                     <label for="editar-home-titulo" class="form-label">Título principal</label>
-                                    <input type="text" class="form-control campo-contacto" id="editar-home-titulo">
+                                    <input type="text" class="form-control campo-contacto" id="editar-home-titulo" name="campo[home_titulo]" value="<?= valor_campo($resultados, 'home_titulo') ?>">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="editar-home-texto" class="form-label">Texto introdutório</label>
-                                    <textarea class="form-control campo-contacto" id="editar-home-texto" rows="3"></textarea>
+                                    <textarea class="form-control campo-contacto" id="editar-home-texto" name="campo[home_texto]" rows="3"><?= valor_campo($resultados, 'home_texto') ?></textarea>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="editar-home-botao" class="form-label">Texto do botão</label>
-                                    <input type="text" class="form-control campo-contacto" id="editar-home-botao">
+                                    <input type="text" class="form-control campo-contacto" id="editar-home-botao" name="campo[home_botao]" value="<?= valor_campo($resultados, 'home_botao') ?>">
                                 </div>
 
                             </div>
@@ -75,22 +214,22 @@ redirect_if_not_logged();
 
                                 <div class="mb-3">
                                     <label for="editar-sobre-titulo" class="form-label">Título da secção</label>
-                                    <input type="text" class="form-control campo-contacto" id="editar-sobre-titulo">
+                                    <input type="text" class="form-control campo-contacto" id="editar-sobre-titulo" name="campo[sobre_titulo]" value="<?= valor_campo($resultados, 'sobre_titulo') ?>">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="editar-sobre-texto-1" class="form-label">Texto 1</label>
-                                    <textarea class="form-control campo-contacto" id="editar-sobre-texto-1" rows="3"></textarea>
+                                    <textarea class="form-control campo-contacto" id="editar-sobre-texto-1" name="campo[sobre_texto_1]" rows="3"><?= valor_campo($resultados, 'sobre_texto_1') ?></textarea>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="editar-sobre-texto-2" class="form-label">Texto 2</label>
-                                    <textarea class="form-control campo-contacto" id="editar-sobre-texto-2" rows="3"></textarea>
+                                    <textarea class="form-control campo-contacto" id="editar-sobre-texto-2" name="campo[sobre_texto_2]" rows="3"><?= valor_campo($resultados, 'sobre_texto_2') ?></textarea>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="editar-sobre-texto-3" class="form-label">Texto 3</label>
-                                    <textarea class="form-control campo-contacto" id="editar-sobre-texto-3" rows="3"></textarea>
+                                    <textarea class="form-control campo-contacto" id="editar-sobre-texto-3" name="campo[sobre_texto_3]" rows="3"><?= valor_campo($resultados, 'sobre_texto_3') ?></textarea>
                                 </div>
 
                                 <hr>
@@ -102,35 +241,35 @@ redirect_if_not_logged();
                                         <label for="editar-sobre-card-titulo" class="form-label">Título do
                                             card</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-sobre-card-titulo">
+                                            id="editar-sobre-card-titulo" name="campo[sobre_card_titulo]" value="<?= valor_campo($resultados, 'sobre_card_titulo') ?>">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="editar-sobre-card-texto-1" class="form-label">Frase 1 do
                                             card</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-sobre-card-texto-1">
+                                            id="editar-sobre-card-texto-1" name="campo[sobre_card_texto_1]" value="<?= valor_campo($resultados, 'sobre_card_texto_1') ?>">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="editar-sobre-card-texto-2" class="form-label">Frase 2 do
                                             card</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-sobre-card-texto-2">
+                                            id="editar-sobre-card-texto-2" name="campo[sobre_card_texto_2]" value="<?= valor_campo($resultados, 'sobre_card_texto_2') ?>">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="editar-sobre-card-texto-3" class="form-label">Frase 3 do
                                             card</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-sobre-card-texto-3">
+                                            id="editar-sobre-card-texto-3" name="campo[sobre_card_texto_3]" value="<?= valor_campo($resultados, 'sobre_card_texto_3') ?>">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="editar-sobre-card-texto-4" class="form-label">Frase 4 do
                                             card</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-sobre-card-texto-4">
+                                            id="editar-sobre-card-texto-4" name="campo[sobre_card_texto_4]" value="<?= valor_campo($resultados, 'sobre_card_texto_4') ?>">
                                     </div>
                                 </div>
 
@@ -157,14 +296,14 @@ redirect_if_not_logged();
                                     <label for="editar-funcionalidades-titulo" class="form-label">Título da
                                         secção</label>
                                     <input type="text" class="form-control campo-contacto"
-                                        id="editar-funcionalidades-titulo">
+                                        id="editar-funcionalidades-titulo" name="campo[funcionalidades_titulo]" value="<?= valor_campo($resultados, 'funcionalidades_titulo') ?>">
                                 </div>
 
                                 <div class="mb-4">
                                     <label for="editar-funcionalidades-texto" class="form-label">Texto
                                         introdutório</label>
-                                    <textarea class="form-control campo-contacto" id="editar-funcionalidades-texto"
-                                        rows="3"></textarea>
+                                    <textarea class="form-control campo-contacto" id="editar-funcionalidades-texto" name="campo[funcionalidades_texto]"
+                                        rows="3"><?= valor_campo($resultados, 'funcionalidades_texto') ?></textarea>
                                 </div>
 
                                 <hr>
@@ -179,13 +318,13 @@ redirect_if_not_logged();
                                         <label for="editar-funcionalidade-titulo-1"
                                             class="form-label">Título</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-funcionalidade-titulo-1">
+                                            id="editar-funcionalidade-titulo-1" name="campo[funcionalidade_titulo_1]" value="<?= valor_campo($resultados, 'funcionalidade_titulo_1') ?>">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="editar-funcionalidade-texto-1" class="form-label">Texto</label>
                                         <textarea class="form-control campo-contacto"
-                                            id="editar-funcionalidade-texto-1" rows="3"></textarea>
+                                            id="editar-funcionalidade-texto-1" name="campo[funcionalidade_texto_1]" rows="3"><?= valor_campo($resultados, 'funcionalidade_texto_1') ?></textarea>
                                     </div>
                                 </div>
 
@@ -197,13 +336,13 @@ redirect_if_not_logged();
                                         <label for="editar-funcionalidade-titulo-2"
                                             class="form-label">Título</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-funcionalidade-titulo-2">
+                                            id="editar-funcionalidade-titulo-2" name="campo[funcionalidade_titulo_2]" value="<?= valor_campo($resultados, 'funcionalidade_titulo_2') ?>">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="editar-funcionalidade-texto-2" class="form-label">Texto</label>
                                         <textarea class="form-control campo-contacto"
-                                            id="editar-funcionalidade-texto-2" rows="3"></textarea>
+                                            id="editar-funcionalidade-texto-2" name="campo[funcionalidade_texto_2]" rows="3"><?= valor_campo($resultados, 'funcionalidade_texto_2') ?></textarea>
                                     </div>
                                 </div>
 
@@ -215,13 +354,13 @@ redirect_if_not_logged();
                                         <label for="editar-funcionalidade-titulo-3"
                                             class="form-label">Título</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-funcionalidade-titulo-3">
+                                            id="editar-funcionalidade-titulo-3" name="campo[funcionalidade_titulo_3]" value="<?= valor_campo($resultados, 'funcionalidade_titulo_3') ?>">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="editar-funcionalidade-texto-3" class="form-label">Texto</label>
                                         <textarea class="form-control campo-contacto"
-                                            id="editar-funcionalidade-texto-3" rows="3"></textarea>
+                                            id="editar-funcionalidade-texto-3" name="campo[funcionalidade_texto_3]" rows="3"><?= valor_campo($resultados, 'funcionalidade_texto_3') ?></textarea>
                                     </div>
                                 </div>
 
@@ -233,13 +372,13 @@ redirect_if_not_logged();
                                         <label for="editar-funcionalidade-titulo-4"
                                             class="form-label">Título</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-funcionalidade-titulo-4">
+                                            id="editar-funcionalidade-titulo-4" name="campo[funcionalidade_titulo_4]" value="<?= valor_campo($resultados, 'funcionalidade_titulo_4') ?>">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="editar-funcionalidade-texto-4" class="form-label">Texto</label>
                                         <textarea class="form-control campo-contacto"
-                                            id="editar-funcionalidade-texto-4" rows="3"></textarea>
+                                            id="editar-funcionalidade-texto-4" name="campo[funcionalidade_texto_4]" rows="3"><?= valor_campo($resultados, 'funcionalidade_texto_4') ?></textarea>
                                     </div>
                                 </div>
 
@@ -251,13 +390,13 @@ redirect_if_not_logged();
                                         <label for="editar-funcionalidade-titulo-5"
                                             class="form-label">Título</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-funcionalidade-titulo-5">
+                                            id="editar-funcionalidade-titulo-5" name="campo[funcionalidade_titulo_5]" value="<?= valor_campo($resultados, 'funcionalidade_titulo_5') ?>">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="editar-funcionalidade-texto-5" class="form-label">Texto</label>
                                         <textarea class="form-control campo-contacto"
-                                            id="editar-funcionalidade-texto-5" rows="3"></textarea>
+                                            id="editar-funcionalidade-texto-5" name="campo[funcionalidade_texto_5]" rows="3"><?= valor_campo($resultados, 'funcionalidade_texto_5') ?></textarea>
                                     </div>
                                 </div>
 
@@ -269,13 +408,13 @@ redirect_if_not_logged();
                                         <label for="editar-funcionalidade-titulo-6"
                                             class="form-label">Título</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-funcionalidade-titulo-6">
+                                            id="editar-funcionalidade-titulo-6" name="campo[funcionalidade_titulo_6]" value="<?= valor_campo($resultados, 'funcionalidade_titulo_6') ?>">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="editar-funcionalidade-texto-6" class="form-label">Texto</label>
                                         <textarea class="form-control campo-contacto"
-                                            id="editar-funcionalidade-texto-6" rows="3"></textarea>
+                                            id="editar-funcionalidade-texto-6" name="campo[funcionalidade_texto_6]" rows="3"><?= valor_campo($resultados, 'funcionalidade_texto_6') ?></textarea>
                                     </div>
                                 </div>
 
@@ -287,13 +426,13 @@ redirect_if_not_logged();
                                         <label for="editar-funcionalidade-titulo-7"
                                             class="form-label">Título</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-funcionalidade-titulo-7">
+                                            id="editar-funcionalidade-titulo-7" name="campo[funcionalidade_titulo_7]" value="<?= valor_campo($resultados, 'funcionalidade_titulo_7') ?>">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="editar-funcionalidade-texto-7" class="form-label">Texto</label>
                                         <textarea class="form-control campo-contacto"
-                                            id="editar-funcionalidade-texto-7" rows="3"></textarea>
+                                            id="editar-funcionalidade-texto-7" name="campo[funcionalidade_texto_7]" rows="3"><?= valor_campo($resultados, 'funcionalidade_texto_7') ?></textarea>
                                     </div>
                                 </div>
 
@@ -305,13 +444,13 @@ redirect_if_not_logged();
                                         <label for="editar-funcionalidade-titulo-8"
                                             class="form-label">Título</label>
                                         <input type="text" class="form-control campo-contacto"
-                                            id="editar-funcionalidade-titulo-8">
+                                            id="editar-funcionalidade-titulo-8" name="campo[funcionalidade_titulo_8]" value="<?= valor_campo($resultados, 'funcionalidade_titulo_8') ?>">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="editar-funcionalidade-texto-8" class="form-label">Texto</label>
                                         <textarea class="form-control campo-contacto"
-                                            id="editar-funcionalidade-texto-8" rows="3"></textarea>
+                                            id="editar-funcionalidade-texto-8" name="campo[funcionalidade_texto_8]" rows="3"><?= valor_campo($resultados, 'funcionalidade_texto_8') ?></textarea>
                                     </div>
                                 </div>
 
@@ -338,14 +477,14 @@ redirect_if_not_logged();
                                     <label for="editar-contactos-titulo" class="form-label">Título da
                                         secção</label>
                                     <input type="text" class="form-control campo-contacto"
-                                        id="editar-contactos-titulo">
+                                        id="editar-contactos-titulo" name="campo[contactos_titulo]" value="<?= valor_campo($resultados, 'contactos_titulo') ?>">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="editar-contactos-texto" class="form-label">Texto
                                         introdutório</label>
-                                    <textarea class="form-control campo-contacto" id="editar-contactos-texto"
-                                        rows="3"></textarea>
+                                    <textarea class="form-control campo-contacto" id="editar-contactos-texto" name="campo[contactos_texto]"
+                                        rows="3"><?= valor_campo($resultados, 'contactos_texto') ?></textarea>
                                 </div>
 
                             </div>
@@ -369,22 +508,22 @@ redirect_if_not_logged();
 
                                 <div class="mb-3">
                                     <label for="editar-localizacao" class="form-label">Localização</label>
-                                    <textarea class="form-control campo-contacto" id="editar-localizacao" rows="3"></textarea>
+                                    <textarea class="form-control campo-contacto" id="editar-localizacao" name="campo[localizacao]" rows="3"><?= valor_campo($resultados, 'localizacao') ?></textarea>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="editar-horario" class="form-label">Horário</label>
-                                    <textarea class="form-control campo-contacto" id="editar-horario" rows="3"></textarea>
+                                    <textarea class="form-control campo-contacto" id="editar-horario" name="campo[horario]" rows="3"><?= valor_campo($resultados, 'horario') ?></textarea>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="editar-email" class="form-label">Email</label>
-                                    <input type="text" class="form-control campo-contacto" id="editar-email">
+                                    <input type="text" class="form-control campo-contacto" id="editar-email" name="campo[email]" value="<?= valor_campo($resultados, 'email') ?>">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="editar-telefone" class="form-label">Telefone</label>
-                                    <input type="text" class="form-control campo-contacto" id="editar-telefone">
+                                    <input type="text" class="form-control campo-contacto" id="editar-telefone" name="campo[telefone]" value="<?= valor_campo($resultados, 'telefone') ?>">
                                 </div>
 
                             </div>
@@ -393,12 +532,16 @@ redirect_if_not_logged();
 
                 </div>
 
+                <?php if (!empty($erroGestao)) : ?>
+                    <div class="alert alert-danger"><?= htmlspecialchars($erroGestao) ?></div>
+                <?php endif; ?>
+
                 <div class="botoes-gestao">
                     <button type="submit" class="btn botao-principal">
                         Guardar Alterações
                     </button>
 
-                    <button type="button" class="btn botao-secundario-gestao" id="repor-conteudos">
+                    <button type="button" class="btn botao-secundario-gestao" data-bs-toggle="modal" data-bs-target="#modalReporConteudos">
                         Repor Conteúdos Originais
                     </button>
                 </div>
@@ -414,6 +557,32 @@ redirect_if_not_logged();
 
     </main>
 
+</div>
+
+<!-- Modal repor conteúdos -->
+<div class="modal fade" id="modalReporConteudos" tabindex="-1" aria-labelledby="tituloModalReporConteudos" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloModalReporConteudos">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Confirmar reposição
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem a certeza que pretende repor todos os conteúdos para os valores originais? Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-danger" onclick="window.location.href='gestao_conteudos.php?repor=1'">
+                    Repor
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <?php include '../../includes/footer.php'; ?>

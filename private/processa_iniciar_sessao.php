@@ -86,6 +86,7 @@ try {
 
     // Guardar os dados essenciais na sessão (email já desencriptado pela query)
     $_SESSION['utilizador'] = $utilizador->nome;
+    $_SESSION['utilizador_id'] = $utilizador->id;
     $_SESSION['email'] = $utilizador->email;
     $_SESSION['profile'] = $utilizador->perfil;
 

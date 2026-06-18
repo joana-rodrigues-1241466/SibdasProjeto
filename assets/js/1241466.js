@@ -2,7 +2,7 @@
 // CONTACTOS
 // ===============================
 
-function inicializarContactos() {
+/*function inicializarContactos() {
     const formulario = document.querySelector(".form-contactos");
 
     if (!formulario) {
@@ -13,7 +13,7 @@ function inicializarContactos() {
         event.preventDefault();
         formulario.reset();
     });
-}
+}*/
 
 
 // ===============================
@@ -49,7 +49,7 @@ function abrirHistoricoNavbar() {
 // GESTÃO DE CONTEÚDOS DA ÁREA PÚBLICA
 // ==================================
 
-function inicializarGestaoConteudos() {
+/*function inicializarGestaoConteudos() {
     const camposGestao = {
         homeTitulo: document.getElementById("editar-home-titulo"),
         homeTexto: document.getElementById("editar-home-texto"),
@@ -203,9 +203,9 @@ function inicializarGestaoConteudos() {
             });
         });
     }
-}
+}*/
 
-function carregarConteudosPublicos() {
+/*function carregarConteudosPublicos() {
 
     const conteudos =
         JSON.parse(localStorage.getItem("conteudosPublicos"));
@@ -273,7 +273,7 @@ function carregarConteudosPublicos() {
     atualizar("rodape-horario", conteudos.horario);
     atualizar("rodape-email", conteudos.email);
     atualizar("rodape-telefone", conteudos.telefone);
-}
+}*/
 
 /*function inicializarAvisoGarantias() {
     const aviso = document.getElementById("aviso-garantias-globais");
@@ -10479,12 +10479,12 @@ function contarPorCampo(lista, campo) {
 // ===============================
 
 document.addEventListener("DOMContentLoaded", function () {
-    inicializarContactos();
+    //inicializarContactos();
 
     // inicializarLogin();
 
-    inicializarGestaoConteudos();
-    carregarConteudosPublicos();
+    //inicializarGestaoConteudos();
+    //o java script fi para uma simucarregarConteudosPublicos();
 
     //inicializarAvisoGarantias();
 

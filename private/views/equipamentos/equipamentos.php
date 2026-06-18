@@ -245,7 +245,7 @@ $ligacao = null;
         </section>
 
         <div class="acao-exportar-tabela">
-            <a href="#" class="link-exportar-excel">
+            <a href="exportar_excel_equipamentos.php" class="link-exportar-excel">
                 <i class="fa-solid fa-file-excel"></i>
                 Exportar Listagem dos Equipamentos
             </a>

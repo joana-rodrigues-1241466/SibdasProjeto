@@ -245,7 +245,7 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
                     Gerar Etiqueta
                 </a>
 
-                <a href="#" class="link-exportar-pdf">
+                <a href="ficha_equipamento_pdf.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncriptado) ?>" target="_blank" class="link-exportar-pdf">
                     <i class="fa-solid fa-file-pdf"></i>
                     Exportar Ficha do Equipamento
                 </a>

@@ -1,4 +1,14 @@
 <?php
+// ============================================================
+// EDITAR_EQUIPAMENTO.PHP
+// Permite editar um equipamento existente (identificado por ID
+// encriptado), através de um formulário multi-separador igual
+// ao de criação (Identificação, Acessórios/Consumíveis,
+// Aquisição, Fornecedor, Localização, Garantia, Contrato de
+// Manutenção). Valida e atualiza todos os dados associados,
+// registando as alterações no histórico do equipamento.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 require_once __DIR__ . '/../../includes/validacoes.php';
@@ -21,6 +31,9 @@ exit;
 $erros = [];
 $metodoPost = ($_SERVER['REQUEST_METHOD'] === 'POST');
 
+// --------------------------------------------------------------------
+// VALIDAÇÃO DO FORMULÁRIO (submissão POST), separador a separador
+// --------------------------------------------------------------------
 if ($metodoPost) {
 
     $anoFabrico = trim($_POST['ano_fabrico'] ?? '');
@@ -186,14 +199,12 @@ if ($metodoPost) {
 
     $erros = array_merge($erros, validar_observacoes_contrato_equipamento(trim($_POST['observacoesContrato'] ?? '')));
 
+    // --------------------------------------------------------------------
+    // ATUALIZAÇÃO NA BASE DE DADOS (se não houver erros de validação)
+    // --------------------------------------------------------------------
     if (empty($erros)) {
     try {
-        $ligacao = new PDO(
-            "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-            MYSQL_USERNAME,
-            MYSQL_PASSWORD
-        );
-        $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $ligacao = conectar_bd();
 
         // codigo é readonly mas é submetido — usado para o nome do ficheiro
         $codigoEquipamento = $_POST['codigo'];
@@ -517,14 +528,13 @@ exit;
 }
 }
 
+// --------------------------------------------------------------------
+// CARREGAMENTO DOS DADOS ATUAIS (para pré-preencher o formulário em GET,
+// ou para repopular os <select> dependentes da BD mesmo em POST)
+// --------------------------------------------------------------------
 // Ligação à base de dados e obtenção dos dados atuais do equipamento
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     // Dados principais do equipamento (Tab 1)
     $stmt = $ligacao->prepare("
@@ -876,6 +886,9 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
 
     <?php include '../../includes/menu.php'; ?>
 
+    <!-- ============================================================ -->
+    <!-- Formulário de edição do equipamento (multi-separador) -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
         <section class="formulario-privado">
@@ -2051,6 +2064,9 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
 
 </div>
 
+<!-- ============================================================ -->
+<!-- Script JavaScript da página -->
+<!-- ============================================================ -->
 <script>
     const UNIDADES_BD = <?= json_encode($unidadesBD) ?>;
     const ESTADOS_ACESSORIO_BD = <?= json_encode($estadosAcessorioBD) ?>;

@@ -16,12 +16,7 @@ if (!$id || !is_numeric($id)) {
 }
 
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     date_default_timezone_set('Europe/Lisbon');
 

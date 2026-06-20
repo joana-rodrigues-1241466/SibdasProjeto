@@ -1,17 +1,23 @@
 <?php
+// ============================================================
+// NAVBAR.PHP
+// Barra de navegação superior da área privada. Mostra o logótipo,
+// o nome do utilizador em sessão, o acesso ao histórico de
+// movimentações de equipamentos (offcanvas), o atalho para
+// mensagens de contacto não lidas (apenas Administrador) e um
+// aviso global quando existem garantias a expirar nos próximos
+// 30 dias.
+// ============================================================
+
 require_once __DIR__ . '/funcoes.php';
 redirect_if_not_logged();
 start_session();
 $nome = $_SESSION['utilizador'];
 
+// Obter indicadores globais (garantias a expirar, mensagens não lidas, histórico recente)
 $totalGarantiasAExpirar = 0;
 try {
-    $ligacaoAviso = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacaoAviso->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacaoAviso = conectar_bd();
 
     $resultadoAviso = $ligacaoAviso->query("
         SELECT COUNT(*) AS total
@@ -48,6 +54,7 @@ try {
 
 $ligacaoAviso = null;
 
+// Cores/estilos associados a cada tipo de alteração no histórico
 $classesTipoAlteracao = [
     'Criação' => 'background:#e8f7ef; color:#198754;',
     'Edição' => 'background:#e7f1ff; color:#0d6efd;',
@@ -55,6 +62,7 @@ $classesTipoAlteracao = [
     'Reativação' => 'background:#f3e8ff; color:#9333ea;',
 ];
 
+// Rótulos em português dos campos apresentados no histórico
 $rotulosCamposHistorico = [
     'designacao' => 'Designação',
     'categoria' => 'Categoria',
@@ -147,6 +155,7 @@ $rotulosCamposHistorico = [
 
 </header>
 
+<!-- Aviso global de garantias a expirar -->
 <?php if ($totalGarantiasAExpirar > 0) : ?>
     <div id="aviso-garantias-globais" style="display:flex;">
         <i class="fa-solid fa-triangle-exclamation"></i>
@@ -157,8 +166,12 @@ $rotulosCamposHistorico = [
     <div id="aviso-garantias-globais" style="display:none;"></div>
 <?php endif; ?>
 
+<!-- ============================================================ -->
+<!-- Script JavaScript da página -->
+<!-- ============================================================ -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        // Paginação "Ver mais" do histórico de movimentações (carrega via AJAX)
         const botaoVerMais = document.getElementById("botao-ver-mais-historico");
         if (botaoVerMais) {
             botaoVerMais.addEventListener("click", function () {

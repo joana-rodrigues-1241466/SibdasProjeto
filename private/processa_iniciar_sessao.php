@@ -1,4 +1,12 @@
 <?php
+// ============================================================
+// PROCESSA_INICIAR_SESSAO.PHP
+// Processa a submissão do formulário de login: valida os dados
+// recebidos, verifica as credenciais na base de dados e, se
+// corretas, inicia a sessão do utilizador e redireciona para
+// a página inicial da área privada.
+// ============================================================
+
 require_once 'includes/funcoes.php';
 start_session();
 
@@ -53,12 +61,7 @@ if (!empty($validation_errors)) {
 // LIGAÇÃO REAL À BASE DE DADOS E VERIFICAÇÃO DO LOGIN
 // --------------------------------------------------------------------
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD,
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-    );
+    $ligacao = conectar_bd();
 
     // Procurar o utilizador pelo email (desencriptado, porque está guardado encriptado na BD)
     $comando = $ligacao->prepare("

@@ -1,17 +1,21 @@
 <?php
+// ============================================================
+// FORNECEDORES.PHP
+// Listagem de todos os fornecedores, com pesquisa, filtros
+// (tipo, nome da empresa, morada, pessoa de contacto,
+// equipamento associado), exportação para Excel e ações de
+// consultar/editar/desativar/reativar cada fornecedor.
+// ============================================================
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Obter a listagem de fornecedores e os valores distintos para os filtros
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $resultados = $ligacao->query("
 SELECT
@@ -62,7 +66,9 @@ $ligacao = null;
 
     <?php include '../../includes/menu.php'; ?>
 
-    <!-- Conteúdo principal da área privada -->
+    <!-- ============================================================ -->
+    <!-- Listagem de fornecedores -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
         <div class="titulo-pagina-equipamentos">
@@ -254,6 +260,7 @@ $ligacao = null;
             </a>
         </div>
 
+        <!-- Tabela de fornecedores (DataTables) -->
         <div class="tabela-privada">
             <table id="tabela-fornecedores">
                 <thead>
@@ -411,9 +418,13 @@ $ligacao = null;
 
 </div>
 
+<!-- ============================================================ -->
+<!-- Script JavaScript da página -->
+<!-- ============================================================ -->
 <script>
     let tabela;
 
+    // Inicialização da tabela de fornecedores com DataTables (paginação, pesquisa, etc.)
     $(document).ready(function() {
         tabela = $('#tabela-fornecedores').DataTable({
             pageLength: 5,
@@ -441,7 +452,7 @@ $ligacao = null;
             }
         });
 
-        // Pesquisa
+        // Pesquisa livre na tabela
         $('#pesquisaFornecedores').on('input', function() {
             tabela.search($(this).val()).draw();
         });
@@ -505,7 +516,7 @@ $ligacao = null;
             }
         });
 
-        // Limpar filtros
+        // Limpar todos os filtros
         $('#botaoLimparApenasFiltrosFornecedores').on('click', function() {
             $('#filtroTipoFornecedor').val('');
             $('#filtroNomeEmpresa').val('');
@@ -516,6 +527,7 @@ $ligacao = null;
         });
     });
 
+    // Estado e funções de confirmação para eliminar (desativar) um fornecedor
     let idFornecedorEliminarEncriptado = null;
 
 function prepararEliminacaoFornecedor(idEncriptado, nomeEmpresa) {
@@ -535,6 +547,7 @@ function confirmarEliminacaoFornecedor() {
     window.location.href = "confirmar_apagar_fornecedor.php?id_fornecedor=" + encodeURIComponent(idFornecedorEliminarEncriptado);
 }
 
+// Estado e funções de confirmação para reativar um fornecedor
 let idFornecedorReativarEncriptado = null;
 
 function prepararReativacaoFornecedor(idEncriptado, nomeEmpresa) {

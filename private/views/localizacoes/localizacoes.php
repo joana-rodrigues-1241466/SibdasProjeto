@@ -1,14 +1,18 @@
 <?php
+// ============================================================
+// LOCALIZACOES.PHP
+// Listagem de todas as localizações, com pesquisa, filtros
+// (edifício, piso, serviço, sala, equipamento associado),
+// exportação para Excel e ações de consultar/editar/
+// desativar/reativar cada localização.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Obter a listagem de localizações e os valores distintos para os filtros
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $resultados = $ligacao->query("
     SELECT 
@@ -52,6 +56,9 @@ $ligacao = null;
 
     <?php include '../../includes/menu.php'; ?>
 
+    <!-- ============================================================ -->
+    <!-- Listagem de localizações -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
         <div class="titulo-pagina-equipamentos">
@@ -174,6 +181,7 @@ $ligacao = null;
             </a>
         </div>
 
+        <!-- Tabela de localizações (DataTables) -->
         <div class="tabela-privada">
             <table id="tabela-localizacoes">
                 <thead>
@@ -320,9 +328,13 @@ $ligacao = null;
 
 </div>
 
+<!-- ============================================================ -->
+<!-- Script JavaScript da página -->
+<!-- ============================================================ -->
 <script>
     let tabela;
 
+    // Inicialização da tabela de localizações com DataTables (paginação, pesquisa, etc.)
     $(document).ready(function() {
         tabela = $('#tabela-localizacoes').DataTable({
             pageLength: 5,
@@ -353,7 +365,7 @@ $ligacao = null;
             }
         });
 
-        // Pesquisa
+        // Pesquisa livre na tabela
         $('#pesquisaLocalizacoes').on('input', function() {
             tabela.search($(this).val()).draw();
         });
@@ -417,7 +429,7 @@ $ligacao = null;
             }
         });
 
-        // Limpar filtros
+        // Limpar todos os filtros
         $('#botaoLimparApenasFiltrosLocalizacoes').on('click', function() {
             $('#filtroEdificioLocalizacao').val('');
             $('#filtroPisoLocalizacao').val('');
@@ -428,6 +440,7 @@ $ligacao = null;
         });
     });
 
+    // Estado e funções de confirmação para eliminar (desativar) uma localização
     let idLocalizacaoEliminarEncriptado = null;
 
 function prepararEliminacaoLocalizacao(idEncriptado, descricao) {
@@ -447,6 +460,7 @@ function confirmarEliminacaoLocalizacao() {
     window.location.href = "confirmar_apagar_localizacao.php?id_localizacao=" + encodeURIComponent(idLocalizacaoEliminarEncriptado);
 }
 
+// Estado e funções de confirmação para reativar uma localização
 let idLocalizacaoReativarEncriptado = null;
 
 function prepararReativacaoLocalizacao(idEncriptado, descricao) {

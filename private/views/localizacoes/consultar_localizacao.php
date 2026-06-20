@@ -1,7 +1,15 @@
 <?php
+// ============================================================
+// CONSULTAR_LOCALIZACAO.PHP
+// Apresenta a ficha de detalhes de uma localização, identificada
+// por ID encriptado recebido via query string, incluindo os
+// equipamentos atualmente associados a essa localização.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Desencriptar e validar o ID da localização recebido na URL
 $idLocalizacaoEncriptado = $_GET['id_localizacao'] ?? null;
 $idLocalizacao = aes_decrypt($idLocalizacaoEncriptado);
 
@@ -10,13 +18,9 @@ if (!$idLocalizacao || !is_numeric($idLocalizacao)) {
     exit;
 }
 
+// Obter os dados da localização e os equipamentos a ela associados
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $stmt = $ligacao->prepare("SELECT * FROM localizacoes WHERE id = :id");
     $stmt->bindParam(':id', $idLocalizacao, PDO::PARAM_INT);
@@ -75,6 +79,7 @@ $ligacao = null;
 
             <hr>
 
+            <!-- Dados gerais da localização -->
             <h5 class="subtitulo-separador titulo-azul-separador mt-0">
                 <i class="fa-solid fa-building"></i>
                 Dados Gerais
@@ -103,6 +108,7 @@ $ligacao = null;
                 </div>
             </div>
 
+            <!-- Equipamentos associados a esta localização -->
             <h5 class="subtitulo-separador titulo-azul-separador">
                 <i class="fa-solid fa-stethoscope"></i>
                 Equipamentos Associados
@@ -125,6 +131,7 @@ $ligacao = null;
                             </thead>
                             <tbody>
                                 <?php
+                                // Mapas de classes CSS para colorir os badges de criticidade
                                 $classesCriticidadeAssociados = [
                                     'Suporte de vida' => 'badge-criticidade-suporte',
                                     'Alta' => 'badge-criticidade-alta',
@@ -134,6 +141,7 @@ $ligacao = null;
                                 ?>
                                 <?php foreach ($equipamentosAssociados as $equip) : ?>
                                     <?php
+                                    // Mapa de classes CSS para colorir o estado de cada equipamento
                                     $classesEstadoAssociados = [
                                         'Ativo' => 'estado-ativo',
                                         'Em manutenção' => 'estado-manutencao',
@@ -167,6 +175,7 @@ $ligacao = null;
 
             <hr>
 
+            <!-- Observações da localização -->
             <h5 class="subtitulo-separador titulo-azul-separador">
                 <i class="fa-solid fa-comment-medical"></i>
                 Observações da localização

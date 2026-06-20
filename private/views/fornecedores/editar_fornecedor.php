@@ -1,4 +1,12 @@
 <?php
+// ============================================================
+// EDITAR_FORNECEDOR.PHP
+// Permite editar os dados de um fornecedor existente,
+// identificado por ID encriptado. Apresenta o formulário
+// pré-preenchido com os dados atuais (incluindo documentação
+// associada) e, ao submeter, valida e atualiza o registo.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 require_once __DIR__ . '/../../includes/validacoes.php';
@@ -20,6 +28,9 @@ if (!$idFornecedor || !is_numeric($idFornecedor)) {
 
 $erros = [];
 
+// --------------------------------------------------------------------
+// PROCESSAMENTO DO FORMULÁRIO (submissão POST)
+// --------------------------------------------------------------------
 // Deteta a submissão do formulário (POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -62,12 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 3. Validações de unicidade (NIF, telefone, email) — excluindo o próprio fornecedor
     if (empty($erros)) {
         try {
-            $ligacao = new PDO(
-                "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-                MYSQL_USERNAME,
-                MYSQL_PASSWORD
-            );
-            $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $ligacao = conectar_bd();
 
             $stmt = $ligacao->prepare("SELECT COUNT(*) FROM fornecedores WHERE nif = :nif AND id != :id");
             $stmt->execute([':nif' => $nif, ':id' => $idFornecedor]);
@@ -96,12 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 4. Se não houver erros, atualizar os dados gerais do fornecedor
     if (empty($erros)) {
         try {
-            $ligacao = new PDO(
-                "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-                MYSQL_USERNAME,
-                MYSQL_PASSWORD
-            );
-            $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $ligacao = conectar_bd();
 
             // Resolver tipo_id e morada_id
             $stmt = $ligacao->prepare("SELECT id FROM tipos_fornecedor WHERE designacao = :designacao");
@@ -237,14 +238,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// --------------------------------------------------------------------
+// CARREGAMENTO DOS DADOS ATUAIS (para pré-preencher o formulário)
+// --------------------------------------------------------------------
 // Ligação à base de dados e obtenção dos dados atuais do fornecedor
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $stmt = $ligacao->prepare("
         SELECT f.*, tf.designacao AS tipo_fornecedor, m.designacao AS morada
@@ -280,6 +279,7 @@ try {
 
 $ligacao = null;
 
+// Salvaguarda: se não foi possível obter o fornecedor, usar valores vazios
 if (!$fornecedor) {
     $fornecedor = (object) [
         'codigo' => '',
@@ -311,6 +311,9 @@ $tipoDocAtual = $_SERVER['REQUEST_METHOD'] === 'POST' ? $tipoDocFornecedor : ($d
 
     <?php include '../../includes/menu.php'; ?>
 
+    <!-- ============================================================ -->
+    <!-- Formulário de edição do fornecedor -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
         <section class="formulario-privado">

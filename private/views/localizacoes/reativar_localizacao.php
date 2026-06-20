@@ -1,7 +1,14 @@
 <?php
+// ============================================================
+// REATIVAR_LOCALIZACAO.PHP
+// Reativa uma localização previamente desativada, identificada
+// por ID encriptado recebido via query string.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Desencriptar e validar o ID da localização recebido na URL
 $idEncriptado = $_GET['id_localizacao'] ?? null;
 $id = aes_decrypt($idEncriptado);
 
@@ -10,13 +17,9 @@ if (!$id || !is_numeric($id)) {
     exit;
 }
 
+// Reativar a localização na base de dados
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $stmt = $ligacao->prepare("UPDATE localizacoes SET ativo = 1 WHERE id = :id");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);

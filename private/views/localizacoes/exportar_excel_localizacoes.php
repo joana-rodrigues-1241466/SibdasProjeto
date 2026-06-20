@@ -1,14 +1,17 @@
 <?php
+// ============================================================
+// EXPORTAR_EXCEL_LOCALIZACOES.PHP
+// Gera e envia para download um ficheiro CSV (compatível com
+// Excel) com a listagem de todas as localizações ativas,
+// incluindo o número de equipamentos associados a cada uma.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Obter os dados das localizações a exportar
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $resultados = $ligacao->query("
         SELECT l.codigo, l.edificio, l.piso, l.servico, l.sala, l.observacoes,
@@ -25,19 +28,23 @@ try {
     die('Erro ao ligar à base de dados.');
 }
 
+// Configurar os cabeçalhos HTTP para forçar o download do ficheiro CSV
 header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename="listagem_localizacoes_' . date('Y-m-d') . '.csv"');
 header('Pragma: no-cache');
 header('Expires: 0');
 
+// BOM para UTF-8 — garante que os acentos aparecem corretos no Excel
 echo "\xEF\xBB\xBF";
 
 $saida = fopen('php://output', 'w');
 
+// Linha de cabeçalho do CSV
 fputcsv($saida, [
     'Código', 'Edifício', 'Piso', 'Serviço/Departamento', 'Sala/Gabinete', 'Observações', 'Total de Equipamentos'
 ], ';');
 
+// Uma linha por cada localização
 foreach ($resultados as $linha) {
     fputcsv($saida, [
         $linha['codigo'],

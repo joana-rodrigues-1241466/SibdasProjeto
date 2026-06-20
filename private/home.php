@@ -1,7 +1,17 @@
 <?php
+// ============================================================
+// HOME.PHP
+// Página inicial da área privada, apresentada após o login.
+// Mostra um conjunto de "cards" de atalho para as principais
+// funcionalidades, filtrados consoante o perfil do utilizador
+// em sessão.
+// ============================================================
+
 require_once 'includes/funcoes.php';
 redirect_if_not_logged();
 start_session();
+
+// Dados do utilizador em sessão e mensagem de sucesso (ex: vinda do login)
 $nome = $_SESSION['utilizador'];
 $success_message = $_SESSION['success_message'] ?? '';
 unset($_SESSION['success_message']);
@@ -25,6 +35,7 @@ unset($_SESSION['success_message']);
 
         <p class="mensagem-listagem">Seleciona uma das áreas abaixo ou utiliza o menu lateral para navegar.</p>
 
+        <!-- Cards de atalho, visíveis consoante o perfil do utilizador -->
         <div class="row g-4 mt-2">
             <?php if (in_array($_SESSION['profile'], ['Administrador', 'Técnico', 'Profissional de Saúde'])) : ?>
                 <div class="col-6 col-lg-3">

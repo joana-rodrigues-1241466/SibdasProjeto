@@ -1,3 +1,13 @@
+<?php
+// ============================================================
+// MENU.PHP
+// Menu lateral da área privada, apresentado em todas as páginas
+// autenticadas. Cada link é mostrado condicionalmente consoante
+// o perfil do utilizador em sessão (Administrador, Técnico ou
+// Profissional de Saúde), controlando assim o acesso às
+// diferentes secções da aplicação.
+// ============================================================
+?>
 <!-- Menu lateral da área privada -->
 <aside class="menu-lateral-privada">
     <h2>Menu</h2>

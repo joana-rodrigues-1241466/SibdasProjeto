@@ -1,4 +1,12 @@
 <?php
+// ============================================================
+// EDITAR_LOCALIZACAO.PHP
+// Permite editar os dados de uma localização existente,
+// identificada por ID encriptado. Apresenta o formulário
+// pré-preenchido com os dados atuais e, ao submeter, valida e
+// atualiza o registo na base de dados.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 require_once __DIR__ . '/../../includes/validacoes.php';
@@ -20,6 +28,9 @@ if (!$idLocalizacao || !is_numeric($idLocalizacao)) {
 
 $erros = [];
 
+// --------------------------------------------------------------------
+// PROCESSAMENTO DO FORMULÁRIO (submissão POST)
+// --------------------------------------------------------------------
 // Deteta a submissão do formulário (POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -53,12 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 4. Se não houver erros, atualizar a base de dados
     if (empty($erros)) {
         try {
-            $ligacao = new PDO(
-                "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-                MYSQL_USERNAME,
-                MYSQL_PASSWORD
-            );
-            $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $ligacao = conectar_bd();
 
             $stmt = $ligacao->prepare("
                 UPDATE localizacoes
@@ -88,14 +94,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// --------------------------------------------------------------------
+// CARREGAMENTO DOS DADOS ATUAIS (para pré-preencher o formulário)
+// --------------------------------------------------------------------
 // Ligação à base de dados e obtenção dos dados atuais da localização
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $stmt = $ligacao->prepare("SELECT * FROM localizacoes WHERE id = :id");
     $stmt->bindParam(':id', $idLocalizacao, PDO::PARAM_INT);
@@ -113,6 +117,7 @@ try {
 
 $ligacao = null;
 
+// Salvaguarda: se não foi possível obter a localização, usar valores vazios
 if (!$localizacao) {
     $localizacao = (object) [
         'codigo' => '',
@@ -132,7 +137,9 @@ if (!$localizacao) {
 
     <?php include '../../includes/menu.php'; ?>
 
-    <!-- Conteúdo principal -->
+    <!-- ============================================================ -->
+    <!-- Formulário de edição da localização -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
         <section class="formulario-privado">

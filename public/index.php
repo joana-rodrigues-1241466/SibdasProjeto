@@ -1,9 +1,21 @@
 <?php
+// ============================================================
+// INDEX.PHP
+// Página pública (institucional) da MediVault. Apresenta as
+// secções Home, Sobre, Funcionalidades e Contactos, com
+// conteúdos editáveis através da área de Gestão de Conteúdos
+// (tabela conteudos_publicos). Processa também a submissão do
+// formulário de contacto, guardando a mensagem na base de dados.
+// ============================================================
+
 require_once __DIR__ . '/../config/config.php';
 
 $erroContacto = '';
 $sucessoContacto = false;
 
+// --------------------------------------------------------------------
+// PROCESSAMENTO DO FORMULÁRIO DE CONTACTO (submissão POST)
+// --------------------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mensagem'])) {
     $nomeContacto = trim($_POST['nome'] ?? '');
     $emailContacto = trim($_POST['email'] ?? '');
@@ -17,12 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mensagem'])) {
         $erroContacto = 'A mensagem deve ter no mínimo 5 caracteres.';
     } else {
         try {
-            $ligacaoContacto = new PDO(
-                "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-                MYSQL_USERNAME,
-                MYSQL_PASSWORD
-            );
-            $ligacaoContacto->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $ligacaoContacto = conectar_bd();
 
             date_default_timezone_set('Europe/Lisbon');
 
@@ -44,13 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mensagem'])) {
     }
 }
 
+// --------------------------------------------------------------------
+// CARREGAMENTO DOS CONTEÚDOS PÚBLICOS EDITÁVEIS
+// --------------------------------------------------------------------
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
     $conteudos = $ligacao->query("SELECT nome_campo, conteudo_campo FROM conteudos_publicos")->fetchAll(PDO::FETCH_KEY_PAIR);
 } catch (PDOException $e) {
     $conteudos = [];
@@ -58,6 +63,7 @@ try {
 
 $ligacao = null;
 
+// Função auxiliar: devolve o conteúdo de um campo (ou um valor por defeito), já escapado para HTML
 function cp($conteudos, $campo, $defeito)
 {
     return htmlspecialchars($conteudos[$campo] ?? $defeito);

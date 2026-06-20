@@ -1,4 +1,13 @@
 <?php
+// ============================================================
+// INICIAR_SESSAO.PHP
+// Página pública de login. Apresenta o formulário de autenticação
+// (submetido para processa_iniciar_sessao.php), mostra mensagens
+// de erro de validação/servidor vindas da sessão, e inclui um
+// painel de "Modo de teste" que preenche as credenciais
+// automaticamente para facilitar a demonstração da aplicação.
+// ============================================================
+
 // Inicia a sessão (necessário para usar $_SESSION)
 session_start();
 
@@ -25,6 +34,9 @@ if (!empty($_SESSION['server_error'])) {
 ?>
 <?php include 'includes/header.php'; ?>
 
+<!-- ============================================================ -->
+<!-- Formulário de login -->
+<!-- ============================================================ -->
 <main class="login-container">
     <section class="login-card">
         <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 1rem;">

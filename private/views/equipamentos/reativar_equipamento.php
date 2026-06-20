@@ -1,7 +1,15 @@
 <?php
+// ============================================================
+// REATIVAR_EQUIPAMENTO.PHP
+// Reativa um equipamento previamente desativado, identificado
+// por ID encriptado recebido via query string, e regista a ação
+// no histórico de alterações do equipamento.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Desencriptar e validar o ID do equipamento recebido na URL
 $idEncriptado = $_GET['id_equipamento'] ?? null;
 $id = aes_decrypt($idEncriptado);
 
@@ -10,13 +18,9 @@ if (!$id || !is_numeric($id)) {
     exit;
 }
 
+// Reativar o equipamento e registar a alteração no histórico
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $stmtCodigo = $ligacao->prepare("SELECT codigo FROM equipamentos WHERE id = :id");
     $stmtCodigo->execute([':id' => $id]);

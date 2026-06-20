@@ -1,19 +1,24 @@
 <?php
+// ============================================================
+// MENSAGENS.PHP
+// Área de administração das mensagens de contacto recebidas
+// através do formulário público. Apenas acessível a
+// Administradores. Permite consultar, marcar como lida e
+// responder (via mailto) a cada mensagem.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Restringir o acesso apenas a Administradores
 if ($_SESSION['profile'] !== 'Administrador') {
     header('Location: ' . BASE_URL . '/private/home.php');
     exit;
 }
 
+// Obter a listagem de mensagens (não lidas primeiro) e o total de não lidas
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $resultados = $ligacao->query("
         SELECT m.id, m.nome, m.email, m.mensagem, m.data_envio, m.lido, m.lido_em, u.nome AS lido_por_nome
@@ -41,6 +46,9 @@ $ligacao = null;
 
     <?php include '../../includes/menu.php'; ?>
 
+    <!-- ============================================================ -->
+    <!-- Listagem de mensagens de contacto -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
         <div class="titulo-pagina-equipamentos">
@@ -178,7 +186,11 @@ $ligacao = null;
     </div>
 </div>
 
+<!-- ============================================================ -->
+<!-- Script JavaScript da página -->
+<!-- ============================================================ -->
 <script>
+    // Inicialização da tabela de mensagens com DataTables (paginação, pesquisa, etc.)
     $(document).ready(function() {
         $('#tabela-mensagens').DataTable({
             pageLength: 10,
@@ -201,6 +213,7 @@ $ligacao = null;
         });
     });
 
+    // Abre o modal de resposta, pré-preenchendo o destinatário e assunto
     function abrirModalResponder(msg) {
         document.getElementById("responder-destinatario-nome").textContent = msg.nome;
         document.getElementById("responder-email").value = msg.email;
@@ -211,6 +224,7 @@ $ligacao = null;
         modal.show();
     }
 
+    // Abre o cliente de email do utilizador (mailto) com os dados da resposta
     function enviarResposta() {
         const email = document.getElementById("responder-email").value;
         const assunto = document.getElementById("responder-assunto").value;
@@ -223,6 +237,7 @@ $ligacao = null;
         window.location.href = link;
     }
 
+    // Abre o modal com o conteúdo completo de uma mensagem
     function abrirModalMensagem(msg) {
         const corpo = document.getElementById("corpoModalVerMensagem");
 

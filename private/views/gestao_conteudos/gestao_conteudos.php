@@ -1,12 +1,23 @@
 <?php
+// ============================================================
+// GESTAO_CONTEUDOS.PHP
+// Área de administração (apenas Administrador) que permite
+// editar os textos apresentados na área pública do site
+// (página inicial, sobre, funcionalidades, contactos e rodapé)
+// sem necessidade de alterar o HTML diretamente. Inclui também
+// a opção de repor todos os conteúdos para os valores originais.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Restringir o acesso apenas a Administradores
 if ($_SESSION['profile'] !== 'Administrador') {
     header('Location: ' . BASE_URL . '/private/home.php');
     exit;
 }
 
+// Valores de referência (originais) de cada campo de conteúdo, usados na função "Repor"
 $valoresOriginais = [
     'home_titulo' => 'Sistema de Inventário de Equipamentos Hospitalares',
     'home_texto' => 'Plataforma web para gestão e monitorização do inventário de equipamentos médicos em ambiente hospitalar.',
@@ -49,14 +60,13 @@ $valoresOriginais = [
 $mensagemSucesso = '';
 $erroGestao = '';
 
+// --------------------------------------------------------------------
+// PROCESSAMENTO DO FORMULÁRIO E AÇÕES (guardar / repor conteúdos)
+// --------------------------------------------------------------------
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
+    // Submissão do formulário de edição dos conteúdos
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['campo'])) {
         $limitesTitulo = ['home_titulo', 'sobre_titulo', 'sobre_card_titulo', 'funcionalidades_titulo', 'contactos_titulo', 'home_botao',
             'funcionalidade_titulo_1', 'funcionalidade_titulo_2', 'funcionalidade_titulo_3', 'funcionalidade_titulo_4',
@@ -64,6 +74,7 @@ try {
 
         $erros = [];
 
+        // Validar cada campo submetido (limite de caracteres, formato de email e telefone)
         foreach ($_POST['campo'] as $nomeCampo => $valor) {
             if (!array_key_exists($nomeCampo, $valoresOriginais)) {
                 continue;
@@ -92,6 +103,7 @@ try {
             }
         }
 
+        // Se não houver erros, atualizar todos os campos na base de dados
         if (empty($erros)) {
             $stmtUpdate = $ligacao->prepare("UPDATE conteudos_publicos SET conteudo_campo = :valor WHERE nome_campo = :campo");
             foreach ($_POST['campo'] as $nomeCampo => $valor) {
@@ -107,6 +119,7 @@ try {
         }
     }
 
+    // Ação "Repor Conteúdos Originais"
     if (isset($_GET['repor']) && $_GET['repor'] === '1') {
         $stmtReset = $ligacao->prepare("UPDATE conteudos_publicos SET conteudo_campo = :valor WHERE nome_campo = :campo");
         foreach ($valoresOriginais as $nomeCampo => $valor) {
@@ -116,6 +129,7 @@ try {
         exit;
     }
 
+    // Carregar os valores atuais (se não vieram já de uma submissão com erros)
     if (!isset($resultados)) {
         $resultados = $ligacao->query("SELECT nome_campo, conteudo_campo FROM conteudos_publicos")->fetchAll(PDO::FETCH_KEY_PAIR);
     }
@@ -126,6 +140,7 @@ try {
 
 $ligacao = null;
 
+// Função auxiliar: devolve o valor atual de um campo, já escapado para HTML
 function valor_campo($resultados, $campo)
 {
     return htmlspecialchars($resultados[$campo] ?? '');
@@ -139,6 +154,9 @@ function valor_campo($resultados, $campo)
 
     <?php include '../../includes/menu.php'; ?>
 
+    <!-- ============================================================ -->
+    <!-- Formulário de gestão de conteúdos públicos -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
         <section class="gestao-conteudos">

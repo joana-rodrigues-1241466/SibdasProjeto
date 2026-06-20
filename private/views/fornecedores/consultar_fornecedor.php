@@ -1,7 +1,15 @@
 <?php
+// ============================================================
+// CONSULTAR_FORNECEDOR.PHP
+// Apresenta a ficha de detalhes de um fornecedor, identificado
+// por ID encriptado recebido via query string, incluindo os
+// equipamentos associados e a documentação anexada (se existir).
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Desencriptar e validar o ID do fornecedor recebido na URL
 $idFornecedorEncriptado = $_GET['id_fornecedor'] ?? null;
 $idFornecedor = aes_decrypt($idFornecedorEncriptado);
 
@@ -10,13 +18,9 @@ if (!$idFornecedor || !is_numeric($idFornecedor)) {
     exit;
 }
 
+// Obter os dados do fornecedor, os equipamentos associados e a documentação
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $stmt = $ligacao->prepare("
         SELECT f.*, tf.designacao AS tipo_fornecedor, m.designacao AS morada
@@ -173,6 +177,7 @@ $ligacao = null;
 
             </div>
 
+            <!-- Equipamentos associados a este fornecedor -->
             <h5 class="subtitulo-separador titulo-azul-separador">
                 <i class="fa-solid fa-stethoscope"></i>
                 Equipamentos Associados
@@ -195,6 +200,7 @@ $ligacao = null;
                 </thead>
                 <tbody>
                     <?php
+                    // Mapas de classes CSS para colorir os badges de criticidade e estado
                     $classesCriticidadeFornecedor = [
                         'Suporte de vida' => 'badge-criticidade-suporte',
                         'Alta' => 'badge-criticidade-alta',

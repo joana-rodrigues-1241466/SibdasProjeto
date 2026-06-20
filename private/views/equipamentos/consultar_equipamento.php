@@ -1,7 +1,17 @@
 <?php
+// ============================================================
+// CONSULTAR_EQUIPAMENTO.PHP
+// Apresenta a ficha completa de um equipamento (identificado por
+// ID encriptado): identificação, acessórios/consumíveis,
+// aquisição, fornecedores associados, localização, garantia,
+// contrato de manutenção, documentação, histórico de alterações
+// e geração de etiqueta QR Code para impressão.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Desencriptar e validar o ID do equipamento recebido na URL
 $idEquipamentoEncriptado = $_GET['id_equipamento'] ?? null;
 $idEquipamento = aes_decrypt($idEquipamentoEncriptado);
 
@@ -10,14 +20,13 @@ if (!$idEquipamento || !is_numeric($idEquipamento)) {
     exit;
 }
 
+// --------------------------------------------------------------------
+// CARREGAMENTO DE TODOS OS DADOS DO EQUIPAMENTO
+// --------------------------------------------------------------------
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
+    // Dados principais do equipamento (identificação, categoria, estado, criticidade, localização)
     $stmt = $ligacao->prepare("
         SELECT e.*, cat.designacao AS categoria, ee.designacao AS estado, c.designacao AS criticidade,
                l.codigo AS localizacao_codigo, l.edificio AS localizacao_edificio, l.piso AS localizacao_piso,
@@ -38,6 +47,7 @@ try {
         exit;
     }
 
+    // Acessórios associados
     $stmtAcessorios = $ligacao->prepare("
         SELECT a.nome, a.referencia, a.quantidade, u.designacao AS unidade, ea.designacao AS estado, a.observacoes
         FROM acessorios a
@@ -50,6 +60,7 @@ try {
     $stmtAcessorios->execute();
     $acessorios = $stmtAcessorios->fetchAll(PDO::FETCH_ASSOC);
 
+    // Consumíveis associados
     $stmtConsumiveis = $ligacao->prepare("
         SELECT c.nome, c.referencia, c.quantidade, u.designacao AS unidade, ea.designacao AS estado, c.observacoes
         FROM consumiveis c
@@ -62,6 +73,7 @@ try {
     $stmtConsumiveis->execute();
     $consumiveis = $stmtConsumiveis->fetchAll(PDO::FETCH_ASSOC);
 
+    // Dados de aquisição
     $stmtAquisicao = $ligacao->prepare("
         SELECT aq.data_aquisicao, aq.custo_aquisicao, aq.observacoes, te.designacao AS tipo_entrada
         FROM aquisicao_equipamentos aq
@@ -89,6 +101,7 @@ try {
     $docContratoAquisicao = $documentosEquipamento['Contrato de Aquisição'] ?? null;
     $docFatura = $documentosEquipamento['Fatura'] ?? null;
 
+    // Fornecedores associados ao equipamento
     $stmtFornecedores = $ligacao->prepare("
         SELECT f.codigo, f.nome_empresa, f.nif, f.website, f.telefone AS telefone_geral, f.email AS email_geral,
                tf.designacao AS tipo_fornecedor,
@@ -109,6 +122,7 @@ try {
     $docManualUtilizacao = $documentosEquipamento['Manual de Utilização'] ?? null;
     $docDeclaracaoConformidade = $documentosEquipamento['Declaração de Conformidade'] ?? null;
 
+    // Documentação dos fornecedores associados a este equipamento
     $stmtDocsFornecedores = $ligacao->prepare("
         SELECT df.*, tdf.designacao AS tipo_documento, f.nome_empresa, f.codigo AS fornecedor_codigo
         FROM equipamento_fornecedor ef
@@ -121,6 +135,7 @@ try {
     $stmtDocsFornecedores->execute();
     $documentosFornecedoresEquipamento = $stmtDocsFornecedores->fetchAll(PDO::FETCH_ASSOC);
 
+    // Garantia
     $stmtGarantia = $ligacao->prepare("
         SELECT data_inicio, data_fim, observacoes
         FROM garantias_equipamentos
@@ -132,6 +147,7 @@ try {
 
     $docCertificadoGarantia = $documentosEquipamento['Certificado de Garantia'] ?? null;
 
+    // Contrato de manutenção
     $stmtContrato = $ligacao->prepare("
         SELECT cm.entidade_responsavel, cm.observacoes, tc.designacao AS tipo_contrato, p.designacao AS periodicidade
         FROM contratos_manutencao cm
@@ -154,6 +170,10 @@ try {
 
 $ligacao = null;
 
+// --------------------------------------------------------------------
+// MAPAS DE ESTILO E DADOS AUXILIARES PARA A RENDERIZAÇÃO
+// --------------------------------------------------------------------
+// Mapa de classes CSS para colorir o estado do equipamento
 $classesEstadoDetalhe = [
     'Ativo' => 'estado-ativo',
     'Em manutenção' => 'estado-manutencao',
@@ -164,6 +184,7 @@ $classesEstadoDetalhe = [
 ];
 $classeEstadoDetalhe = $classesEstadoDetalhe[$equipamento['estado']] ?? '';
 
+// Mapa de classes CSS para colorir a criticidade do equipamento
 $classesCriticidadeDetalhe = [
     'Suporte de vida' => 'badge-criticidade-suporte',
     'Alta' => 'badge-criticidade-alta',
@@ -172,6 +193,7 @@ $classesCriticidadeDetalhe = [
 ];
 $classeCriticidadeDetalhe = $classesCriticidadeDetalhe[$equipamento['criticidade']] ?? '';
 
+// Lista de todos os tipos de documento, usada para construir o resumo de documentação
 $tiposDocumentoResumo = [
     ['label' => 'Documentação Técnica', 'icon' => 'fa-file-medical', 'doc' => $docManualServico, 'pasta' => 'documentacao_equipamentos'],
     ['label' => 'Documentação de Utilização', 'icon' => 'fa-book-open', 'doc' => $docManualUtilizacao, 'pasta' => 'documentacao_equipamentos'],
@@ -189,6 +211,7 @@ $documentosExistentesResumo = array_filter($tiposDocumentoResumo, function ($ite
     return !empty($item['doc']);
 });
 
+// Função auxiliar: gera o HTML do resumo de um documento (nome, data, validade, link do ficheiro)
 function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
 {
     if (!$doc) {
@@ -216,6 +239,9 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
 
     <?php include '../../includes/menu.php'; ?>
 
+    <!-- ============================================================ -->
+    <!-- Ficha de detalhes do equipamento -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
         <section class="detalhes-equipamento-privada">
@@ -893,6 +919,7 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
                             <h3>Estado da garantia</h3>
                             <p id="badge-estado-garantia">
     <?php
+    // Calcula o estado visual da garantia (ativa, perto de expirar, ou expirada) com base na data de fim
     $diasParaExpirar = (strtotime($garantia['data_fim']) - strtotime('today')) / 86400;
 
     if ($diasParaExpirar < 0) {
@@ -1332,6 +1359,7 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
 
 </div>
 
+<!-- Modal de geração de etiqueta com QR Code -->
 <div id="modalEtiqueta" class="modal-etiqueta">
 
     <div class="conteudo-modal-etiqueta">
@@ -1364,16 +1392,22 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
 
 </div>
 
+<!-- ============================================================ -->
+<!-- Script JavaScript da página -->
+<!-- ============================================================ -->
 <script>
+    // Dados usados na geração da etiqueta com QR Code
     const LOCALIZACAO_ETIQUETA = "<?= htmlspecialchars($equipamento['localizacao_servico'] . ' · ' . $equipamento['localizacao_sala']) ?>";
     const URL_EQUIPAMENTO = "<?= BASE_URL ?>/private/views/equipamentos/consultar_equipamento.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncriptado) ?>";
 
+    // Ativar os popovers do Bootstrap (tooltips informativos)
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
             new bootstrap.Popover(el);
         });
     });
 
+    // Preenche o offcanvas com os detalhes completos de um fornecedor associado
     function abrirDetalhesFornecedorEquipamento(dados) {
         const corpo = document.getElementById("offcanvas-body-fornecedor");
         if (!corpo) {

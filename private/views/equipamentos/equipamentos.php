@@ -1,14 +1,18 @@
 <?php
+// ============================================================
+// EQUIPAMENTOS.PHP
+// Listagem de todos os equipamentos, com pesquisa, filtros
+// (estado, fornecedor, localização, categoria, criticidade),
+// exportação para Excel e ações de consultar/editar/
+// desativar/reativar cada equipamento.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Obter a listagem de equipamentos e os valores distintos para os filtros
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $resultados = $ligacao->query("
 SELECT 
@@ -62,7 +66,9 @@ $ligacao = null;
 
     <?php include '../../includes/menu.php'; ?>
 
-    <!-- Conteúdo principal da área privada -->
+    <!-- ============================================================ -->
+    <!-- Listagem de equipamentos -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
     <?php if (isset($_SESSION['sucesso']) && $_SESSION['sucesso'] === 'equipamento_atualizado') : ?>
@@ -251,6 +257,7 @@ $ligacao = null;
             </a>
         </div>
 
+        <!-- Tabela de equipamentos (DataTables) -->
         <div class="tabela-privada">
             <table id="tabela-equipamentos">
                 <thead>
@@ -284,6 +291,7 @@ $ligacao = null;
                                 <td><?= htmlspecialchars($equipamento->localizacao) ?></td>
                                 <td>
                                     <?php
+                                    // Mapa de classes CSS para colorir o estado do equipamento
                                     $classesEstado = [
                                         'Ativo' => 'estado-ativo',
                                         'Em manutenção' => 'estado-manutencao',
@@ -298,6 +306,7 @@ $ligacao = null;
                                 </td>
                                 <td>
                                     <?php
+                                    // Mapa de classes CSS para colorir a criticidade do equipamento
                                     $classesCriticidade = [
                                         'Suporte de vida' => 'badge-criticidade-suporte',
                                         'Alta' => 'badge-criticidade-alta',
@@ -429,8 +438,12 @@ $ligacao = null;
 
 </div>
 
+<!-- ============================================================ -->
+<!-- Script JavaScript da página -->
+<!-- ============================================================ -->
 <script>
     $(document).ready(function() {
+        // Inicialização da tabela de equipamentos com DataTables (paginação, pesquisa, etc.)
         var tabela = $('#tabela-equipamentos').DataTable({
             pageLength: 5,
             pagingType: "full_numbers",
@@ -544,6 +557,7 @@ $ligacao = null;
         });
     });
 
+    // Estado e funções de confirmação para eliminar (desativar) um equipamento
     let idEquipamentoEliminarEncriptado = null;
 
 function prepararEliminacaoEquipamento(idEncriptado, designacao) {
@@ -563,6 +577,7 @@ function confirmarEliminacaoEquipamento() {
     window.location.href = "confirmar_apagar_equipamento.php?id_equipamento=" + encodeURIComponent(idEquipamentoEliminarEncriptado);
 }
 
+// Estado e funções de confirmação para reativar um equipamento
 let idEquipamentoReativarEncriptado = null;
 
 function prepararReativacaoEquipamento(idEncriptado, designacao) {

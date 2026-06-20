@@ -1,12 +1,22 @@
 <?php
+// ============================================================
+// HISTORICO_CARREGAR_MAIS.PHP
+// Endpoint AJAX (devolve JSON) que carrega, de forma paginada,
+// mais entradas do histórico de alterações de equipamentos.
+// Usado pelo botão "Carregar mais" na vista de consulta de
+// equipamento, para evitar carregar todo o histórico de uma vez.
+// ============================================================
+
 require_once __DIR__ . '/funcoes.php';
 redirect_if_not_logged();
 
 header('Content-Type: application/json; charset=utf-8');
 
+// Parâmetros de paginação
 $offset = isset($_GET['offset']) ? (int) $_GET['offset'] : 0;
 $limite = 15;
 
+// Cores/estilos associados a cada tipo de alteração no histórico
 $classesTipoAlteracao = [
     'Criação' => 'background:#e8f7ef; color:#198754;',
     'Edição' => 'background:#e7f1ff; color:#0d6efd;',
@@ -14,6 +24,7 @@ $classesTipoAlteracao = [
     'Reativação' => 'background:#f3e8ff; color:#9333ea;',
 ];
 
+// Rótulos em português dos campos apresentados no histórico
 $rotulosCamposHistorico = [
     'designacao' => 'Designação',
     'categoria' => 'Categoria',
@@ -27,13 +38,9 @@ $rotulosCamposHistorico = [
     'observacoes' => 'Observações',
 ];
 
+// Ir buscar a página seguinte de entradas do histórico e devolver em HTML pronto a inserir
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $stmt = $ligacao->prepare("
         SELECT h.id, h.equipamento_id, h.descricao, h.data_alteracao, h.dados_anteriores, h.dados_novos,

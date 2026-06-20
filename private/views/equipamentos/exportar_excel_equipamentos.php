@@ -1,14 +1,16 @@
 <?php
+// ============================================================
+// EXPORTAR_EXCEL_EQUIPAMENTOS.PHP
+// Gera e envia para download um ficheiro CSV (compatível com
+// Excel) com a listagem de todos os equipamentos ativos.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Obter os dados dos equipamentos a exportar
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     $resultados = $ligacao->query("
         SELECT e.codigo, e.designacao,
@@ -35,6 +37,7 @@ try {
     die('Erro ao ligar à base de dados.');
 }
 
+// Configurar os cabeçalhos HTTP para forçar o download do ficheiro CSV
 header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename="listagem_equipamentos_' . date('Y-m-d') . '.csv"');
 header('Pragma: no-cache');

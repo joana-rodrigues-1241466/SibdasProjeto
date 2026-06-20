@@ -1,6 +1,21 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
 
+// ============================================================
+// Ligação à base de dados
+// ============================================================
+function conectar_bd(): PDO
+{
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    return $ligacao;
+}
+
 function start_session()
 {
     if (session_status() == PHP_SESSION_NONE) {

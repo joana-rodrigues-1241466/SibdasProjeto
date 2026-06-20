@@ -1,4 +1,12 @@
 <?php
+// ============================================================
+// HEADER.PHP
+// Cabeçalho comum a todas as páginas da área privada.
+// Carrega a configuração da aplicação e abre a estrutura HTML
+// base (DOCTYPE, <head> com metadados/folhas de estilo, e o
+// início do <body>), incluindo as bibliotecas externas (jQuery,
+// DataTables, Bootstrap, Font Awesome) e o CSS próprio do projeto.
+// ============================================================
 require_once __DIR__ . '/../../config/config.php';
 ?>
 

@@ -1,10 +1,21 @@
 <?php
+// ============================================================
+// NOVO_FORNECEDOR.PHP
+// Formulário de criação de um novo fornecedor. Recolhe os dados
+// submetidos, valida-os (incluindo unicidade de código, NIF,
+// telefone e email) e, se válidos, insere o fornecedor e a
+// respetiva documentação (se enviada) na base de dados.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 require_once __DIR__ . '/../../includes/validacoes.php';
 
 $erros = [];
 
+// --------------------------------------------------------------------
+// PROCESSAMENTO DO FORMULÁRIO (submissão POST)
+// --------------------------------------------------------------------
 // Verificar se o formulário foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
@@ -63,12 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // --- Validações de unicidade (codigo, NIF, telefone, email) ---
     if (empty($erros)) {
         try {
-            $ligacao = new PDO(
-                "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-                MYSQL_USERNAME,
-                MYSQL_PASSWORD
-            );
-            $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $ligacao = conectar_bd();
 
             // Código único
             $stmt = $ligacao->prepare("SELECT COUNT(*) FROM fornecedores WHERE codigo = :codigo");
@@ -110,12 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($erros)) {
         try {
-            $ligacao = new PDO(
-                "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-                MYSQL_USERNAME,
-                MYSQL_PASSWORD
-            );
-            $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $ligacao = conectar_bd();
 
             // Resolver tipo_id a partir do nome do tipo de fornecedor
             $stmt = $ligacao->prepare("SELECT id FROM tipos_fornecedor WHERE designacao = :designacao");
@@ -221,7 +222,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php include '../../includes/menu.php'; ?>
 
-    <!-- Conteúdo principal -->
+    <!-- ============================================================ -->
+    <!-- Formulário de criação de novo fornecedor -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
         <section class="formulario-privado">

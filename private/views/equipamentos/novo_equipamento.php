@@ -1,16 +1,21 @@
 <?php
+// ============================================================
+// NOVO_EQUIPAMENTO.PHP
+// Formulário multi-separador (Identificação, Acessórios/
+// Consumíveis, Aquisição, Fornecedor, Localização, Garantia,
+// Contrato de Manutenção) para criar um novo equipamento.
+// Recolhe os dados de todos os separadores, valida-os com as
+// funções reutilizáveis de validacoes.php e, se válidos, insere
+// o equipamento e todos os dados/documentação associados.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 require_once __DIR__ . '/../../includes/validacoes.php';
 
 // Ir buscar unidades e estados de acessório para os selects dinâmicos (Tab 2)
 try {
-    $ligacaoListas = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacaoListas->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacaoListas = conectar_bd();
 
     $unidadesBD = $ligacaoListas->query("SELECT designacao FROM unidades ORDER BY ordem")->fetchAll(PDO::FETCH_COLUMN);
     $estadosAcessorioBD = $ligacaoListas->query("SELECT designacao, valor FROM estados_acessorio ORDER BY ordem")->fetchAll(PDO::FETCH_ASSOC);
@@ -33,6 +38,9 @@ try {
 
 $erros = [];
 
+// --------------------------------------------------------------------
+// PROCESSAMENTO DO FORMULÁRIO (submissão POST)
+// --------------------------------------------------------------------
 // Verificar se o formulário foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -89,12 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // --- Validações de unicidade (código; fabricante+modelo+numero_serie) ---
     if (empty($erros)) {
         try {
-            $ligacao = new PDO(
-                "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-                MYSQL_USERNAME,
-                MYSQL_PASSWORD
-            );
-            $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $ligacao = conectar_bd();
 
             // Código único
             $stmt = $ligacao->prepare("SELECT COUNT(*) FROM equipamentos WHERE codigo = :codigo");
@@ -265,12 +268,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // 4. Guardar na base de dados — Tab 1
     if (empty($erros)) {
         try {
-            $ligacao = new PDO(
-                "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-                MYSQL_USERNAME,
-                MYSQL_PASSWORD
-            );
-            $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $ligacao = conectar_bd();
 
             // Resolver categoria_id
             $stmt = $ligacao->prepare("SELECT id FROM categorias WHERE designacao = :designacao");
@@ -495,7 +493,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php include '../../includes/menu.php'; ?>
 
-    <!-- Conteúdo principal -->
+    <!-- ============================================================ -->
+    <!-- Formulário de criação de novo equipamento (multi-separador) -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
         <section class="formulario-privado">
@@ -1875,6 +1875,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </div>
 
+<!-- ============================================================ -->
+<!-- Script JavaScript da página -->
+<!-- ============================================================ -->
 <script>
     const UNIDADES_BD = <?= json_encode($unidadesBD) ?>;
     const ESTADOS_ACESSORIO_BD = <?= json_encode($estadosAcessorioBD) ?>;

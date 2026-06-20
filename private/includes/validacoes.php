@@ -1,4 +1,13 @@
 <?php
+// ============================================================
+// VALIDACOES.PHP
+// Conjunto de funções reutilizáveis de validação de dados de
+// formulários (Localizações, Fornecedores e Equipamentos —
+// Identificação, Acessórios/Consumíveis, Aquisição, Fornecedores
+// Associados, Localização, Garantia e Contrato de Manutenção).
+// Cada função recebe os dados de um campo (ou conjunto de campos)
+// e devolve um array de mensagens de erro, vazio se tudo for válido.
+// ============================================================
 
 // ============================================================
 // Validações dos campos do formulário de Localizações

@@ -1,14 +1,18 @@
 <?php
+// ============================================================
+// DASHBOARD.PHP
+// Painel de indicadores com uma visão rápida do estado global
+// do parque tecnológico: totais por estado, distribuição por
+// serviço/categoria, equipamentos de criticidade elevada e
+// garantias a expirar nos próximos 30 dias.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Calcular todos os indicadores e dados dos gráficos apresentados na dashboard
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = conectar_bd();
 
     // Indicadores principais
     $totalEquipamentos = $ligacao->query("SELECT COUNT(*) FROM equipamentos WHERE ativo = 1")->fetchColumn();
@@ -54,6 +58,7 @@ try {
         LIMIT 6
     ")->fetchAll(PDO::FETCH_ASSOC);
 
+    // Calcular a altura em pixéis de cada barra, proporcional ao valor máximo
     $maximoServico = !empty($servicosChart) ? max(array_column($servicosChart, 'total')) : 1;
     $alturaMaximaPx = 160;
     foreach ($servicosChart as &$s) {
@@ -112,6 +117,7 @@ try {
 
 $ligacao = null;
 
+// Paleta de cores usada no gráfico de barras por serviço
 $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61ff'];
 ?>
 
@@ -122,6 +128,9 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
 
     <?php include '../../includes/menu.php'; ?>
 
+    <!-- ============================================================ -->
+    <!-- Painel de indicadores (dashboard) -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
         <div class="titulo-pagina-equipamentos">
@@ -319,7 +328,11 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
 
 </div>
 
+<!-- ============================================================ -->
+<!-- Script JavaScript da página -->
+<!-- ============================================================ -->
 <script>
+    // Ativar os popovers do Bootstrap (tooltips informativos)
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
             new bootstrap.Popover(el);

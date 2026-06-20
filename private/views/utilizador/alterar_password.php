@@ -1,15 +1,25 @@
 <?php
+// ============================================================
+// ALTERAR_PASSWORD.PHP
+// Permite ao utilizador autenticado alterar a sua própria
+// palavra-passe, mediante confirmação da palavra-passe atual.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
 $erros = [];
 $sucesso = false;
 
+// --------------------------------------------------------------------
+// PROCESSAMENTO DO FORMULÁRIO (submissão POST)
+// --------------------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $passwordAtual = $_POST['password_atual'] ?? '';
     $passwordNova = $_POST['password_nova'] ?? '';
     $passwordConfirmar = $_POST['password_confirmar'] ?? '';
 
+    // Validações dos campos do formulário
     if (empty($passwordAtual)) {
         $erros[] = 'Introduza a sua palavra-passe atual.';
     }
@@ -22,14 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erros[] = 'A confirmação da palavra-passe não coincide com a nova palavra-passe.';
     }
 
+    // Se não houver erros de validação, verificar a password atual e atualizar
     if (empty($erros)) {
         try {
-            $ligacao = new PDO(
-                "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-                MYSQL_USERNAME,
-                MYSQL_PASSWORD
-            );
-            $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $ligacao = conectar_bd();
 
             $stmt = $ligacao->prepare("SELECT password_hash FROM utilizadores WHERE id = :id");
             $stmt->execute([':id' => $_SESSION['utilizador_id']]);
@@ -64,6 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <?php include '../../includes/menu.php'; ?>
 
+    <!-- ============================================================ -->
+    <!-- Formulário de alteração de palavra-passe -->
+    <!-- ============================================================ -->
     <main class="conteudo-privado">
 
         <section class="formulario-privado" style="max-width: 700px; margin-left: auto; margin-right: auto;">

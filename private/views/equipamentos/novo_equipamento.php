@@ -477,6 +477,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $ligacao = null;
 
             // Redirecionar após sucesso
+            $_SESSION['mensagem_sucesso'] = 'Equipamento criado com sucesso.';
             header("Location: equipamentos.php");
             exit;
         } catch (PDOException $err) {

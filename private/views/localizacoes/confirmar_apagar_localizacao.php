@@ -25,6 +25,7 @@ try {
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
 
+    $_SESSION['mensagem_sucesso'] = 'Localização desativada com sucesso.';
     header('Location: ' . BASE_URL . '/private/views/localizacoes/localizacoes.php');
     exit;
 } catch (PDOException $e) {

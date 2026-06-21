@@ -39,6 +39,7 @@ try {
         ['ativo' => 1]
     );
 
+    $_SESSION['mensagem_sucesso'] = 'Equipamento reativado com sucesso.';
     header('Location: ' . BASE_URL . '/private/views/equipamentos/equipamentos.php');
     exit;
 } catch (PDOException $e) {

@@ -33,6 +33,23 @@ unset($_SESSION['success_message']);
             </div>
         </div>
 
+        <?php if (!empty($success_message)) : ?>
+        <div id="alerta-sucesso" class="alert alert-success text-center" role="alert">
+            <i class="fa-solid fa-circle-check"></i>
+            <?= htmlspecialchars($success_message) ?>
+        </div>
+        <script>
+            setTimeout(function () {
+                const alerta = document.getElementById('alerta-sucesso');
+                if (alerta) {
+                    alerta.style.transition = 'opacity 0.5s ease';
+                    alerta.style.opacity = '0';
+                    setTimeout(function () { alerta.remove(); }, 500);
+                }
+            }, 3000);
+        </script>
+        <?php endif; ?>
+
         <p class="mensagem-listagem">Seleciona uma das áreas abaixo ou utiliza o menu lateral para navegar.</p>
 
         <!-- Cards de atalho, visíveis consoante o perfil do utilizador -->

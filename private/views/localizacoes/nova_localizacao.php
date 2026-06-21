@@ -81,6 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':observacoes' => $observacoes
             ]);
 
+            $_SESSION['mensagem_sucesso'] = 'Localização criada com sucesso.';
             header("Location: localizacoes.php");
             exit;
         } catch (PDOException $err) {

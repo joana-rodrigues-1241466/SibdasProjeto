@@ -51,6 +51,24 @@ $ligacao = null;
     <!-- ============================================================ -->
     <main class="conteudo-privado">
 
+        <?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
+        <div id="alerta-sucesso" class="alert alert-success text-center" role="alert">
+            <i class="fa-solid fa-circle-check"></i>
+            <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
+        </div>
+        <script>
+            setTimeout(function () {
+                const alerta = document.getElementById('alerta-sucesso');
+                if (alerta) {
+                    alerta.style.transition = 'opacity 0.5s ease';
+                    alerta.style.opacity = '0';
+                    setTimeout(function () { alerta.remove(); }, 500);
+                }
+            }, 3000);
+        </script>
+        <?php unset($_SESSION['mensagem_sucesso']); ?>
+        <?php endif; ?>
+
         <div class="titulo-pagina-equipamentos">
             <div class="bloco-titulo-equipamentos">
                 <h1>Mensagens de Contacto</h1>

@@ -86,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $ligacao = null;
 
+            $_SESSION['mensagem_sucesso'] = 'Localização atualizada com sucesso.';
             header('Location: localizacoes.php');
             exit;
         } catch (PDOException $err) {

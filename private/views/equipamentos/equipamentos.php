@@ -71,10 +71,10 @@ $ligacao = null;
     <!-- ============================================================ -->
     <main class="conteudo-privado">
 
-    <?php if (isset($_SESSION['sucesso']) && $_SESSION['sucesso'] === 'equipamento_atualizado') : ?>
+    <?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
     <div id="alerta-sucesso" class="alert alert-success text-center" role="alert">
         <i class="fa-solid fa-circle-check"></i>
-        Equipamento atualizado com sucesso.
+        <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
     </div>
     <script>
         setTimeout(function () {
@@ -86,7 +86,7 @@ $ligacao = null;
             }
         }, 3000);
     </script>
-<?php unset($_SESSION['sucesso']); ?>
+    <?php unset($_SESSION['mensagem_sucesso']); ?>
 <?php endif; ?>
 
         <div class="titulo-pagina-equipamentos">

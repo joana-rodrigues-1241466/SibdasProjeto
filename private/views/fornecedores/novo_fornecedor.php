@@ -203,6 +203,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ]);
             }
 
+            $_SESSION['mensagem_sucesso'] = 'Fornecedor criado com sucesso.';
             header("Location: fornecedores.php");
             exit;
 

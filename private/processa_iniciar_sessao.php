@@ -92,6 +92,7 @@ try {
     $_SESSION['utilizador_id'] = $utilizador->id;
     $_SESSION['email'] = $utilizador->email;
     $_SESSION['profile'] = $utilizador->perfil;
+    $_SESSION['success_message'] = 'Sessão iniciada com sucesso.';
 
 } catch (PDOException $e) {
     $_SESSION['server_error'] = 'Erro ao ligar à base de dados.';

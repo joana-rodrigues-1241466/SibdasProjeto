@@ -518,7 +518,7 @@ if ($metodoPost) {
 
         $ligacao = null;
 
-        $_SESSION['sucesso'] = 'equipamento_atualizado';
+        $_SESSION['mensagem_sucesso'] = 'Equipamento atualizado com sucesso.';
 header('Location: ' . BASE_URL . '/private/views/equipamentos/equipamentos.php');
 exit;
 
@@ -898,6 +898,14 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                     <i class="fa-solid fa-pen-to-square"></i>
                     Editar equipamento
                 </h1>
+            </div>
+
+            <div class="cabecalho-equipamento-detalhe">
+                <div class="cabecalho-info-equipamento">
+                    <span class="cabecalho-codigo"><?= htmlspecialchars($equipamento->codigo) ?></span>
+                    <span class="cabecalho-separador">·</span>
+                    <span class="cabecalho-nome"><?= htmlspecialchars($metodoPost ? ($_POST['designacao'] ?? '') : $equipamento->designacao) ?></span>
+                </div>
             </div>
 
             <hr>

@@ -270,19 +270,6 @@ body {
     box-shadow: 0 0 0 3px rgba(0, 119, 163, 0.15);
 }
 
-.mensagem-contactos {
-    font-size: 0.95em;
-    font-weight: 600;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    min-height: 22px;
-    text-align: center;
-}
-
-.mensagem-contactos.sucesso {
-    color: #198754;
-}
-
 .botao-contactos {
     display: block;
     margin: 10px auto 0 auto;
@@ -311,10 +298,6 @@ body {
 }
 
 /* Página de Login */
-.pagina-login {
-    min-height: 100vh;
-    background-color: #ffffff;
-}
 
 .login-container {
     min-height: 100vh;
@@ -1720,14 +1703,6 @@ body {
     opacity: 1;
 }
 
-/* Linhas dos campos */
-.linha-detalhes {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 34px;
-    margin-bottom: 28px;
-}
-
 .campo-detalhes {
     padding-bottom: 1.1rem;
     border-bottom: 1px solid #e3edf5;
@@ -1776,11 +1751,6 @@ body {
     color: #1f2d3d;
 }
 
-/* Campos que ocupam a largura toda */
-.campo-largo {
-    grid-column: span 3;
-}
-
 /* Botões inferiores */
 .botoes-detalhes-equipamento {
     display: flex;
@@ -1791,8 +1761,7 @@ body {
 }
 
 /* Estilo geral dos botões */
-.botao-voltar-detalhes,
-.botao-editar-detalhes {
+.botao-voltar-detalhes {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1816,9 +1785,7 @@ body {
 }
 
 #detalhe-email,
-#detalhe-website,
-#detalhe-fornecedor-email,
-#detalhe-fornecedor-website {
+#detalhe-website {
     word-break: break-word;
     overflow-wrap: anywhere;
 }
@@ -1876,19 +1843,6 @@ body {
 }
 
 .cartao-documentacao-associada {
-    margin-bottom: 24px;
-    padding: 20px;
-    border: 1px solid #e5e7eb;
-    border-radius: 14px;
-    background-color: #ffffff;
-}
-
-.texto-sem-dados {
-    color: #6b7280;
-    font-style: italic;
-}
-
-.cartao-documentacao-associada {
     border: 1px solid #dbe4ec;
     border-radius: 14px;
     padding: 20px;
@@ -1902,67 +1856,6 @@ body {
 }
 
 /* Cabeçalho identificação */
-.cabecalho-identificacao-detalhe {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 1.5rem;
-}
-
-.badges-estado-identificacao {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-}
-
-/* Badge de estado do equipamento */
-.badge-estado-equipamento {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.38rem 0.9rem;
-    border-radius: 999px;
-    font-size: 0.88rem;
-    font-weight: 800;
-    letter-spacing: 0.02em;
-}
-
-.badge-estado-ativo {
-    background-color: #e8f7ef;
-    color: #198754;
-    border: 1px solid #b7e4c7;
-}
-
-.badge-estado-manutencao {
-    background-color: #fff4e0;
-    color: #c47b00;
-    border: 1px solid #ffd97a;
-}
-
-.badge-estado-calibracao {
-    background-color: #e8f0ff;
-    color: #3b5bdb;
-    border: 1px solid #a5b4fc;
-}
-
-.badge-estado-inativo {
-    background-color: #f0f1f5;
-    color: #5a6480;
-    border: 1px solid #c8cdd8;
-}
-
-.badge-estado-quarentena {
-    background-color: #fdecea;
-    color: #c0392b;
-    border: 1px solid #f3a6a6;
-}
-
-.badge-estado-abatido {
-    background-color: #1f1f1f15;
-    color: #444444;
-    border: 1px solid #aaaaaa;
-}
-
 .accordion-documentacao {
     display: flex;
     flex-direction: column;
@@ -2049,22 +1942,6 @@ body {
     background-color: #f0f1f5;
     color: #5a6480;
     border: 1px solid #c8cdd8;
-}
-
-.grelha-dados-equipamento {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    column-gap: 3rem;
-    row-gap: 1.5rem;
-    padding-top: 0.4rem;
-}
-
-.grelha-dados-equipamento .campo-detalhes {
-    grid-column: span 2;
-}
-
-.grelha-dados-equipamento .campo-detalhes.col-3 {
-    grid-column: span 3;
 }
 
 .tabela-detalhe-itens {
@@ -2317,79 +2194,6 @@ body {
         font-size: 0.85rem;
         padding: 0.7rem 0.9rem;
     }
-}
-
-/* ===============================
-   MODAL ELIMINAR EQUIPAMENTO
-================================ */
-
-.modal-eliminar-equipamento .modal-content {
-    border-radius: 16px;
-    border: none;
-    padding: 10px;
-}
-
-.modal-eliminar-equipamento .modal-header {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.modal-eliminar-equipamento .modal-title {
-    color: #003f78;
-    font-weight: 700;
-}
-
-.modal-eliminar-equipamento .modal-body {
-    text-align: left;
-    padding: 30px 45px;
-}
-
-.modal-eliminar-equipamento .modal-body i {
-    font-size: 55px;
-    color: #dc3545;
-    margin-bottom: 20px;
-}
-
-.modal-eliminar-equipamento .modal-body p {
-    font-size: 1.05rem;
-    color: #1f2d3d;
-    margin: 0;
-    padding-right: 10px;
-    line-height: 1.7;
-}
-
-.modal-eliminar-equipamento .modal-footer {
-    border-top: none;
-    justify-content: center;
-    gap: 12px;
-    padding-top: 0;
-    padding-bottom: 25px;
-}
-
-.botao-cancelar-modal {
-    background-color: #ffffff;
-    color: #003f78;
-    border: 1px solid #8fa6b8;
-    padding: 10px 22px;
-    border-radius: 8px;
-    font-weight: 700;
-}
-
-.botao-cancelar-modal:hover {
-    background-color: #eef6fb;
-}
-
-.botao-confirmar-eliminar {
-    background-color: #dc3545;
-    color: #ffffff;
-    border: none;
-    padding: 10px 22px;
-    border-radius: 8px;
-    font-weight: 700;
-}
-
-.botao-confirmar-eliminar:hover {
-    background-color: #bb2d3b;
 }
 
 /* ============================================================
@@ -2698,12 +2502,6 @@ body {
     overflow: hidden;
 }
 
-.card-dashboard-garantias {
-    grid-column: span 3;
-    background-color: #ffffff;
-    border-color: #d7e1ec;
-}
-
 .card-dashboard h3 {
     color: #0b2f4f;
     font-size: 1.15rem;
@@ -2734,18 +2532,18 @@ body {
     white-space: nowrap;
 }
 
+/* Botão "Ver lista" do card de criticidade elevada — centrado */
+.card-criticidade-dashboard .link-card-dashboard {
+    display: flex;
+    width: fit-content;
+    margin: 0 auto;
+}
+
 .link-card-dashboard:hover {
     background-color: #eef7fb;
     border-color: #0086a8;
     color: #003f78;
     text-decoration: none;
-}
-
-.grafico-barras-dashboard {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    overflow-x: auto;
 }
 
 .barra-servico-dashboard {
@@ -2865,11 +2663,6 @@ body {
     color: #d6333f;
 }
 
-.card-suporte-vida-dashboard {
-    background-color: #ffffff;
-    border-color: #d7e1ec;
-}
-
 .tabela-dashboard {
     width: 100%;
     border-collapse: collapse;
@@ -2914,30 +2707,6 @@ body {
 
 .numero-destaque-dashboard span {
     color: #4f5f6f;
-}
-
-.botao-card-dashboard {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: fit-content;
-    margin: 0 auto;
-    padding: 0.55rem 1.25rem;
-    border: 1px solid #d7e1ec;
-    border-radius: 9px;
-    color: #003f78;
-    background-color: #ffffff;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.9rem;
-    white-space: nowrap;
-}
-
-.botao-card-dashboard:hover {
-    background-color: #eef7fb;
-    border-color: #0086a8;
-    color: #003f78;
-    text-decoration: none;
 }
 
 .rodape-dashboard {
@@ -3033,10 +2802,6 @@ body {
 }
 
 @media (max-width: 900px) {
-
-    .form-grid-privado {
-        grid-template-columns: 1fr;
-    }
 
     .acoes-formulario-privado {
         justify-content: center;
@@ -3418,30 +3183,8 @@ body {
 /* ============================================================
    GRELHAS ADICIONAIS — cobertura responsiva em falta
    ============================================================ */
-@media (max-width: 1100px) {
-    .grelha-dados-equipamento {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .grelha-dados-equipamento .campo-detalhes,
-    .grelha-dados-equipamento .campo-detalhes.col-3 {
-        grid-column: span 1;
-    }
-
-    .linha-detalhes {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
 
 @media (max-width: 700px) {
-    .grelha-dados-equipamento {
-        grid-template-columns: 1fr;
-    }
-
-    .linha-detalhes {
-        grid-template-columns: 1fr;
-    }
-
     .cabecalho-equipamento-detalhe {
         flex-wrap: wrap;
     }
@@ -3450,4 +3193,21 @@ body {
     .link-exportar-pdf {
         margin-left: 0;
     }
+}
+
+/* ============================================================
+   GRÁFICOS CHART.JS — DASHBOARD
+   ============================================================ */
+.grafico-barras-dashboard {
+    width: 100%;
+    max-width: 100%;
+    height: 340px;
+    position: relative;
+}
+
+#categoriasDashboard {
+    width: 100%;
+    max-width: 100%;
+    height: 280px;
+    position: relative;
 }

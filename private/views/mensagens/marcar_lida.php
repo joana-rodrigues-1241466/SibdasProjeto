@@ -31,10 +31,11 @@ try {
     $stmt = $ligacao->prepare("UPDATE mensagens_contacto SET lido = 1, lido_em = :lido_em, lido_por = :lido_por WHERE id = :id");
     $stmt->execute([
         ':lido_em' => date('Y-m-d H:i:s'),
-        ':lido_por' => $_SESSION['utilizador_id'],
+        ':lido_por' => $_SESSION['utilizador_id'] ?? null,
         ':id' => $id
     ]);
 
+    $_SESSION['mensagem_sucesso'] = 'Mensagem marcada como lida.';
     header('Location: ' . BASE_URL . '/private/views/mensagens/mensagens.php');
     exit;
 } catch (PDOException $e) {

@@ -27,6 +27,7 @@ try {
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
 
+    $_SESSION['mensagem_sucesso'] = 'Fornecedor desativado com sucesso.';
     header('Location: ' . BASE_URL . '/private/views/fornecedores/fornecedores.php');
     exit;
 } catch (PDOException $e) {

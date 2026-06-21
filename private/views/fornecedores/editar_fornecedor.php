@@ -228,8 +228,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            $ligacao = null;
+           $ligacao = null;
 
+            $_SESSION['mensagem_sucesso'] = 'Fornecedor atualizado com sucesso.';
             header('Location: fornecedores.php');
             exit;
         } catch (PDOException $err) {

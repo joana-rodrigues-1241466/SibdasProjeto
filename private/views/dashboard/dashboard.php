@@ -47,16 +47,15 @@ try {
         AND NOT EXISTS (SELECT 1 FROM documentacao_equipamentos de WHERE de.equipamento_id = e.id)
     ")->fetchColumn();
 
-    // Equipamentos por serviço (top 6, para o gráfico de barras)
-    $servicosChart = $ligacao->query("
-        SELECT COALESCE(l.servico, 'Não definido') AS servico, COUNT(*) AS total
-        FROM equipamentos e
-        LEFT JOIN localizacoes l ON e.localizacao_id = l.id
-        WHERE e.ativo = 1
-        GROUP BY servico
-        ORDER BY total DESC
-        LIMIT 6
-    ")->fetchAll(PDO::FETCH_ASSOC);
+    // Equipamentos por serviço (todos os serviços, para o gráfico de barras)
+$servicosChart = $ligacao->query("
+    SELECT COALESCE(l.servico, 'Não definido') AS servico, COUNT(*) AS total
+    FROM equipamentos e
+    LEFT JOIN localizacoes l ON e.localizacao_id = l.id
+    WHERE e.ativo = 1
+    GROUP BY servico
+    ORDER BY total DESC
+")->fetchAll(PDO::FETCH_ASSOC);
 
     // Calcular a altura em pixéis de cada barra, proporcional ao valor máximo
     $maximoServico = !empty($servicosChart) ? max(array_column($servicosChart, 'total')) : 1;
@@ -231,15 +230,7 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
                     <?php if (empty($servicosChart)) : ?>
                         <p class="text-muted">Sem dados de serviços.</p>
                     <?php else : ?>
-                        <div style="display:flex; align-items:flex-end; gap:1.4rem; height:200px; border-bottom:1px solid #d7e1ec; width:100%;">
-                            <?php foreach ($servicosChart as $s) : ?>
-                                <div class="barra-servico-dashboard" style="height:100%;">
-                                    <span class="valor"><?= $s['total'] ?></span>
-                                    <div class="barra" style="height: <?= $s['altura'] ?>px;"></div>
-                                    <span class="label"><?= htmlspecialchars($s['servico']) ?></span>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
+                        <canvas id="canvasServicosDashboard" height="90"></canvas>
                     <?php endif; ?>
                 </div>
             </div>
@@ -300,16 +291,11 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
             <div class="card-dashboard">
                 <h3>Distribuição por categoria</h3>
                 <div id="categoriasDashboard" class="lista-distribuicao-dashboard">
-                    <?php foreach ($categoriasChart as $cat) : ?>
-                        <?php $percentagemCat = $totalEquipamentos > 0 ? round(($cat['total'] / $totalEquipamentos) * 100) : 0; ?>
-                        <div class="item-distribuicao-dashboard">
-                            <span class="nome"><?= htmlspecialchars($cat['categoria']) ?></span>
-                            <span class="valor"><?= $cat['total'] ?> (<?= $percentagemCat ?>%)</span>
-                            <div class="barra-distribuicao-dashboard">
-                                <span style="width: <?= $percentagemCat ?>%;"></span>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+                    <?php if (empty($categoriasChart)) : ?>
+                        <p class="text-muted">Sem dados de categorias.</p>
+                    <?php else : ?>
+                        <canvas id="canvasCategoriasDashboard" height="220"></canvas>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -328,15 +314,142 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
 
 </div>
 
+<!-- Biblioteca de gráficos Chart.js -->
+<script src="/medivault/assets/js/chart.umd.min.js"></script>
+
 <!-- ============================================================ -->
 <!-- Script JavaScript da página -->
 <!-- ============================================================ -->
 <script>
-    // Ativar os popovers do Bootstrap (tooltips informativos)
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
+    const DADOS_SERVICOS = <?= json_encode($servicosChart) ?>;
+const DADOS_CATEGORIAS = <?= json_encode($categoriasChart) ?>;
+
+// Gera uma cor distinta para cada barra/fatia do gráfico.
+// Usa primeiro uma paleta fixa de cores da identidade visual da MediVault;
+// se houver mais elementos do que cores na paleta, gera tons adicionais
+// distribuindo-os uniformemente à volta do círculo de matiz (HSL).
+function gerarCoresGrafico(quantidade) {
+    const paletaBase = [
+        "#005fae", "#0086a8", "#2a9d8f", "#f4a261", "#e76f51",
+        "#7b61ff", "#d63384", "#2f9e44", "#f08c00", "#6c757d",
+        "#3b5bdb", "#0ca678", "#e8590c", "#9c36b5", "#1971c2"
+    ];
+
+    if (quantidade <= paletaBase.length) {
+        return paletaBase.slice(0, quantidade);
+    }
+
+    const cores = paletaBase.slice();
+    for (let i = paletaBase.length; i < quantidade; i++) {
+        const matiz = Math.round((360 / quantidade) * i);
+        cores.push("hsl(" + matiz + ", 65%, 50%)");
+    }
+    return cores;
+}
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // Ativar os popovers do Bootstrap (tooltips informativos)
+        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function(el) {
             new bootstrap.Popover(el);
         });
+
+        // Gráfico de barras: Equipamentos por serviço
+        const canvasServicos = document.getElementById("canvasServicosDashboard");
+        if (canvasServicos && DADOS_SERVICOS.length > 0) {
+            new Chart(canvasServicos, {
+    type: "bar",
+    data: {
+        labels: DADOS_SERVICOS.map(function (s) { return s.servico; }),
+        datasets: [{
+            label: "Equipamentos",
+            data: DADOS_SERVICOS.map(function (s) { return s.total; }),
+            backgroundColor: gerarCoresGrafico(DADOS_SERVICOS.length),
+            borderRadius: 8,
+            maxBarThickness: 56,
+        }]
+    },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(contexto) {
+                                    return contexto.parsed.y + " equipamento" + (contexto.parsed.y !== 1 ? "s" : "");
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                precision: 0
+                            },
+                            title: {
+                                display: true,
+                                text: "N.º de equipamentos"
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Gráfico de rosca: Distribuição por categoria
+        const canvasCategorias = document.getElementById("canvasCategoriasDashboard");
+        if (canvasCategorias && DADOS_CATEGORIAS.length > 0) {
+            const coresCategorias = gerarCoresGrafico(DADOS_CATEGORIAS.length);
+
+            new Chart(canvasCategorias, {
+                type: "doughnut",
+                data: {
+                    labels: DADOS_CATEGORIAS.map(function(c) {
+                        return c.categoria;
+                    }),
+                    datasets: [{
+                        data: DADOS_CATEGORIAS.map(function(c) {
+                            return c.total;
+                        }),
+                        backgroundColor: coresCategorias,
+                        borderWidth: 2,
+                        borderColor: "#ffffff",
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: "bottom",
+                            labels: {
+                                boxWidth: 12,
+                                padding: 10,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(contexto) {
+                                    const total = contexto.dataset.data.reduce(function(a, b) {
+                                        return a + b;
+                                    }, 0);
+                                    const percentagem = total > 0 ? Math.round((contexto.parsed / total) * 100) : 0;
+                                    return contexto.label + ": " + contexto.parsed + " equipamentos (" + percentagem + "%)";
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
     });
 </script>
 

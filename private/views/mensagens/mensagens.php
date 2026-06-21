@@ -196,6 +196,7 @@ $ligacao = null;
             pageLength: 10,
             pagingType: "full_numbers",
             dom: 'rtip',
+            scrollX: true,
             language: {
                 emptyTable: "Sem mensagens disponíveis.",
                 info: "Mostrando _START_ até _END_ de _TOTAL_ registos",

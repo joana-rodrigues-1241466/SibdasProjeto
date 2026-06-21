@@ -80,6 +80,10 @@ $rotulosCamposHistorico = [
 <!-- Navbar da área privada -->
 <header class="navbar-privada">
 
+    <button id="botao-menu-mobile" class="botao-menu-mobile" type="button" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
     <div class="logo-privada">
         <img src="/medivault/assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
         <span class="nome-navbar-privada"><?php echo APP_NAME; ?></span>
@@ -186,6 +190,30 @@ $rotulosCamposHistorico = [
                             botaoVerMais.remove();
                         }
                     });
+            });
+        }
+    });
+
+    // Abrir/fechar o menu lateral em ecrãs pequenos (mobile)
+    // (à espera que a página carregue toda, porque o menu lateral só existe no menu.php,
+    // que é incluído depois deste ficheiro)
+    document.addEventListener("DOMContentLoaded", function () {
+        const botaoMenuMobile = document.getElementById("botao-menu-mobile");
+        const menuLateral = document.querySelector(".menu-lateral-privada");
+
+        if (botaoMenuMobile && menuLateral) {
+            botaoMenuMobile.addEventListener("click", function (evento) {
+                evento.stopPropagation();
+                menuLateral.classList.toggle("aberto");
+            });
+
+            // Fechar o menu ao clicar fora dele (em mobile)
+            document.addEventListener("click", function (evento) {
+                const cliqueDentroDoMenu = menuLateral.contains(evento.target);
+                const cliqueNoBotao = botaoMenuMobile.contains(evento.target);
+                if (!cliqueDentroDoMenu && !cliqueNoBotao) {
+                    menuLateral.classList.remove("aberto");
+                }
             });
         }
     });

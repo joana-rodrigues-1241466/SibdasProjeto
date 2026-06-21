@@ -1,4 +1,10 @@
 <?php
+// ============================================================
+// MARCAR_LIDA.PHP
+// Marca uma mensagem de contacto como lida, registando a data/
+// hora e o utilizador (Administrador) que a marcou.
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
@@ -7,6 +13,7 @@ if ($_SESSION['profile'] !== 'Administrador') {
     exit;
 }
 
+// Desencriptar e validar o ID da mensagem recebido na URL
 $idEncriptado = $_GET['id_mensagem'] ?? null;
 $id = aes_decrypt($idEncriptado);
 
@@ -15,6 +22,7 @@ if (!$id || !is_numeric($id)) {
     exit;
 }
 
+// Marcar a mensagem como lida
 try {
     $ligacao = conectar_bd();
 

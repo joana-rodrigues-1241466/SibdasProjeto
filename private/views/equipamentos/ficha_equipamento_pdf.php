@@ -1,7 +1,17 @@
 <?php
+// ============================================================
+// FICHA_EQUIPAMENTO_PDF.PHP
+// Gera uma versão HTML "imprimível" da ficha completa de um
+// equipamento (Identificação, Localização, Aquisição, Garantia,
+// Contrato de Manutenção, Fornecedores, Acessórios, Consumíveis
+// e Documentação), pronta a converter em PDF através da
+// funcionalidade de impressão do browser (window.print()).
+// ============================================================
+
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
 
+// Desencriptar e validar o ID do equipamento recebido na URL
 $idEncriptado = $_GET['id_equipamento'] ?? null;
 $id = aes_decrypt($idEncriptado);
 
@@ -10,9 +20,13 @@ if (!$id || !is_numeric($id)) {
     exit;
 }
 
+// --------------------------------------------------------------------
+// CARREGAMENTO DE TODOS OS DADOS DO EQUIPAMENTO PARA A FICHA
+// --------------------------------------------------------------------
 try {
     $ligacao = conectar_bd();
 
+    // Dados principais do equipamento (identificação, categoria, estado, criticidade, localização)
     $stmt = $ligacao->prepare("
         SELECT e.*, cat.designacao AS categoria, ee.designacao AS estado, c.designacao AS criticidade,
                l.codigo AS loc_codigo, l.edificio, l.piso, l.servico, l.sala
@@ -31,6 +45,7 @@ try {
         exit;
     }
 
+    // Dados de aquisição
     $stmtAq = $ligacao->prepare("
         SELECT aq.data_aquisicao, aq.custo_aquisicao, aq.observacoes, te.designacao AS tipo_entrada
         FROM aquisicao_equipamentos aq
@@ -40,10 +55,12 @@ try {
     $stmtAq->execute([':id' => $id]);
     $aquisicao = $stmtAq->fetch(PDO::FETCH_ASSOC);
 
+    // Garantia
     $stmtGar = $ligacao->prepare("SELECT * FROM garantias_equipamentos WHERE equipamento_id = :id");
     $stmtGar->execute([':id' => $id]);
     $garantia = $stmtGar->fetch(PDO::FETCH_ASSOC);
 
+    // Contrato de manutenção
     $stmtCont = $ligacao->prepare("
         SELECT cm.entidade_responsavel, cm.observacoes, tc.designacao AS tipo_contrato, p.designacao AS periodicidade
         FROM contratos_manutencao cm
@@ -54,6 +71,7 @@ try {
     $stmtCont->execute([':id' => $id]);
     $contrato = $stmtCont->fetch(PDO::FETCH_ASSOC);
 
+    // Fornecedores associados
     $stmtForn = $ligacao->prepare("
         SELECT f.codigo, f.nome_empresa, tf.designacao AS tipo, ef.pessoa_contacto, ef.telefone_pessoa_contacto
         FROM equipamento_fornecedor ef
@@ -64,6 +82,7 @@ try {
     $stmtForn->execute([':id' => $id]);
     $fornecedores = $stmtForn->fetchAll(PDO::FETCH_ASSOC);
 
+    // Acessórios
     $stmtAcess = $ligacao->prepare("
         SELECT a.nome, a.referencia, a.quantidade, u.designacao AS unidade, ea.designacao AS estado, a.observacoes
         FROM acessorios a
@@ -75,6 +94,7 @@ try {
     $stmtAcess->execute([':id' => $id]);
     $acessorios = $stmtAcess->fetchAll(PDO::FETCH_ASSOC);
 
+    // Consumíveis
     $stmtCons = $ligacao->prepare("
         SELECT c.nome, c.referencia, c.quantidade, u.designacao AS unidade, ea.designacao AS estado, c.observacoes
         FROM consumiveis c
@@ -86,6 +106,7 @@ try {
     $stmtCons->execute([':id' => $id]);
     $consumiveis = $stmtCons->fetchAll(PDO::FETCH_ASSOC);
 
+    // Documentação associada
     $stmtDocs = $ligacao->prepare("
         SELECT de.nome_documento, de.data_documento, de.validade_documento, tde.designacao AS tipo_documento
         FROM documentacao_equipamentos de
@@ -101,6 +122,7 @@ try {
     die('Erro: ' . $e->getMessage());
 }
 
+// Calcular o estado textual da garantia (Em vigor / A expirar em breve / Expirada)
 $diasGarantia = $garantia ? (strtotime($garantia['data_fim']) - strtotime('today')) / 86400 : null;
 if ($diasGarantia === null) $estadoGarantia = '—';
 elseif ($diasGarantia < 0) $estadoGarantia = 'Expirada';
@@ -146,6 +168,7 @@ else $estadoGarantia = 'Em vigor';
 </head>
 <body>
 
+    <!-- Cabeçalho da ficha -->
     <div class="cabecalho">
         <div class="cabecalho-logo">
             <img src="/medivault/assets/imagens/LOGO.png" alt="MediVault">
@@ -367,6 +390,9 @@ else $estadoGarantia = 'Em vigor';
 </body>
 </html>
 
+<!-- ============================================================ -->
+<!-- Script JavaScript: dispara a impressão automaticamente -->
+<!-- ============================================================ -->
 <script>
     window.onload = function () {
         window.print();

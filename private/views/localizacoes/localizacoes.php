@@ -340,6 +340,7 @@ $ligacao = null;
             pageLength: 5,
             pagingType: "full_numbers",
             dom: 'rtip',
+            scrollX: true,
             search: {
                 smart: false
             },

@@ -8,7 +8,7 @@
 // formulário de contacto, guardando a mensagem na base de dados.
 // ============================================================
 
-require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../private/includes/funcoes.php';
 
 $erroContacto = '';
 $sucessoContacto = false;
@@ -99,17 +99,21 @@ function cp($conteudos, $campo, $defeito)
 <body>
 
     <!-- Navegação -->
-    <nav class="navbar navbar-expand navbar-light bg-white shadow-sm fixed-top border-bottom">
-        <!-- Logo e Nome -->
-        <div class="container-fluid px-4">
-            <a class="navbar-brand d-flex align-items-center gap-1" href="index.php">
-                <img src="../assets/imagens/LOGO.png" alt="Logo da MediVault" class="logo-navbar">
-                <span class="nome-navbar"><?php echo APP_NAME; ?></span>
-            </a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top border-bottom">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand d-flex align-items-center gap-1" href="index.php">
+            <img src="../assets/imagens/LOGO.png" alt="Logo da MediVault" class="logo-navbar">
+            <span class="nome-navbar"><?php echo APP_NAME; ?></span>
+        </a>
 
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPublico" aria-controls="menuPublico" aria-expanded="false" aria-label="Abrir menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menuPublico">
             <!-- Links -->
-            <div class="d-flex align-items-center ms-auto">
-                <ul class="navbar-nav ms-auto me-5 mb-lg-0 gap-lg-4 align-items-baseline">
+            <div class="d-flex flex-column flex-lg-row align-items-lg-center ms-auto w-100">
+                <ul class="navbar-nav ms-lg-auto me-lg-5 mb-3 mb-lg-0 gap-lg-4 align-items-lg-baseline">
                     <li class="nav-item">
                         <a class="nav-link link-navbar" href="#home" id="nav-home">Home</a>
                     </li>
@@ -128,10 +132,11 @@ function cp($conteudos, $campo, $defeito)
                     </li>
                 </ul>
 
-                <a href="/medivault/private/iniciar_sessao.php" class="btn botao-login">Iniciar Sessão</a>
+                </ul>
+                <a href="/medivault/private/iniciar_sessao.php" class="btn botao-login ms-lg-3">Iniciar Sessão</a>
             </div>
-
         </div>
+
     </nav>
 
     <!-- Secção inicial -->

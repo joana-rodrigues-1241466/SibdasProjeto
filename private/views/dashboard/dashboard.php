@@ -108,6 +108,7 @@ $servicosChart = $ligacao->query("
 
     $erroDashboard = '';
 } catch (PDOException $e) {
+    registar_erro_log($e->getMessage());
     $erroDashboard = "Erro ao carregar os dados da dashboard: " . $e->getMessage();
     $totalEquipamentos = $equipamentosAtivos = $equipamentosManutencao = $equipamentosInativos = 0;
     $garantiasExpiradas = $semDocumentacao = $criticidadeElevada = $percentagemCriticidade = 0;

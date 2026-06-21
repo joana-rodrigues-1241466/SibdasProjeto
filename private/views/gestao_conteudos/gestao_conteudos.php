@@ -134,6 +134,7 @@ try {
         $resultados = $ligacao->query("SELECT nome_campo, conteudo_campo FROM conteudos_publicos")->fetchAll(PDO::FETCH_KEY_PAIR);
     }
 } catch (PDOException $e) {
+    registar_erro_log($e->getMessage());
     $erroGestao = "Erro ao ligar à base de dados: " . $e->getMessage();
     $resultados = [];
 }

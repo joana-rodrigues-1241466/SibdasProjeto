@@ -48,6 +48,7 @@ GROUP BY f.id, f.codigo, f.nome_empresa, tf.designacao, f.pessoa_contacto, f.tel
 
     $erro = '';
 } catch (PDOException $err) {
+    registar_erro_log($err->getMessage());
     $erro = "Aconteceu um erro na ligação.";
     $resultados = [];
     $nomes = [];
@@ -272,11 +273,19 @@ $ligacao = null;
         </section>
 
         <div class="acao-exportar-tabela">
-            <a href="exportar_excel_fornecedores.php" class="link-exportar-excel">
-                <i class="fa-solid fa-file-excel"></i>
-                Exportar Listagem dos Fornecedores
-            </a>
-        </div>
+    <a href="exportar_excel_fornecedores.php" class="link-exportar-excel">
+        <i class="fa-solid fa-file-csv"></i>
+        Exportar CSV
+    </a>
+    <a href="exportar_json_fornecedores.php" class="link-exportar-excel" style="margin-left: 1rem; color: #f08c00;">
+        <i class="fa-solid fa-file-code"></i>
+        Exportar JSON
+    </a>
+    <a href="exportar_pdf_fornecedores.php" target="_blank" class="link-exportar-pdf" style="margin-left: 1rem;">
+        <i class="fa-solid fa-file-pdf"></i>
+        Exportar PDF
+    </a>
+</div>
 
         <!-- Tabela de fornecedores (DataTables) -->
         <div class="tabela-privada">

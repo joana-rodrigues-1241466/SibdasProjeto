@@ -95,6 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $ligacao = null;
         } catch (PDOException $err) {
+            registar_erro_log($err->getMessage());
             $erros[] = "Erro ao verificar duplicados: " . $err->getMessage();
         }
     }
@@ -234,6 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: fornecedores.php');
             exit;
         } catch (PDOException $err) {
+            registar_erro_log($err->getMessage());
             $erros[] = "Erro ao atualizar o fornecedor: " . $err->getMessage();
         }
     }
@@ -273,6 +275,7 @@ try {
     $stmt->execute();
     $documentacao = $stmt->fetch(PDO::FETCH_OBJ);
 } catch (PDOException $err) {
+    registar_erro_log($err->getMessage());
     $erros[] = "Erro na ligação à base de dados.";
     $fornecedor = null;
     $documentacao = null;

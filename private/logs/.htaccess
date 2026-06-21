@@ -1,0 +1,2 @@
+# Bloqueia qualquer acesso direto via browser a esta pasta
+Deny from all

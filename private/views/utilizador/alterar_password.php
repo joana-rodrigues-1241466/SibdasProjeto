@@ -57,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $ligacao = null;
         } catch (PDOException $e) {
+            registar_erro_log($e->getMessage());
             $erros[] = 'Erro ao atualizar a palavra-passe. Tente novamente.';
         }
     }

@@ -37,6 +37,19 @@ function redirect_if_not_logged($redirect_to = '/private/iniciar_sessao.php')
     }
 }
 
+// ============================================================
+// Restringe o acesso a páginas de criação/edição/eliminação
+// para o perfil "Profissional de Saúde", que só pode consultar.
+// ============================================================
+function bloquear_profissional_saude($redirect_to = '/private/home.php')
+{
+    if (isset($_SESSION['profile']) && $_SESSION['profile'] === 'Profissional de Saúde') {
+        $_SESSION['mensagem_erro'] = 'Não tem permissões para aceder a esta página.';
+        header("Location: " . BASE_URL . $redirect_to);
+        exit;
+    }
+}
+
 function logout_and_redirect($redirect_to = '/private/iniciar_sessao.php')
 {
     start_session();
@@ -44,6 +57,55 @@ function logout_and_redirect($redirect_to = '/private/iniciar_sessao.php')
     session_destroy();
     header("Location: " . BASE_URL . $redirect_to);
     exit;
+}
+
+// ============================================================
+// Regista erros relevantes do sistema num ficheiro de log,
+// para permitir auditoria e diagnóstico sem expor detalhes
+// técnicos ao utilizador final.
+// ============================================================
+function registar_erro_log($mensagem)
+{
+    $pastaLogs = __DIR__ . '/../logs';
+
+    if (!is_dir($pastaLogs)) {
+        mkdir($pastaLogs, 0755, true);
+    }
+
+    $ficheiroLog = $pastaLogs . '/erros.log';
+    $dataHora = date('Y-m-d H:i:s');
+    $utilizador = $_SESSION['utilizador'] ?? 'Visitante (sem sessão)';
+    $pagina = $_SERVER['REQUEST_URI'] ?? 'Desconhecida';
+
+    $linha = "[$dataHora] Utilizador: $utilizador | Página: $pagina | Erro: $mensagem" . PHP_EOL;
+
+    file_put_contents($ficheiroLog, $linha, FILE_APPEND | LOCK_EX);
+}
+
+// ============================================================
+// Regista tentativas de autenticação (com sucesso ou falha),
+// permitindo auditar acessos e detetar tentativas suspeitas.
+// ============================================================
+function registar_log_autenticacao($email, $sucesso, $motivo = '')
+{
+    $pastaLogs = __DIR__ . '/../logs';
+
+    if (!is_dir($pastaLogs)) {
+        mkdir($pastaLogs, 0755, true);
+    }
+
+    $ficheiroLog = $pastaLogs . '/autenticacao.log';
+    $dataHora = date('Y-m-d H:i:s');
+    $resultado = $sucesso ? 'SUCESSO' : 'FALHA';
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'IP desconhecido';
+
+    $linha = "[$dataHora] $resultado | Email: $email | IP: $ip";
+    if ($motivo !== '') {
+        $linha .= " | Motivo: $motivo";
+    }
+    $linha .= PHP_EOL;
+
+    file_put_contents($ficheiroLog, $linha, FILE_APPEND | LOCK_EX);
 }
 
 // ============================================================

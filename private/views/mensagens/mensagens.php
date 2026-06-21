@@ -31,6 +31,7 @@ try {
 
     $erro = '';
 } catch (PDOException $e) {
+    registar_erro_log($e->getMessage());
     $erro = "Erro ao ligar à base de dados: " . $e->getMessage();
     $resultados = [];
     $totalNaoLidas = 0;

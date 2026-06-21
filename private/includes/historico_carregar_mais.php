@@ -68,6 +68,7 @@ try {
         'hasMore' => count($entradas) === $limite,
     ]);
 } catch (PDOException $e) {
+    registar_erro_log($e->getMessage());
     echo json_encode(['html' => '', 'hasMore' => false]);
 }
 

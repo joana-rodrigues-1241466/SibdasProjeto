@@ -62,6 +62,7 @@ try {
     $stmtDoc->execute();
     $documentacao = $stmtDoc->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
+    registar_erro_log($e->getMessage());
     echo "<p class='text-danger'>Erro: " . $e->getMessage() . "</p>";
     exit;
 }

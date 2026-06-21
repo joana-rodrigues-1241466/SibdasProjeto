@@ -11,6 +11,7 @@
 
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
+bloquear_profissional_saude();
 require_once __DIR__ . '/../../includes/validacoes.php';
 
 // Ir buscar unidades e estados de acessório para os selects dinâmicos (Tab 2)
@@ -27,6 +28,7 @@ try {
 
     $ligacaoListas = null;
 } catch (PDOException $err) {
+    registar_erro_log($err->getMessage());
     $unidadesBD = [];
     $estadosAcessorioBD = [];
     $fornecedoresBD = [];
@@ -115,6 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $ligacao = null;
         } catch (PDOException $err) {
+            registar_erro_log($err->getMessage());
             $erros[] = "Erro ao verificar duplicados: " . $err->getMessage();
         }
     }
@@ -481,6 +484,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: equipamentos.php");
             exit;
         } catch (PDOException $err) {
+            registar_erro_log($err->getMessage());
             $erros[] = "Erro ao guardar o equipamento: " . $err->getMessage();
         }
     }

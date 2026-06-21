@@ -119,6 +119,7 @@ try {
 
     $ligacao = null;
 } catch (PDOException $e) {
+    registar_erro_log($e->getMessage());
     die('Erro: ' . $e->getMessage());
 }
 

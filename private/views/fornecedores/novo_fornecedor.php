@@ -107,6 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $ligacao = null;
 
         } catch (PDOException $err) {
+            registar_erro_log($err->getMessage());
             $erros[] = "Erro ao verificar duplicados: " . $err->getMessage();
         }
     }
@@ -208,6 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
 
         } catch (PDOException $err) {
+            registar_erro_log($err->getMessage());
             $erro_sistema = "Erro ao gravar os dados: " . $err->getMessage();
         }
 

@@ -37,6 +37,7 @@ try {
 
     $erro = '';
 } catch (PDOException $err) {
+    registar_erro_log($err->getMessage());
     $erro = "Aconteceu um erro na ligação.";
     $resultados = [];
     $edificios = [];
@@ -85,10 +86,12 @@ $ligacao = null;
                 <span class="linha-titulo-equipamentos"></span>
             </div>
 
-            <a href="nova_localizacao.php" class="botao-novo-registo-privada">
-                <i class="fa-solid fa-plus"></i>
-                Nova localização
-            </a>
+            <?php if ($_SESSION['profile'] !== 'Profissional de Saúde') : ?>
+    <a href="nova_localizacao.php" class="botao-novo-registo-privada">
+        <i class="fa-solid fa-plus"></i>
+        Nova Localização
+    </a>
+<?php endif; ?>
         </div>
 
         <p class="mensagem-listagem">
@@ -193,11 +196,19 @@ $ligacao = null;
         </section>
 
         <div class="acao-exportar-tabela">
-            <a href="exportar_excel_localizacoes.php" class="link-exportar-excel">
-                <i class="fa-solid fa-file-excel"></i>
-                Exportar Listagem das Localizações
-            </a>
-        </div>
+    <a href="exportar_excel_localizacoes.php" class="link-exportar-excel">
+        <i class="fa-solid fa-file-csv"></i>
+        Exportar CSV
+    </a>
+    <a href="exportar_json_localizacoes.php" class="link-exportar-excel" style="margin-left: 1rem; color: #f08c00;">
+        <i class="fa-solid fa-file-code"></i>
+        Exportar JSON
+    </a>
+    <a href="exportar_pdf_localizacoes.php" target="_blank" class="link-exportar-pdf" style="margin-left: 1rem;">
+        <i class="fa-solid fa-file-pdf"></i>
+        Exportar PDF
+    </a>
+</div>
 
         <!-- Tabela de localizações (DataTables) -->
         <div class="tabela-privada">
@@ -239,6 +250,7 @@ $ligacao = null;
                                     <a href="/medivault/private/views/localizacoes/consultar_localizacao.php?id_localizacao=<?= aes_encrypt($localizacao->id) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
                                         <i class="fa-regular fa-eye"></i>
                                     </a>
+                                    <?php if ($_SESSION['profile'] !== 'Profissional de Saúde') : ?>
                                     <a href="editar_localizacao.php?id_localizacao=<?= aes_encrypt($localizacao->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
@@ -251,6 +263,7 @@ $ligacao = null;
     <i class="fa-solid fa-rotate-left"></i>
 </button>
 <?php endif; ?>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

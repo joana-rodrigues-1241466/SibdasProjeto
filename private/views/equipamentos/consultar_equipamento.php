@@ -164,6 +164,7 @@ try {
     $docCertificadoCalibracao = $documentosEquipamento['Certificado de Calibração'] ?? null;
     $docRelatorioCalibracao = $documentosEquipamento['Relatório de Calibração'] ?? null;
 } catch (PDOException $e) {
+    registar_erro_log($e->getMessage());
     echo "<p class='text-danger'>Erro: " . $e->getMessage() . "</p>";
     exit;
 }
@@ -825,22 +826,26 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($fornecedoresEquipamento as $forn) : ?>
-                                        <tr>
-                                            <td><?= htmlspecialchars($forn['codigo']) ?></td>
-                                            <td><?= htmlspecialchars($forn['nome_empresa']) ?></td>
-                                            <td><?= htmlspecialchars($forn['tipo_fornecedor']) ?></td>
-                                            <td><?= htmlspecialchars($forn['pessoa_contacto']) ?></td>
-                                            <td class="acoes-tabela-privada">
-                                                <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFornecedor"
-                                                    style="display: inline-block; padding: 4px 14px; border: 1px solid #005fae; border-radius: 6px; background: none; color: #005fae; font-weight: 600; font-size: 0.85rem;"
-                                                    onclick='abrirDetalhesFornecedorEquipamento(<?= json_encode($forn, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP) ?>)'>
-                                                    Ver detalhes
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
+    <?php foreach ($fornecedoresEquipamento as $forn) : ?>
+        <tr>
+            <td><?= htmlspecialchars($forn['codigo']) ?></td>
+            <td><?= htmlspecialchars($forn['nome_empresa']) ?></td>
+            <td><?= htmlspecialchars($forn['tipo_fornecedor']) ?></td>
+            <td><?= htmlspecialchars($forn['pessoa_contacto']) ?></td>
+            <td class="acoes-tabela-privada">
+                <?php if ($_SESSION['profile'] !== 'Profissional de Saúde') : ?>
+                <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFornecedor"
+                    style="display: inline-block; padding: 4px 14px; border: 1px solid #005fae; border-radius: 6px; background: none; color: #005fae; font-weight: 600; font-size: 0.85rem;"
+                    onclick='abrirDetalhesFornecedorEquipamento(<?= json_encode($forn, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP) ?>)'>
+                    Ver detalhes
+                </button>
+                <?php else : ?>
+                    —
+                <?php endif; ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</tbody>
                             </table>
                         </div>
                     <?php endif; ?>

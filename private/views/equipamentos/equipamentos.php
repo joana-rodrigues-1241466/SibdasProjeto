@@ -50,6 +50,7 @@ $fornecedoresFiltro = $ligacao->query("
 
     $erro = '';
 } catch (PDOException $err) {
+    registar_erro_log($err->getMessage());
     $erro = "Aconteceu um erro na ligação.";
     $resultados = [];
     $fornecedoresFiltro = [];
@@ -95,10 +96,12 @@ $ligacao = null;
                 <span class="linha-titulo-equipamentos"></span>
             </div>
 
-            <a href="novo_equipamento.php" class="botao-novo-registo-privada">
-                <i class="fa-solid fa-plus"></i>
-                Novo equipamento
-            </a>
+            <?php if ($_SESSION['profile'] !== 'Profissional de Saúde') : ?>
+    <a href="novo_equipamento.php" class="botao-novo-registo-privada">
+        <i class="fa-solid fa-plus"></i>
+        Novo Equipamento
+    </a>
+<?php endif; ?>
         </div>
 
         <p class="mensagem-listagem">
@@ -251,11 +254,19 @@ $ligacao = null;
         </section>
 
         <div class="acao-exportar-tabela">
-            <a href="exportar_excel_equipamentos.php" class="link-exportar-excel">
-                <i class="fa-solid fa-file-excel"></i>
-                Exportar Listagem dos Equipamentos
-            </a>
-        </div>
+    <a href="exportar_excel_equipamentos.php" class="link-exportar-excel">
+        <i class="fa-solid fa-file-csv"></i>
+        Exportar CSV
+    </a>
+    <a href="exportar_json_equipamentos.php" class="link-exportar-excel" style="margin-left: 1rem; color: #f08c00;">
+        <i class="fa-solid fa-file-code"></i>
+        Exportar JSON
+    </a>
+    <a href="exportar_pdf_equipamentos.php" target="_blank" class="link-exportar-pdf" style="margin-left: 1rem;">
+        <i class="fa-solid fa-file-pdf"></i>
+        Exportar PDF
+    </a>
+</div>
 
         <!-- Tabela de equipamentos (DataTables) -->
         <div class="tabela-privada">
@@ -327,6 +338,7 @@ $ligacao = null;
                                     <a href="/medivault/private/views/equipamentos/consultar_equipamento.php?id_equipamento=<?= aes_encrypt($equipamento->id) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
     <i class="fa-regular fa-eye"></i>
 </a>
+                                    <?php if ($_SESSION['profile'] !== 'Profissional de Saúde') : ?>
                                     <a href="editar_equipamento.php?id_equipamento=<?= aes_encrypt($equipamento->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
@@ -339,6 +351,7 @@ $ligacao = null;
         <i class="fa-solid fa-rotate-left"></i>
     </button>
 <?php endif; ?>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

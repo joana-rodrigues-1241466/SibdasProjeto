@@ -9,6 +9,7 @@
 
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
+bloquear_profissional_saude();
 require_once __DIR__ . '/../../includes/validacoes.php';
 
 // Permitir apenas pedidos GET (clicar em "Editar") ou POST (submeter o formulário)
@@ -90,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: localizacoes.php');
             exit;
         } catch (PDOException $err) {
+            registar_erro_log($err->getMessage());
             $erros[] = "Erro ao atualizar a localização: " . $err->getMessage();
         }
     }
@@ -112,6 +114,7 @@ try {
         exit;
     }
 } catch (PDOException $err) {
+    registar_erro_log($err->getMessage());
     $erros[] = "Erro na ligação à base de dados.";
     $localizacao = null;
 }

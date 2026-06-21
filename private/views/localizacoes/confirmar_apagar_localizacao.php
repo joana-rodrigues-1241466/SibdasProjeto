@@ -7,6 +7,7 @@
 
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
+bloquear_profissional_saude();
 
 // Desencriptar e validar o ID da localização recebido na URL
 $idEncriptado = $_GET['id_localizacao'] ?? null;
@@ -29,6 +30,7 @@ try {
     header('Location: ' . BASE_URL . '/private/views/localizacoes/localizacoes.php');
     exit;
 } catch (PDOException $e) {
+    registar_erro_log($e->getMessage());
     echo "<p class='text-danger'>Erro: " . $e->getMessage() . "</p>";
     exit;
 }

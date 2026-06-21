@@ -9,6 +9,7 @@
 
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
+bloquear_profissional_saude();
 require_once __DIR__ . '/../../includes/validacoes.php';
 
 // --------------------------------------------------------------------
@@ -85,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: localizacoes.php");
             exit;
         } catch (PDOException $err) {
+            registar_erro_log($err->getMessage());
             $erro_sistema = "Erro ao gravar os dados: " . $err->getMessage();
         }
 

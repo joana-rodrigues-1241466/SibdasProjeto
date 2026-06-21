@@ -11,6 +11,7 @@
 
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged();
+bloquear_profissional_saude();
 require_once __DIR__ . '/../../includes/validacoes.php';
 
 // Permitir apenas pedidos GET (clicar em "Editar") ou POST (submeter o formulário)
@@ -523,6 +524,7 @@ header('Location: ' . BASE_URL . '/private/views/equipamentos/equipamentos.php')
 exit;
 
     } catch (PDOException $err) {
+        registar_erro_log($err->getMessage());
         $erros[] = "Erro ao atualizar o equipamento: " . $err->getMessage();
     }
 }
@@ -717,6 +719,7 @@ exit;
     }
 
 } catch (PDOException $err) {
+    registar_erro_log($err->getMessage());
     $erros[] = "Erro na ligação à base de dados.";
     $equipamento = null;
     $docTecnica = null;

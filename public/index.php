@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mensagem'])) {
             $sucessoContacto = true;
             $nomeContacto = $emailContacto = $mensagemContacto = '';
         } catch (PDOException $e) {
+            registar_erro_log($e->getMessage());
             $erroContacto = 'Erro ao enviar a mensagem. Tente novamente mais tarde.';
         }
 
@@ -58,6 +59,7 @@ try {
     $ligacao = conectar_bd();
     $conteudos = $ligacao->query("SELECT nome_campo, conteudo_campo FROM conteudos_publicos")->fetchAll(PDO::FETCH_KEY_PAIR);
 } catch (PDOException $e) {
+    registar_erro_log($e->getMessage());
     $conteudos = [];
 }
 

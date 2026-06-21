@@ -47,6 +47,7 @@ try {
         LIMIT 15
     ")->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $err) {
+    registar_erro_log($err->getMessage());
     $totalGarantiasAExpirar = 0;
     $totalMensagensNaoLidas = 0;
     $historicoMovimentacoes = [];

@@ -78,6 +78,7 @@ try {
 
     // Verificar se existe, se está ativo, e se a password coincide com o hash guardado
     if (!$utilizador || !$utilizador->ativo || !password_verify($password, $utilizador->password_hash)) {
+        registar_log_autenticacao($username, false, !$utilizador ? 'Utilizador não encontrado' : (!$utilizador->ativo ? 'Conta inativa' : 'Password incorreta'));
         $_SESSION['server_error'] = 'Login inválido';
         header('Location: iniciar_sessao.php');
         return;
@@ -94,7 +95,10 @@ try {
     $_SESSION['profile'] = $utilizador->perfil;
     $_SESSION['success_message'] = 'Sessão iniciada com sucesso.';
 
+    registar_log_autenticacao($username, true);
+
 } catch (PDOException $e) {
+    registar_erro_log($e->getMessage());
     $_SESSION['server_error'] = 'Erro ao ligar à base de dados.';
     header('Location: iniciar_sessao.php');
     return;

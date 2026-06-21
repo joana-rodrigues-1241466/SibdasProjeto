@@ -39,6 +39,7 @@ try {
     header('Location: ' . BASE_URL . '/private/views/mensagens/mensagens.php');
     exit;
 } catch (PDOException $e) {
+    registar_erro_log($e->getMessage());
     echo "<p class='text-danger'>Erro: " . $e->getMessage() . "</p>";
     exit;
 }

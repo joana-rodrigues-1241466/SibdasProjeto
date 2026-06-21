@@ -1,8 +1,8 @@
 <?php
 // ============================================================
-// EXPORTAR_EXCEL_EQUIPAMENTOS.PHP
-// Gera e envia para download um ficheiro CSV (compatível com
-// Excel) com a listagem de todos os equipamentos ativos.
+// EXPORTAR_JSON_EQUIPAMENTOS.PHP
+// Gera e envia para download um ficheiro JSON com a listagem
+// de todos os equipamentos ativos.
 // ============================================================
 
 require_once __DIR__ . '/../../includes/funcoes.php';
@@ -38,39 +38,12 @@ try {
     die('Erro ao ligar à base de dados.');
 }
 
-// Configurar os cabeçalhos HTTP para forçar o download do ficheiro CSV
-header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename="listagem_equipamentos_' . date('Y-m-d') . '.csv"');
+// Configurar os cabeçalhos HTTP para forçar o download do ficheiro JSON
+header('Content-Type: application/json; charset=utf-8');
+header('Content-Disposition: attachment; filename="listagem_equipamentos_' . date('Y-m-d') . '.json"');
 header('Pragma: no-cache');
 header('Expires: 0');
 
-// BOM para UTF-8 — garante acentos corretos no Excel
-echo "\xEF\xBB\xBF";
-
-$saida = fopen('php://output', 'w');
-
-// Cabeçalhos
-fputcsv($saida, [
-    'Código', 'Designação', 'Localização', 'Estado', 'Criticidade',
-    'Categoria', 'Marca', 'Modelo', 'N.º de Série', 'Fabricante', 'Ano de Fabrico'
-], ';');
-
-// Dados
-foreach ($resultados as $linha) {
-    fputcsv($saida, [
-        $linha['codigo'],
-        $linha['designacao'],
-        $linha['localizacao'],
-        $linha['estado'],
-        $linha['criticidade'],
-        $linha['categoria'],
-        $linha['marca'],
-        $linha['modelo'],
-        $linha['numero_serie'],
-        $linha['fabricante'],
-        $linha['ano_fabrico'] ?? '',
-    ], ';');
-}
-
-fclose($saida);
+// Gerar o JSON formatado (legível) com acentos corretos
+echo json_encode($resultados, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 exit;

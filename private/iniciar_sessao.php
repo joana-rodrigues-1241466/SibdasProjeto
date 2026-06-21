@@ -40,7 +40,7 @@ if (!empty($_SESSION['server_error'])) {
 <main class="login-container">
     <section class="login-card">
         <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 1rem;">
-            <img src="/medivault/assets/imagens/LOGO.png" alt="Logo MediVault" style="height: 90px;">
+            <img src="<?= BASE_URL ?>/assets/imagens/LOGO.png" alt="Logo MediVault" style="height: 90px;">
             <span style="font-size: 2.2rem; font-weight: 700; color: #003f78; letter-spacing: 3px;">MediVault</span>
         </div>
         <hr>
@@ -116,14 +116,14 @@ if (!empty($_SESSION['server_error'])) {
                 </div>
             </div>
         </form>
-        <a href="/medivault/public/index.php" class="voltar-inicio">
+        <a href="<?= BASE_URL ?>/public/index.php" class="voltar-inicio">
             <i class="fa-solid fa-arrow-left"></i>
             Voltar à página inicial
         </a>
     </section>
 </main>
 
-<script src="/medivault/assets/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="<?= BASE_URL ?>/assets/bootstrap/bootstrap.bundle.min.js"></script>
 <script>
     // Mostrar/ocultar password ao clicar no ícone do olho
     document.querySelector("#toggle-password-login").addEventListener('click', function() {

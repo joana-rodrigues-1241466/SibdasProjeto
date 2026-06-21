@@ -3,7 +3,7 @@ define('APP_NAME', 'MediVault');
 define('APP_VERSION', '1.0.0');
 define('APP_COPYRIGHT', '© 2025 MediVault');
 
-define('BASE_URL', '/medivault');
+define('BASE_URL', '/sibdas/1241466/medivault');
 
 define('MYSQL_HOST', 'vsgate-s1.dei.isep.ipp.pt');
 define('MYSQL_DATABASE', 'db1241466');

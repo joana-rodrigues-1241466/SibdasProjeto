@@ -27,6 +27,7 @@ SELECT
     f.telefone_pessoa_contacto,
     m.designacao AS morada,
     f.ativo,
+    f.snapshot_equipamentos,
     GROUP_CONCAT(DISTINCT e.id) AS equipamentos_ids,
     GROUP_CONCAT(DISTINCT CONCAT(e.codigo, ' - ', e.designacao) SEPARATOR ', ') AS equipamentos_nomes
 FROM fornecedores f
@@ -34,7 +35,7 @@ LEFT JOIN tipos_fornecedor tf ON f.tipo_id = tf.id
 LEFT JOIN moradas m ON f.morada_id = m.id
 LEFT JOIN equipamento_fornecedor ef ON ef.fornecedor_id = f.id
 LEFT JOIN equipamentos e ON e.id = ef.equipamento_id
-GROUP BY f.id, f.codigo, f.nome_empresa, tf.designacao, f.pessoa_contacto, f.telefone_pessoa_contacto, m.designacao, f.ativo
+GROUP BY f.id, f.codigo, f.nome_empresa, tf.designacao, f.pessoa_contacto, f.telefone_pessoa_contacto, m.designacao, f.ativo, f.snapshot_equipamentos
 ")->fetchAll(PDO::FETCH_OBJ);
 
     $nomes = $ligacao->query("SELECT nome_empresa FROM fornecedores ORDER BY nome_empresa")->fetchAll(PDO::FETCH_OBJ);
@@ -46,6 +47,17 @@ GROUP BY f.id, f.codigo, f.nome_empresa, tf.designacao, f.pessoa_contacto, f.tel
         ORDER BY codigo
     ")->fetchAll(PDO::FETCH_OBJ);
 
+    // Para cada fornecedor, contar quantos equipamentos o têm como ÚNICO fornecedor associado
+    // (esses equipamentos exigem substituto obrigatório ao desativar o fornecedor)
+    $fornecedoresComEquipamentoUnico = $ligacao->query("
+        SELECT fornecedor_id, COUNT(*) AS total
+        FROM equipamento_fornecedor
+        WHERE equipamento_id IN (
+            SELECT equipamento_id FROM equipamento_fornecedor GROUP BY equipamento_id HAVING COUNT(*) = 1
+        )
+        GROUP BY fornecedor_id
+    ")->fetchAll(PDO::FETCH_KEY_PAIR);
+
     $erro = '';
 } catch (PDOException $err) {
     registar_erro_log($err->getMessage());
@@ -54,6 +66,7 @@ GROUP BY f.id, f.codigo, f.nome_empresa, tf.designacao, f.pessoa_contacto, f.tel
     $nomes = [];
     $pessoas = [];
     $equipamentosFiltro = [];
+    $fornecedoresComEquipamentoUnico = [];
 }
 
 $ligacao = null;
@@ -71,6 +84,24 @@ $ligacao = null;
     <!-- Listagem de fornecedores -->
     <!-- ============================================================ -->
     <main class="conteudo-privado">
+
+        <?php if (!empty($_SESSION['mensagem_erro'])) : ?>
+        <div id="alerta-erro" class="alert alert-danger text-center" role="alert">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
+        </div>
+        <script>
+            setTimeout(function () {
+                const alerta = document.getElementById('alerta-erro');
+                if (alerta) {
+                    alerta.style.transition = 'opacity 0.5s ease';
+                    alerta.style.opacity = '0';
+                    setTimeout(function () { alerta.remove(); }, 500);
+                }
+            }, 4000);
+        </script>
+        <?php unset($_SESSION['mensagem_erro']); ?>
+        <?php endif; ?>
 
         <?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
         <div id="alerta-sucesso" class="alert alert-success text-center" role="alert">
@@ -115,7 +146,7 @@ $ligacao = null;
 
                 <div class="linha-pesquisa-equipamentos">
                     <input type="text" id="pesquisaFornecedores" class="campo-pesquisa-equipamentos"
-                        placeholder="Pesquisar por código, nome da empresa, NIF, contacto telefónico, email, morada, website, pessoa de contacto ou tipo de fornecedor...">
+                        placeholder="Pesquisar por nome da empresa, tipo de fornecedor, morada, pessoa de contacto, telefone da pessoa de contacto, equipamento associado...">
                     <button type="button" id="botaoPesquisarFornecedores" class="botao-pesquisar-equipamentos">
                         Pesquisar
                     </button>
@@ -314,7 +345,7 @@ $ligacao = null;
                         </tr>
                     <?php else : ?>
                         <?php foreach ($resultados as $fornecedor) : ?>
-                            <tr>
+    <tr class="<?= $fornecedor->ativo == 0 ? 'linha-inativa' : '' ?>">
                                 <td><?= htmlspecialchars($fornecedor->nome_empresa) ?></td>
                                 <td><?= htmlspecialchars($fornecedor->tipo_fornecedor) ?></td>
                                 <td><?= htmlspecialchars($fornecedor->pessoa_contacto) ?></td>
@@ -324,18 +355,22 @@ $ligacao = null;
                                 <td style="display:none;"><?= htmlspecialchars($fornecedor->equipamentos_nomes) ?></td>
 
                                 <td class="acoes-tabela-privada">
-                                    <a href="/medivault/private/views/fornecedores/consultar_fornecedor.php?id_fornecedor=<?= aes_encrypt($fornecedor->id) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
+                                    <a href="<?= BASE_URL ?>/private/views/fornecedores/consultar_fornecedor.php?id_fornecedor=<?= aes_encrypt($fornecedor->id) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
     <i class="fa-regular fa-eye"></i>
 </a>
                                     <a href="editar_fornecedor.php?id_fornecedor=<?= aes_encrypt($fornecedor->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
                                     <?php if ($fornecedor->ativo == 1) : ?>
-    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarFornecedor" onclick="prepararEliminacaoFornecedor('<?= aes_encrypt($fornecedor->id) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">
+    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarFornecedor" onclick="prepararEliminacaoFornecedor('<?= aes_encrypt($fornecedor->id) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>', <?= isset($fornecedoresComEquipamentoUnico[$fornecedor->id]) ? 'true' : 'false' ?>)" title="Eliminar" style="color: #dc3545;">
         <i class="fa-regular fa-trash-can"></i>
     </button>
 <?php else : ?>
-    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalReativarFornecedor" onclick="prepararReativacaoFornecedor('<?= aes_encrypt($fornecedor->id) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>')" title="Reativar" style="color: #9333ea;">
+
+    <?php
+$totalSnapshot = !empty($fornecedor->snapshot_equipamentos) ? count(json_decode($fornecedor->snapshot_equipamentos, true)) : 0;
+?>
+<button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalReativarFornecedor" onclick="prepararReativacaoFornecedor('<?= aes_encrypt($fornecedor->id) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>', <?= $totalSnapshot ?>)" title="Reativar" style="color: #9333ea;">
         <i class="fa-solid fa-rotate-left"></i>
     </button>
 <?php endif; ?>
@@ -360,43 +395,48 @@ $ligacao = null;
 
         <div class="modal-content">
 
-            <div class="modal-header">
+            <form id="formEliminarFornecedor" method="POST" action="confirmar_apagar_fornecedor.php">
 
-                <h5 class="modal-title" id="tituloModalEliminarFornecedor">
+                <div class="modal-header">
 
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    Confirmar eliminação
+                    <h5 class="modal-title" id="tituloModalEliminarFornecedor">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        Confirmar eliminação
+                    </h5>
 
-                </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
+                </div>
 
-            </div>
+                <div class="modal-body">
 
-            <div class="modal-body">
+                    <p id="textoModalEliminarFornecedor">
+                        Tem a certeza que pretende eliminar este fornecedor?
+                    </p>
 
-                <p id="textoModalEliminarFornecedor">
-                    Tem a certeza que pretende eliminar este fornecedor?
-                </p>
+                    <input type="hidden" name="id_fornecedor" id="inputIdFornecedorEliminar">
 
-            </div>
+                    <div id="blocoSubstituicaoFornecedor" style="display:none; margin-top: 1rem;">
+                        <label for="selectFornecedorSubstituto" class="form-label" style="font-weight:600;">
+                            Este fornecedor é o único associado a um ou mais equipamentos. Escolha um substituto:
+                        </label>
+                        <select id="selectFornecedorSubstituto" name="novo_fornecedor_id" class="form-select">
+                            <option value="" selected disabled>Escolha um fornecedor...</option>
+                        </select>
+                    </div>
 
-            <div class="modal-footer">
+                </div>
 
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        Eliminar
+                    </button>
+                </div>
 
-                    Cancelar
-
-                </button>
-
-                <button type="button" class="btn btn-danger" onclick="confirmarEliminacaoFornecedor()">
-
-                    Eliminar
-
-                </button>
-
-            </div>
+            </form>
 
         </div>
 
@@ -412,32 +452,55 @@ $ligacao = null;
 
         <div class="modal-content">
 
-            <div class="modal-header">
+            <form id="formReativarFornecedor" method="POST" action="reativar_fornecedor.php">
 
-                <h5 class="modal-title" id="tituloModalReativarFornecedor">
-                    <i class="fa-solid fa-rotate-left"></i>
-                    Confirmar reativação
-                </h5>
+                <div class="modal-header">
 
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
+                    <h5 class="modal-title" id="tituloModalReativarFornecedor">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Confirmar reativação
+                    </h5>
 
-            </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-            <div class="modal-body">
-                <p id="textoModalReativarFornecedor">
-                    Tem a certeza que pretende reativar este fornecedor?
-                </p>
-            </div>
+                </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Cancelar
-                </button>
-                <button type="button" class="btn" style="background-color: #9333ea; color: #fff;" onclick="confirmarReativacaoFornecedor()">
-                    Reativar
-                </button>
-            </div>
+                <div class="modal-body">
+                    <p id="textoModalReativarFornecedor">
+                        Tem a certeza que pretende reativar este fornecedor?
+                    </p>
+
+                    <input type="hidden" name="id_fornecedor" id="inputIdFornecedorReativar">
+
+                    <div id="blocoReassociacaoFornecedor" style="display:none; margin-top: 1rem;">
+                        <label class="form-label" style="font-weight:600;">
+                            Este fornecedor estava associado a <span id="totalEquipamentosReassociar"></span> equipamento(s) antes de ser desativado. O que pretende fazer?
+                        </label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="opcao_reassociacao" id="opcaoReassociar" value="reassociar" checked>
+                            <label class="form-check-label" for="opcaoReassociar">
+                                Reassociar aos equipamentos anteriores
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="opcao_reassociacao" id="opcaoNaoAssociar" value="nao_associar">
+                            <label class="form-check-label" for="opcaoNaoAssociar">
+                                Não associar a nenhum equipamento
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn" style="background-color: #9333ea; color: #fff;">
+                        Reativar
+                    </button>
+                </div>
+
+            </form>
 
         </div>
 
@@ -555,44 +618,70 @@ $ligacao = null;
         });
     });
 
-    // Estado e funções de confirmação para eliminar (desativar) um fornecedor
-    let idFornecedorEliminarEncriptado = null;
+    // Lista de todos os fornecedores ativos, para preencher o select de substituição
+    const TODOS_FORNECEDORES_ATIVOS = <?php
+        $opcoesFornecedores = [];
+        foreach ($resultados as $forn) {
+            if ($forn->ativo == 1) {
+                $opcoesFornecedores[] = ['id' => aes_encrypt($forn->id), 'label' => $forn->nome_empresa];
+            }
+        }
+        echo json_encode($opcoesFornecedores);
+    ?>;
 
-function prepararEliminacaoFornecedor(idEncriptado, nomeEmpresa) {
-    idFornecedorEliminarEncriptado = idEncriptado;
-    const textoModal = document.getElementById("textoModalEliminarFornecedor");
-    if (textoModal) {
-        textoModal.innerHTML =
-            `Tem a certeza que pretende desativar o fornecedor <strong>${nomeEmpresa}</strong>?`;
+    // Prepara o modal de eliminação: mostra/esconde e preenche o select
+    // de substituição consoante haja ou não equipamentos só com este fornecedor
+    function prepararEliminacaoFornecedor(idEncriptado, nomeEmpresa, temEquipamentoUnico) {
+        document.getElementById("inputIdFornecedorEliminar").value = idEncriptado;
+
+        const textoModal = document.getElementById("textoModalEliminarFornecedor");
+        if (textoModal) {
+            textoModal.innerHTML =
+                `Tem a certeza que pretende desativar o fornecedor <strong>${nomeEmpresa}</strong>?`;
+        }
+
+        const bloco = document.getElementById("blocoSubstituicaoFornecedor");
+        const select = document.getElementById("selectFornecedorSubstituto");
+
+        if (temEquipamentoUnico) {
+            bloco.style.display = "block";
+            select.required = true;
+
+            select.innerHTML = '<option value="" selected disabled>Escolha um fornecedor...</option>';
+            TODOS_FORNECEDORES_ATIVOS.forEach(function (forn) {
+                if (forn.id !== idEncriptado) {
+                    const opcao = document.createElement("option");
+                    opcao.value = forn.id;
+                    opcao.textContent = forn.label;
+                    select.appendChild(opcao);
+                }
+            });
+        } else {
+            bloco.style.display = "none";
+            select.required = false;
+            select.value = "";
+        }
     }
-}
 
-function confirmarEliminacaoFornecedor() {
-    if (!idFornecedorEliminarEncriptado) {
-        return;
-    }
+// Prepara o modal de reativação: mostra a escolha de reassociação
+// só se existirem equipamentos guardados no instantâneo
+function prepararReativacaoFornecedor(idEncriptado, nomeEmpresa, totalEquipamentosSnapshot) {
+    document.getElementById("inputIdFornecedorReativar").value = idEncriptado;
 
-    window.location.href = "confirmar_apagar_fornecedor.php?id_fornecedor=" + encodeURIComponent(idFornecedorEliminarEncriptado);
-}
-
-// Estado e funções de confirmação para reativar um fornecedor
-let idFornecedorReativarEncriptado = null;
-
-function prepararReativacaoFornecedor(idEncriptado, nomeEmpresa) {
-    idFornecedorReativarEncriptado = idEncriptado;
     const textoModal = document.getElementById("textoModalReativarFornecedor");
     if (textoModal) {
         textoModal.innerHTML =
             `Tem a certeza que pretende reativar o fornecedor <strong>${nomeEmpresa}</strong>?`;
     }
-}
 
-function confirmarReativacaoFornecedor() {
-    if (!idFornecedorReativarEncriptado) {
-        return;
+    const bloco = document.getElementById("blocoReassociacaoFornecedor");
+
+    if (totalEquipamentosSnapshot > 0) {
+        bloco.style.display = "block";
+        document.getElementById("totalEquipamentosReassociar").textContent = totalEquipamentosSnapshot;
+    } else {
+        bloco.style.display = "none";
     }
-
-    window.location.href = "reativar_fornecedor.php?id_fornecedor=" + encodeURIComponent(idFornecedorReativarEncriptado);
 }
 </script>
 

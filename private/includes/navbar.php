@@ -86,7 +86,7 @@ $rotulosCamposHistorico = [
     </button>
 
     <div class="logo-privada">
-        <img src="/medivault/assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
+        <img src="<?= BASE_URL ?>/assets/imagens/LOGO.png" alt="Logótipo MediVault" class="logo-navbar-privada">
         <span class="nome-navbar-privada"><?php echo APP_NAME; ?></span>
     </div>
 
@@ -98,7 +98,7 @@ $rotulosCamposHistorico = [
             </button>
 
             <?php if ($_SESSION['profile'] === 'Administrador') : ?>
-                <a href="/medivault/private/views/mensagens/mensagens.php" class="botao-historico-navbar" style="position:relative; text-decoration:none;" title="Mensagens de Contacto">
+                <a href="<?= BASE_URL ?>/private/views/mensagens/mensagens.php" class="botao-historico-navbar" style="position:relative; text-decoration:none;" title="Mensagens de Contacto">
                     <i class="fa-regular fa-envelope"></i>
                     <?php if ($totalMensagensNaoLidas > 0) : ?>
                         <span style="position:absolute; top:-4px; right:-6px; background:#dc3545; color:#fff; font-size:0.65rem; font-weight:700; border-radius:999px; padding:1px 5px; line-height:1.3; min-width:16px; text-align:center;">
@@ -146,12 +146,12 @@ $rotulosCamposHistorico = [
         </div>
 
         <div class="menu-utilizador-privado">
-            <a href="/medivault/private/views/utilizador/alterar_password.php">
+            <a href="<?= BASE_URL ?>/private/views/utilizador/alterar_password.php">
                 <i class="fa-solid fa-key"></i>
                 Alterar Palavra-passe
             </a>
 
-            <a href="/medivault/public/logout.php">
+            <a href="<?= BASE_URL ?>/public/logout.php">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Sair
             </a>
@@ -165,7 +165,7 @@ $rotulosCamposHistorico = [
     <div id="aviso-garantias-globais" style="display:flex;">
         <i class="fa-solid fa-triangle-exclamation"></i>
         <span><?= $totalGarantiasAExpirar ?> equipamento<?= $totalGarantiasAExpirar !== 1 ? 's' : '' ?> com garantia a expirar nos próximos 30 dias.</span>
-        <a href="/medivault/private/views/equipamentos/equipamentos.php">Ver equipamentos</a>
+        <a href="<?= BASE_URL ?>/private/views/equipamentos/equipamentos.php">Ver equipamentos</a>
     </div>
 <?php else : ?>
     <div id="aviso-garantias-globais" style="display:none;"></div>
@@ -181,7 +181,7 @@ $rotulosCamposHistorico = [
         if (botaoVerMais) {
             botaoVerMais.addEventListener("click", function () {
                 const offset = parseInt(this.dataset.offset, 10);
-                fetch("/medivault/private/includes/historico_carregar_mais.php?offset=" + offset)
+                fetch("<?= BASE_URL ?>/private/includes/historico_carregar_mais.php?offset=" + offset)
                     .then(function (resposta) { return resposta.json(); })
                     .then(function (dados) {
                         document.getElementById("lista-historico-movimentacoes").insertAdjacentHTML("beforeend", dados.html);

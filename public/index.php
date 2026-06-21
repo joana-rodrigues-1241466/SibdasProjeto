@@ -89,7 +89,6 @@ function cp($conteudos, $campo, $defeito)
     <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
 
     <!--Font Awesome-->
-    <!-- Retirado do ChatGPT: inclusão da biblioteca Font Awesome, não abordada nos PowerPoints -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 
@@ -135,8 +134,7 @@ function cp($conteudos, $campo, $defeito)
                 </ul>
 
                 </ul>
-                <a href="/medivault/private/iniciar_sessao.php" class="btn botao-login ms-lg-3">Iniciar Sessão</a>
-            </div>
+<a href="<?= BASE_URL ?>/private/iniciar_sessao.php" class="btn botao-login ms-lg-3">Iniciar Sessão</a>            </div>
         </div>
 
     </nav>

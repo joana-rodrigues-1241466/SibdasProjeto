@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="botoes-formulario-privado">
-                    <a href="/medivault/private/home.php" class="botao-cancelar-privado">
+                    <a href="<?= BASE_URL ?>/private/home.php" class="botao-cancelar-privado">
                         <i class="fa-solid fa-xmark"></i>
                         Cancelar
                     </a>

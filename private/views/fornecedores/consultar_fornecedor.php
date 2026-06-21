@@ -230,7 +230,7 @@ $ligacao = null;
                                 <span class="badge-detalhe <?= $classeCriticidadeF ?>"><?= htmlspecialchars($equip['criticidade']) ?></span>
                             </td>
                             <td class="acoes-tabela-privada">
-                                <a href="/medivault/private/views/equipamentos/consultar_equipamento.php?id=<?= htmlspecialchars($equip['codigo']) ?>" title="Consultar" style="display: inline-block; padding: 4px 14px; border: 1px solid #005fae; border-radius: 6px; color: #005fae; text-decoration: none; font-weight: 600; font-size: 0.85rem;">
+                                <a href="<?= BASE_URL ?>/private/views/equipamentos/consultar_equipamento.php?id=<?= htmlspecialchars($equip['codigo']) ?>" title="Consultar" style="display: inline-block; padding: 4px 14px; border: 1px solid #005fae; border-radius: 6px; color: #005fae; text-decoration: none; font-weight: 600; font-size: 0.85rem;">
                                     Ver
                                 </a>
                             </td>

@@ -16,12 +16,12 @@ try {
 
     $resultados = $ligacao->query("
     SELECT 
-    l.id, l.codigo, l.edificio, l.piso, l.servico, l.sala, l.ativo,
+    l.id, l.codigo, l.edificio, l.piso, l.servico, l.sala, l.ativo, l.snapshot_equipamentos,
         GROUP_CONCAT(DISTINCT e.id) AS equipamentos_ids,
         GROUP_CONCAT(DISTINCT CONCAT(e.codigo, ' - ', e.designacao) SEPARATOR ', ') AS equipamentos_nomes
     FROM localizacoes l
     LEFT JOIN equipamentos e ON e.localizacao_id = l.id
-    GROUP BY l.id, l.codigo, l.edificio, l.piso, l.servico, l.sala, l.ativo
+    GROUP BY l.id, l.codigo, l.edificio, l.piso, l.servico, l.sala, l.ativo, l.snapshot_equipamentos
 ")->fetchAll(PDO::FETCH_OBJ);
 
     $edificios = $ligacao->query("SELECT DISTINCT edificio FROM localizacoes ORDER BY edificio")->fetchAll(PDO::FETCH_OBJ);
@@ -62,8 +62,26 @@ $ligacao = null;
     <!-- ============================================================ -->
     <main class="conteudo-privado">
 
-        <?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
-        <div id="alerta-sucesso" class="alert alert-success text-center" role="alert">
+    <?php if (!empty($_SESSION['mensagem_erro'])) : ?>
+<div id="alerta-erro" class="alert alert-danger text-center" role="alert">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
+</div>
+<script>
+    setTimeout(function () {
+        const alerta = document.getElementById('alerta-erro');
+        if (alerta) {
+            alerta.style.transition = 'opacity 0.5s ease';
+            alerta.style.opacity = '0';
+            setTimeout(function () { alerta.remove(); }, 500);
+        }
+    }, 4000);
+</script>
+<?php unset($_SESSION['mensagem_erro']); ?>
+<?php endif; ?>
+
+<?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
+<div id="alerta-sucesso" class="alert alert-success text-center" role="alert">
             <i class="fa-solid fa-circle-check"></i>
             <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
         </div>
@@ -106,7 +124,7 @@ $ligacao = null;
 
                 <div class="linha-pesquisa-equipamentos">
                     <input type="text" id="pesquisaLocalizacoes" class="campo-pesquisa-equipamentos"
-                        placeholder="Pesquisar por código da localização, edifício, piso, serviço/departamento ou sala/gabinete...">
+                        placeholder="Pesquisar por código da localização, edifício, piso, serviço/departamento, sala/gabinete, equipamento associado...">
                     <button type="button" id="botaoPesquisarLocalizacoes" class="botao-pesquisar-equipamentos">
                         Pesquisar
                     </button>
@@ -237,7 +255,7 @@ $ligacao = null;
                         </tr>
                     <?php else : ?>
                         <?php foreach ($resultados as $localizacao) : ?>
-                            <tr>
+    <tr class="<?= $localizacao->ativo == 0 ? 'linha-inativa' : '' ?>">
                                 <td><?= htmlspecialchars($localizacao->codigo) ?></td>
                                 <td><?= htmlspecialchars($localizacao->edificio) ?></td>
                                 <td><?= htmlspecialchars($localizacao->piso) ?></td>
@@ -247,7 +265,7 @@ $ligacao = null;
                                 <td style="display:none;"><?= htmlspecialchars($localizacao->equipamentos_nomes) ?></td>
                                 <td class="acoes-tabela-privada">
 
-                                    <a href="/medivault/private/views/localizacoes/consultar_localizacao.php?id_localizacao=<?= aes_encrypt($localizacao->id) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
+                                    <a href="<?= BASE_URL ?>/private/views/localizacoes/consultar_localizacao.php?id_localizacao=<?= aes_encrypt($localizacao->id) ?>" ...>
                                         <i class="fa-regular fa-eye"></i>
                                     </a>
                                     <?php if ($_SESSION['profile'] !== 'Profissional de Saúde') : ?>
@@ -255,11 +273,14 @@ $ligacao = null;
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
                                     <?php if ($localizacao->ativo == 1) : ?>
-    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarLocalizacao" onclick="prepararEliminacaoLocalizacao('<?= aes_encrypt($localizacao->id) ?>', '<?= htmlspecialchars($localizacao->codigo . ' - ' . $localizacao->servico, ENT_QUOTES) ?>')" title="Eliminar" style="color: #dc3545;">
+   <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarLocalizacao" onclick="prepararEliminacaoLocalizacao('<?= aes_encrypt($localizacao->id) ?>', '<?= htmlspecialchars($localizacao->codigo . ' - ' . $localizacao->servico, ENT_QUOTES) ?>', <?= !empty($localizacao->equipamentos_ids) ? 'true' : 'false' ?>)" title="Eliminar" style="color: #dc3545;">
         <i class="fa-regular fa-trash-can"></i>
     </button>
 <?php else : ?>
-    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalReativarLocalizacao" onclick="prepararReativacaoLocalizacao('<?= aes_encrypt($localizacao->id) ?>', '<?= htmlspecialchars($localizacao->codigo . ' - ' . $localizacao->servico, ENT_QUOTES) ?>')" title="Reativar" style="color: #9333ea;">
+    <?php
+$totalSnapshotLoc = !empty($localizacao->snapshot_equipamentos) ? count(json_decode($localizacao->snapshot_equipamentos, true)) : 0;
+?>
+<button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalReativarLocalizacao" onclick="prepararReativacaoLocalizacao('<?= aes_encrypt($localizacao->id) ?>', '<?= htmlspecialchars($localizacao->codigo . ' - ' . $localizacao->servico, ENT_QUOTES) ?>', <?= $totalSnapshotLoc ?>)" title="Reativar" style="color: #9333ea;">
     <i class="fa-solid fa-rotate-left"></i>
 </button>
 <?php endif; ?>
@@ -285,32 +306,47 @@ $ligacao = null;
 
         <div class="modal-content">
 
-            <div class="modal-header">
+            <form id="formEliminarLocalizacao" method="POST" action="confirmar_apagar_localizacao.php">
 
-                <h5 class="modal-title" id="tituloModalEliminarLocalizacao">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    Confirmar eliminação
-                </h5>
+                <div class="modal-header">
 
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
+                    <h5 class="modal-title" id="tituloModalEliminarLocalizacao">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        Confirmar eliminação
+                    </h5>
 
-            </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
 
-            <div class="modal-body">
-                <p id="textoModalEliminarLocalizacao">
-                    Tem a certeza que pretende eliminar esta localização?
-                </p>
-            </div>
+                </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Cancelar
-                </button>
-                <button type="button" class="btn btn-danger" onclick="confirmarEliminacaoLocalizacao()">
-                    Eliminar
-                </button>
-            </div>
+                <div class="modal-body">
+                    <p id="textoModalEliminarLocalizacao">
+                        Tem a certeza que pretende eliminar esta localização?
+                    </p>
+
+                    <input type="hidden" name="id_localizacao" id="inputIdLocalizacaoEliminar">
+
+                    <div id="blocoSubstituicaoLocalizacao" style="display:none; margin-top: 1rem;">
+                        <label for="selectLocalizacaoSubstituta" class="form-label" style="font-weight:600;">
+                            Esta localização tem equipamentos associados. Escolha para onde devem ser movidos:
+                        </label>
+                        <select id="selectLocalizacaoSubstituta" name="nova_localizacao_id" class="form-select">
+                            <option value="" selected disabled>Escolha uma localização...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        Eliminar
+                    </button>
+                </div>
+
+            </form>
 
         </div>
 
@@ -326,32 +362,52 @@ $ligacao = null;
 
         <div class="modal-content">
 
-            <div class="modal-header">
+            <form id="formReativarLocalizacao" method="POST" action="reativar_localizacao.php">
 
-                <h5 class="modal-title" id="tituloModalReativarLocalizacao">
-                    <i class="fa-solid fa-rotate-left"></i>
-                    Confirmar reativação
-                </h5>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloModalReativarLocalizacao">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Confirmar reativação
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
 
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
+                <div class="modal-body">
+                    <p id="textoModalReativarLocalizacao">
+                        Tem a certeza que pretende reativar esta localização?
+                    </p>
 
-            </div>
+                    <input type="hidden" name="id_localizacao" id="inputIdLocalizacaoReativar">
 
-            <div class="modal-body">
-                <p id="textoModalReativarLocalizacao">
-                    Tem a certeza que pretende reativar esta localização?
-                </p>
-            </div>
+                    <div id="blocoReassociacaoLocalizacao" style="display:none; margin-top: 1rem;">
+                        <label class="form-label" style="font-weight:600;">
+                            Esta localização tinha <span id="totalEquipamentosReassociarLoc"></span> equipamento(s) associado(s) antes de ser desativada. O que pretende fazer?
+                        </label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="opcao_reassociacao" id="opcaoReassociarLoc" value="reassociar" checked>
+                            <label class="form-check-label" for="opcaoReassociarLoc">
+                                Mover esses equipamentos de volta para esta localização
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="opcao_reassociacao" id="opcaoNaoAssociarLoc" value="nao_associar">
+                            <label class="form-check-label" for="opcaoNaoAssociarLoc">
+                                Manter onde estão atualmente
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Cancelar
-                </button>
-                <button type="button" class="btn" style="background-color: #9333ea; color: #fff;" onclick="confirmarReativacaoLocalizacao()">
-                    Reativar
-                </button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn" style="background-color: #9333ea; color: #fff;">
+                        Reativar
+                    </button>
+                </div>
+
+            </form>
 
         </div>
 
@@ -472,44 +528,70 @@ $ligacao = null;
         });
     });
 
-    // Estado e funções de confirmação para eliminar (desativar) uma localização
-    let idLocalizacaoEliminarEncriptado = null;
+    // Lista de todas as localizações ativas, para preencher o select de substituição
+    const TODAS_LOCALIZACOES_ATIVAS = <?php
+        $opcoesLocalizacoes = [];
+        foreach ($resultados as $loc) {
+            if ($loc->ativo == 1) {
+                $opcoesLocalizacoes[] = ['id' => aes_encrypt($loc->id), 'label' => $loc->codigo . ' - ' . $loc->servico];
+            }
+        }
+        echo json_encode($opcoesLocalizacoes);
+    ?>;
 
-function prepararEliminacaoLocalizacao(idEncriptado, descricao) {
-    idLocalizacaoEliminarEncriptado = idEncriptado;
-    const textoModal = document.getElementById("textoModalEliminarLocalizacao");
-    if (textoModal) {
-        textoModal.innerHTML =
-            `Tem a certeza que pretende desativar a localização <strong>${descricao}</strong>?`;
+    // Prepara o modal de eliminação: mostra/esconde e preenche o select
+    // de substituição consoante existam ou não equipamentos associados
+    function prepararEliminacaoLocalizacao(idEncriptado, descricao, temEquipamentos) {
+        document.getElementById("inputIdLocalizacaoEliminar").value = idEncriptado;
+
+        const textoModal = document.getElementById("textoModalEliminarLocalizacao");
+        if (textoModal) {
+            textoModal.innerHTML =
+                `Tem a certeza que pretende desativar a localização <strong>${descricao}</strong>?`;
+        }
+
+        const bloco = document.getElementById("blocoSubstituicaoLocalizacao");
+        const select = document.getElementById("selectLocalizacaoSubstituta");
+
+        if (temEquipamentos) {
+            bloco.style.display = "block";
+            select.required = true;
+
+            select.innerHTML = '<option value="" selected disabled>Escolha uma localização...</option>';
+            TODAS_LOCALIZACOES_ATIVAS.forEach(function (loc) {
+                if (loc.id !== idEncriptado) {
+                    const opcao = document.createElement("option");
+                    opcao.value = loc.id;
+                    opcao.textContent = loc.label;
+                    select.appendChild(opcao);
+                }
+            });
+        } else {
+            bloco.style.display = "none";
+            select.required = false;
+            select.value = "";
+        }
     }
-}
 
-function confirmarEliminacaoLocalizacao() {
-    if (!idLocalizacaoEliminarEncriptado) {
-        return;
-    }
+// Prepara o modal de reativação: mostra a escolha de reassociação
+// só se existirem equipamentos guardados no instantâneo
+function prepararReativacaoLocalizacao(idEncriptado, descricao, totalEquipamentosSnapshot) {
+    document.getElementById("inputIdLocalizacaoReativar").value = idEncriptado;
 
-    window.location.href = "confirmar_apagar_localizacao.php?id_localizacao=" + encodeURIComponent(idLocalizacaoEliminarEncriptado);
-}
-
-// Estado e funções de confirmação para reativar uma localização
-let idLocalizacaoReativarEncriptado = null;
-
-function prepararReativacaoLocalizacao(idEncriptado, descricao) {
-    idLocalizacaoReativarEncriptado = idEncriptado;
     const textoModal = document.getElementById("textoModalReativarLocalizacao");
     if (textoModal) {
         textoModal.innerHTML =
             `Tem a certeza que pretende reativar a localização <strong>${descricao}</strong>?`;
     }
-}
 
-function confirmarReativacaoLocalizacao() {
-    if (!idLocalizacaoReativarEncriptado) {
-        return;
+    const bloco = document.getElementById("blocoReassociacaoLocalizacao");
+
+    if (totalEquipamentosSnapshot > 0) {
+        bloco.style.display = "block";
+        document.getElementById("totalEquipamentosReassociarLoc").textContent = totalEquipamentosSnapshot;
+    } else {
+        bloco.style.display = "none";
     }
-
-    window.location.href = "reativar_localizacao.php?id_localizacao=" + encodeURIComponent(idLocalizacaoReativarEncriptado);
 }
 </script>
 

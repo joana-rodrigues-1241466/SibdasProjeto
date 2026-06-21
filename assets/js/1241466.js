@@ -1270,7 +1270,7 @@ function imprimirEtiqueta() {
         <head>
             <meta charset="UTF-8">
             <title>Etiqueta ${codigo}</title>
-            <link rel="stylesheet" href="/medivault/assets/css/1241466.css">
+            <link rel="stylesheet" href="/sibdas/1241466/medivault/assets/css/1241466.css">
             <style>
                 @page { margin: 0.5cm; size: A6; }
             </style>

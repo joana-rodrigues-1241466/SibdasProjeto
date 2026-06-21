@@ -567,7 +567,7 @@ function valor_campo($resultados, $campo)
 
             </form>
 
-            <a href="/medivault/public/index.php" class="voltar-inicio">
+            <a href="<?= BASE_URL ?>/public/index.php" class="voltar-inicio">
                 <i class="fa-solid fa-arrow-left"></i>
                 Voltar à página pública
             </a>

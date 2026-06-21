@@ -56,7 +56,7 @@ unset($_SESSION['success_message']);
         <div class="row g-4 mt-2">
             <?php if (in_array($_SESSION['profile'], ['Administrador', 'Técnico', 'Profissional de Saúde'])) : ?>
                 <div class="col-6 col-lg-3">
-                    <a href="/medivault/private/views/equipamentos/equipamentos.php" class="card-funcionalidade text-decoration-none d-block">
+                    <a href="<?= BASE_URL ?>/private/views/equipamentos/equipamentos.php" class="card-funcionalidade text-decoration-none d-block">
                         <i class="fa-solid fa-stethoscope icone-funcionalidade"></i>
                         <h3>Equipamentos</h3>
                         <div class="linha-card-funcionalidade"></div>
@@ -67,7 +67,7 @@ unset($_SESSION['success_message']);
 
             <?php if (in_array($_SESSION['profile'], ['Administrador', 'Técnico'])) : ?>
                 <div class="col-6 col-lg-3">
-                    <a href="/medivault/private/views/fornecedores/fornecedores.php" class="card-funcionalidade text-decoration-none d-block">
+                    <a href="<?= BASE_URL ?>/private/views/fornecedores/fornecedores.php" class="card-funcionalidade text-decoration-none d-block">
                         <i class="fa-solid fa-truck-medical icone-funcionalidade"></i>
                         <h3>Fornecedores</h3>
                         <div class="linha-card-funcionalidade"></div>
@@ -78,7 +78,7 @@ unset($_SESSION['success_message']);
 
             <?php if (in_array($_SESSION['profile'], ['Administrador', 'Técnico', 'Profissional de Saúde'])) : ?>
                 <div class="col-6 col-lg-3">
-                    <a href="/medivault/private/views/localizacoes/localizacoes.php" class="card-funcionalidade text-decoration-none d-block">
+                    <a href="<?= BASE_URL ?>/private/views/localizacoes/localizacoes.php" class="card-funcionalidade text-decoration-none d-block">
                         <i class="fa-solid fa-location-dot icone-funcionalidade"></i>
                         <h3>Localizações</h3>
                         <div class="linha-card-funcionalidade"></div>
@@ -88,7 +88,7 @@ unset($_SESSION['success_message']);
             <?php endif; ?>
 
             <div class="col-6 col-lg-3">
-                <a href="/medivault/private/views/dashboard/dashboard.php" class="card-funcionalidade text-decoration-none d-block">
+                <a href="<?= BASE_URL ?>/private/views/dashboard/dashboard.php" class="card-funcionalidade text-decoration-none d-block">
                     <i class="fa-solid fa-chart-line icone-funcionalidade"></i>
                     <h3>Dashboard</h3>
                     <div class="linha-card-funcionalidade"></div>

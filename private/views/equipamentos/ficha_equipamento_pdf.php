@@ -172,7 +172,7 @@ else $estadoGarantia = 'Em vigor';
     <!-- Cabeçalho da ficha -->
     <div class="cabecalho">
         <div class="cabecalho-logo">
-            <img src="/medivault/assets/imagens/LOGO.png" alt="MediVault">
+            <img src="<?= BASE_URL ?>/assets/imagens/LOGO.png" alt="MediVault">
             <span>MediVault</span>
         </div>
         <div class="cabecalho-info">

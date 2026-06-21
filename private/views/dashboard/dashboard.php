@@ -225,7 +225,7 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
             <div class="card-dashboard card-dashboard-grande">
                 <div class="cabecalho-card-dashboard">
                     <h3>Equipamentos por serviço</h3>
-                    <a href="/medivault/private/views/equipamentos/equipamentos.php" class="link-card-dashboard">Ver detalhes</a>
+                    <a href="<?= BASE_URL ?>/private/views/equipamentos/equipamentos.php" class="link-card-dashboard">Ver detalhes</a>
                 </div>
                 <div id="graficoServicosDashboard" class="grafico-barras-dashboard">
                     <?php if (empty($servicosChart)) : ?>
@@ -251,13 +251,13 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
                     <p>equipamentos</p>
                     <span id="dashboardPercentagemCriticidade"><?= $percentagemCriticidade ?>% do total</span>
                 </div>
-                <a href="/medivault/private/views/equipamentos/equipamentos.php" class="link-card-dashboard">Ver lista</a>
+                <a href="<?= BASE_URL ?>/private/views/equipamentos/equipamentos.php" class="link-card-dashboard">Ver lista</a>
             </div>
 
             <div class="card-dashboard card-dashboard-grande">
                 <div class="cabecalho-card-dashboard">
                     <h3>Garantias a expirar nos próximos 30 dias</h3>
-                    <a href="/medivault/private/views/equipamentos/equipamentos.php" class="link-card-dashboard">Ver todos</a>
+                    <a href="<?= BASE_URL ?>/private/views/equipamentos/equipamentos.php" class="link-card-dashboard">Ver todos</a>
                 </div>
                 <table class="tabela-dashboard">
                     <thead>
@@ -316,7 +316,7 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
 </div>
 
 <!-- Biblioteca de gráficos Chart.js -->
-<script src="/medivault/assets/js/chart.umd.min.js"></script>
+<script src="<?= BASE_URL ?>/assets/js/chart.umd.min.js"></script>
 
 <!-- ============================================================ -->
 <!-- Script JavaScript da página -->

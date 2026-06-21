@@ -639,11 +639,8 @@ exit;
         }
     }
 
-    // Fornecedores e Moradas (para os <select> da tabela de fornecedores associados) — Tab 4
-    $fornecedoresBD = $ligacao->query("SELECT id, codigo, nome_empresa FROM fornecedores ORDER BY codigo")->fetchAll(PDO::FETCH_ASSOC);
-    $moradasBD = $ligacao->query("SELECT id, designacao FROM moradas ORDER BY designacao")->fetchAll(PDO::FETCH_ASSOC);
-
-    // Fornecedores associados a este equipamento (Tab 4)
+    // Fornecedores associados a este equipamento (Tab 4) — obtido primeiro,
+    // para sabermos quais fornecedores precisam de aparecer no select mesmo que inativos
     $stmt = $ligacao->prepare("
         SELECT fornecedor_id, morada_id, pessoa_contacto, telefone_pessoa_contacto, observacoes
         FROM equipamento_fornecedor
@@ -653,8 +650,39 @@ exit;
     $stmt->execute();
     $fornecedoresAssociadosBD = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Fornecedores e Moradas (para os <select> da tabela de fornecedores associados) — Tab 4
+    // Mostra os ativos + os já associados a este equipamento, mesmo que entretanto
+    // tenham sido desativados (evita que desapareçam silenciosamente da tabela)
+    $idsFornecedoresAssociados = array_column($fornecedoresAssociadosBD, 'fornecedor_id');
+
+    if (!empty($idsFornecedoresAssociados)) {
+        $marcadores = implode(',', array_fill(0, count($idsFornecedoresAssociados), '?'));
+        $stmtFornecedoresDisponiveis = $ligacao->prepare("
+            SELECT id, codigo, nome_empresa
+            FROM fornecedores
+            WHERE ativo = 1 OR id IN ($marcadores)
+            ORDER BY codigo
+        ");
+        $stmtFornecedoresDisponiveis->execute($idsFornecedoresAssociados);
+    } else {
+        $stmtFornecedoresDisponiveis = $ligacao->prepare("SELECT id, codigo, nome_empresa FROM fornecedores WHERE ativo = 1 ORDER BY codigo");
+        $stmtFornecedoresDisponiveis->execute();
+    }
+
+    $fornecedoresBD = $stmtFornecedoresDisponiveis->fetchAll(PDO::FETCH_ASSOC);
+    $moradasBD = $ligacao->query("SELECT id, designacao FROM moradas ORDER BY designacao")->fetchAll(PDO::FETCH_ASSOC);
+
     // Localizações disponíveis (para o <select> "Localização associada") — Tab 5
-    $localizacoesBD = $ligacao->query("SELECT id, codigo, edificio, piso, servico, sala FROM localizacoes ORDER BY codigo")->fetchAll(PDO::FETCH_ASSOC);
+    // Mostra as ativas + a localização atual do equipamento, mesmo que esta
+    // tenha entretanto sido desativada (evita que a opção "desapareça" do select)
+    $stmtLocalizacoesDisponiveis = $ligacao->prepare("
+        SELECT id, codigo, edificio, piso, servico, sala, ativo
+        FROM localizacoes
+        WHERE ativo = 1 OR id = :localizacao_atual
+        ORDER BY codigo
+    ");
+    $stmtLocalizacoesDisponiveis->execute([':localizacao_atual' => $equipamento->localizacao_id]);
+    $localizacoesBD = $stmtLocalizacoesDisponiveis->fetchAll(PDO::FETCH_ASSOC);
 
     // Dados da garantia do equipamento (Tab 6)
     $stmt = $ligacao->prepare("

@@ -1,2 +1,7 @@
 [2026-06-21 14:50:02] FALHA | Email: tecnico@medivault.pt | IP: ::1 | Motivo: Password incorreta
 [2026-06-21 14:51:03] SUCESSO | Email: admin@medivault.pt | IP: ::1
+[2026-06-21 16:30:38] SUCESSO | Email: admin@medivault.pt | IP: 127.0.0.1
+[2026-06-21 16:32:47] SUCESSO | Email: admin@medivault.pt | IP: 127.0.0.1
+[2026-06-21 16:33:05] SUCESSO | Email: admin@medivault.pt | IP: 127.0.0.1
+[2026-06-21 16:40:31] FALHA | Email: tecnico@medivault.pt | IP: 127.0.0.1 | Motivo: Password incorreta
+[2026-06-21 16:40:46] SUCESSO | Email: tecnico@medivault.pt | IP: 127.0.0.1

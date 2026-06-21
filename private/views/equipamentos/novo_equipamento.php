@@ -20,9 +20,9 @@ try {
 
     $unidadesBD = $ligacaoListas->query("SELECT designacao FROM unidades ORDER BY ordem")->fetchAll(PDO::FETCH_COLUMN);
     $estadosAcessorioBD = $ligacaoListas->query("SELECT designacao, valor FROM estados_acessorio ORDER BY ordem")->fetchAll(PDO::FETCH_ASSOC);
-    $fornecedoresBD = $ligacaoListas->query("SELECT id, codigo, nome_empresa FROM fornecedores ORDER BY codigo")->fetchAll(PDO::FETCH_ASSOC);
+    $fornecedoresBD = $ligacaoListas->query("SELECT id, codigo, nome_empresa FROM fornecedores WHERE ativo = 1 ORDER BY codigo")->fetchAll(PDO::FETCH_ASSOC);
     $moradasBD = $ligacaoListas->query("SELECT id, designacao FROM moradas ORDER BY designacao")->fetchAll(PDO::FETCH_ASSOC);
-    $localizacoesBD = $ligacaoListas->query("SELECT id, codigo, edificio, piso, servico, sala FROM localizacoes ORDER BY codigo")->fetchAll(PDO::FETCH_ASSOC);
+    $localizacoesBD = $ligacaoListas->query("SELECT id, codigo, edificio, piso, servico, sala FROM localizacoes WHERE ativo = 1 ORDER BY codigo")->fetchAll(PDO::FETCH_ASSOC);
     $tiposContratoBD = $ligacaoListas->query("SELECT id, designacao FROM tipos_contrato ORDER BY ordem")->fetchAll(PDO::FETCH_ASSOC);
     $periodicidadesBD = $ligacaoListas->query("SELECT id, designacao FROM periodicidades ORDER BY ordem")->fetchAll(PDO::FETCH_ASSOC);
 

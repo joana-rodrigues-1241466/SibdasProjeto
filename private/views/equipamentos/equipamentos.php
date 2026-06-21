@@ -116,7 +116,7 @@ $ligacao = null;
 
                 <div class="linha-pesquisa-equipamentos">
                     <input type="text" id="pesquisaEquipamentos" class="campo-pesquisa-equipamentos"
-                        placeholder="Pesquisar por código, designação, marca, modelo, n.º de série, fornecedor ou localização...">
+                        placeholder="Pesquisar por código, designação, fornecedor, localização, estado atual, criticidade, categoria...">
 
                     <button type="button" id="botaoPesquisarEquipamentos" class="botao-pesquisar-equipamentos">
                         Pesquisar
@@ -296,7 +296,7 @@ $ligacao = null;
                         </tr>
                     <?php else : ?>
                         <?php foreach ($resultados as $equipamento) : ?>
-                            <tr>
+    <tr class="<?= $equipamento->ativo == 0 ? 'linha-inativa' : '' ?>">
                                 <td><?= htmlspecialchars($equipamento->codigo) ?></td>
                                 <td><?= htmlspecialchars($equipamento->designacao) ?></td>
                                 <td><?= htmlspecialchars($equipamento->localizacao) ?></td>
@@ -335,7 +335,7 @@ $ligacao = null;
                                 <td style="display:none;"><?= htmlspecialchars($equipamento->fornecedores_nomes) ?></td>
 
                                 <td class="acoes-tabela-privada">
-                                    <a href="/medivault/private/views/equipamentos/consultar_equipamento.php?id_equipamento=<?= aes_encrypt($equipamento->id) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
+                                    <a href="<?= BASE_URL ?>/private/views/equipamentos/consultar_equipamento.php?id_equipamento=<?= aes_encrypt($equipamento->id) ?>" ...>
     <i class="fa-regular fa-eye"></i>
 </a>
                                     <?php if ($_SESSION['profile'] !== 'Profissional de Saúde') : ?>

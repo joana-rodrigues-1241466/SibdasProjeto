@@ -30,9 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mensagem'])) {
     } else {
         try {
             $ligacaoContacto = conectar_bd();
-
-            date_default_timezone_set('Europe/Lisbon');
-
             $stmtContacto = $ligacaoContacto->prepare("INSERT INTO mensagens_contacto (nome, email, mensagem, data_envio) VALUES (:nome, :email, :mensagem, :data_envio)");
             $stmtContacto->execute([
                 ':nome' => $nomeContacto,

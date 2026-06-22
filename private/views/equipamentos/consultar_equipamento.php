@@ -20,6 +20,18 @@ if (!$idEquipamento || !is_numeric($idEquipamento)) {
     exit;
 }
 
+// Se o equipamento foi acedido a partir da página de um fornecedor,
+// o botão "Voltar" deve regressar a esse fornecedor específico
+$origem = $_GET['origem'] ?? null;
+$idOrigemEncriptado = $_GET['id_origem'] ?? null;
+
+$linkVoltarEquipamento = BASE_URL . '/private/views/equipamentos/equipamentos.php';
+if ($origem === 'fornecedor' && $idOrigemEncriptado) {
+    $linkVoltarEquipamento = BASE_URL . '/private/views/fornecedores/consultar_fornecedor.php?id_fornecedor=' . urlencode($idOrigemEncriptado);
+} elseif ($origem === 'localizacao' && $idOrigemEncriptado) {
+    $linkVoltarEquipamento = BASE_URL . '/private/views/localizacoes/consultar_localizacao.php?id_localizacao=' . urlencode($idOrigemEncriptado);
+}
+
 // --------------------------------------------------------------------
 // CARREGAMENTO DE TODOS OS DADOS DO EQUIPAMENTO
 // --------------------------------------------------------------------
@@ -250,13 +262,21 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
             <div class="titulo-detalhes-equipamento">
                 <i class="fa-solid fa-stethoscope"></i>
                 <h1>
-                    Detalhes do Equipamento
-                    <?php if ($equipamento['ativo'] == 1): ?>
-                        <span class="badge bg-success" style="font-size: 0.9rem; vertical-align: middle; padding: 5px 10px;">Ativo</span>
-                    <?php else: ?>
-                        <span class="badge bg-secondary" style="font-size: 0.9rem; vertical-align: middle; padding: 5px 10px;">Inativo</span>
-                    <?php endif; ?>
-                </h1>
+    Detalhes do Equipamento
+    <?php if ($equipamento['ativo'] == 1): ?>
+        <span class="badge bg-success" style="font-size: 0.9rem; vertical-align: middle; padding: 5px 10px;">Ativo</span>
+    <?php else: ?>
+        <span class="badge bg-secondary" style="font-size: 0.9rem; vertical-align: middle; padding: 5px 10px;">Inativo</span>
+    <?php endif; ?>
+    <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+        data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+        style="font-size: 0.9rem; cursor: pointer; vertical-align: middle;"
+        data-bs-content="
+        <strong>Ativo</strong> - O equipamento ainda se encontra no hospital, fazendo parte do inventário em gestão.<br><br>
+        <strong>Inativo</strong> - O equipamento já não está no hospital (foi removido/abatido), deixando de fazer parte deste sistema de gestão até ser reativado.<br><br>
+        Isto é diferente do <strong>Estado</strong> do equipamento (Ativo, Em manutenção, etc.), que descreve a condição operacional do equipamento enquanto este está no hospital.">
+    </i>
+</h1>
             </div>
 
             <div class="cabecalho-equipamento-detalhe">
@@ -1352,11 +1372,11 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
                 </div>
 
                 <div class="botoes-detalhes-equipamento">
-                    <a href="equipamentos.php" class="botao-voltar-detalhes">
-                        <i class="fa-solid fa-arrow-left"></i>
-                        Voltar
-                    </a>
-                </div>
+    <a href="<?= htmlspecialchars($linkVoltarEquipamento) ?>" class="botao-voltar-detalhes">
+        <i class="fa-solid fa-arrow-left"></i>
+        Voltar
+    </a>
+</div>
 
         </section>
 

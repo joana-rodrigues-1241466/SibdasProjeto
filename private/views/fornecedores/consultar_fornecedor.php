@@ -39,7 +39,7 @@ try {
     }
 
     $stmtEquip = $ligacao->prepare("
-        SELECT e.codigo, e.designacao, ee.designacao AS estado, c.designacao AS criticidade
+        SELECT e.id, e.codigo, e.designacao, ee.designacao AS estado, c.designacao AS criticidade
         FROM equipamento_fornecedor ef
         JOIN equipamentos e ON e.id = ef.equipamento_id
         LEFT JOIN estados_equipamento ee ON e.estado_id = ee.id
@@ -93,6 +93,13 @@ $ligacao = null;
         <?php else: ?>
             <span class="badge bg-secondary" style="font-size: 0.9rem; vertical-align: middle; padding: 5px 10px;">Inativo</span>
         <?php endif; ?>
+        <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+    style="font-size: 0.9rem; cursor: pointer; vertical-align: middle;"
+    data-bs-content="
+    <strong>Ativo</strong> - O fornecedor ainda presta serviços ao hospital, podendo ser associado a equipamentos.<br><br>
+    <strong>Inativo</strong> - A relação com o fornecedor terminou, deixando de fazer parte deste sistema de gestão até ser reativado.">
+</i>
     </h1>
 </div>
 
@@ -230,9 +237,9 @@ $ligacao = null;
                                 <span class="badge-detalhe <?= $classeCriticidadeF ?>"><?= htmlspecialchars($equip['criticidade']) ?></span>
                             </td>
                             <td class="acoes-tabela-privada">
-                                <a href="<?= BASE_URL ?>/private/views/equipamentos/consultar_equipamento.php?id=<?= htmlspecialchars($equip['codigo']) ?>" title="Consultar" style="display: inline-block; padding: 4px 14px; border: 1px solid #005fae; border-radius: 6px; color: #005fae; text-decoration: none; font-weight: 600; font-size: 0.85rem;">
+                                <a href="<?= BASE_URL ?>/private/views/equipamentos/consultar_equipamento.php?id_equipamento=<?= aes_encrypt($equip['id']) ?>&origem=fornecedor&id_origem=<?= htmlspecialchars($idFornecedorEncriptado) ?>" title="Consultar" style="display: inline-block; padding: 4px 14px; border: 1px solid #005fae; border-radius: 6px; color: #005fae; text-decoration: none; font-weight: 600; font-size: 0.85rem;">
                                     Ver
-                                </a>
+</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -334,5 +341,16 @@ $ligacao = null;
     </main>
 
 </div>
+
+<!-- ============================================================ -->
+<!-- Script JavaScript da página -->
+<!-- ============================================================ -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
+            new bootstrap.Popover(el);
+        });
+    });
+</script>
 
 <?php include '../../includes/footer.php'; ?>

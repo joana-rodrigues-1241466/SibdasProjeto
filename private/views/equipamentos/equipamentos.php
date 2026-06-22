@@ -379,6 +379,13 @@ $ligacao = null;
                 <h5 class="modal-title" id="tituloModalEliminarEquipamento">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     Confirmar eliminação
+                    <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+        data-bs-trigger="hover focus" data-bs-placement="left" data-bs-html="true"
+        data-bs-content="
+        <strong>Ativo</strong> - O equipamento ainda se encontra no hospital, fazendo parte do inventário em gestão.<br><br>
+        <strong>Inativo</strong> - O equipamento já não está no hospital (foi removido/abatido), deixando de fazer parte deste sistema de gestão. Mantém-se apenas para consulta de histórico.<br><br>
+        Isto é diferente do <strong>Estado</strong> do equipamento (Ativo, Em manutenção, etc.), que descreve a condição operacional do equipamento enquanto este está no hospital.">
+    </i>
                 </h5>
 
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -424,6 +431,13 @@ $ligacao = null;
                 <h5 class="modal-title" id="tituloModalReativarEquipamento">
                     <i class="fa-solid fa-rotate-left"></i>
                     Confirmar reativação
+                    <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+        data-bs-trigger="hover focus" data-bs-placement="left" data-bs-html="true"
+        data-bs-content="
+        <strong>Ativo</strong> - O equipamento ainda se encontra no hospital, fazendo parte do inventário em gestão.<br><br>
+        <strong>Inativo</strong> - O equipamento já não está no hospital (foi removido/abatido), deixando de fazer parte deste sistema de gestão. Mantém-se apenas para consulta de histórico.<br><br>
+        Isto é diferente do <strong>Estado</strong> do equipamento (Ativo, Em manutenção, etc.), que descreve a condição operacional do equipamento enquanto este está no hospital.">
+    </i>
                 </h5>
 
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

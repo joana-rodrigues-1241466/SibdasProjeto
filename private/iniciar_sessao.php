@@ -91,7 +91,7 @@ if (!empty($_SESSION['server_error'])) {
             </button>
 
             <!-- Preenchimento automático (Fase de Testes) -->
-            <div class="painel-modo-teste">
+            <div class="painel-modo-teste" style="display:none;">
                 <span class="badge-modo-teste">
                     <i class="fa-solid fa-flask"></i>
                     Modo de teste

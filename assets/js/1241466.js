@@ -1360,4 +1360,9 @@ document.addEventListener("DOMContentLoaded", function () {
     controlarCamposContratoManutencao();
     sincronizarDocumentacaoContrato();
     inicializarDropdownUtilizador();
+
+    // Ativar tooltips do Bootstrap (ex.: cargo do utilizador na navbar)
+    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
+        new bootstrap.Tooltip(el);
+    });
 });

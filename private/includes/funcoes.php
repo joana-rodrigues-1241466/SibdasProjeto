@@ -200,8 +200,6 @@ function guardarDocumentoEquipamento(PDO $ligacao, int $idEquipamento, string $c
 
 function registar_historico($ligacao, $equipamento_id, $tipo_alteracao_designacao, $descricao, $dados_anteriores = null, $dados_novos = null)
 {
-    date_default_timezone_set('Europe/Lisbon');
-
     $stmtTipo = $ligacao->prepare("SELECT id FROM tipos_alteracao WHERE designacao = :designacao");
     $stmtTipo->execute([':designacao' => $tipo_alteracao_designacao]);
     $tipo_alteracao_id = $stmtTipo->fetchColumn();

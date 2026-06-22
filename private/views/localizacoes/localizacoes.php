@@ -313,6 +313,12 @@ $totalSnapshotLoc = !empty($localizacao->snapshot_equipamentos) ? count(json_dec
                     <h5 class="modal-title" id="tituloModalEliminarLocalizacao">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                         Confirmar eliminação
+                        <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+        data-bs-trigger="hover focus" data-bs-placement="left" data-bs-html="true"
+        data-bs-content="
+        <strong>Ativa</strong> - A localização está disponível no hospital, podendo ser associada a equipamentos.<br><br>
+        <strong>Inativa</strong> - A localização deixou de estar disponível para uso (ex.: encerrada, em obras, ou reorganizada), deixando de fazer parte deste sistema de gestão até ser reativada.">
+    </i>
                     </h5>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
@@ -368,6 +374,12 @@ $totalSnapshotLoc = !empty($localizacao->snapshot_equipamentos) ? count(json_dec
                     <h5 class="modal-title" id="tituloModalReativarLocalizacao">
                         <i class="fa-solid fa-rotate-left"></i>
                         Confirmar reativação
+                         <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+        data-bs-trigger="hover focus" data-bs-placement="left" data-bs-html="true"
+        data-bs-content="
+        <strong>Ativa</strong> - A localização está disponível no hospital, podendo ser associada a equipamentos.<br><br>
+        <strong>Inativa</strong> - A localização deixou de estar disponível para uso (ex.: encerrada, em obras, ou reorganizada), deixando de fazer parte deste sistema de gestão até ser reativada.">
+    </i>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -525,6 +537,11 @@ $totalSnapshotLoc = !empty($localizacao->snapshot_equipamentos) ? count(json_dec
             $('#filtroSalaLocalizacao').val('');
             $('#filtroEquipamentoLocalizacao').val('');
             tabela.columns().search('').draw();
+        });
+
+        // Ativar os popovers do Bootstrap (tooltips informativos)
+        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
+            new bootstrap.Popover(el);
         });
     });
 

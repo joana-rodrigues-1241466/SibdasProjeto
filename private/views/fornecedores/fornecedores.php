@@ -402,6 +402,12 @@ $totalSnapshot = !empty($fornecedor->snapshot_equipamentos) ? count(json_decode(
                     <h5 class="modal-title" id="tituloModalEliminarFornecedor">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                         Confirmar eliminação
+                        <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+        data-bs-trigger="hover focus" data-bs-placement="left" data-bs-html="true"
+        data-bs-content="
+        <strong>Ativo</strong> - O fornecedor ainda presta serviços ao hospital, podendo ser associado a equipamentos.<br><br>
+        <strong>Inativo</strong> - A relação com o fornecedor terminou, deixando de fazer parte deste sistema de gestão.">
+    </i>
                     </h5>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -459,6 +465,13 @@ $totalSnapshot = !empty($fornecedor->snapshot_equipamentos) ? count(json_decode(
                     <h5 class="modal-title" id="tituloModalReativarFornecedor">
                         <i class="fa-solid fa-rotate-left"></i>
                         Confirmar reativação
+                        <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+    style="font-size: 0.9rem; cursor: pointer; vertical-align: middle;"
+    data-bs-content="
+    <strong>Ativo</strong> - O fornecedor ainda presta serviços ao hospital, podendo ser associado a equipamentos.<br><br>
+    <strong>Inativo</strong> - A relação com o fornecedor terminou, deixando de fazer parte deste sistema de gestão até ser reativado.">
+</i>
                     </h5>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -615,6 +628,11 @@ $totalSnapshot = !empty($fornecedor->snapshot_equipamentos) ? count(json_decode(
             $('#filtroPessoaContacto').val('');
             $('#filtroEquipamentoFornecedor').val('');
             tabela.columns().search('').draw();
+        });
+
+        // Ativar os popovers do Bootstrap (tooltips informativos)
+        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
+            new bootstrap.Popover(el);
         });
     });
 

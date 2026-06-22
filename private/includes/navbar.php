@@ -137,12 +137,11 @@ $rotulosCamposHistorico = [
                 </div>
             </div>
 
-            <div class="utilizador-privado">
+            <div class="utilizador-privado" data-bs-toggle="tooltip" data-bs-placement="bottom" title="<?= htmlspecialchars($_SESSION['profile']) ?>">
                 <i class="fa-regular fa-user"></i>
                 <span><?= htmlspecialchars($nome) ?></span>
                 <i class="fa-solid fa-caret-down"></i>
             </div>
-
         </div>
 
         <div class="menu-utilizador-privado">

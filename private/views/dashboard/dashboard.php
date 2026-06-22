@@ -225,7 +225,7 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
             <div class="card-dashboard card-dashboard-grande">
                 <div class="cabecalho-card-dashboard">
                     <h3>Equipamentos por serviço</h3>
-                    <a href="<?= BASE_URL ?>/private/views/equipamentos/equipamentos.php" class="link-card-dashboard">Ver detalhes</a>
+                    <a href="<?= BASE_URL ?>/private/views/localizacoes/localizacoes.php" class="link-card-dashboard">Ver detalhes</a>
                 </div>
                 <div id="graficoServicosDashboard" class="grafico-barras-dashboard">
                     <?php if (empty($servicosChart)) : ?>

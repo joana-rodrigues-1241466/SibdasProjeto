@@ -33,7 +33,7 @@ try {
     }
 
     $stmtEquip = $ligacao->prepare("
-    SELECT e.codigo, e.designacao, ee.designacao AS estado, c.designacao AS criticidade
+    SELECT e.id, e.codigo, e.designacao, ee.designacao AS estado, c.designacao AS criticidade
     FROM equipamentos e
     LEFT JOIN estados_equipamento ee ON e.estado_id = ee.id
     LEFT JOIN criticidades c ON e.criticidade_id = c.id
@@ -69,12 +69,19 @@ $ligacao = null;
             <div class="titulo-detalhes-equipamento">
     <i class="fa-solid fa-location-dot"></i>
     <h1>
-    Detalhes da Localização
-    <?php if ($localizacao['ativo'] == 1): ?>
-        <span class="badge bg-success" style="font-size: 0.9rem; vertical-align: middle; padding: 5px 10px;">Ativo</span>
+Detalhes da Localização
+<?php if ($localizacao['ativo'] == 1): ?>
+    <span class="badge bg-success" style="font-size: 0.9rem; vertical-align: middle; padding: 5px 10px;">Ativo</span>
 <?php else: ?>
-    <span class="badge bg-secondary" style="font-size: 0.9rem; vertical-align: middle; padding: 5px 10px;">Inativo</span>
+<span class="badge bg-secondary" style="font-size: 0.9rem; vertical-align: middle; padding: 5px 10px;">Inativo</span>
     <?php endif; ?>
+    <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+        data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+        style="font-size: 0.9rem; cursor: pointer; vertical-align: middle;"
+        data-bs-content="
+        <strong>Ativa</strong> - A localização está disponível no hospital, podendo ser associada a equipamentos.<br><br>
+        <strong>Inativa</strong> - A localização deixou de estar disponível para uso (ex.: encerrada, em obras, ou reorganizada), deixando de fazer parte deste sistema de gestão até ser reativada.">
+    </i>
 </h1>
 </div>
 
@@ -162,9 +169,9 @@ $ligacao = null;
     <span class="badge-detalhe <?= $classeCriticidadeAssoc ?>"><?= htmlspecialchars($equip['criticidade']) ?></span>
 </td>
 <td class="acoes-tabela-privada">
-                                            <a href="<?= BASE_URL ?>/private/views/equipamentos/consultar_equipamento.php?id=<?= htmlspecialchars($equip['codigo']) ?>" ...>
-                                                Ver
-                                            </a>
+                                            <a href="<?= BASE_URL ?>/private/views/equipamentos/consultar_equipamento.php?id_equipamento=<?= aes_encrypt($equip['id']) ?>&origem=localizacao&id_origem=<?= htmlspecialchars($idLocalizacaoEncriptado) ?>" title="Consultar" style="display: inline-block; padding: 4px 14px; border: 1px solid #005fae; border-radius: 6px; color: #005fae; text-decoration: none; font-weight: 600; font-size: 0.85rem;">
+                                            Ver
+                                        </a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -199,5 +206,16 @@ $ligacao = null;
     </main>
 
 </div>
+
+<!-- ============================================================ -->
+<!-- Script JavaScript da página -->
+<!-- ============================================================ -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
+            new bootstrap.Popover(el);
+        });
+    });
+</script>
 
 <?php include '../../includes/footer.php'; ?>

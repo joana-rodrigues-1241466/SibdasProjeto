@@ -1,4 +1,8 @@
 <?php
+// Define o fuso horário de Portugal para toda a aplicação, garantindo
+// que todas as datas/horas mostradas e registadas são consistentes
+date_default_timezone_set('Europe/Lisbon');
+
 define('APP_NAME', 'MediVault');
 define('APP_VERSION', '1.0.0');
 define('APP_COPYRIGHT', '© 2025 MediVault');

@@ -25,9 +25,6 @@ if (!$id || !is_numeric($id)) {
 // Marcar a mensagem como lida
 try {
     $ligacao = conectar_bd();
-
-    date_default_timezone_set('Europe/Lisbon');
-
     $stmt = $ligacao->prepare("UPDATE mensagens_contacto SET lido = 1, lido_em = :lido_em, lido_por = :lido_por WHERE id = :id");
     $stmt->execute([
         ':lido_em' => date('Y-m-d H:i:s'),

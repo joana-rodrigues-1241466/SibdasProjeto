@@ -10,3 +10,14 @@
 [2026-06-21 23:52:19] SUCESSO | Email: admin@medivault.pt | IP: 127.0.0.1
 [2026-06-22 01:02:17] SUCESSO | Email: admin@medivault.pt | IP: 127.0.0.1
 [2026-06-22 02:04:09] SUCESSO | Email: admin@medivault.pt | IP: 127.0.0.1
+[2026-06-22 02:42:10] SUCESSO | Email: profissional_saude@medivault.pt | IP: 127.0.0.1
+[2026-06-22 04:35:56] SUCESSO | Email: admin@medivault.pt | IP: 127.0.0.1
+[2026-06-22 18:43:49] SUCESSO | Email: admin@medivault.pt | IP: 127.0.0.1
+[2026-06-22 23:26:17] SUCESSO | Email: admin@medivault.pt | IP: 127.0.0.1
+[2026-06-23 11:56:38] FALHA | Email: tecnico@medivault.pt | IP: 127.0.0.1 | Motivo: Password incorreta
+[2026-06-23 11:58:06] FALHA | Email: rui.ferreira@medivault.pt | IP: 127.0.0.1 | Motivo: Utilizador não encontrado
+[2026-06-23 11:58:41] FALHA | Email: rui.ferreira@medivault.pt | IP: 127.0.0.1 | Motivo: Utilizador não encontrado
+[2026-06-23 12:04:23] SUCESSO | Email: tecnico@medivault.pt | IP: 127.0.0.1
+[2026-06-23 12:06:09] SUCESSO | Email: profissional_saude@medivault.pt | IP: 127.0.0.1
+[2026-06-23 12:06:16] SUCESSO | Email: profissional_saude@medivault.pt | IP: 127.0.0.1
+[2026-06-23 12:08:01] SUCESSO | Email: admin@medivault.pt | IP: 127.0.0.1

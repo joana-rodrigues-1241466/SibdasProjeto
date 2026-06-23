@@ -339,19 +339,37 @@ function cp($conteudos, $campo, $defeito)
             <form class="form-contactos" method="post" action="index.php#contactos">
 
                 <div class="mb-4">
-                    <label for="nome" class="form-label">Nome:</label>
+                    <label for="nome" class="form-label">Nome: <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                     <input type="text" class="form-control campo-contacto" id="nome" name="nome"
                         placeholder="Insira o seu nome" value="<?= htmlspecialchars($nomeContacto ?? '') ?>">
                 </div>
 
                 <div class="mb-4">
-                    <label for="email" class="form-label">Email:</label>
+                    <label for="email" class="form-label">Email: <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                     <input type="text" class="form-control campo-contacto" id="email" name="email"
                         placeholder="exemplo@gmail.com" value="<?= htmlspecialchars($emailContacto ?? '') ?>">
                 </div>
 
                 <div class="mb-4">
-                    <label for="mensagem" class="form-label">Mensagem:</label>
+                    <label for="mensagem" class="form-label">Mensagem: <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                     <textarea class="form-control campo-contacto" id="mensagem" name="mensagem" rows="5"
                         placeholder="Escreva aqui a sua mensagem"><?= htmlspecialchars($mensagemContacto ?? '') ?></textarea>
                 </div>

@@ -161,7 +161,10 @@ function guardarDocumentoEquipamento(PDO $ligacao, int $idEquipamento, string $c
     if (!empty($_FILES[$campoFicheiro]['name']) && $_FILES[$campoFicheiro]['error'] === UPLOAD_ERR_OK) {
         $nomeOriginalFicheiro = $_FILES[$campoFicheiro]['name'];
         $extensao = pathinfo($nomeOriginalFicheiro, PATHINFO_EXTENSION);
-        $ficheiroDocumento = 'doc_equipamento_' . $codigoEquipamento . '_' . $tipoDocumentoId . '_' . time() . '.' . $extensao;
+        $semExtensao = pathinfo($nomeOriginalFicheiro, PATHINFO_FILENAME);
+$ficheiroDocumento = (str_contains($semExtensao, $codigoEquipamento))
+    ? $nomeOriginalFicheiro
+    : $semExtensao . '_' . $codigoEquipamento . '.' . $extensao;
 
         move_uploaded_file($_FILES[$campoFicheiro]['tmp_name'], UPLOAD_DIR_EQUIPAMENTOS . '/' . $ficheiroDocumento);
     }

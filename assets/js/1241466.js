@@ -17,12 +17,13 @@ function inicializarTogglesDocumentacaoEquipamento() {
     ligarToggle("tem_documentacao_utilizacao", "bloco-documentacao-utilizacao");
     ligarToggle("tem_declaracao_conformidade", "bloco-declaracao-conformidade");
     ligarToggle("tem_contrato_aquisicao", "bloco-contrato-aquisicao");
-    ligarToggle("tem_fatura", "bloco-fatura");
+    ligarToggle("tem_fatura", "bloco-fatura")
     ligarToggle("tem_documentacao_garantia", "bloco-documentacao-garantia");
     ligarToggle("tem_documentacao_contrato", "bloco-documentacao-contrato");
     ligarToggle("tem_relatorio_contrato", "bloco-relatorio-contrato");
     ligarToggle("tem_documentacao_calibracao", "bloco-documentacao-calibracao");
     ligarToggle("tem_relatorio_calibracao", "bloco-relatorio-calibracao");
+    ligarToggle("tem_doc_fornecedor", "bloco-doc-fornecedor");
 }
 
 // ===============================

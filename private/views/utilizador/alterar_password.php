@@ -104,17 +104,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="post" action="alterar_password.php">
 
                 <div class="campo-detalhes" style="border-bottom: none; padding-bottom: 0; margin-bottom: 0.75rem;">
-                    <h3>Palavra-passe atual</h3>
+                    <h3>Palavra-passe atual <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></h3>
                     <input type="password" class="form-control campo-formulario-privado" id="password_atual" name="password_atual" placeholder="Introduza a sua palavra-passe atual">
                 </div>
 
                 <div class="campo-detalhes" style="border-bottom: none; padding-bottom: 0; margin-bottom: 0.75rem;">
-                    <h3>Nova palavra-passe</h3>
+                    <h3>Nova palavra-passe <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></h3>
                     <input type="password" class="form-control campo-formulario-privado" id="password_nova" name="password_nova" placeholder="Entre 8 e 14 caracteres">
                 </div>
 
                 <div class="campo-detalhes" style="border-bottom: none; padding-bottom: 0; margin-bottom: 1.5rem;">
-                    <h3>Confirmar nova palavra-passe</h3>
+                    <h3>Confirmar nova palavra-passe <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></h3>
                     <input type="password" class="form-control campo-formulario-privado" id="password_confirmar" name="password_confirmar" placeholder="Repita a nova palavra-passe">
                 </div>
 

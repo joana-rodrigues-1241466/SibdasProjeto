@@ -166,26 +166,56 @@ if (!$localizacao) {
 
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="codigo" class="form-label">Código da localização</label>
+                        <label for="codigo" class="form-label">Código da localização <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                         <input type="text" class="form-control campo-formulario-privado" id="codigo" name="codigo" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $codigo : $localizacao->codigo) ?>" readonly>
                     </div>
                     <div class="col-md-8">
-                        <label for="servico" class="form-label">Serviço / Departamento</label>
+                        <label for="servico" class="form-label">Serviço / Departamento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                         <input type="text" class="form-control campo-formulario-privado" id="servico" name="servico" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $servico : $localizacao->servico) ?>">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="edificio" class="form-label">Edifício</label>
+                        <label for="edificio" class="form-label">Edifício <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                         <input type="text" class="form-control campo-formulario-privado" id="edificio" name="edificio" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $edificio : $localizacao->edificio) ?>">
                     </div>
                     <div class="col-md-4">
-                        <label for="piso" class="form-label">Piso</label>
+                        <label for="piso" class="form-label">Piso <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                         <input type="text" class="form-control campo-formulario-privado" id="piso" name="piso" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $piso : $localizacao->piso) ?>">
                     </div>
                     <div class="col-md-4">
-                        <label for="sala" class="form-label">Sala / Gabinete</label>
+                        <label for="sala" class="form-label">Sala / Gabinete <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                         <input type="text" class="form-control campo-formulario-privado" id="sala" name="sala" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $sala : $localizacao->sala) ?>">
                     </div>
                 </div>

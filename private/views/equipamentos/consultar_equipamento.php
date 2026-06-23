@@ -42,7 +42,7 @@ try {
     $stmt = $ligacao->prepare("
         SELECT e.*, cat.designacao AS categoria, ee.designacao AS estado, c.designacao AS criticidade,
                l.codigo AS localizacao_codigo, l.edificio AS localizacao_edificio, l.piso AS localizacao_piso,
-               l.servico AS localizacao_servico, l.sala AS localizacao_sala
+               l.servico AS localizacao_servico, l.sala AS localizacao_sala, l.observacoes AS observacoes_localizacao
         FROM equipamentos e
         LEFT JOIN categorias cat ON e.categoria_id = cat.id
         LEFT JOIN estados_equipamento ee ON e.estado_id = ee.id
@@ -585,7 +585,7 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
                     <div class="grelha-detalhes-equipamento">
                         <div class="campo-detalhes campo-detalhes-largo">
                             <h3>Observações</h3>
-                            <p id="detalhe-observacoes"><?= htmlspecialchars($equipamento['observacoes']) ?></p>
+                            <p id="detalhe-observacoes"><?= htmlspecialchars($equipamento['observacoes'] ?? '') ?></p>
                         </div>
                     </div>
 
@@ -621,7 +621,7 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
                                                 <td><?= htmlspecialchars($acessorio['referencia']) ?></td>
                                                 <td><?= htmlspecialchars($acessorio['quantidade']) ?> <?= htmlspecialchars($acessorio['unidade']) ?></td>
                                                 <td><?= htmlspecialchars($acessorio['estado']) ?></td>
-                                                <td><?= htmlspecialchars($acessorio['observacoes']) ?></td>
+                                                <td><?= htmlspecialchars($acessorio['observacoes'] ?? '') ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -659,7 +659,7 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
                                                 <td><?= htmlspecialchars($consumivel['referencia']) ?></td>
                                                 <td><?= htmlspecialchars($consumivel['quantidade']) ?> <?= htmlspecialchars($consumivel['unidade']) ?></td>
                                                 <td><?= htmlspecialchars($consumivel['estado']) ?></td>
-                                                <td><?= htmlspecialchars($consumivel['observacoes']) ?></td>
+                                                <td><?= htmlspecialchars($consumivel['observacoes'] ?? '') ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -817,7 +817,7 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
                     <div class="grelha-detalhes-equipamento">
                         <div class="campo-detalhes campo-detalhes-largo">
                             <h3>Observações</h3>
-                            <p id="detalhe-observacoes-aquisicao"><?= htmlspecialchars($aquisicao['observacoes'] ?? '') ?></p>
+                            <p id="detalhe-observacoes-aquisicao"><?= htmlspecialchars($equipamento['observacoes'] ?? '') ?></p>
                         </div>
                     </div>
 
@@ -917,7 +917,7 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
                         </div>
                         <div class="campo-detalhes campo-detalhes-largo">
                             <h3>Observações da localização</h3>
-                            <p id="detalhe-localizacao-observacoes"><?= htmlspecialchars($equipamento['observacoes_localizacao']) ?></p>
+                            <p id="detalhe-localizacao-observacoes"><?= htmlspecialchars($equipamento['observacoes'] ?? '') ?></p>
                         </div>
                     </div>
 
@@ -1031,7 +1031,7 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
                     <div class="grelha-detalhes-equipamento">
                         <div class="campo-detalhes campo-detalhes-largo">
                             <h3>Observações</h3>
-                            <p id="detalhe-observacoes-garantia"><?= htmlspecialchars($garantia['observacoes'] ?? '') ?></p>
+                            <p id="detalhe-observacoes-garantia"><?= htmlspecialchars($equipamento['observacoes'] ?? '') ?></p>
                         </div>
                     </div>
 
@@ -1279,7 +1279,7 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
                     <div class="grelha-detalhes-equipamento">
                         <div class="campo-detalhes campo-detalhes-largo">
                             <h3>Observações</h3>
-                            <p id="detalhe-observacoes-contrato"><?= htmlspecialchars($contrato['observacoes'] ?? '') ?></p>
+                            <p id="detalhe-observacoes-contrato"><?= htmlspecialchars($equipamento['observacoes'] ?? '') ?></p>
                         </div>
                     </div>
 

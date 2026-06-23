@@ -98,9 +98,6 @@ CREATE TABLE `utilizadores` (
   `perfil_id` int NOT NULL,
   `ativo` boolean DEFAULT true,
   `last_login` datetime,
-  `token_reset` varchar(255),
-  `token_expira` datetime,
-  `token_remember` varchar(255),
   `created_at` datetime DEFAULT (CURRENT_TIMESTAMP),
   `updated_at` datetime DEFAULT (CURRENT_TIMESTAMP)
 );
@@ -115,7 +112,8 @@ CREATE TABLE `localizacoes` (
   `observacoes` text,
   `ativo` boolean DEFAULT true,
   `created_at` datetime DEFAULT (CURRENT_TIMESTAMP),
-  `updated_at` datetime DEFAULT (CURRENT_TIMESTAMP)
+  `updated_at` datetime DEFAULT (CURRENT_TIMESTAMP),
+  `snapshot_equipamentos` text
 );
 
 CREATE TABLE `fornecedores` (
@@ -132,6 +130,7 @@ CREATE TABLE `fornecedores` (
   `tipo_id` int NOT NULL,
   `observacoes` text,
   `ativo` boolean DEFAULT true,
+  `snapshot_equipamentos` text,
   `created_at` datetime DEFAULT (CURRENT_TIMESTAMP),
   `updated_at` datetime DEFAULT (CURRENT_TIMESTAMP)
 );

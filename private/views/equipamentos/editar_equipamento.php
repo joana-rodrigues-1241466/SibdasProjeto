@@ -991,7 +991,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                                     name="codigo" value="<?= htmlspecialchars($equipamento->codigo) ?>" readonly>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="designacao" class="form-label">Designação do equipamento</label>
+                                <label for="designacao" class="form-label">Designação do equipamento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <input type="text" class="form-control campo-formulario-privado" id="designacao"
                                     name="designacao" value="<?= htmlspecialchars($metodoPost ? ($_POST['designacao'] ?? '') : $equipamento->designacao) ?>">
                             </div>
@@ -1012,7 +1018,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
         <strong>Reabilitação</strong> - Equipamentos utilizados na recuperação funcional e reabilitação dos pacientes.
         ">
                                     </i>
-                                </label>
+                                <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <select class="form-select campo-formulario-privado" id="categoria"
                                     name="categoria">
                                     <option value="" disabled <?= empty($categoriaAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -1026,12 +1038,24 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="marca" class="form-label">Marca</label>
+                                <label for="marca" class="form-label">Marca <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <input type="text" class="form-control campo-formulario-privado" id="marca"
                                     name="marca" value="<?= htmlspecialchars($metodoPost ? ($_POST['marca'] ?? '') : $equipamento->marca) ?>">
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="modelo" class="form-label">Modelo</label>
+                                <label for="modelo" class="form-label">Modelo <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <input type="text" class="form-control campo-formulario-privado" id="modelo"
                                     name="modelo" value="<?= htmlspecialchars($metodoPost ? ($_POST['modelo'] ?? '') : $equipamento->modelo) ?>">
                             </div>
@@ -1039,12 +1063,24 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
 
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="numero_serie" class="form-label">N.º de série</label>
+                                <label for="numero_serie" class="form-label">N.º de série <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <input type="text" class="form-control campo-formulario-privado" id="numero_serie"
                                     name="numero_serie" value="<?= htmlspecialchars($metodoPost ? ($_POST['numero_serie'] ?? '') : $equipamento->numero_serie) ?>">
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="fabricante" class="form-label">Fabricante</label>
+                                <label for="fabricante" class="form-label">Fabricante <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <input type="text" class="form-control campo-formulario-privado" id="fabricante"
                                     name="fabricante" value="<?= htmlspecialchars($metodoPost ? ($_POST['fabricante'] ?? '') : $equipamento->fabricante) ?>">
                             </div>
@@ -1070,7 +1106,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
        <strong>Abatido</strong> - Equipamento retirado definitivamente de serviço e sem possibilidade de utilização.
        ">
                                     </i>
-                                </label>
+                               <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span> </label>
                                 <select class="form-select campo-formulario-privado" id="estado" name="estado">
                                     <option value="" disabled <?= empty($estadoAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                                     <option <?= $estadoAtual === 'Ativo' ? 'selected' : '' ?>>Ativo</option>
@@ -1092,7 +1134,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
         <strong>Baixa</strong> - Equipamento de apoio com impacto reduzido na prestação de cuidados.
         ">
                                     </i>
-                                </label>
+                                <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <select class="form-select campo-formulario-privado" id="criticidade"
                                     name="criticidade">
                                     <option value="" disabled <?= empty($criticidadeAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -1112,7 +1160,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                         </h5>
 
                         <div class="grupo-campo-privado grupo-campo-total">
-                            <label for="tem_documentacao_tecnica">Existe documentação técnica associada?</label>
+                            <label for="tem_documentacao_tecnica">Existe documentação técnica associada? <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                             <select id="tem_documentacao_tecnica" name="tem_documentacao_tecnica" class="campo-formulario-privado">
                                 <option value="" disabled <?= empty($temDocTecnicaAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                                 <option value="sim" <?= $temDocTecnicaAtual === 'sim' ? 'selected' : '' ?>>Sim</option>
@@ -1124,19 +1178,37 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Manual de Serviço" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" id="nomeManualTecnico" name="nomeManualTecnico"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['nomeManualTecnico'] ?? '') : ($docTecnica->nome_documento ?? '')) ?>">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="date" id="dataManualTecnico" name="dataManualTecnico"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['dataManualTecnico'] ?? '') : ($docTecnica->data_documento ?? '')) ?>">
                                     </div>
@@ -1166,7 +1238,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
 
                         <div class="grupo-campo-privado grupo-campo-total">
                             <label for="tem_documentacao_utilizacao">Existe documentação de utilização
-                                associada?</label>
+                                associada? <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                             <select id="tem_documentacao_utilizacao" name="tem_documentacao_utilizacao" class="campo-formulario-privado">
                                 <option value="" disabled <?= empty($temDocUtilizacaoAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                                 <option value="sim" <?= $temDocUtilizacaoAtual === 'sim' ? 'selected' : '' ?>>Sim</option>
@@ -1178,19 +1256,37 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Manual de Utilização" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" id="nomeManualUtilizacao" name="nomeManualUtilizacao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['nomeManualUtilizacao'] ?? '') : ($docUtilizacao->nome_documento ?? '')) ?>">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="date" id="dataManualUtilizacao" name="dataManualUtilizacao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['dataManualUtilizacao'] ?? '') : ($docUtilizacao->data_documento ?? '')) ?>">
                                     </div>
@@ -1222,7 +1318,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
 
                         <div class="grupo-campo-privado grupo-campo-total">
                             <label for="tem_declaracao_conformidade">
-                                Existe documentação de conformidade associada?
+                                Existe documentação de conformidade associada? <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span>
                             </label>
                             <select id="tem_declaracao_conformidade" name="tem_declaracao_conformidade" class="campo-formulario-privado">
                                 <option value="" disabled <?= empty($temDeclConformidadeAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -1235,12 +1337,24 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Documentação de Conformidade" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" id="nomeDeclaracaoConformidade"
                                             name="nomeDeclaracaoConformidade"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['nomeDeclaracaoConformidade'] ?? '') : ($docConformidade->nome_documento ?? '')) ?>">
@@ -1248,7 +1362,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="date" id="dataDeclaracaoConformidade"
                                             name="dataDeclaracaoConformidade"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['dataDeclaracaoConformidade'] ?? '') : ($docConformidade->data_documento ?? '')) ?>">
@@ -1312,18 +1432,54 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                     <div id="tab-acessorios-consumiveis" class="conteudo-tab-equipamento">
 
                         <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-toolbox"></i> Acessórios
+                            <i class="fa-solid fa-toolbox"></i> Acessórios <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span>
                         </h5>
 
                         <div class="mb-4">
                             <table class="tabela-itens w-100 mb-2" id="tabela-acessorios">
                                 <thead>
                                     <tr>
-                                        <th>Nome</th>
-                                        <th>Referência</th>
-                                        <th>Qtd.</th>
-                                        <th>Unidade</th>
-                                        <th>Estado</th>
+                                        <th>Nome <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
+                                        <th>Referência <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
+                                        <th>Qtd. <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
+                                        <th>Unidade <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
+                                        <th>Estado <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
                                         <th>Observações</th>
                                         <th></th>
                                     </tr>
@@ -1350,10 +1506,34 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                             <table class="tabela-itens w-100 mb-2" id="tabela-consumiveis">
                                 <thead>
                                     <tr>
-                                        <th>Nome</th>
-                                        <th>Referência</th>
-                                        <th>Qtd.</th>
-                                        <th>Unidade</th>
+                                        <th>Nome <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
+                                        <th>Referência <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
+                                        <th>Qtd. <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
+                                        <th>Unidade <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
                                         <th>Estado</th>
                                         <th>Observações</th>
                                         <th></th>
@@ -1399,12 +1579,24 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
 
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="data_aquisicao" class="form-label">Data de aquisição</label>
+                                <label for="data_aquisicao" class="form-label">Data de aquisição <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <input type="date" class="form-control campo-formulario-privado" id="data_aquisicao"
                                     name="data_aquisicao" value="<?= htmlspecialchars($metodoPost ? ($_POST['data_aquisicao'] ?? '') : $aquisicaoBD->data_aquisicao) ?>">
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="custo_aquisicao" class="form-label">Custo de aquisição (€)</label>
+                                <label for="custo_aquisicao" class="form-label">Custo de aquisição (€) <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <input type="number" step="0.01" class="form-control campo-formulario-privado"
                                     id="custo_aquisicao" name="custo_aquisicao" value="<?= htmlspecialchars($metodoPost ? ($_POST['custo_aquisicao'] ?? '') : $aquisicaoBD->custo_aquisicao) ?>">
                             </div>
@@ -1419,7 +1611,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
         <strong>Empréstimo</strong> - Equipamento cedido temporariamente por outra entidade para utilização durante um período acordado.
         ">
                                     </i>
-                                </label>
+                                <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <select class="form-select campo-formulario-privado" id="tipo_entrada"
                                     name="tipo_entrada">
                                     <option value="" disabled <?= empty($tipoEntradaAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -1439,7 +1637,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                         </h5>
 
                         <div class="grupo-campo-privado">
-                            <label for="tem_contrato_aquisicao">Existe contrato de aquisição associado?</label>
+                            <label for="tem_contrato_aquisicao">Existe contrato de aquisição associado? <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                             <select id="tem_contrato_aquisicao" name="tem_contrato_aquisicao" class="campo-formulario-privado">
                                 <option value="" disabled <?= empty($temContratoAquisicaoAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                                 <option value="sim" <?= $temContratoAquisicaoAtual === 'sim' ? 'selected' : '' ?>>Sim</option>
@@ -1451,19 +1655,37 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Contrato de Aquisição" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" id="nomeContratoAquisicao" name="nomeContratoAquisicao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['nomeContratoAquisicao'] ?? '') : ($docContratoAquisicao->nome_documento ?? '')) ?>">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data do documento</label>
+                                        <label class="form-label">Data do documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="date" id="dataContratoAquisicao" name="dataContratoAquisicao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['dataContratoAquisicao'] ?? '') : ($docContratoAquisicao->data_documento ?? '')) ?>">
                                     </div>
@@ -1494,7 +1716,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                         </h5>
 
                         <div class="grupo-campo-privado">
-                            <label for="tem_fatura">Existe fatura associada?</label>
+                            <label for="tem_fatura">Existe fatura associada? <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                             <select id="tem_fatura" name="tem_fatura" class="campo-formulario-privado">
                                 <option value="" disabled <?= empty($temFaturaAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                                 <option value="sim" <?= $temFaturaAtual === 'sim' ? 'selected' : '' ?>>Sim</option>
@@ -1506,19 +1734,37 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Fatura" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" id="nomeFatura" name="nomeFatura"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['nomeFatura'] ?? '') : ($docFatura->nome_documento ?? '')) ?>">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data do documento</label>
+                                        <label class="form-label">Data do documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="date" id="dataFatura" name="dataFatura"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['dataFatura'] ?? '') : ($docFatura->data_documento ?? '')) ?>">
                                     </div>
@@ -1576,10 +1822,34 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                         <table class="tabela-itens w-100 mb-2" id="tabela-fornecedores-equipamento">
                             <thead>
                                 <tr>
-                                    <th>Fornecedor</th>
-                                    <th>Morada</th>
-                                    <th>Pessoa de contacto</th>
-                                    <th>Telefone da pessoa de contacto</th>
+                                    <th>Fornecedor <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
+                                    <th>Morada <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
+                                    <th>Pessoa de contacto <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
+                                    <th>Telefone da pessoa de contacto <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></th>
                                     <th>Observações</th>
                                     <th></th>
                                 </tr>
@@ -1631,7 +1901,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
 
                         <div class="row">
                             <div class="grupo-campo-privado grupo-campo-total">
-                                <label for="localizacao">Localização associada</label>
+                                <label for="localizacao">Localização associada <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <select id="localizacao" name="localizacao"
                                     class="form-select campo-formulario-privado">
                                     <option value="" disabled <?= empty($localizacaoAtual) ? 'selected' : '' ?>>Escolha uma localização</option>
@@ -1685,12 +1961,24 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="dataInicioGarantia" class="form-label">Data de início da
-                                    garantia</label>
+                                    garantia <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <input type="date" id="dataInicioGarantia" name="dataInicioGarantia"
                                     class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['dataInicioGarantia'] ?? '') : ($garantiaBD->data_inicio ?? '')) ?>">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="dataFimGarantia" class="form-label">Data de fim da garantia</label>
+                                <label for="dataFimGarantia" class="form-label">Data de fim da garantia <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <input type="date" id="dataFimGarantia" name="dataFimGarantia"
                                     class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['dataFimGarantia'] ?? '') : ($garantiaBD->data_fim ?? '')) ?>">
                             </div>
@@ -1704,7 +1992,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                         </h5>
 
                         <div class="grupo-campo-privado grupo-campo-total">
-                            <label for="tem_documentacao_garantia">Existe certificado de garantia associado?</label>
+                            <label for="tem_documentacao_garantia">Existe certificado de garantia associado? <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                             <select id="tem_documentacao_garantia" name="tem_documentacao_garantia" class="campo-formulario-privado">
                                 <option value="" disabled <?= empty($temDocGarantiaAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                                 <option value="sim" <?= $temDocGarantiaAtual === 'sim' ? 'selected' : '' ?>>Sim</option>
@@ -1716,12 +2010,24 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Certificado de garantia" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" id="nomeCertificadoGarantia"
                                             name="nomeCertificadoGarantia"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['nomeCertificadoGarantia'] ?? '') : ($docGarantia->nome_documento ?? '')) ?>">
@@ -1729,7 +2035,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="date" id="dataCertificadoGarantia"
                                             name="dataCertificadoGarantia"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['dataCertificadoGarantia'] ?? '') : ($docGarantia->data_documento ?? '')) ?>">
@@ -1794,7 +2106,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="contratoManutencao" class="form-label">Contrato de manutenção</label>
+                                <label for="contratoManutencao" class="form-label">Contrato de manutenção <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <select id="contratoManutencao" name="contratoManutencao" class="form-select campo-formulario-privado">
                                     <option value="" disabled <?= empty($contratoManutencaoAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                                     <option value="sim" <?= $contratoManutencaoAtual === 'sim' ? 'selected' : '' ?>>Sim</option>
@@ -1802,7 +2120,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="tipoContrato" class="form-label">Tipo de contrato</label>
+                                <label for="tipoContrato" class="form-label">Tipo de contrato <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <select id="tipoContrato" name="tipoContrato" class="form-select campo-formulario-privado">
                                     <?php if ($contratoManutencaoAtual === 'nao') : ?>
                                         <option value="" selected>Não existe</option>
@@ -1821,14 +2145,26 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="entidadeResponsavelContrato" class="form-label">Entidade
-                                    responsável</label>
+                                    responsável <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <input type="text" id="entidadeResponsavelContrato" name="entidadeResponsavelContrato"
                                     class="form-control campo-formulario-privado"
                                     placeholder="Ex.: Philips Healthcare"
                                     value="<?= $contratoManutencaoAtual === 'nao' ? 'Não existe' : htmlspecialchars($entidadeResponsavelAtual) ?>">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="periodicidadeContrato" class="form-label">Periodicidade</label>
+                                <label for="periodicidadeContrato" class="form-label">Periodicidade <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                 <select id="periodicidadeContrato" name="periodicidadeContrato" class="form-select campo-formulario-privado">
                                     <?php if ($contratoManutencaoAtual === 'nao') : ?>
                                         <option value="" selected>Não aplicável</option>
@@ -1852,7 +2188,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                         </h5>
 
                         <div class="grupo-campo-privado">
-                            <label for="tem_documentacao_contrato">Existe contrato de manutenção associado?</label>
+                            <label for="tem_documentacao_contrato">Existe contrato de manutenção associado? <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                             <select id="tem_documentacao_contrato" name="tem_documentacao_contrato" class="campo-formulario-privado">
                                 <option value="" disabled <?= empty($temDocCertificadoContratoAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                                 <option value="sim" <?= $temDocCertificadoContratoAtual === 'sim' ? 'selected' : '' ?>>Sim</option>
@@ -1864,19 +2206,37 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Contrato de manutenção" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" id="nomeCertificadoContrato" name="nomeCertificadoContrato"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['nomeCertificadoContrato'] ?? '') : ($docCertificadoContrato->nome_documento ?? '')) ?>">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="date" id="dataContratoManutencao" name="dataContratoManutencao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['dataContratoManutencao'] ?? '') : ($docCertificadoContrato->data_documento ?? '')) ?>">
                                     </div>
@@ -1902,7 +2262,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                         </div>
 
                         <div class="grupo-campo-privado" style="margin-top: 1.2rem;">
-                            <label for="tem_relatorio_contrato">Existe relatório de manutenção associado?</label>
+                            <label for="tem_relatorio_contrato">Existe relatório de manutenção associado? <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                             <select id="tem_relatorio_contrato" name="tem_relatorio_contrato" class="campo-formulario-privado">
                                 <option value="" disabled <?= empty($temRelatorioManutencaoAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                                 <option value="sim" <?= $temRelatorioManutencaoAtual === 'sim' ? 'selected' : '' ?>>Sim</option>
@@ -1914,12 +2280,24 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Relatório de manutenção" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" id="nomeRelatorioManutencao"
                                             name="nomeRelatorioManutencao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['nomeRelatorioManutencao'] ?? '') : ($docRelatorioManutencao->nome_documento ?? '')) ?>">
@@ -1927,7 +2305,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="date" id="dataRelatorioManutencao"
                                             name="dataRelatorioManutencao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['dataRelatorioManutencao'] ?? '') : ($docRelatorioManutencao->data_documento ?? '')) ?>">
@@ -1960,7 +2344,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
 
                         <div class="grupo-campo-privado">
                             <label for="tem_documentacao_calibracao">Existe certificado de calibração
-                                associado?</label>
+                                associado? <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                             <select id="tem_documentacao_calibracao" name="tem_documentacao_calibracao" class="campo-formulario-privado">
                                 <option value="" disabled <?= empty($temDocCalibracaoAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                                 <option value="sim" <?= $temDocCalibracaoAtual === 'sim' ? 'selected' : '' ?>>Sim</option>
@@ -1972,12 +2362,24 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Certificado de calibração" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" id="nomeCertificadoCalibracao"
                                             name="nomeCertificadoCalibracao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['nomeCertificadoCalibracao'] ?? '') : ($docCertificadoCalibracao->nome_documento ?? '')) ?>">
@@ -1985,7 +2387,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="date" id="dataCertificadoCalibracao"
                                             name="dataCertificadoCalibracao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['dataCertificadoCalibracao'] ?? '') : ($docCertificadoCalibracao->data_documento ?? '')) ?>">
@@ -2012,7 +2420,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                         </div>
 
                         <div class="grupo-campo-privado" style="margin-top: 1.2rem;">
-                            <label for="tem_relatorio_calibracao">Existe relatório de calibração associado?</label>
+                            <label for="tem_relatorio_calibracao">Existe relatório de calibração associado? <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                             <select id="tem_relatorio_calibracao" name="tem_relatorio_calibracao" class="campo-formulario-privado">
                                 <option value="" disabled <?= empty($temRelatorioCalibracaoAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                                 <option value="sim" <?= $temRelatorioCalibracaoAtual === 'sim' ? 'selected' : '' ?>>Sim</option>
@@ -2024,12 +2438,24 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Relatório de calibração" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="text" id="nomeRelatorioCalibracao"
                                             name="nomeRelatorioCalibracao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['nomeRelatorioCalibracao'] ?? '') : ($docRelatorioCalibracao->nome_documento ?? '')) ?>">
@@ -2037,7 +2463,13 @@ $temRelatorioCalibracaoAtual = $metodoPost ? ($_POST['tem_relatorio_calibracao']
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                                         <input type="date" id="dataRelatorioCalibracao"
                                             name="dataRelatorioCalibracao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($metodoPost ? ($_POST['dataRelatorioCalibracao'] ?? '') : ($docRelatorioCalibracao->data_documento ?? '')) ?>">

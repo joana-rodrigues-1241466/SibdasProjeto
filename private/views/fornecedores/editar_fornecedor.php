@@ -345,18 +345,36 @@ $tipoDocAtual = $_SERVER['REQUEST_METHOD'] === 'POST' ? $tipoDocFornecedor : ($d
                         <input type="text" class="form-control campo-formulario-privado" id="codigo" name="codigo" value="<?= htmlspecialchars($fornecedor->codigo) ?>" readonly>
                     </div>
                     <div class="col-md-8">
-                        <label for="nome_empresa" class="form-label">Nome da empresa</label>
+                        <label for="nome_empresa" class="form-label">Nome da empresa <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                         <input type="text" class="form-control campo-formulario-privado" id="nome_empresa" name="nome_empresa" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $nome_empresa : $fornecedor->nome_empresa) ?>">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="nif" class="form-label">NIF</label>
+                        <label for="nif" class="form-label">NIF <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                         <input type="text" class="form-control campo-formulario-privado" id="nif" name="nif" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $nif : $fornecedor->nif) ?>">
                     </div>
                     <div class="col-md-4">
-                        <label for="tipo_fornecedor" class="form-label">Tipo de fornecedor</label>
+                        <label for="tipo_fornecedor" class="form-label">Tipo de fornecedor <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                         <select class="form-select campo-formulario-privado" id="tipo_fornecedor" name="tipo_fornecedor">
                             <option value="" disabled <?= empty($tipoFornecedorAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                             <option <?= $tipoFornecedorAtual === 'Fabricante' ? 'selected' : '' ?>>Fabricante</option>
@@ -381,23 +399,49 @@ $tipoDocAtual = $_SERVER['REQUEST_METHOD'] === 'POST' ? $tipoDocFornecedor : ($d
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="telefone" class="form-label">Contacto telefónico geral</label>
+                        <label for="telefone" class="form-label">Contacto telefónico geral <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                         <input type="text" class="form-control campo-formulario-privado" id="telefone" name="telefone" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $telefone : $fornecedor->telefone) ?>">
                     </div>
                     <div class="col-md-6">
-                        <label for="email" class="form-label">Email geral</label>
+                        <label for="email" class="form-label">Email geral <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                         <input type="text" class="form-control campo-formulario-privado" id="email" name="email" placeholder="Ex.: contacto@empresa.com" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $email : $fornecedor->email) ?>">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="pessoa_contacto" class="form-label">Pessoa de contacto</label>
+                        <label for="pessoa_contacto" class="form-label">Pessoa de contacto <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                         <input type="text" class="form-control campo-formulario-privado" id="pessoa_contacto" name="pessoa_contacto" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $pessoa_contacto : $fornecedor->pessoa_contacto) ?>">
                     </div>
                     <div class="col-md-6">
-                        <label for="telefone_pessoa_contacto" class="form-label">Telefone da pessoa de
-                            contacto</label>
+                        <label for="telefone_pessoa_contacto" class="form-label">
+    Telefone da pessoa de contacto
+    <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span>
+</label>
                         <input type="text" class="form-control campo-formulario-privado" id="telefone_pessoa_contacto" name="telefone_pessoa_contacto" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $telefone_pessoa_contacto : $fornecedor->telefone_pessoa_contacto) ?>">
                     </div>
                 </div>
@@ -412,7 +456,13 @@ $tipoDocAtual = $_SERVER['REQUEST_METHOD'] === 'POST' ? $tipoDocFornecedor : ($d
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="morada" class="form-label">Morada</label>
+                        <label for="morada" class="form-label">Morada <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                         <?php
                         $listaMoradas = [
                             'Aveiro, Portugal',
@@ -456,8 +506,15 @@ $tipoDocAtual = $_SERVER['REQUEST_METHOD'] === 'POST' ? $tipoDocFornecedor : ($d
 
                 <div class="grupo-campo-privado grupo-campo-total">
                     <label for="tem_doc_fornecedor">
-                        Existe documentação associada ao fornecedor?
-                    </label>
+    Existe documentação associada ao fornecedor?
+    <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span>
+</label>
                     <select id="tem_doc_fornecedor" name="tem_doc_fornecedor" class="campo-formulario-privado">
                         <option value="" disabled <?= empty($temDocAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                         <option value="sim" <?= $temDocAtual === 'sim' ? 'selected' : '' ?>>Sim</option>
@@ -469,7 +526,16 @@ $tipoDocAtual = $_SERVER['REQUEST_METHOD'] === 'POST' ? $tipoDocFornecedor : ($d
                     <div class="card-documentacao">
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label class="form-label">Tipo de documento</label>
+                                <label class="form-label">
+    Tipo de documento
+    <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span>
+</label>
                                 <select class="form-select campo-formulario-privado" id="tipoDocFornecedor" name="tipoDocFornecedor">
                                     <option value="" disabled <?= empty($tipoDocAtual) ? 'selected' : '' ?>>Escolha uma opção</option>
                                     <option <?= $tipoDocAtual === 'Certificado ISO' ? 'selected' : '' ?>>Certificado ISO</option>
@@ -481,13 +547,31 @@ $tipoDocAtual = $_SERVER['REQUEST_METHOD'] === 'POST' ? $tipoDocFornecedor : ($d
                                 </select>
                             </div>
                             <div class="col-md-8 mb-3">
-                                <label class="form-label">Nome do documento</label>
+                                <label class="form-label">
+    Nome do documento
+    <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span>
+</label>
                                 <input type="text" class="form-control campo-formulario-privado" id="nomeDocFornecedor" name="nomeDocFornecedor" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $nomeDocFornecedor : ($documentacao->nome_documento ?? '')) ?>">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label class="form-label">Data do documento</label>
+                                <label class="form-label">
+    Data do documento
+    <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span>
+</label>
                                 <input type="date" class="form-control campo-formulario-privado" id="dataDocFornecedor" name="dataDocFornecedor" value="<?= htmlspecialchars($_SERVER['REQUEST_METHOD'] === 'POST' ? $dataDocFornecedor : ($documentacao->data_documento ?? '')) ?>">
                             </div>
                             <div class="col-md-4 mb-3">

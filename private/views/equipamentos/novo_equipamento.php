@@ -319,65 +319,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 mkdir($pastaDestino, 0777, true);
             }
 
-            // Função auxiliar para upload + insert de cada documento
-            function guardarDocumentoEquipamento($ligacao, $equipamento_id, $tipo_documento_id, $nomeDoc, $dataDoc, $validadeDoc, $campoFicheiro, $codigo, $pastaDestino)
-            {
-
-                $ficheiroDestino = null;
-                $nomeOriginal = null;
-
-                if (isset($_FILES[$campoFicheiro]) && $_FILES[$campoFicheiro]['error'] === UPLOAD_ERR_OK) {
-                    $nomeOriginal = $_FILES[$campoFicheiro]['name'];
-                    $nomeFicheiro = 'doc_equipamento_' . $codigo . '_' . $tipo_documento_id . '_' . time() . '.pdf';
-                    $caminhoDestino = $pastaDestino . $nomeFicheiro;
-
-                    move_uploaded_file($_FILES[$campoFicheiro]['tmp_name'], $caminhoDestino);
-
-                    $ficheiroDestino = $nomeFicheiro;
-                }
-
-                $stmt = $ligacao->prepare("
-                    INSERT INTO documentacao_equipamentos
-                        (equipamento_id, tipo_documento_id, nome_documento, data_documento, validade_documento, ficheiro_documento, nome_original_ficheiro)
-                    VALUES
-                        (:equipamento_id, :tipo_documento_id, :nome_documento, :data_documento, :validade_documento, :ficheiro_documento, :nome_original_ficheiro)
-                ");
-
-                $stmt->execute([
-                    ':equipamento_id' => $equipamento_id,
-                    ':tipo_documento_id' => $tipo_documento_id,
-                    ':nome_documento' => $nomeDoc,
-                    ':data_documento' => $dataDoc !== "" ? $dataDoc : null,
-                    ':validade_documento' => $validadeDoc !== "" ? $validadeDoc : null,
-                    ':ficheiro_documento' => $ficheiroDestino,
-                    ':nome_original_ficheiro' => $nomeOriginal,
-                ]);
-            }
-
             // Documentação técnica (tipo_documento_id = 1)
-            if ($tem_documentacao_tecnica === "sim") {
-                guardarDocumentoEquipamento($ligacao, $equipamento_id, 1, $nomeManualTecnico, $dataManualTecnico, $validadeManualTecnico, 'ficheiroManualTecnico', $codigo, $pastaDestino);
-            }
+            guardarDocumentoEquipamento($ligacao, $equipamento_id, $codigo, 1, 'tem_documentacao_tecnica', 'nomeManualTecnico', 'dataManualTecnico', 'validadeManualTecnico', 'ficheiroManualTecnico');
 
             // Documentação de utilização (tipo_documento_id = 2)
-            if ($tem_documentacao_utilizacao === "sim") {
-                guardarDocumentoEquipamento($ligacao, $equipamento_id, 2, $nomeManualUtilizacao, $dataManualUtilizacao, $validadeManualUtilizacao, 'ficheiroManualUtilizacao', $codigo, $pastaDestino);
-            }
+            guardarDocumentoEquipamento($ligacao, $equipamento_id, $codigo, 2, 'tem_documentacao_utilizacao', 'nomeManualUtilizacao', 'dataManualUtilizacao', 'validadeManualUtilizacao', 'ficheiroManualUtilizacao');
 
             // Declaração de conformidade (tipo_documento_id = 3)
-            if ($tem_declaracao_conformidade === "sim") {
-                guardarDocumentoEquipamento($ligacao, $equipamento_id, 3, $nomeDeclaracaoConformidade, $dataDeclaracaoConformidade, $validadeDeclaracaoConformidade, 'ficheiroDeclaracaoConformidade', $codigo, $pastaDestino);
-            }
+            guardarDocumentoEquipamento($ligacao, $equipamento_id, $codigo, 3, 'tem_declaracao_conformidade', 'nomeDeclaracaoConformidade', 'dataDeclaracaoConformidade', 'validadeDeclaracaoConformidade', 'ficheiroDeclaracaoConformidade');
 
             // Contrato de Aquisição (tipo_documento_id = 5)
-            if ($tem_contrato_aquisicao === "sim") {
-                guardarDocumentoEquipamento($ligacao, $equipamento_id, 5, $nomeContratoAquisicao, $dataContratoAquisicao, $validadeContratoAquisicao, 'ficheiroContratoAquisicao', $codigo, $pastaDestino);
-            }
+            guardarDocumentoEquipamento($ligacao, $equipamento_id, $codigo, 5, 'tem_contrato_aquisicao', 'nomeContratoAquisicao', 'dataContratoAquisicao', 'validadeContratoAquisicao', 'ficheiroContratoAquisicao');
 
             // Fatura (tipo_documento_id = 4)
-            if ($tem_fatura === "sim") {
-                guardarDocumentoEquipamento($ligacao, $equipamento_id, 4, $nomeFatura, $dataFatura, "", 'ficheiroFatura', $codigo, $pastaDestino);
-            }
+            guardarDocumentoEquipamento($ligacao, $equipamento_id, $codigo, 4, 'tem_fatura', 'nomeFatura', 'dataFatura', '', 'ficheiroFatura');
 
             // Fornecedores associados (Tab 4)
             $stmtFornecedor = $ligacao->prepare("
@@ -426,47 +381,138 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
 
             // Certificado de Garantia (tipo_documento_id = 9)
-            if ($tem_documentacao_garantia === "sim") {
-                guardarDocumentoEquipamento($ligacao, $equipamento_id, 9, $nomeCertificadoGarantia, $dataCertificadoGarantia, $validadeCertificadoGarantia, 'ficheiroCertificadoGarantia', $codigo, $pastaDestino);
-            }
+            guardarDocumentoEquipamento($ligacao, $equipamento_id, $codigo, 9, 'tem_documentacao_garantia', 'nomeCertificadoGarantia', 'dataCertificadoGarantia', 'validadeCertificadoGarantia', 'ficheiroCertificadoGarantia');
 
             // Contrato de Manutenção (Tab 7)
             if ($contratoManutencao === "sim") {
                 $stmtContrato = $ligacao->prepare("
-                    INSERT INTO contratos_manutencao
-                        (equipamento_id, tipo_contrato, entidade_responsavel, periodicidade, observacoes)
-                    VALUES
-                        (:equipamento_id, :tipo_contrato, :entidade_responsavel, :periodicidade, :observacoes)
-                ");
+    INSERT INTO contratos_manutencao
+        (
+            equipamento_id,
+            tipo_contrato_id,
+            entidade_responsavel,
+            periodicidade_id,
+            observacoes
+        )
+    VALUES
+        (
+            :equipamento_id,
+            :tipo_contrato_id,
+            :entidade_responsavel,
+            :periodicidade_id,
+            :observacoes
+        )
+");
 
                 $stmtContrato->execute([
                     ':equipamento_id' => $equipamento_id,
-                    ':tipo_contrato' => $tipoContrato,
+                    ':tipo_contrato_id' => $tipoContrato,
                     ':entidade_responsavel' => $entidadeResponsavelContrato,
-                    ':periodicidade' => $periodicidadeContrato,
+                    ':periodicidade_id' => $periodicidadeContrato,
                     ':observacoes' => $observacoesContrato !== "" ? $observacoesContrato : null,
                 ]);
             }
 
             // Certificado de Contrato de Manutenção (tipo_documento_id = 10)
-            if ($tem_documentacao_contrato === "sim") {
-                guardarDocumentoEquipamento($ligacao, $equipamento_id, 10, $nomeCertificadoContrato, $dataContratoManutencao, $validadeContratoManutencao, 'ficheiroContratoManutencao', $codigo, $pastaDestino);
-            }
+            guardarDocumentoEquipamento($ligacao, $equipamento_id, $codigo, 10, 'tem_documentacao_contrato', 'nomeCertificadoContrato', 'dataContratoManutencao', 'validadeContratoManutencao', 'ficheiroContratoManutencao');
 
             // Relatório de Manutenção (tipo_documento_id = 11)
-            if ($tem_relatorio_contrato === "sim") {
-                guardarDocumentoEquipamento($ligacao, $equipamento_id, 11, $nomeRelatorioManutencao, $dataRelatorioManutencao, $validadeRelatorioManutencao, 'ficheiroRelatorioManutencao', $codigo, $pastaDestino);
-            }
+            guardarDocumentoEquipamento($ligacao, $equipamento_id, $codigo, 11, 'tem_relatorio_contrato', 'nomeRelatorioManutencao', 'dataRelatorioManutencao', 'validadeRelatorioManutencao', 'ficheiroRelatorioManutencao');
 
             // Certificado de Calibração (tipo_documento_id = 12)
-            if ($tem_documentacao_calibracao === "sim") {
-                guardarDocumentoEquipamento($ligacao, $equipamento_id, 12, $nomeCertificadoCalibracao, $dataCertificadoCalibracao, $validadeCertificadoCalibracao, 'ficheiroCertificadoCalibracao', $codigo, $pastaDestino);
-            }
+            guardarDocumentoEquipamento($ligacao, $equipamento_id, $codigo, 12, 'tem_documentacao_calibracao', 'nomeCertificadoCalibracao', 'dataCertificadoCalibracao', 'validadeCertificadoCalibracao', 'ficheiroCertificadoCalibracao');
 
             // Relatório de Calibração (tipo_documento_id = 13)
-            if ($tem_relatorio_calibracao === "sim") {
-                guardarDocumentoEquipamento($ligacao, $equipamento_id, 13, $nomeRelatorioCalibracao, $dataRelatorioCalibracao, $validadeRelatorioCalibracao, 'ficheiroRelatorioCalibracao', $codigo, $pastaDestino);
+            guardarDocumentoEquipamento($ligacao, $equipamento_id, $codigo, 13, 'tem_relatorio_calibracao', 'nomeRelatorioCalibracao', 'dataRelatorioCalibracao', 'validadeRelatorioCalibracao', 'ficheiroRelatorioCalibracao');
+
+            // Acessórios (Tab 2)
+            if (!empty($acessorios['nome'])) {
+                $stmtAcessorios = $ligacao->prepare("
+        INSERT INTO acessorios
+            (equipamento_id, nome, referencia, quantidade, unidade_id, estado_id, observacoes)
+        VALUES
+            (:equipamento_id, :nome, :referencia, :quantidade, :unidade_id, :estado_id, :observacoes)
+    ");
+
+                foreach ($acessorios['nome'] as $i => $nome) {
+                    if (trim($nome) !== "") {
+                        // Resolver unidade_id
+                        $stmtUnidade = $ligacao->prepare("SELECT id FROM unidades WHERE designacao = :designacao");
+                        $stmtUnidade->execute([':designacao' => $acessorios['unidade'][$i]]);
+                        $unidade_id = $stmtUnidade->fetchColumn();
+
+                        // Resolver estado_id
+                        $stmtEstado = $ligacao->prepare("SELECT id FROM estados_acessorio WHERE designacao = :designacao");
+                        $stmtEstado->execute([':designacao' => $acessorios['estado'][$i]]);
+                        $estado_id = $stmtEstado->fetchColumn();
+
+                        $stmtAcessorios->execute([
+                            ':equipamento_id' => $equipamento_id,
+                            ':nome' => trim($nome),
+                            ':referencia' => trim($acessorios['referencia'][$i] ?? ''),
+                            ':quantidade' => trim($acessorios['quantidade'][$i] ?? ''),
+                            ':unidade_id' => $unidade_id,
+                            ':estado_id' => $estado_id,
+                            ':observacoes' => trim($acessorios['observacoes'][$i] ?? '') !== "" ? trim($acessorios['observacoes'][$i]) : null,
+                        ]);
+                    }
+                }
             }
+
+            // Consumíveis (Tab 2)
+            if (!empty($consumiveis['nome'])) {
+                $stmtConsumiveis = $ligacao->prepare("
+        INSERT INTO consumiveis
+            (equipamento_id, nome, referencia, quantidade, unidade_id, estado_id, observacoes)
+        VALUES
+            (:equipamento_id, :nome, :referencia, :quantidade, :unidade_id, :estado_id, :observacoes)
+    ");
+
+                foreach ($consumiveis['nome'] as $i => $nome) {
+                    if (trim($nome) !== "") {
+                        // Resolver unidade_id
+                        $stmtUnidade = $ligacao->prepare("SELECT id FROM unidades WHERE designacao = :designacao");
+                        $stmtUnidade->execute([':designacao' => $consumiveis['unidade'][$i]]);
+                        $unidade_id = $stmtUnidade->fetchColumn();
+
+                        // Resolver estado_id (consumíveis também usam estados_acessorio)
+                        $stmtEstado = $ligacao->prepare("SELECT id FROM estados_acessorio WHERE designacao = :designacao");
+                        $stmtEstado->execute([':designacao' => $consumiveis['estado'][$i]]);
+                        $estado_id = $stmtEstado->fetchColumn();
+
+                        $stmtConsumiveis->execute([
+                            ':equipamento_id' => $equipamento_id,
+                            ':nome' => trim($nome),
+                            ':referencia' => trim($consumiveis['referencia'][$i] ?? ''),
+                            ':quantidade' => trim($consumiveis['quantidade'][$i] ?? ''),
+                            ':unidade_id' => $unidade_id,
+                            ':estado_id' => $estado_id,
+                            ':observacoes' => trim($consumiveis['observacoes'][$i] ?? '') !== "" ? trim($consumiveis['observacoes'][$i]) : null,
+                        ]);
+                    }
+                }
+            }
+
+            // Aquisição (Tab 3)
+            $stmtAquisicao = $ligacao->prepare("
+    INSERT INTO aquisicao_equipamentos
+        (equipamento_id, data_aquisicao, custo_aquisicao, tipo_entrada_id, observacoes)
+    VALUES
+        (:equipamento_id, :data_aquisicao, :custo_aquisicao, :tipo_entrada_id, :observacoes)
+");
+
+            // Resolver tipo_entrada_id
+            $stmtTipoEntrada = $ligacao->prepare("SELECT id FROM tipos_entrada WHERE designacao = :designacao");
+            $stmtTipoEntrada->execute([':designacao' => $tipo_entrada]);
+            $tipo_entrada_id = $stmtTipoEntrada->fetchColumn();
+
+            $stmtAquisicao->execute([
+                ':equipamento_id' => $equipamento_id,
+                ':data_aquisicao' => $data_aquisicao,
+                ':custo_aquisicao' => $custo_aquisicao !== "" ? $custo_aquisicao : null,
+                ':tipo_entrada_id' => $tipo_entrada_id,
+                ':observacoes' => $observacoesAquisicao !== "" ? $observacoesAquisicao : null,
+            ]);
 
             registar_historico(
                 $ligacao,
@@ -571,13 +617,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="codigo" class="form-label">Código interno de inventário</label>
+                                <label for="codigo" class="form-label">Código interno de inventário <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span></label>
                                 <input type="text" class="form-control campo-formulario-privado" id="codigo"
                                     name="codigo" value="<?= htmlspecialchars($_POST['codigo'] ?? '') ?>">
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="designacao" class="form-label">Designação do equipamento</label>
+                                <label for="designacao" class="form-label">Designação do equipamento <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span></label>
                                 <input type="text" class="form-control campo-formulario-privado" id="designacao"
                                     name="designacao" value="<?= htmlspecialchars($_POST['designacao'] ?? '') ?>">
                             </div>
@@ -598,7 +656,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <strong>Reabilitação</strong> - Equipamentos utilizados na recuperação funcional e reabilitação dos pacientes.
         ">
                                     </i>
-                                </label>
+                                    <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span> </label>
                                 <?php $categoriaSelecionada = $_POST['categoria'] ?? ''; ?>
                                 <select class="form-select campo-formulario-privado" id="categoria"
                                     name="categoria">
@@ -614,13 +678,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="marca" class="form-label">Marca</label>
+                                <label for="marca" class="form-label">Marca <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span></label>
                                 <input type="text" class="form-control campo-formulario-privado" id="marca"
                                     name="marca" value="<?= htmlspecialchars($_POST['marca'] ?? '') ?>">
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="modelo" class="form-label">Modelo</label>
+                                <label for="modelo" class="form-label">Modelo <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span></label>
                                 <input type="text" class="form-control campo-formulario-privado" id="modelo"
                                     name="modelo" value="<?= htmlspecialchars($_POST['modelo'] ?? '') ?>">
                             </div>
@@ -628,13 +704,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="numero_serie" class="form-label">N.º de série</label>
+                                <label for="numero_serie" class="form-label">N.º de série <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span></label>
                                 <input type="text" class="form-control campo-formulario-privado" id="numero_serie"
                                     name="numero_serie" value="<?= htmlspecialchars($_POST['numero_serie'] ?? '') ?>">
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="fabricante" class="form-label">Fabricante</label>
+                                <label for="fabricante" class="form-label">Fabricante <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span></label>
                                 <input type="text" class="form-control campo-formulario-privado" id="fabricante"
                                     name="fabricante" value="<?= htmlspecialchars($_POST['fabricante'] ?? '') ?>">
                             </div>
@@ -662,7 +750,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        <strong>Abatido</strong> - Equipamento retirado definitivamente de serviço e sem possibilidade de utilização.
        ">
                                     </i>
-                                </label>
+                                    <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span> </label>
 
                                 <?php $estadoSelecionado = $_POST['estado'] ?? ''; ?>
                                 <select class="form-select campo-formulario-privado" id="estado" name="estado">
@@ -693,7 +787,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <strong>Baixa</strong> - Equipamento de apoio com impacto reduzido na prestação de cuidados.
         ">
                                     </i>
-                                </label>
+                                    <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span> </label>
 
                                 <?php $criticidadeSelecionada = $_POST['criticidade'] ?? ''; ?>
                                 <select class="form-select campo-formulario-privado" id="criticidade"
@@ -723,7 +823,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="grupo-campo-privado grupo-campo-total">
 
                             <label for="tem_documentacao_tecnica">
-                                Existe documentação técnica associada?
+                                Existe documentação técnica associada? <span
+                                    class="text-danger"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Campo obrigatório">
+                                    *
+                                </span>
                             </label>
 
                             <?php $temDocTecnicaSelecionado = $_POST['tem_documentacao_tecnica'] ?? ''; ?>
@@ -745,13 +851,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="row">
 
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Manual de Serviço" readonly>
                                     </div>
 
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             id="nomeManualTecnico" name="nomeManualTecnico" value="<?= htmlspecialchars($_POST['nomeManualTecnico'] ?? '') ?>">
                                     </div>
@@ -761,7 +879,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="row">
 
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="date" id="dataManualTecnico" name="dataManualTecnico"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['dataManualTecnico'] ?? '') ?>">
                                     </div>
@@ -796,7 +920,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="grupo-campo-privado grupo-campo-total">
 
                             <label for="tem_documentacao_utilizacao">
-                                Existe documentação de utilização associada?
+                                Existe documentação de utilização associada? <span
+                                    class="text-danger"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Campo obrigatório">
+                                    *
+                                </span>
                             </label>
 
                             <?php $temDocUtilizacaoSelecionado = $_POST['tem_documentacao_utilizacao'] ?? ''; ?>
@@ -818,13 +948,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="row">
 
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Manual de Utilização" readonly>
                                     </div>
 
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" id="nomeManualUtilizacao" name="nomeManualUtilizacao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['nomeManualUtilizacao'] ?? '') ?>">
                                     </div>
@@ -834,7 +976,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="row">
 
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="date" id="dataManualUtilizacao" name="dataManualUtilizacao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['dataManualUtilizacao'] ?? '') ?>">
                                     </div>
@@ -870,7 +1018,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div class="grupo-campo-privado grupo-campo-total">
                             <label for="tem_declaracao_conformidade">
-                                Existe declaração de conformidade associada?
+                                Existe declaração de conformidade associada? <span
+                                    class="text-danger"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Campo obrigatório">
+                                    *
+                                </span>
                             </label>
                             <?php $temDeclConformidadeSelecionado = $_POST['tem_declaracao_conformidade'] ?? ''; ?>
                             <select id="tem_declaracao_conformidade" name="tem_declaracao_conformidade" class="campo-formulario-privado">
@@ -885,12 +1039,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Declaração de Conformidade" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" id="nomeDeclaracaoConformidade"
                                             name="nomeDeclaracaoConformidade"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['nomeDeclaracaoConformidade'] ?? '') ?>">
@@ -898,7 +1064,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="date" id="dataDeclaracaoConformidade"
                                             name="dataDeclaracaoConformidade"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['dataDeclaracaoConformidade'] ?? '') ?>">
@@ -964,17 +1136,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <!-- Acessórios -->
                         <h5 class="subtitulo-separador titulo-azul-separador">
-                            <i class="fa-solid fa-toolbox"></i> Acessórios
+                            <i class="fa-solid fa-toolbox"></i> Acessórios <span
+                                class="text-danger"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Campo obrigatório">
+                                *
+                            </span>
                         </h5>
                         <div class="mb-4">
                             <table class="tabela-itens w-100 mb-2" id="tabela-acessorios">
                                 <thead>
                                     <tr>
-                                        <th>Nome</th>
-                                        <th>Referência</th>
-                                        <th>Qtd.</th>
-                                        <th>Unidade</th>
-                                        <th>Estado</th>
+                                        <th>Nome <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></th>
+                                        <th>Referência <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></th>
+                                        <th>Qtd. <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></th>
+                                        <th>Unidade <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></th>
+                                        <th>Estado <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></th>
                                         <th>Observações</th>
                                         <th></th>
                                     </tr>
@@ -998,10 +1206,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <table class="tabela-itens w-100 mb-2" id="tabela-consumiveis">
                                 <thead>
                                     <tr>
-                                        <th>Nome</th>
-                                        <th>Referência</th>
-                                        <th>Qtd.</th>
-                                        <th>Unidade</th>
+                                        <th>Nome <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></th>
+                                        <th>Referência <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></th>
+                                        <th>Qtd. <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></th>
+                                        <th>Unidade <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></th>
                                         <th>Estado</th>
                                         <th>Observações</th>
                                         <th></th>
@@ -1050,7 +1282,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div class="col-md-4 mb-3">
                                 <label for="data_aquisicao" class="form-label">
-                                    Data de aquisição
+                                    Data de aquisição <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span>
                                 </label>
 
                                 <input type="date" class="form-control campo-formulario-privado" id="data_aquisicao"
@@ -1059,7 +1297,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div class="col-md-4 mb-3">
                                 <label for="custo_aquisicao" class="form-label">
-                                    Custo de aquisição (€)
+                                    Custo de aquisição (€) <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span>
                                 </label>
 
                                 <input type="number" step="0.01" class="form-control campo-formulario-privado"
@@ -1078,7 +1322,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <strong>Empréstimo</strong> - Equipamento cedido temporariamente por outra entidade para utilização durante um período acordado.
         ">
                                     </i>
-                                </label>
+                                    <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span> </label>
 
                                 <?php $tipoEntradaSelecionado = $_POST['tipo_entrada'] ?? ''; ?>
                                 <select class="form-select campo-formulario-privado" id="tipo_entrada"
@@ -1109,7 +1359,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="grupo-campo-privado">
                             <label for="tem_contrato_aquisicao">
                                 Existe contrato de aquisição associado?
-                            </label>
+                                <span
+                                    class="text-danger"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Campo obrigatório">
+                                    *
+                                </span> </label>
                             <?php $temContratoAquisicaoSelecionado = $_POST['tem_contrato_aquisicao'] ?? ''; ?>
                             <select id="tem_contrato_aquisicao" name="tem_contrato_aquisicao" class="campo-formulario-privado">
                                 <option value="" <?= $temContratoAquisicaoSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -1123,19 +1379,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Contrato de Aquisição" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" id="nomeContratoAquisicao" name="nomeContratoAquisicao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['nomeContratoAquisicao'] ?? '') ?>">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data do documento</label>
+                                        <label class="form-label">Data do documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="date" id="dataContratoAquisicao" name="dataContratoAquisicao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['dataContratoAquisicao'] ?? '') ?>">
                                     </div>
@@ -1166,7 +1440,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="grupo-campo-privado">
                             <label for="tem_fatura">
                                 Existe fatura associada?
-                            </label>
+                                <span
+                                    class="text-danger"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Campo obrigatório">
+                                    *
+                                </span> </label>
                             <?php $temFaturaSelecionado = $_POST['tem_fatura'] ?? ''; ?>
                             <select id="tem_fatura" name="tem_fatura" class="campo-formulario-privado">
                                 <option value="" <?= $temFaturaSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -1180,12 +1460,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Fatura" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" id="nomeFatura" name="nomeFatura"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['nomeFatura'] ?? '') ?>">
                                     </div>
@@ -1193,7 +1485,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data do documento</label>
+                                        <label class="form-label">Data do documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="date" id="dataFatura" name="dataFatura"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['dataFatura'] ?? '') ?>">
                                     </div>
@@ -1269,10 +1567,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <table class="tabela-itens w-100 mb-2" id="tabela-fornecedores-equipamento">
                             <thead>
                                 <tr>
-                                    <th>Fornecedor</th>
-                                    <th>Morada</th>
-                                    <th>Pessoa de contacto</th>
-                                    <th>Telefone da pessoa de contacto</th>
+                                    <th>Fornecedor <span
+                                            class="text-danger"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            title="Campo obrigatório">
+                                            *
+                                        </span></th>
+                                    <th>Morada <span
+                                            class="text-danger"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            title="Campo obrigatório">
+                                            *
+                                        </span></th>
+                                    <th>Pessoa de contacto <span
+                                            class="text-danger"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            title="Campo obrigatório">
+                                            *
+                                        </span></th>
+                                    <th>Telefone da pessoa de contacto <span
+                                            class="text-danger"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            title="Campo obrigatório">
+                                            *
+                                        </span></th>
                                     <th>Observações</th>
                                     <th></th>
                                 </tr>
@@ -1335,7 +1657,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="row">
 
                             <div class="grupo-campo-privado grupo-campo-total">
-                                <label for="localizacao">Localização associada</label>
+                                <label for="localizacao">Localização associada <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span></label>
                                 <?php $localizacaoSelecionada = $_POST['localizacao'] ?? ''; ?>
                                 <select id="localizacao" name="localizacao"
                                     class="form-select campo-formulario-privado">
@@ -1408,7 +1736,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div class="col-md-6 mb-3">
                                 <label for="dataInicioGarantia" class="form-label">
-                                    Data de início da garantia
+                                    Data de início da garantia <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span>
                                 </label>
 
                                 <input type="date" id="dataInicioGarantia" name="dataInicioGarantia"
@@ -1417,7 +1751,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div class="col-md-6 mb-3">
                                 <label for="dataFimGarantia" class="form-label">
-                                    Data de fim da garantia
+                                    Data de fim da garantia <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span>
                                 </label>
 
                                 <input type="date" id="dataFimGarantia" name="dataFimGarantia"
@@ -1436,7 +1776,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="grupo-campo-privado grupo-campo-total">
 
                             <label for="tem_documentacao_garantia">
-                                Existe certificado de garantia associado?
+                                Existe certificado de garantia associado? <span
+                                    class="text-danger"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Campo obrigatório">
+                                    *
+                                </span>
                             </label>
 
                             <?php $temDocGarantiaSelecionado = $_POST['tem_documentacao_garantia'] ?? ''; ?>
@@ -1458,13 +1804,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="row">
 
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Certificado de garantia" readonly>
                                     </div>
 
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" id="nomeCertificadoGarantia"
                                             name="nomeCertificadoGarantia"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['nomeCertificadoGarantia'] ?? '') ?>">
@@ -1475,7 +1833,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="row">
 
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="date" id="dataCertificadoGarantia"
                                             name="dataCertificadoGarantia"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['dataCertificadoGarantia'] ?? '') ?>">
@@ -1561,57 +1925,81 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </h5>
 
                         <div class="row">
-    <div class="col-md-6 mb-3">
-        <label for="contratoManutencao" class="form-label">Contrato de manutenção</label>
-        <?php $contratoManutencaoSelecionado = $_POST['contratoManutencao'] ?? ''; ?>
-        <select id="contratoManutencao" name="contratoManutencao" class="form-select campo-formulario-privado">
-            <option value="" <?= $contratoManutencaoSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
-            <option value="sim" <?= $contratoManutencaoSelecionado === 'sim' ? 'selected' : '' ?>>Sim</option>
-            <option value="nao" <?= $contratoManutencaoSelecionado === 'nao' ? 'selected' : '' ?>>Não</option>
-        </select>
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="tipoContrato" class="form-label">Tipo de contrato</label>
-        <?php $tipoContratoSelecionado = $_POST['tipoContrato'] ?? ''; ?>
-        <select id="tipoContrato" name="tipoContrato" class="form-select campo-formulario-privado">
-            <?php if ($contratoManutencaoSelecionado === 'nao'): ?>
-                <option value="" selected>Não existe</option>
-            <?php else: ?>
-                <option value="" <?= $tipoContratoSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
-                <?php foreach ($tiposContratoBD as $tipo): ?>
-                    <option value="<?= $tipo['id'] ?>" <?= (string)$tipoContratoSelecionado === (string)$tipo['id'] ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($tipo['designacao']) ?>
-                    </option>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </select>
-    </div>
-</div>
+                            <div class="col-md-6 mb-3">
+                                <label for="contratoManutencao" class="form-label">Contrato de manutenção <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span></label>
+                                <?php $contratoManutencaoSelecionado = $_POST['contratoManutencao'] ?? ''; ?>
+                                <select id="contratoManutencao" name="contratoManutencao" class="form-select campo-formulario-privado">
+                                    <option value="" <?= $contratoManutencaoSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
+                                    <option value="sim" <?= $contratoManutencaoSelecionado === 'sim' ? 'selected' : '' ?>>Sim</option>
+                                    <option value="nao" <?= $contratoManutencaoSelecionado === 'nao' ? 'selected' : '' ?>>Não</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="tipoContrato" class="form-label">Tipo de contrato <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span></label>
+                                <?php $tipoContratoSelecionado = $_POST['tipoContrato'] ?? ''; ?>
+                                <select id="tipoContrato" name="tipoContrato" class="form-select campo-formulario-privado">
+                                    <?php if ($contratoManutencaoSelecionado === 'nao'): ?>
+                                        <option value="" selected>Não existe</option>
+                                    <?php else: ?>
+                                        <option value="" <?= $tipoContratoSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
+                                        <?php foreach ($tiposContratoBD as $tipo): ?>
+                                            <option value="<?= $tipo['id'] ?>" <?= (string)$tipoContratoSelecionado === (string)$tipo['id'] ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($tipo['designacao']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                        </div>
 
-<div class="row">
-    <div class="col-md-6 mb-3">
-        <label for="entidadeResponsavelContrato" class="form-label">Entidade responsável</label>
-        <input type="text" id="entidadeResponsavelContrato" name="entidadeResponsavelContrato"
-            class="form-control campo-formulario-privado"
-            value="<?= $contratoManutencaoSelecionado === 'nao' ? 'Não existe' : htmlspecialchars($_POST['entidadeResponsavelContrato'] ?? '') ?>">
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="periodicidadeContrato" class="form-label">Periodicidade</label>
-        <?php $periodicidadeContratoSelecionada = $_POST['periodicidadeContrato'] ?? ''; ?>
-        <select id="periodicidadeContrato" name="periodicidadeContrato" class="form-select campo-formulario-privado">
-            <?php if ($contratoManutencaoSelecionado === 'nao'): ?>
-                <option value="" selected>Não aplicável</option>
-            <?php else: ?>
-                <option value="" <?= $periodicidadeContratoSelecionada === '' ? 'selected' : '' ?>>Escolha uma opção</option>
-                <?php foreach ($periodicidadesBD as $periodicidade): ?>
-                    <option value="<?= $periodicidade['id'] ?>" <?= (string)$periodicidadeContratoSelecionada === (string)$periodicidade['id'] ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($periodicidade['designacao']) ?>
-                    </option>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </select>
-    </div>
-</div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="entidadeResponsavelContrato" class="form-label">Entidade responsável <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span></label>
+                                <input type="text" id="entidadeResponsavelContrato" name="entidadeResponsavelContrato"
+                                    class="form-control campo-formulario-privado"
+                                    value="<?= $contratoManutencaoSelecionado === 'nao' ? 'Não existe' : htmlspecialchars($_POST['entidadeResponsavelContrato'] ?? '') ?>">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="periodicidadeContrato" class="form-label">Periodicidade <span
+                                        class="text-danger"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Campo obrigatório">
+                                        *
+                                    </span></label>
+                                <?php $periodicidadeContratoSelecionada = $_POST['periodicidadeContrato'] ?? ''; ?>
+                                <select id="periodicidadeContrato" name="periodicidadeContrato" class="form-select campo-formulario-privado">
+                                    <?php if ($contratoManutencaoSelecionado === 'nao'): ?>
+                                        <option value="" selected>Não aplicável</option>
+                                    <?php else: ?>
+                                        <option value="" <?= $periodicidadeContratoSelecionada === '' ? 'selected' : '' ?>>Escolha uma opção</option>
+                                        <?php foreach ($periodicidadesBD as $periodicidade): ?>
+                                            <option value="<?= $periodicidade['id'] ?>" <?= (string)$periodicidadeContratoSelecionada === (string)$periodicidade['id'] ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($periodicidade['designacao']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                        </div>
 
                         <hr>
 
@@ -1621,7 +2009,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </h5>
 
                         <div class="grupo-campo-privado">
-                            <label for="tem_documentacao_contrato">Existe contrato de manutenção associado?</label>
+                            <label for="tem_documentacao_contrato">Existe contrato de manutenção associado? <span
+                                    class="text-danger"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Campo obrigatório">
+                                    *
+                                </span></label>
                             <?php $temDocContratoSelecionado = $_POST['tem_documentacao_contrato'] ?? ''; ?>
                             <select id="tem_documentacao_contrato" name="tem_documentacao_contrato" class="form-select campo-formulario-privado">
                                 <option value="" <?= $temDocContratoSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -1635,23 +2029,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Contrato de manutenção" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" id="nomeCertificadoContrato" name="nomeCertificadoContrato" class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['nomeCertificadoContrato'] ?? '') ?>">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="date" id="dataContratoManutencao" name="dataContratoManutencao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['dataContratoManutencao'] ?? '') ?>">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data de validade</label>
+                                        <label class="form-label">Data de validade </label>
                                         <input type="date" id="validadeContratoManutencao"
                                             name="validadeContratoManutencao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['validadeContratoManutencao'] ?? '') ?>">
@@ -1669,7 +2081,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
 
                         <div class="grupo-campo-privado" style="margin-top: 1.2rem;">
-                            <label for="tem_relatorio_contrato">Existe relatório de manutenção associado?</label>
+                            <label for="tem_relatorio_contrato">Existe relatório de manutenção associado? <span
+                                    class="text-danger"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Campo obrigatório">
+                                    *
+                                </span></label>
                             <?php $temRelatorioContratoSelecionado = $_POST['tem_relatorio_contrato'] ?? ''; ?>
                             <select id="tem_relatorio_contrato" name="tem_relatorio_contrato" class="form-select campo-formulario-privado">
                                 <option value="" <?= $temRelatorioContratoSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -1683,12 +2101,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Relatório de manutenção" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" id="nomeRelatorioManutencao"
                                             name="nomeRelatorioManutencao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['nomeRelatorioManutencao'] ?? '') ?>">
@@ -1696,7 +2126,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="date" id="dataRelatorioManutencao"
                                             name="dataRelatorioManutencao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['dataRelatorioManutencao'] ?? '') ?>">
@@ -1726,7 +2162,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div class="grupo-campo-privado">
                             <label for="tem_documentacao_calibracao">Existe certificado de calibração
-                                associado?</label>
+                                associado? <span
+                                    class="text-danger"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Campo obrigatório">
+                                    *
+                                </span></label>
                             <?php $temDocCalibracaoSelecionado = $_POST['tem_documentacao_calibracao'] ?? ''; ?>
                             <select id="tem_documentacao_calibracao" name="tem_documentacao_calibracao" class="form-select campo-formulario-privado">
                                 <option value="" <?= $temDocCalibracaoSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -1740,12 +2182,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Certificado de calibração" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" id="nomeCertificadoCalibracao"
                                             name="nomeCertificadoCalibracao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['nomeCertificadoCalibracao'] ?? '') ?>">
@@ -1753,7 +2207,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="date" id="dataCertificadoCalibracao"
                                             name="dataCertificadoCalibracao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['dataCertificadoCalibracao'] ?? '') ?>">
@@ -1777,7 +2237,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
 
                         <div class="grupo-campo-privado" style="margin-top: 1.2rem;">
-                            <label for="tem_relatorio_calibracao">Existe relatório de calibração associado?</label>
+                            <label for="tem_relatorio_calibracao">Existe relatório de calibração associado? <span
+                                    class="text-danger"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Campo obrigatório">
+                                    *
+                                </span></label>
                             <?php $temRelatorioCalibracaoSelecionado = $_POST['tem_relatorio_calibracao'] ?? ''; ?>
                             <select id="tem_relatorio_calibracao" name="tem_relatorio_calibracao" class="form-select campo-formulario-privado">
                                 <option value="" <?= $temRelatorioCalibracaoSelecionado === '' ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -1791,12 +2257,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card-documentacao">
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Tipo de documento</label>
+                                        <label class="form-label">Tipo de documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" class="form-control campo-formulario-privado"
                                             value="Relatório de calibração" readonly>
                                     </div>
                                     <div class="col-md-8 mb-3">
-                                        <label class="form-label">Nome do documento</label>
+                                        <label class="form-label">Nome do documento <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="text" id="nomeRelatorioCalibracao"
                                             name="nomeRelatorioCalibracao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['nomeRelatorioCalibracao'] ?? '') ?>">
@@ -1804,7 +2282,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Data da documentação</label>
+                                        <label class="form-label">Data da documentação <span
+                                                class="text-danger"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Campo obrigatório">
+                                                *
+                                            </span></label>
                                         <input type="date" id="dataRelatorioCalibracao"
                                             name="dataRelatorioCalibracao"
                                             class="form-control campo-formulario-privado" value="<?= htmlspecialchars($_POST['dataRelatorioCalibracao'] ?? '') ?>">

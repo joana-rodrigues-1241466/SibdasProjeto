@@ -51,14 +51,26 @@ if (!empty($_SESSION['server_error'])) {
         <div class="linha-login"></div>
         <form name="formulario" class="form-login" action="processa_iniciar_sessao.php" method="post">
             <div class="mb-3 text-start">
-                <label for="email-login" class="form-label">Email</label>
+                <label for="email-login" class="form-label">Email <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                 <div class="input-login">
                     <i class="fa-regular fa-envelope"></i>
                     <input type="email" class="form-control" name="text_username" id="email-login" placeholder="exemplo@hospital.pt">
                 </div>
             </div>
             <div class="mb-4 text-start">
-                <label for="password-login" class="form-label">Palavra-passe</label>
+                <label for="password-login" class="form-label">Palavra-passe <span
+    class="text-danger"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    title="Campo obrigatório">
+    *
+</span></label>
                 <div class="input-login">
                     <i class="fa-solid fa-lock"></i>
                     <input type="password" class="form-control" name="text_password" id="password-login" placeholder="Insira a sua palavra-passe">
@@ -91,7 +103,7 @@ if (!empty($_SESSION['server_error'])) {
             </button>
 
             <!-- Preenchimento automático (Fase de Testes) -->
-            <div class="painel-modo-teste" style="display:none;">
+            <div class="painel-modo-teste">
                 <span class="badge-modo-teste">
                     <i class="fa-solid fa-flask"></i>
                     Modo de teste

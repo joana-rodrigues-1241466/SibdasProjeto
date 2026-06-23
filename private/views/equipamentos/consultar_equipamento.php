@@ -1530,4 +1530,4 @@ function render_resumo_documento($doc, $pasta = 'documentacao_equipamentos')
 
 <?php include '../../includes/footer.php'; ?>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>

@@ -1,17 +1,28 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+date_default_timezone_set('Europe/Lisbon');
+
 require_once __DIR__ . '/../../config/config.php';
 
 // ============================================================
 // Ligação à base de dados
 // ============================================================
-function conectar_bd(): PDO
-{
+function conectar_bd() {
     $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
+        'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8',
+        DB_USER,
+        DB_PASS
     );
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $offsetSegundos = (new DateTime('now', new DateTimeZone('Europe/Lisbon')))->getOffset();
+    $horas = intdiv(abs($offsetSegundos), 3600);
+    $minutos = (abs($offsetSegundos) % 3600) / 60;
+    $sinal = $offsetSegundos >= 0 ? '+' : '-';
+    $offset = sprintf('%s%02d:%02d', $sinal, $horas, $minutos);
+    $ligacao->exec("SET time_zone = '$offset'");
 
     return $ligacao;
 }

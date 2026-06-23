@@ -30,10 +30,11 @@ try {
     $salas = $ligacao->query("SELECT DISTINCT sala FROM localizacoes ORDER BY sala")->fetchAll(PDO::FETCH_OBJ);
 
     $equipamentosFiltro = $ligacao->query("
-        SELECT id, codigo, designacao
-        FROM equipamentos
-        ORDER BY codigo
-    ")->fetchAll(PDO::FETCH_OBJ);
+    SELECT id, codigo, designacao
+    FROM equipamentos
+    WHERE ativo = 1
+    ORDER BY codigo
+")->fetchAll(PDO::FETCH_OBJ);
 
     $erro = '';
 } catch (PDOException $err) {
@@ -264,28 +265,32 @@ $ligacao = null;
                                 <td style="display:none;"><?= htmlspecialchars($localizacao->equipamentos_ids) ?></td>
                                 <td style="display:none;"><?= htmlspecialchars($localizacao->equipamentos_nomes) ?></td>
                                 <td class="acoes-tabela-privada">
+    <a href="<?= BASE_URL ?>/private/views/localizacoes/consultar_localizacao.php?id_localizacao=<?= aes_encrypt($localizacao->id) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
+        <i class="fa-regular fa-eye"></i>
+    </a>
 
-                                    <a href="<?= BASE_URL ?>/private/views/localizacoes/consultar_localizacao.php?id_localizacao=<?= aes_encrypt($localizacao->id) ?>" ...>
-                                        <i class="fa-regular fa-eye"></i>
-                                    </a>
-                                    <?php if ($_SESSION['profile'] !== 'Profissional de Saúde') : ?>
-                                    <a href="editar_localizacao.php?id_localizacao=<?= aes_encrypt($localizacao->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </a>
-                                    <?php if ($localizacao->ativo == 1) : ?>
-   <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarLocalizacao" onclick="prepararEliminacaoLocalizacao('<?= aes_encrypt($localizacao->id) ?>', '<?= htmlspecialchars($localizacao->codigo . ' - ' . $localizacao->servico, ENT_QUOTES) ?>', <?= !empty($localizacao->equipamentos_ids) ? 'true' : 'false' ?>)" title="Eliminar" style="color: #dc3545;">
-        <i class="fa-regular fa-trash-can"></i>
-    </button>
-<?php else : ?>
-    <?php
-$totalSnapshotLoc = !empty($localizacao->snapshot_equipamentos) ? count(json_decode($localizacao->snapshot_equipamentos, true)) : 0;
-?>
-<button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalReativarLocalizacao" onclick="prepararReativacaoLocalizacao('<?= aes_encrypt($localizacao->id) ?>', '<?= htmlspecialchars($localizacao->codigo . ' - ' . $localizacao->servico, ENT_QUOTES) ?>', <?= $totalSnapshotLoc ?>)" title="Reativar" style="color: #9333ea;">
-    <i class="fa-solid fa-rotate-left"></i>
-</button>
-<?php endif; ?>
-                                    <?php endif; ?>
-                                </td>
+    <?php if ($_SESSION['profile'] !== 'Profissional de Saúde') : ?>
+
+        <?php if ($localizacao->ativo == 1) : ?>
+            <a href="editar_localizacao.php?id_localizacao=<?= aes_encrypt($localizacao->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
+                <i class="fa-regular fa-pen-to-square"></i>
+            </a>
+            <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarLocalizacao"
+                onclick="prepararEliminacaoLocalizacao('<?= aes_encrypt($localizacao->id) ?>', '<?= htmlspecialchars($localizacao->codigo . ' - ' . $localizacao->servico, ENT_QUOTES) ?>', <?= !empty($localizacao->equipamentos_ids) ? 'true' : 'false' ?>)"
+                title="Eliminar" style="color: #dc3545;">
+                <i class="fa-regular fa-trash-can"></i>
+            </button>
+        <?php else : ?>
+            <?php $totalSnapshotLoc = !empty($localizacao->snapshot_equipamentos) ? count(json_decode($localizacao->snapshot_equipamentos, true)) : 0; ?>
+            <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalReativarLocalizacao"
+                onclick="prepararReativacaoLocalizacao('<?= aes_encrypt($localizacao->id) ?>', '<?= htmlspecialchars($localizacao->codigo . ' - ' . $localizacao->servico, ENT_QUOTES) ?>', <?= $totalSnapshotLoc ?>)"
+                title="Reativar" style="color: #9333ea;">
+                <i class="fa-solid fa-rotate-left"></i>
+            </button>
+        <?php endif; ?>
+
+    <?php endif; ?>
+</td>
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>

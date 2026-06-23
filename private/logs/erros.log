@@ -1,1 +1,4 @@
 [2026-06-21 19:08:13] Utilizador: Rui Ferreira | Página: /sibdas/1241466/medivault/private/views/fornecedores/reativar_fornecedor.php | Erro: SQLSTATE[HY000]: General error: 1364 Field 'morada_id' doesn't have a default value
+[2026-06-23 18:20:57] Utilizador: Joana Rodrigues | Página: /sibdas/1241466/medivault/private/views/localizacoes/localizacoes.php | Erro: SQLSTATE[HY000] [2002] Operation timed out
+[2026-06-23 18:23:35] Utilizador: Joana Rodrigues | Página: /sibdas/1241466/medivault/private/views/fornecedores/fornecedores.php | Erro: SQLSTATE[HY000] [2002] Operation timed out
+[2026-06-23 18:25:59] Utilizador: Joana Rodrigues | Página: /sibdas/1241466/medivault/private/views/fornecedores/fornecedores.php | Erro: SQLSTATE[HY000] [2002] Operation timed out

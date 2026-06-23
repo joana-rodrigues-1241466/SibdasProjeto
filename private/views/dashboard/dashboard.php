@@ -48,7 +48,7 @@ try {
     ")->fetchColumn();
 
     // Equipamentos por serviço (todos os serviços, para o gráfico de barras)
-$servicosChart = $ligacao->query("
+    $servicosChart = $ligacao->query("
     SELECT COALESCE(l.servico, 'Não definido') AS servico, COUNT(*) AS total
     FROM equipamentos e
     LEFT JOIN localizacoes l ON e.localizacao_id = l.id
@@ -156,7 +156,12 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
                     <i class="fa-solid fa-desktop"></i>
                 </div>
                 <div>
-                    <p>Total de equipamentos</p>
+                    <p>Total de equipamentos
+                        <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                            data-bs-trigger="hover focus" data-bs-placement="top" data-bs-html="true"
+                            data-bs-content="Inclui todos os equipamentos <strong>presentes no hospital</strong> e integrados no sistema de gestão. Equipamentos removidos ou abatidos não são contabilizados.">
+                        </i>
+                    </p>
                     <h2 id="totalEquipamentosDashboard"><?= $totalEquipamentos ?></h2>
                     <span>equipamentos</span>
                 </div>
@@ -167,7 +172,12 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
                     <i class="fa-solid fa-check"></i>
                 </div>
                 <div>
-                    <p>Equipamentos ativos</p>
+                    <p>Equipamentos ativos
+                        <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                            data-bs-trigger="hover focus" data-bs-placement="top" data-bs-html="true"
+                            data-bs-content="Dos equipamentos presentes no inventário, estes encontram-se com <strong>estado operacional Ativo</strong> — operacionais e disponíveis para utilização clínica.">
+</i>
+                    </p>
                     <h2 id="equipamentosAtivosDashboard"><?= $equipamentosAtivos ?></h2>
                     <span>equipamentos</span>
                 </div>
@@ -178,7 +188,12 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
                     <i class="fa-solid fa-screwdriver-wrench"></i>
                 </div>
                 <div>
-                    <p>Em manutenção</p>
+                    <p>Em manutenção
+                        <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                            data-bs-trigger="hover focus" data-bs-placement="top" data-bs-html="true"
+                            data-bs-content="Dos equipamentos presentes no inventário, estes encontram-se com <strong>estado operacional Em manutenção</strong> — temporariamente indisponíveis devido a manutenção preventiva ou corretiva.">
+                            </i>
+                    </p>
                     <h2 id="equipamentosManutencaoDashboard"><?= $equipamentosManutencao ?></h2>
                     <span>equipamentos</span>
                 </div>
@@ -189,7 +204,12 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
                     <i class="fa-solid fa-pause"></i>
                 </div>
                 <div>
-                    <p>Equipamentos inativos</p>
+                    <p>Equipamentos inativos
+                        <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
+                            data-bs-trigger="hover focus" data-bs-placement="top" data-bs-html="true"
+                            data-bs-content="Dos equipamentos presentes no inventário, estes encontram-se com <strong>estado operacional Inativo</strong> — sem utilização atual mas disponíveis para voltar ao serviço.">
+                            </i>
+                    </p>
                     <h2 id="equipamentosInativosDashboard"><?= $equipamentosInativos ?></h2>
                     <span>equipamentos</span>
                 </div>
@@ -323,30 +343,30 @@ $coresServicos = ['#005fae', '#0086a8', '#2a9d8f', '#f4a261', '#e76f51', '#7b61f
 <!-- ============================================================ -->
 <script>
     const DADOS_SERVICOS = <?= json_encode($servicosChart) ?>;
-const DADOS_CATEGORIAS = <?= json_encode($categoriasChart) ?>;
+    const DADOS_CATEGORIAS = <?= json_encode($categoriasChart) ?>;
 
-// Gera uma cor distinta para cada barra/fatia do gráfico.
-// Usa primeiro uma paleta fixa de cores da identidade visual da MediVault;
-// se houver mais elementos do que cores na paleta, gera tons adicionais
-// distribuindo-os uniformemente à volta do círculo de matiz (HSL).
-function gerarCoresGrafico(quantidade) {
-    const paletaBase = [
-        "#005fae", "#0086a8", "#2a9d8f", "#f4a261", "#e76f51",
-        "#7b61ff", "#d63384", "#2f9e44", "#f08c00", "#6c757d",
-        "#3b5bdb", "#0ca678", "#e8590c", "#9c36b5", "#1971c2"
-    ];
+    // Gera uma cor distinta para cada barra/fatia do gráfico.
+    // Usa primeiro uma paleta fixa de cores da identidade visual da MediVault;
+    // se houver mais elementos do que cores na paleta, gera tons adicionais
+    // distribuindo-os uniformemente à volta do círculo de matiz (HSL).
+    function gerarCoresGrafico(quantidade) {
+        const paletaBase = [
+            "#005fae", "#0086a8", "#2a9d8f", "#f4a261", "#e76f51",
+            "#7b61ff", "#d63384", "#2f9e44", "#f08c00", "#6c757d",
+            "#3b5bdb", "#0ca678", "#e8590c", "#9c36b5", "#1971c2"
+        ];
 
-    if (quantidade <= paletaBase.length) {
-        return paletaBase.slice(0, quantidade);
+        if (quantidade <= paletaBase.length) {
+            return paletaBase.slice(0, quantidade);
+        }
+
+        const cores = paletaBase.slice();
+        for (let i = paletaBase.length; i < quantidade; i++) {
+            const matiz = Math.round((360 / quantidade) * i);
+            cores.push("hsl(" + matiz + ", 65%, 50%)");
+        }
+        return cores;
     }
-
-    const cores = paletaBase.slice();
-    for (let i = paletaBase.length; i < quantidade; i++) {
-        const matiz = Math.round((360 / quantidade) * i);
-        cores.push("hsl(" + matiz + ", 65%, 50%)");
-    }
-    return cores;
-}
 
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -359,17 +379,21 @@ function gerarCoresGrafico(quantidade) {
         const canvasServicos = document.getElementById("canvasServicosDashboard");
         if (canvasServicos && DADOS_SERVICOS.length > 0) {
             new Chart(canvasServicos, {
-    type: "bar",
-    data: {
-        labels: DADOS_SERVICOS.map(function (s) { return s.servico; }),
-        datasets: [{
-            label: "Equipamentos",
-            data: DADOS_SERVICOS.map(function (s) { return s.total; }),
-            backgroundColor: gerarCoresGrafico(DADOS_SERVICOS.length),
-            borderRadius: 8,
-            maxBarThickness: 56,
-        }]
-    },
+                type: "bar",
+                data: {
+                    labels: DADOS_SERVICOS.map(function(s) {
+                        return s.servico;
+                    }),
+                    datasets: [{
+                        label: "Equipamentos",
+                        data: DADOS_SERVICOS.map(function(s) {
+                            return s.total;
+                        }),
+                        backgroundColor: gerarCoresGrafico(DADOS_SERVICOS.length),
+                        borderRadius: 8,
+                        maxBarThickness: 56,
+                    }]
+                },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,

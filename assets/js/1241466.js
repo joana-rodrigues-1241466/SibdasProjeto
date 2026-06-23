@@ -1243,13 +1243,16 @@ function gerarEtiqueta() {
     const qr = document.getElementById("qrcode-etiqueta");
     qr.innerHTML = "";
 
-    new QRCode(qr, {
-        text: URL_EQUIPAMENTO,
-        width: 180,
-        height: 180,
-        colorDark: "#003f78",
-        colorLight: "#ffffff",
-    });
+    // Nome diferente para não colidir com a função global da biblioteca
+    const qrObj = qrcode(0, 'M');
+    qrObj.addData(URL_EQUIPAMENTO);
+    qrObj.make();
+
+    const img = document.createElement("img");
+    img.src = qrObj.createDataURL(5);
+    img.style.width = "180px";
+    img.style.height = "180px";
+    qr.appendChild(img);
 }
 
 function fecharEtiqueta() {

@@ -42,10 +42,11 @@ GROUP BY f.id, f.codigo, f.nome_empresa, tf.designacao, f.pessoa_contacto, f.tel
     $pessoas = $ligacao->query("SELECT pessoa_contacto FROM fornecedores ORDER BY pessoa_contacto")->fetchAll(PDO::FETCH_OBJ);
 
     $equipamentosFiltro = $ligacao->query("
-        SELECT id, codigo, designacao
-        FROM equipamentos
-        ORDER BY codigo
-    ")->fetchAll(PDO::FETCH_OBJ);
+    SELECT id, codigo, designacao
+    FROM equipamentos
+    WHERE ativo = 1
+    ORDER BY codigo
+")->fetchAll(PDO::FETCH_OBJ);
 
     // Para cada fornecedor, contar quantos equipamentos o têm como ÚNICO fornecedor associado
     // (esses equipamentos exigem substituto obrigatório ao desativar o fornecedor)
@@ -86,39 +87,43 @@ $ligacao = null;
     <main class="conteudo-privado">
 
         <?php if (!empty($_SESSION['mensagem_erro'])) : ?>
-        <div id="alerta-erro" class="alert alert-danger text-center" role="alert">
-            <i class="fa-solid fa-circle-exclamation"></i>
-            <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
-        </div>
-        <script>
-            setTimeout(function () {
-                const alerta = document.getElementById('alerta-erro');
-                if (alerta) {
-                    alerta.style.transition = 'opacity 0.5s ease';
-                    alerta.style.opacity = '0';
-                    setTimeout(function () { alerta.remove(); }, 500);
-                }
-            }, 4000);
-        </script>
-        <?php unset($_SESSION['mensagem_erro']); ?>
+            <div id="alerta-erro" class="alert alert-danger text-center" role="alert">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
+            </div>
+            <script>
+                setTimeout(function() {
+                    const alerta = document.getElementById('alerta-erro');
+                    if (alerta) {
+                        alerta.style.transition = 'opacity 0.5s ease';
+                        alerta.style.opacity = '0';
+                        setTimeout(function() {
+                            alerta.remove();
+                        }, 500);
+                    }
+                }, 4000);
+            </script>
+            <?php unset($_SESSION['mensagem_erro']); ?>
         <?php endif; ?>
 
         <?php if (!empty($_SESSION['mensagem_sucesso'])) : ?>
-        <div id="alerta-sucesso" class="alert alert-success text-center" role="alert">
-            <i class="fa-solid fa-circle-check"></i>
-            <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
-        </div>
-        <script>
-            setTimeout(function () {
-                const alerta = document.getElementById('alerta-sucesso');
-                if (alerta) {
-                    alerta.style.transition = 'opacity 0.5s ease';
-                    alerta.style.opacity = '0';
-                    setTimeout(function () { alerta.remove(); }, 500);
-                }
-            }, 3000);
-        </script>
-        <?php unset($_SESSION['mensagem_sucesso']); ?>
+            <div id="alerta-sucesso" class="alert alert-success text-center" role="alert">
+                <i class="fa-solid fa-circle-check"></i>
+                <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
+            </div>
+            <script>
+                setTimeout(function() {
+                    const alerta = document.getElementById('alerta-sucesso');
+                    if (alerta) {
+                        alerta.style.transition = 'opacity 0.5s ease';
+                        alerta.style.opacity = '0';
+                        setTimeout(function() {
+                            alerta.remove();
+                        }, 500);
+                    }
+                }, 3000);
+            </script>
+            <?php unset($_SESSION['mensagem_sucesso']); ?>
         <?php endif; ?>
 
         <div class="titulo-pagina-equipamentos">
@@ -304,25 +309,26 @@ $ligacao = null;
         </section>
 
         <div class="acao-exportar-tabela">
-    <a href="exportar_excel_fornecedores.php" class="link-exportar-excel">
-        <i class="fa-solid fa-file-csv"></i>
-        Exportar CSV
-    </a>
-    <a href="exportar_json_fornecedores.php" class="link-exportar-excel" style="margin-left: 1rem; color: #f08c00;">
-        <i class="fa-solid fa-file-code"></i>
-        Exportar JSON
-    </a>
-    <a href="exportar_pdf_fornecedores.php" target="_blank" class="link-exportar-pdf" style="margin-left: 1rem;">
-        <i class="fa-solid fa-file-pdf"></i>
-        Exportar PDF
-    </a>
-</div>
+            <a href="exportar_excel_fornecedores.php" class="link-exportar-excel">
+                <i class="fa-solid fa-file-csv"></i>
+                Exportar CSV
+            </a>
+            <a href="exportar_json_fornecedores.php" class="link-exportar-excel" style="margin-left: 1rem; color: #f08c00;">
+                <i class="fa-solid fa-file-code"></i>
+                Exportar JSON
+            </a>
+            <a href="exportar_pdf_fornecedores.php" target="_blank" class="link-exportar-pdf" style="margin-left: 1rem;">
+                <i class="fa-solid fa-file-pdf"></i>
+                Exportar PDF
+            </a>
+        </div>
 
         <!-- Tabela de fornecedores (DataTables) -->
         <div class="tabela-privada">
             <table id="tabela-fornecedores">
                 <thead>
                     <tr>
+                        <th style="display:none;">Código</th>
                         <th>Nome da empresa</th>
                         <th>Tipo de fornecedor</th>
                         <th>Pessoa de contacto</th>
@@ -345,7 +351,10 @@ $ligacao = null;
                         </tr>
                     <?php else : ?>
                         <?php foreach ($resultados as $fornecedor) : ?>
-    <tr class="<?= $fornecedor->ativo == 0 ? 'linha-inativa' : '' ?>">
+                            <tr class="<?= $fornecedor->ativo == 0 ? 'linha-inativa' : '' ?>">
+                                <td style="display:none;">
+                                    <?= htmlspecialchars($fornecedor->codigo) ?>
+                                </td>
                                 <td><?= htmlspecialchars($fornecedor->nome_empresa) ?></td>
                                 <td><?= htmlspecialchars($fornecedor->tipo_fornecedor) ?></td>
                                 <td><?= htmlspecialchars($fornecedor->pessoa_contacto) ?></td>
@@ -356,24 +365,26 @@ $ligacao = null;
 
                                 <td class="acoes-tabela-privada">
                                     <a href="<?= BASE_URL ?>/private/views/fornecedores/consultar_fornecedor.php?id_fornecedor=<?= aes_encrypt($fornecedor->id) ?>" class="acao-tabela-privada" title="Consultar" style="color: #005fae;">
-    <i class="fa-regular fa-eye"></i>
-</a>
-                                    <a href="editar_fornecedor.php?id_fornecedor=<?= aes_encrypt($fornecedor->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
-                                        <i class="fa-regular fa-pen-to-square"></i>
+                                        <i class="fa-regular fa-eye"></i>
                                     </a>
                                     <?php if ($fornecedor->ativo == 1) : ?>
-    <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarFornecedor" onclick="prepararEliminacaoFornecedor('<?= aes_encrypt($fornecedor->id) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>', <?= isset($fornecedoresComEquipamentoUnico[$fornecedor->id]) ? 'true' : 'false' ?>)" title="Eliminar" style="color: #dc3545;">
-        <i class="fa-regular fa-trash-can"></i>
-    </button>
-<?php else : ?>
+                                        <a href="editar_fornecedor.php?id_fornecedor=<?= aes_encrypt($fornecedor->id) ?>" class="acao-tabela-privada" title="Editar" style="color: #2a9d8f;">
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php if ($fornecedor->ativo == 1) : ?>
+                                        <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalEliminarFornecedor" onclick="prepararEliminacaoFornecedor('<?= aes_encrypt($fornecedor->id) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>', <?= isset($fornecedoresComEquipamentoUnico[$fornecedor->id]) ? 'true' : 'false' ?>)" title="Eliminar" style="color: #dc3545;">
+                                            <i class="fa-regular fa-trash-can"></i>
+                                        </button>
+                                    <?php else : ?>
 
-    <?php
-$totalSnapshot = !empty($fornecedor->snapshot_equipamentos) ? count(json_decode($fornecedor->snapshot_equipamentos, true)) : 0;
-?>
-<button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalReativarFornecedor" onclick="prepararReativacaoFornecedor('<?= aes_encrypt($fornecedor->id) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>', <?= $totalSnapshot ?>)" title="Reativar" style="color: #9333ea;">
-        <i class="fa-solid fa-rotate-left"></i>
-    </button>
-<?php endif; ?>
+                                        <?php
+                                        $totalSnapshot = !empty($fornecedor->snapshot_equipamentos) ? count(json_decode($fornecedor->snapshot_equipamentos, true)) : 0;
+                                        ?>
+                                        <button class="acao-tabela-privada botao-acao-tabela" data-bs-toggle="modal" data-bs-target="#modalReativarFornecedor" onclick="prepararReativacaoFornecedor('<?= aes_encrypt($fornecedor->id) ?>', '<?= htmlspecialchars($fornecedor->nome_empresa, ENT_QUOTES) ?>', <?= $totalSnapshot ?>)" title="Reativar" style="color: #9333ea;">
+                                            <i class="fa-solid fa-rotate-left"></i>
+                                        </button>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -403,11 +414,11 @@ $totalSnapshot = !empty($fornecedor->snapshot_equipamentos) ? count(json_decode(
                         <i class="fa-solid fa-triangle-exclamation"></i>
                         Confirmar eliminação
                         <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
-        data-bs-trigger="hover focus" data-bs-placement="left" data-bs-html="true"
-        data-bs-content="
+                            data-bs-trigger="hover focus" data-bs-placement="left" data-bs-html="true"
+                            data-bs-content="
         <strong>Ativo</strong> - O fornecedor ainda presta serviços ao hospital, podendo ser associado a equipamentos.<br><br>
         <strong>Inativo</strong> - A relação com o fornecedor terminou, deixando de fazer parte deste sistema de gestão.">
-    </i>
+                        </i>
                     </h5>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -466,12 +477,12 @@ $totalSnapshot = !empty($fornecedor->snapshot_equipamentos) ? count(json_decode(
                         <i class="fa-solid fa-rotate-left"></i>
                         Confirmar reativação
                         <i class="fa-solid fa-circle-info" data-bs-toggle="popover"
-    data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
-    style="font-size: 0.9rem; cursor: pointer; vertical-align: middle;"
-    data-bs-content="
+                            data-bs-trigger="hover focus" data-bs-placement="right" data-bs-html="true"
+                            style="font-size: 0.9rem; cursor: pointer; vertical-align: middle;"
+                            data-bs-content="
     <strong>Ativo</strong> - O fornecedor ainda presta serviços ao hospital, podendo ser associado a equipamentos.<br><br>
     <strong>Inativo</strong> - A relação com o fornecedor terminou, deixando de fazer parte deste sistema de gestão até ser reativado.">
-</i>
+                        </i>
                     </h5>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -631,21 +642,21 @@ $totalSnapshot = !empty($fornecedor->snapshot_equipamentos) ? count(json_decode(
         });
 
         // Ativar os popovers do Bootstrap (tooltips informativos)
-        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
+        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function(el) {
             new bootstrap.Popover(el);
         });
     });
 
     // Lista de todos os fornecedores ativos, para preencher o select de substituição
     const TODOS_FORNECEDORES_ATIVOS = <?php
-        $opcoesFornecedores = [];
-        foreach ($resultados as $forn) {
-            if ($forn->ativo == 1) {
-                $opcoesFornecedores[] = ['id' => aes_encrypt($forn->id), 'label' => $forn->nome_empresa];
-            }
-        }
-        echo json_encode($opcoesFornecedores);
-    ?>;
+                                        $opcoesFornecedores = [];
+                                        foreach ($resultados as $forn) {
+                                            if ($forn->ativo == 1) {
+                                                $opcoesFornecedores[] = ['id' => aes_encrypt($forn->id), 'label' => $forn->nome_empresa];
+                                            }
+                                        }
+                                        echo json_encode($opcoesFornecedores);
+                                        ?>;
 
     // Prepara o modal de eliminação: mostra/esconde e preenche o select
     // de substituição consoante haja ou não equipamentos só com este fornecedor
@@ -666,7 +677,7 @@ $totalSnapshot = !empty($fornecedor->snapshot_equipamentos) ? count(json_decode(
             select.required = true;
 
             select.innerHTML = '<option value="" selected disabled>Escolha um fornecedor...</option>';
-            TODOS_FORNECEDORES_ATIVOS.forEach(function (forn) {
+            TODOS_FORNECEDORES_ATIVOS.forEach(function(forn) {
                 if (forn.id !== idEncriptado) {
                     const opcao = document.createElement("option");
                     opcao.value = forn.id;
@@ -681,26 +692,26 @@ $totalSnapshot = !empty($fornecedor->snapshot_equipamentos) ? count(json_decode(
         }
     }
 
-// Prepara o modal de reativação: mostra a escolha de reassociação
-// só se existirem equipamentos guardados no instantâneo
-function prepararReativacaoFornecedor(idEncriptado, nomeEmpresa, totalEquipamentosSnapshot) {
-    document.getElementById("inputIdFornecedorReativar").value = idEncriptado;
+    // Prepara o modal de reativação: mostra a escolha de reassociação
+    // só se existirem equipamentos guardados no instantâneo
+    function prepararReativacaoFornecedor(idEncriptado, nomeEmpresa, totalEquipamentosSnapshot) {
+        document.getElementById("inputIdFornecedorReativar").value = idEncriptado;
 
-    const textoModal = document.getElementById("textoModalReativarFornecedor");
-    if (textoModal) {
-        textoModal.innerHTML =
-            `Tem a certeza que pretende reativar o fornecedor <strong>${nomeEmpresa}</strong>?`;
+        const textoModal = document.getElementById("textoModalReativarFornecedor");
+        if (textoModal) {
+            textoModal.innerHTML =
+                `Tem a certeza que pretende reativar o fornecedor <strong>${nomeEmpresa}</strong>?`;
+        }
+
+        const bloco = document.getElementById("blocoReassociacaoFornecedor");
+
+        if (totalEquipamentosSnapshot > 0) {
+            bloco.style.display = "block";
+            document.getElementById("totalEquipamentosReassociar").textContent = totalEquipamentosSnapshot;
+        } else {
+            bloco.style.display = "none";
+        }
     }
-
-    const bloco = document.getElementById("blocoReassociacaoFornecedor");
-
-    if (totalEquipamentosSnapshot > 0) {
-        bloco.style.display = "block";
-        document.getElementById("totalEquipamentosReassociar").textContent = totalEquipamentosSnapshot;
-    } else {
-        bloco.style.display = "none";
-    }
-}
 </script>
 
 <?php include '../../includes/footer.php'; ?>

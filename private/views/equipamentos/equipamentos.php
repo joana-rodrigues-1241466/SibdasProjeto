@@ -37,16 +37,18 @@ GROUP BY e.id, e.codigo, e.designacao, l.codigo, ee.designacao, c.designacao, ca
 ")->fetchAll(PDO::FETCH_OBJ);
 
 $fornecedoresFiltro = $ligacao->query("
-        SELECT id, codigo, nome_empresa
-        FROM fornecedores
-        ORDER BY codigo
-    ")->fetchAll(PDO::FETCH_OBJ);
+    SELECT id, codigo, nome_empresa
+    FROM fornecedores
+    WHERE ativo = 1
+    ORDER BY codigo
+")->fetchAll(PDO::FETCH_OBJ);
 
     $localizacoesFiltro = $ligacao->query("
-        SELECT id, codigo
-        FROM localizacoes
-        ORDER BY codigo
-    ")->fetchAll(PDO::FETCH_OBJ);
+    SELECT id, codigo
+    FROM localizacoes
+    WHERE ativo = 1
+    ORDER BY codigo
+")->fetchAll(PDO::FETCH_OBJ);
 
     $erro = '';
 } catch (PDOException $err) {
